@@ -23,10 +23,6 @@ module Obscured
           count_hosts = Obscured::AptWatcher::Models::Host.where(:created_at.gte => (today - 7.days).beginning_of_day, :created_at.lte => today.end_of_day).count
           count_scans = Obscured::AptWatcher::Models::Scan.where(:created_at.gte => (today - 7.days).beginning_of_day, :created_at.lte => today.end_of_day).count
 
-          puts 'DEBUG'
-          pp hosts_active
-          puts '/DEBUG'
-
           graph_alerts = {}
           graph_updates = {}
           graph_scans = {}

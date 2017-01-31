@@ -5,8 +5,9 @@
     display: block;
     font-weight: bold;
     padding: 15px 20px;
-    position: fixed;
+    position: absolute;
     text-align: center;
+    top: 0;
     width: 100%;
 }
 .environment-tease:hover {

@@ -51,7 +51,8 @@
     %h3.statcard-number{ :class => count_hosts > 0 ? 'text-success' : 'text-danger'}
       =count_hosts
       %small.delta-indicator{:class => count_hosts == hosts_active ? 'delta-positive' : 'delta-negative'}
-        ="#{(100/count_hosts)*hosts_inactive}%"
+        - if count_hosts > 0
+          ="#{(100/count_hosts)*hosts_inactive}%"
     %span.statcard-desc Hosts
   .col-6.col-md-3.statcard.mb-4
     %h3.statcard-number{ :class => count_scans == 0 ? 'text-danger' : 'text-secondary'}

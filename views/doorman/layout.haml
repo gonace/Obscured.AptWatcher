@@ -7,8 +7,9 @@
     %title= 'Doorman (Obscured.AptWatcher)'
     %link{:rel => 'icon', :type => 'image/x-icon', :href => '/img/favicon.ico'}
     = partial :'../shared/partials/styles'
+    %link{:href => '/css/card.css', :rel => 'stylesheet'}
 
   %body
-    = haml :'../shared/partials/environment'
+    = partial :'../shared/partials/environment'
     = yield
-    = haml :'../shared/partials/scripts'
+    = partial :'../shared/partials/scripts'
