@@ -10,17 +10,19 @@ module Obscured
             first_scan = Obscured::AptWatcher::Models::Scan.where(:hostname => hostname, :created_at.gte => date_start.beginning_of_day, :created_at.lte => date_start.end_of_day).first
             second_scan = Obscured::AptWatcher::Models::Scan.where(:hostname => hostname, :created_at.gte => date_end.beginning_of_day, :created_at.lte => date_end.end_of_day).first
 
-            first_scan.packages.each do |package|
-              if second_scan.packages.include?(package)
-                package['installed'] = false
-              else
-                package['installed'] = true
+            if (defined? first_scan.packages)
+              first_scan.packages.each do |package|
+                if second_scan.packages.include?(package)
+                  package['installed'] = false
+                else
+                  package['installed'] = true
+                end
               end
-            end
-            first_scan.set_updates_pending({:packages => first_scan.packages})
-            first_scan.save!
+              first_scan.set_updates_pending({:packages => first_scan.packages})
+              first_scan.save!
 
-            first_scan
+              first_scan
+            end
           end
         end
       end
