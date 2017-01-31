@@ -50,7 +50,7 @@ module Obscured
                 ]
                 unless scan.packages.count == 0
                   slack_client.post icon_emoji: (scan.packages.count > 10 ? ':bug-error:' : 'bug-warn:'), attachments: attachments
-                  Obscured::AptWatcher::Models::Alert.make_and_save({ :hostname => hostname, :message => "There are #{packages.count} available updates for this host", :backtrace => e.backtrace.join('<br />'), :payload => attachments })
+                  Obscured::AptWatcher::Models::Alert.make_and_save({ :hostname => hostname, :message => "There are #{packages.count} available updates for this host", :payload => attachments })
                 end
 
                 date_start = Date.yesterday.strftime('%Y-%m-%d')
@@ -84,7 +84,7 @@ module Obscured
                 ]
                 slack_client.post icon_emoji: ':bug-error:', attachments: attachments
 
-                Obscured::AptWatcher::Models::Alert.make_and_save({ :hostname => hostname, :message => e.message, :backtrace => e.backtrace.join('<br />'), :payload => attachments })
+                Obscured::AptWatcher::Models::Error.make_and_save({ :hostname => hostname, :message => e.message, :backtrace => e.backtrace.join('<br />'), :payload => attachments })
                 {:success => false, :logged => true, :message => e.message, :backtrace => e.backtrace}.to_json
               end
             end
