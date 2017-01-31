@@ -29,13 +29,13 @@ clients: {
 })
 
 # pull in the models, modules, helpers and controllers
-Dir.glob('./lib/{alert,common,helpers,package}/*.rb').each { |file| require file }
-Dir.glob('./lib/*.rb').each { |file| require file }
-Dir.glob('./lib/modules/*.rb').each { |file| require file }
-Dir.glob('./models/*.rb').each { |file| require file }
-Dir.glob('./controllers/*.rb').each { |file| require file }
-Dir.glob('./controllers/api/*.rb').each { |file| require file }
-Dir.glob('./controllers/api/collector/*.rb').each { |file| require file }
+Dir.glob('./lib/{alert,common,helpers,package}/*.rb').sort.each { |file| require file }
+Dir.glob('./lib/*.rb').sort.each { |file| require file }
+Dir.glob('./lib/modules/*.rb').sort.each { |file| require file }
+Dir.glob('./models/*.rb').sort.each { |file| require file }
+Dir.glob('./controllers/*.rb').sort.each { |file| require file }
+Dir.glob('./controllers/api/*.rb').sort.each { |file| require file }
+Dir.glob('./controllers/api/collector/*.rb').sort.each { |file| require file }
 
 if Sinatra::Doorman::User.count == 0
   user = Sinatra::Doorman::User.make({ :username => ENV['ADMIN_EMAIL'], :password => ENV['ADMIN_PASSWORD']})
