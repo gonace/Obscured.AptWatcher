@@ -23,7 +23,8 @@ clients: {
   default: {
     uri: ENV['MONGODB_URI'],
     options: {
-      app_name: 'Obscured.AptWatcher'
+      app_name: 'Obscured.AptWatcher',
+      connect: :direct
     }
   }
 })
@@ -37,14 +38,14 @@ Dir.glob('./controllers/*.rb').sort.each { |file| require file }
 Dir.glob('./controllers/api/*.rb').sort.each { |file| require file }
 Dir.glob('./controllers/api/collector/*.rb').sort.each { |file| require file }
 
-if Sinatra::Doorman::User.count == 0
-  user = Sinatra::Doorman::User.make({ :username => ENV['ADMIN_EMAIL'], :password => ENV['ADMIN_PASSWORD']})
-  user.set_created_from(Sinatra::Doorman::Utils::Types::SYSTEM)
-  user.set_created_by(Sinatra::Doorman::Utils::Types::CONSOLE)
-  user.set_name('Homer', 'Simpson')
-  user.set_title(Sinatra::Doorman::Utils::Titles::GUARDIAN)
-  user.save
-end
+#if Sinatra::Doorman::User.count == 0
+#  user = Sinatra::Doorman::User.make({ :username => ENV['ADMIN_EMAIL'], :password => ENV['ADMIN_PASSWORD']})
+#  user.set_created_from(Sinatra::Doorman::Utils::Types::SYSTEM)
+#  user.set_created_by(Sinatra::Doorman::Utils::Types::CONSOLE)
+#  user.set_name('Homer', 'Simpson')
+#  user.set_title(Sinatra::Doorman::Utils::Titles::GUARDIAN)
+#  user.save
+#end
 
 ###
 # Routes
