@@ -24,7 +24,7 @@
       - if (defined? alert.backtrace)
         =alert.backtrace
       - if (defined? alert.payload)
-        =JSON.pretty_generate(alert.payload) rescue alert.payload
+        =JSON.pretty_generate(alert.payload.to_json) rescue alert.payload
 
 %form{:action => "/notifications/#{alert.id}/update", :method => 'post'}
   - if alert.status == Obscured::Status::OPEN.to_s
