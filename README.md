@@ -24,7 +24,7 @@ One line is interperted as one service
 
 ###### Perl
 ```
-@daily apt-get --just-print upgrade 2>&1 | perl -ne 'if (/Inst\s([\w,\-,\d,\.,~,:,\+]+)\s\[([\w,\-,\d,\.,~,:,\+]+)\]\s\(([\w,\-,\d,\.,~,:,\+]+)\)? /i) {print "{\"name\":\"$1\",\"version_installed\":\"$2\",\"version_available\":\"$3\"},"}' | curl -u test:test --data-binary @- http://localhost:1338/api/collector/upgrades/$(hostname)
+@daily apt-get --just-print upgrade 2>&1 | perl -ne 'if (/Inst\s([\w,\-,\d,\.,~,:,\+]+)\s\[([\w,\-,\d,\.,~,:,\+]+)\]\s\(([\w,\-,\d,\.,~,:,\+]+)\)? /i) {print "{\"name\":\"$1\",\"version_installed\":\"$2\",\"version_available\":\"$3\"} \n"}' | curl -u user:pass --data-binary @- http://hostname/api/collector/upgrades/$(hostname)
 ```
 ###### Bash
 ```
