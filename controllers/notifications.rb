@@ -21,7 +21,7 @@ module Obscured
           haml :index, :locals => { :alerts => alerts }
         end
 
-        get '/:id' do
+        get '/view/:id' do
           authenticated?
 
           alert = Obscured::AptWatcher::Models::Alert.find(params[:id]) rescue redirect('/')
