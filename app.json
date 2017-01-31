@@ -11,6 +11,14 @@
   "repository": "https://github.com/gonace/Obscured.AptWatcher",
   "success_url": "/",
   "env": {
+    "ADMIN_EMAIL": {
+      "description": "The username for the default administrator",
+      "required": true
+    },
+    "ADMIN_PASSWORD": {
+      "description": "The password for the default administrator",
+      "required": true
+    },
     "API_USERNAME": {
       "description": "The username to use for HTTP Basic authentication accessing the API",
       "value": "user",
@@ -45,10 +53,12 @@
     },
     "SENDGRID_SERVER": {
       "description": "The server used when sending mail",
+      "value": "smtp.sendgrid.net",
       "required": false
     },
     "SENDGRID_PORT": {
       "description": "The server port used when sending mail",
+      "value": "587",
       "required": false
     },
     "SENDGRID_USERNAME": {
