@@ -41,8 +41,7 @@ module Obscured
             alert.notify = opts[:notify]
           end
           unless opts[:payload].nil?
-            raise Obscured::DomainError.new(:invalid_type, what: ':payload') unless opts[:payload].kind_of?(String)
-            alert.payload = opts[:payload]
+            alert.payload = opts[:payload].to_s
           end
 
           alert
