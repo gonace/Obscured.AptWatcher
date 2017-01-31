@@ -1,0 +1,36 @@
+.cover-wrapper
+  .cover-wrapper-inner.baseline
+    .cover-container
+      .cover-inner
+        %span.text-center
+          %br/
+          %br/
+          %br/
+          %h1 Homer
+          %p.lead
+            To proceed,
+            %code Homer
+            kind of demands you to decide a new password for your account.
+
+        .card.card-identity
+          .card-mask
+            - if email
+              %img{:src => "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?s=200&d=http://img07.deviantart.net/3722/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png"}
+            - else
+              %img{:src => '/img/homer-pool.png'}
+          %br/
+          %form{:action => '/doorman/reset', :method => 'POST'}
+            - if flash[:success]
+              %p.text-center.text-success= flash[:success]
+            - if flash[:error]
+              %p.text-center.text-danger= flash[:error]
+            %br/
+            %input.form-control#ConfirmToken{:name => 'user[confirm_token]', :type => 'hidden', :value => confirm_token}
+            .form-group
+              %label.sr-only{:for => 'user[password]'} Enter new password
+              %input.form-control#Password{:autofocus => 'true', :name => 'user[password]', :placeholder => 'Enter new password', :type => 'password'}
+            .form-group
+              %label.sr-only{:for => 'user[password_confirmation]'} Confirm new password
+              %input.form-control#ConfirmPassword{:autofocus => 'true', :name => 'user[password_confirmation]', :placeholder => 'Confirm new password', :type => 'password'}
+
+            %button.btn.btn-primary.btn-lg.btn-block{:type => 'submit'} Reset

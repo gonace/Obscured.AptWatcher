@@ -1,0 +1,15 @@
+.error-container
+  .inner
+    %div
+      %h1 Oops!
+      %h3
+        - if defined? title
+          = title
+        - else
+          = 'Page Not Found'
+      %p.lead
+        - if defined? message
+          = message
+        - else
+          = "We can't seem to find the page you're looking for."
+      %code Error code: 404

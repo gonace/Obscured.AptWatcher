@@ -1,0 +1,20 @@
+.flextable {
+  dislay: table;
+  width: 100%; }
+
+.flextable-item {
+  display: table-cell;
+  width: 1%;
+  white-space: nowrap;
+  vertical-align: middle; }
+  .flextable-item .btn-group {
+    margin-left: 10px; }
+    .flextable-item .btn-group > .btn {
+      float: none; }
+      .flextable-item .btn-group > .btn + .btn {
+        margin-left: -4px; }
+
+.flextable-primary {
+  width: 99%; }
+
+/*# sourceMappingURL=flex-table.css.map */

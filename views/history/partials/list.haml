@@ -1,0 +1,21 @@
+.table-responsive{:id => id, 'data-sort' => 'table', 'data-length' => scans.properties.length, 'data-page' => scans.properties.page, 'data-page-size' => scans.properties.page_size, 'data-page-first' => scans.properties.page_first, 'data-page-last' => scans.properties.page_last}
+  %table.table{'data-sort' => 'table'}
+    %thead
+      %tr
+        %th.header.headerSortDown Host
+        %th.header Created
+        %th.header Updated
+        %th.header.text-center Available Updates
+        %th.header.text-right Details
+    %tbody
+      - scans.items.each do |package|
+        %tr
+          %td
+            %a= package.hostname
+          %td= package.created_at
+          %td= package.updated_at
+          %td.text-center= package.updates_pending
+          %td.text-right
+            %a{:href => "/scan/#{package._id}"}
+              %span.icon.icon-dots-three-horizontal
+  = partial :'../shared/partials/pagination', :locals => { :_for => '#' + id, :url => url, :properties => scans.properties }

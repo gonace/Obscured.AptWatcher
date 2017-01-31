@@ -1,0 +1,12 @@
+!!! 5
+%html
+  %head
+    %meta{:charset => 'UTF-8'}
+    %meta{:content => '', :name => 'description' }
+    %meta{:content => 'Obscured', :name => 'author' }
+    %title=title
+    %link{:rel => 'icon', :type => 'image/x-icon', :href => '/img/favicon.ico'}
+    = partial :'../shared/partials/styles'
+
+  %body.bs-docs-home
+    = yield

@@ -1,0 +1,77 @@
+/*
+Error: Undefined mixin 'clearfix'.
+        on line 6 of scss/custom/dashhead.scss, in `clearfix'
+        from line 6 of scss/custom/dashhead.scss
+
+1: // Dashhead
+2: //
+3: // Custom header for the top of dashboard pages.
+4: 
+5: .dashhead {
+6:   @include clearfix;
+7: }
+8: 
+9: .dashhead-titles {
+10:   @include media-breakpoint-up(md) {
+11:     float: left;
+
+Backtrace:
+scss/custom/dashhead.scss:6:in `clearfix'
+scss/custom/dashhead.scss:6
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:351:in `block in visit_mixin'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:98:in `block in with_mixin'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:115:in `with_frame'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:98:in `with_mixin'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:349:in `visit_mixin'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:36:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:79:in `block in with_base'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:115:in `with_frame'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:79:in `with_base'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:160:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:433:in `block (2 levels) in visit_rule'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:433:in `map'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:433:in `block in visit_rule'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:431:in `visit_rule'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:36:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:79:in `block in with_base'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:115:in `with_frame'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:79:in `with_base'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:160:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:52:in `map'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:169:in `block in visit_children'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:168:in `visit_children'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:188:in `visit_root'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:36:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:159:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:8:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/root_node.rb:36:in `css_tree'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/engine.rb:381:in `_render_with_sourcemap'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/engine.rb:298:in `render_with_sourcemap'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/plugin/compiler.rb:492:in `update_stylesheet'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/plugin/compiler.rb:209:in `each'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/plugin/compiler.rb:294:in `watch'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/plugin.rb:109:in `method_missing'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/exec/sass_scss.rb:360:in `watch_or_update'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/exec/sass_scss.rb:51:in `process_result'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/exec/base.rb:52:in `parse'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/exec/base.rb:19:in `parse!'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/bin/sass:13:in `<top (required)>'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/bin/sass:22:in `load'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/bin/sass:22:in `<main>'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/bin/ruby_executable_hooks:15:in `eval'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/bin/ruby_executable_hooks:15:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Undefined mixin 'clearfix'.\A         on line 6 of scss/custom/dashhead.scss, in `clearfix'\A         from line 6 of scss/custom/dashhead.scss\A \A 1: // Dashhead\A 2: //\A 3: // Custom header for the top of dashboard pages.\A 4: \A 5: .dashhead {\A 6:   @include clearfix;\A 7: }\A 8: \A 9: .dashhead-titles {\A 10:   @include media-breakpoint-up(md) {\A 11:     float: left;"; }

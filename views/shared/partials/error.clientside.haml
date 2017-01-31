@@ -1,0 +1,16 @@
+%script#error-clientside{:type => 'text/x-handlebars-template'}
+  .error.error-generic
+    .error-wrapper
+      %h1.error-title {{title}}
+      .error-message
+        %p
+          {{message}}
+        %a.btn.btn-primary{:href => '#', :onclick => 'event.preventDefault();window.location.reload(true);'} {{button}}
+
+%script#error-clientside-inline{:type => 'text/x-handlebars-template'}
+  .error.error-inline
+    .error-wrapper
+      %h1.error-title {{title}}
+      .error-message
+        %p
+          {{message}}

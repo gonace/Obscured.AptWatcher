@@ -1,0 +1,19 @@
+.table-responsive{:id => id, 'data-sort' => 'table', 'data-length' => hosts.properties.length, 'data-page' => hosts.properties.page, 'data-page-size' => hosts.properties.page_size, 'data-page-first' => hosts.properties.page_first, 'data-page-last' => hosts.properties.page_last}
+  %table.table{'data-sort' => 'table'}
+    %thead
+      %tr
+        %th.header.headerSortDown Name
+        %th.header Created
+        %th.header Updated
+        %th.header Description
+        %th.header Available Updates
+    %tbody
+      - hosts.items.each do |host|
+        %tr
+          %td
+            %a{:href => "/host/#{host._id}"}= host.hostname
+          %td= host.created_at
+          %td= host.updated_at
+          %td= host.description
+          %td= host.updates_pending
+  = partial :'../shared/partials/pagination', :locals => { :_for => '#' + id, :url => url, :properties => hosts.properties }

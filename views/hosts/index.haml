@@ -1,0 +1,10 @@
+.dashhead
+  .dashhead-titles
+    %h6.dashhead-subtitle Dashboards
+    %h2.dashhead-title Hosts
+.flextable.table-actions
+  .flextable-item.flextable-primary
+    .btn-toolbar-item.input-with-icon
+      %input.form-control.input-block{:placeholder => 'Search hosts', :type => 'text'}
+      %span.icon.icon-magnifying-glass
+= partial :'/partials/list', :locals => { :id => 'hosts', :url => '/hosts', :hosts => hosts }

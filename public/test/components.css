@@ -1,0 +1,77 @@
+/*
+Error: Undefined variable: "$enable-print-styles".
+        on line 11 of scss/bootstrap/_print.scss
+        from line 6 of scss/components.scss
+
+6: @import "./bootstrap/_print.scss";
+7: 
+8: // Core CSS
+9: @import "./bootstrap/_reboot.scss";
+10: @import "./bootstrap/_type.scss";
+11: @import "./bootstrap/_images.scss";
+12: @import "./bootstrap/_code.scss";
+13: @import "./bootstrap/_grid.scss";
+14: @import "./bootstrap/_tables.scss";
+15: @import "./bootstrap/_forms.scss";
+16: @import "./bootstrap/_buttons.scss";
+
+Backtrace:
+scss/bootstrap/_print.scss:11
+scss/components.scss:6
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/script/tree/variable.rb:49:in `_perform'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/script/tree/node.rb:58:in `perform'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:299:in `visit_if'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:36:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:79:in `block in with_base'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:115:in `with_frame'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:79:in `with_base'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:160:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:328:in `block (2 levels) in visit_import'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:328:in `map'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:328:in `block in visit_import'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:88:in `block in with_import'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:115:in `with_frame'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:88:in `with_import'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:325:in `visit_import'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:36:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:79:in `block in with_base'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:115:in `with_frame'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:79:in `with_base'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:160:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:52:in `map'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:169:in `block in visit_children'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:168:in `visit_children'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:188:in `visit_root'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:36:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:159:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:8:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/root_node.rb:36:in `css_tree'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/engine.rb:381:in `_render_with_sourcemap'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/engine.rb:298:in `render_with_sourcemap'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/plugin/compiler.rb:492:in `update_stylesheet'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/plugin/compiler.rb:209:in `each'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/plugin/compiler.rb:294:in `watch'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/plugin.rb:109:in `method_missing'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/exec/sass_scss.rb:360:in `watch_or_update'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/exec/sass_scss.rb:51:in `process_result'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/exec/base.rb:52:in `parse'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/exec/base.rb:19:in `parse!'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/bin/sass:13:in `<top (required)>'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/bin/sass:22:in `load'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/bin/sass:22:in `<main>'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/bin/ruby_executable_hooks:15:in `eval'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/bin/ruby_executable_hooks:15:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Undefined variable: \"$enable-print-styles\".\A         on line 11 of scss/bootstrap/_print.scss\A         from line 6 of scss/components.scss\A \A 6: @import \"./bootstrap/_print.scss\";\A 7: \A 8: // Core CSS\A 9: @import \"./bootstrap/_reboot.scss\";\A 10: @import \"./bootstrap/_type.scss\";\A 11: @import \"./bootstrap/_images.scss\";\A 12: @import \"./bootstrap/_code.scss\";\A 13: @import \"./bootstrap/_grid.scss\";\A 14: @import \"./bootstrap/_tables.scss\";\A 15: @import \"./bootstrap/_forms.scss\";\A 16: @import \"./bootstrap/_buttons.scss\";"; }

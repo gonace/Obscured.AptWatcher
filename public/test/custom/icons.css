@@ -1,0 +1,80 @@
+/*
+Error: Undefined variable: "$icon-font-path".
+        on line 3 of scss/custom/icons.scss
+
+1: @font-face {
+2:   font-family: "toolkit-entypo";
+3:   src: url('#{$icon-font-path}#{$icon-font-name}.eot');
+4:   src: url('#{$icon-font-path}#{$icon-font-name}.eot?#iefix') format('eot'),
+5:        url('#{$icon-font-path}#{$icon-font-name}.woff2') format('woff2'),
+6:        url('#{$icon-font-path}#{$icon-font-name}.woff') format('woff'),
+7:        url('#{$icon-font-path}#{$icon-font-name}.ttf') format('truetype');
+8:   font-weight: normal;
+
+Backtrace:
+scss/custom/icons.scss:3
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/script/tree/variable.rb:49:in `_perform'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/script/tree/node.rb:58:in `perform'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/script/tree/string_interpolation.rb:93:in `_perform'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/script/tree/node.rb:58:in `perform'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/script/tree/funcall.rb:173:in `perform_arg'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/script/tree/funcall.rb:124:in `block in _perform'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/script/tree/funcall.rb:124:in `each'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/script/tree/funcall.rb:124:in `each_with_index'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/script/tree/funcall.rb:124:in `each'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/script/tree/funcall.rb:124:in `map'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/script/tree/funcall.rb:124:in `_perform'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/script/tree/node.rb:58:in `perform'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:397:in `visit_prop'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:36:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:79:in `block in with_base'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:115:in `with_frame'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:79:in `with_base'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:160:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:504:in `block (2 levels) in visit_directive'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:504:in `map'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:504:in `block in visit_directive'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:503:in `visit_directive'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:36:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:79:in `block in with_base'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:115:in `with_frame'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/stack.rb:79:in `with_base'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:160:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:52:in `map'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:169:in `block in visit_children'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:168:in `visit_children'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:188:in `visit_root'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/base.rb:36:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:159:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/visitors/perform.rb:8:in `visit'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/root_node.rb:36:in `css_tree'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/engine.rb:381:in `_render_with_sourcemap'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/engine.rb:298:in `render_with_sourcemap'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/plugin/compiler.rb:492:in `update_stylesheet'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/plugin/compiler.rb:209:in `each'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/plugin/compiler.rb:294:in `watch'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/plugin.rb:109:in `method_missing'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/exec/sass_scss.rb:360:in `watch_or_update'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/exec/sass_scss.rb:51:in `process_result'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/exec/base.rb:52:in `parse'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/lib/sass/exec/base.rb:19:in `parse!'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/gems/sass-3.4.23/bin/sass:13:in `<top (required)>'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/bin/sass:22:in `load'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/bin/sass:22:in `<main>'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/bin/ruby_executable_hooks:15:in `eval'
+/home/gonace/.rvm/gems/ruby-2.3.3@obscured.aptwatcher/bin/ruby_executable_hooks:15:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Undefined variable: \"$icon-font-path\".\A         on line 3 of scss/custom/icons.scss\A \A 1: @font-face {\A 2:   font-family: \"toolkit-entypo\";\A 3:   src: url('#{$icon-font-path}#{$icon-font-name}.eot');\A 4:   src: url('#{$icon-font-path}#{$icon-font-name}.eot?#iefix') format('eot'),\A 5:        url('#{$icon-font-path}#{$icon-font-name}.woff2') format('woff2'),\A 6:        url('#{$icon-font-path}#{$icon-font-name}.woff') format('woff'),\A 7:        url('#{$icon-font-path}#{$icon-font-name}.ttf') format('truetype');\A 8:   font-weight: normal;"; }

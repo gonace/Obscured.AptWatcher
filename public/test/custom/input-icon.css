@@ -1,0 +1,13 @@
+.input-with-icon {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle; }
+  .input-with-icon > .form-control {
+    padding-left: 30px; }
+  .input-with-icon > .icon {
+    position: absolute;
+    top: 7px;
+    left: 10px;
+    color: #ccc; }
+
+/*# sourceMappingURL=input-icon.css.map */

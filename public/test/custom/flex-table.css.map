@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAIA,UAAW;EACT,MAAM,EAAE,KAAK;EACb,KAAK,EAAE,IAAI;;AAGb,eAAgB;EACd,OAAO,EAAE,UAAU;EACnB,KAAK,EAAE,EAAE;EACT,WAAW,EAAE,MAAM;EACnB,cAAc,EAAE,MAAM;EAEtB,0BAAW;IACT,WAAW,EAAE,IAAI;IAEf,iCAAO;MACP,KAAK,EAAE,IAAI;MAEX,wCAAO;QACL,WAAW,EAAE,IAAI;;AAMzB,kBAAmB;EACjB,KAAK,EAAE,GAAG",
+"sources": ["../../../scss/custom/flex-table.scss"],
+"names": [],
+"file": "flex-table.css"
+}

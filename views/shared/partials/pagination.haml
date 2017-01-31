@@ -1,0 +1,40 @@
+.text-center
+  - if properties.page_last > 1
+    %nav{'data-action' => 'pagination', 'data-for' => _for, 'data-url' => url}
+      %ul.pagination
+        - if properties.page_first == properties.page
+          %li.page-item.disabled
+            %a.page-link{'aria-label' => 'Previous', :href => '#', 'data-disabled' => 'true', 'data-page' => properties.page_first, :onclick => 'Obscured.Pagination.Page(event, this)'}
+              %span{'aria-hidden' => 'true'} &laquo;
+        - else
+          %li.page-item
+            %a.page-link{'aria-label' => 'Previous', :href => '#', 'data-page' => properties.page_first, :onclick => 'Obscured.Pagination.Page(event, this)'}
+              %span{'aria-hidden' => 'true'} &laquo;
+
+        - if properties.page-2 > 0 && properties.page-2 != properties.page
+          %li.page-item
+            %a.page-link{:href => '#', 'data-page' => (properties.page-2), :onclick => 'Obscured.Pagination.Page(event, this)'} #{properties.page-2}
+        - if properties.page-1 > 0 && properties.page-1 != properties.page
+          %li.page-item
+            %a.page-link{:href => '#', 'data-page' => (properties.page-1), :onclick => 'Obscured.Pagination.Page(event, this)'} #{properties.page-1}
+
+        %li.page-item.active
+          %a.page-link{:href => '#', 'data-disabled' => 'true', 'data-page' => (properties.page), :onclick => 'Obscured.Pagination.Page(event, this)'} #{properties.page}
+
+
+        - if properties.page+1 > 0 && properties.page+1 <= properties.page_last && properties.page+1 != properties.page
+          %li.page-item
+            %a.page-link{:href => '#', 'data-page' => (properties.page+1), :onclick => 'Obscured.Pagination.Page(event, this)'} #{properties.page+1}
+        - if properties.page+2 > 0 && properties.page+2 <= properties.page_last && properties.page+2 != properties.page
+          %li.page-item
+            %a.page-link{:href => '#', 'data-page' => (properties.page+2), :onclick => 'Obscured.Pagination.Page(event, this)'} #{properties.page+2}
+
+
+        - if properties.page_last == properties.page || properties.page_last == 0
+          %li.page-item.disabled
+            %a.page-link{'aria-label' => 'Next', :href => '#', 'data-disabled' => 'true', 'data-page' => properties.page_last, :onclick => 'Obscured.Pagination.Page(event, this)'}
+              %span{'aria-hidden' => 'true'} &raquo;
+        - else
+          %li.page-item
+            %a.page-link{'aria-label' => 'Next', :href => '#', 'data-page' => properties.page_last, :onclick => 'Obscured.Pagination.Page(event, this)'}
+              %span{'aria-hidden' => 'true'} &raquo;

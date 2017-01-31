@@ -1,0 +1,49 @@
+.dashhead
+  .dashhead-titles
+    %h6.dashhead-subtitle Package
+    %h3.dashhead-title= scan.hostname
+.hr-divider.my-4
+  %h3.hr-divider-content.hr-divider-heading Quick stats
+.row.statcards.mt-3.mb-3.text-xs-center.text-md-left
+  .col-6.col-md-3.statcard.mb-4
+    %h3.statcard-number{ :class => scan.updates_pending > 0 ? 'text-danger' : 'text-success'}
+      = scan.updates_pending
+    %span.statcard-desc Pending updates
+  .col-6.col-md-3.statcard.mb-4
+    %h3.statcard-number{ :class => (installed > 0 || scan.updates_pending == 0) ? 'text-success' : 'text-danger'}
+      =installed
+    %span.statcard-desc Installed updates
+  .col-6.col-md-3.statcard.mb-4
+    %h3.statcard-number{ :class => alerts > 0 ? 'text-danger' : 'text-success'}
+      =alerts
+    %span.statcard-desc Alerts on host
+  .col-6.col-md-3.statcard.mb-4
+    %h3.statcard-number
+      =scan.created_at
+    %span.statcard-desc Date
+.hr-divider.my-4
+  %h3.hr-divider-content.hr-divider-heading Packages
+
+.card{ :style => 'background: transparent;border: 1px solid #434857;'}
+  .card-block
+    .table-responsive
+      %table.table{'data-sort' => 'table'}
+        %thead
+          %tr
+            %th.header #
+            %th.header.headerSortDown Name
+            %th.text-right.header Installed
+            %th.text-right.header Available
+            %th.text-center.header Installed
+        %tbody
+          - scan.packages.each_with_index do |package,index|
+            %tr
+              %td=index+1
+              %td=package['name']
+              %td.text-right=package['version_installed']
+              %td.text-right=package['version_available']
+              %td.text-center
+                - if (package['installed'] rescue false)
+                  %span.icon.icon-check.text-success
+                - else
+                  %span.icon.icon-cross.text-danger

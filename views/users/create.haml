@@ -1,0 +1,40 @@
+.dashhead
+  .dashhead-titles.mb-3
+    %h6.dashhead-subtitle Settings
+    %h2.dashhead-title Create user
+
+- if flash[:save_ok]
+  .alert.alert-success.mt-2
+    %strong Well done!
+    = flash[:save_ok]
+- if flash[:save_error]
+  .alert.alert-danger.mt-2
+    %strong Oh snap!
+    = flash[:save_error]
+
+%form{:action => '/users/create', :method => 'post'}
+  .hr-divider.my-4
+    %h3.hr-divider-content.hr-divider-heading Basics
+  .form-group
+    .row
+      .col-6
+        %input.form-control{:placeholder => 'First name', :name => 'user_firstname', :value => (defined? user) ? user.first_name : '', :type => 'text'}
+      .col-6
+        %input.form-control{:placeholder => 'Last name', :name => 'user_lastname', :value => (defined? user) ? user.last_name : '', :type => 'text'}
+  .form-group
+    .row
+      .col-12
+        %input.form-control{:placeholder => 'Email', :name => 'user_email', :value => (defined? user) ? user.username : '', :type => 'email'}
+  .hr-divider.my-4
+    %h3.hr-divider-content.hr-divider-heading Password
+  .form-group
+    .row
+      .col-6
+        %input#inputPassword.form-control{'aria-describedby' => 'passwordHelpBlock', :name => 'password_new', :placeholder => 'New password', :type => 'password'}
+      .col-6
+        %input#inputVerifyPassword.form-control{'aria-describedby' => 'passwordHelpBlock', :name => 'password_verify', :placeholder => 'Verify password', :type => 'password'}
+    .row
+      .col-12
+        %p#passwordHelpBlock.form-text.text-muted
+          Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+  %button.btn.btn-primary.btn-pill{:type => 'submit'} Create

@@ -1,0 +1,9 @@
+.col-lg-4.mb-5
+  .list-group.mb-3
+    %h6.list-group-header
+      Alerts
+    - alerts.each do |alert|
+      %a.list-group-item.list-group-item-action.justify-content-between{:href => "/notifications/#{alert.id}"}
+        =alert.message
+        %span.ml-a.text-muted= alert.type
+  %a.btn.btn-outline-primary.px-3{:href => '/notifications'} View all alerts

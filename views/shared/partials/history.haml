@@ -1,0 +1,7 @@
+.list-group.mb-3
+  - history.each do |event|
+    %a.list-group-item.list-group-item-action.justify-content-between{:href => '#'}
+      %span
+        =event.text
+        %span.text-muted= "(#{event.created})"
+      %span.ml-a.text-muted= ":#{event.user}"

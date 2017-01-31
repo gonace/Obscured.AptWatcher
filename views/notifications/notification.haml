@@ -1,0 +1,30 @@
+.dashhead
+  .dashhead-titles.mb-3
+    %h6.dashhead-subtitle Alerts
+    %h2.dashhead-title= alert.message
+
+- if flash[:save_ok]
+  .alert.alert-success.mt-2
+    %strong Well done!
+    = flash[:save_ok]
+- if flash[:save_warning]
+  .alert.alert-warning.mt-2
+    %strong Warning!
+    = flash[:save_warning]
+- if flash[:save_error]
+  .alert.alert-danger.mt-2
+    %strong Oh snap!
+    = flash[:save_error]
+
+%h4
+  Backtrace
+.card{ :style => 'background: transparent;border: 1px solid #434857;'}
+  .card-block
+    %code
+      =alert.backtrace
+
+%form{:action => "/notifications/#{alert.id}/update", :method => 'post'}
+  - if alert.status == Obscured::Status::OPEN.to_s
+    %button.btn.btn-pill.btn-success{:type => 'submit', :name => 'action', :value => 'resolve'} Resolve
+  - if alert.status == Obscured::Status::CLOSED.to_s
+    %button.btn.btn-pill.btn-warning{:type => 'submit', :name => 'action', :value => 'reopen'} Reopen

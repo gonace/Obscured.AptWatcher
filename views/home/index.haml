@@ -1,0 +1,64 @@
+.dashhead
+  .dashhead-titles
+    %h6.dashhead-subtitle Dashboards
+    %h3.dashhead-title Overview
+%ul.nav.nav-bordered.mt-4.mt-md-2.mb-0.clearfix{:role => 'tablist'}
+  %li.nav-item{:role => 'presentation'}
+    %a.nav-link.active{'aria-controls' => 'Overview', 'data-toggle' => 'tab', :href => '#overview', :role => 'tab'} Overview
+  %li.nav-item{:role => 'presentation'}
+    %a.nav-link{'aria-controls' => 'Updates', 'data-toggle' => 'tab', :href => '#updates', :role => 'tab'} Updates
+  %li.nav-item{:role => 'presentation'}
+    %a.nav-link{'aria-controls' => 'Alerts', 'data-toggle' => 'tab', :href => '#alerts', :role => 'tab'} Alerts
+  %li.nav-item{:role => 'presentation'}
+    %a.nav-link{'aria-controls' => 'Scans', 'data-toggle' => 'tab', :href => '#scans', :role => 'tab'} Scans
+%hr.mt-0.mb-5/
+.tab-content
+  #overview.tab-pane.active{:role => 'tabpanel'}
+    .row.text-center.m-t-md
+      .col-md-4.mb-5
+        .w-3.mx-auto
+          %canvas.ex-graph{'data-chart' => 'doughnut', 'data-dataset' => "[#{hosts_without_updates},#{hosts_with_updates}]", 'data-dataset-options' => "{ borderColor: '#252830', backgroundColor: ['#1bc98e', '#e64759'] }", 'data-labels' => "['Patched', 'Unpatched']", :height => '200', :width => '200'}
+        %strong.text-muted Hosts
+        %h4 Patched vs Upatched
+      .col-md-4.mb-5
+        .w-3.mx-auto
+          %canvas.ex-graph{'data-chart' => 'doughnut', 'data-dataset' => "[#{alerts_open},#{alerts_closed}]", 'data-dataset-options' => "{ borderColor: '#252830', backgroundColor: ['#e64759', '#1bc98e'] }", 'data-labels' => "['Open', 'Closed']", :height => '200', :width => '200'}
+        %strong.text-muted Alerts
+        %h4 Open vs Closed
+  #updates.tab-pane{:role => 'tabpanel'}
+    .ex-line-graphs.mb-5
+      %canvas.ex-line-graph{'data-chart' => 'line', 'data-dark' => 'true', 'data-dataset' => "[#{graph_updates['data']}]", 'data-labels' => "#{graph_updates['header']}", :height => '400', :width => '600'}
+  #alerts.tab-pane{:role => 'tabpanel'}
+    .ex-line-graphs.mb-5
+      %canvas.ex-line-graph{'data-chart' => 'bar', 'data-dark' => 'true', 'data-dataset' => "#{graph_alerts['data']}", 'data-dataset-options' => "[{label: 'Open', backgroundColor: '#e64759'}, {label: 'Closed', backgroundColor: '#1bc98e'}]", 'data-labels' => "#{graph_alerts['header']}", :height => '400', :width => '600'}
+  #scans.tab-pane{:role => 'tabpanel'}
+    .ex-line-graphs.mb-5
+      %canvas.ex-line-graph{'data-chart' => 'line', 'data-dark' => 'true', 'data-dataset' => "[#{graph_scans['data']}]", 'data-labels' => "#{graph_scans['header']}", :height => '400', :width => '600'}
+.hr-divider.my-4
+  %h3.hr-divider-content.hr-divider-heading Quick stats
+.row.statcards.mt-3.mb-3.text-xs-center.text-md-left
+  .col-6.col-md-3.statcard.mb-4
+    %h3.statcard-number{ :class => hosts_with_updates > 0 ? 'text-danger' : 'text-success'}
+      =hosts_with_updates
+      %small.delta-indicator{:class => (hosts_with_updates + hosts_without_updates) == hosts_without_updates ? 'delta-positive' : 'delta-negative'}
+        ="#{(100/(hosts_with_updates + hosts_without_updates))*hosts_with_updates}%"
+    %span.statcard-desc Hosts with updates
+  .col-6.col-md-3.statcard.mb-4
+    %h3.statcard-number{ :class => hosts_without_updates > 0 ? 'text-success' : 'text-danger'}
+      =hosts_without_updates
+      %small.delta-indicator{:class => (hosts_with_updates + hosts_without_updates) == hosts_without_updates ? 'delta-positive' : 'delta-negative'}
+        ="#{(100/(hosts_with_updates + hosts_without_updates))*hosts_without_updates}%"
+    %span.statcard-desc Hosts that are up to date
+  .col-6.col-md-3.statcard.mb-4
+    %h3.statcard-number{ :class => scans_total == 0 ? 'text-danger' : 'text-secondary'}
+      =scans_total
+    %span.statcard-desc Scans
+  .col-6.col-md-3.statcard.mb-4
+    %h3.statcard-number{ :class => alerts_open > 0 ? 'text-danger' : 'text-success'}
+      =alerts_open
+    %span.statcard-desc Alerts
+%hr.my-4/
+.row
+  = haml :'../shared/partials/lists/hosts', :locals => {:hosts => hosts}
+  = haml :'../shared/partials/lists/scans', :locals => {:scans => scans}
+  = haml :'../shared/partials/lists/alerts', :locals => {:alerts => alerts}

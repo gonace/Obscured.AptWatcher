@@ -1,0 +1,31 @@
+/* Environment notice above main navbar */
+.environment-tease {
+    background-color: #46b8da;
+    color: #fff;
+    display: block;
+    font-weight: bold;
+    padding: 15px 20px;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+}
+.environment-tease:hover {
+    background-color: #5bc0de;
+    color: #fff;
+    text-decoration: none;
+}
+.environment-tease.prod {
+    background-color: #d43f3a;
+}
+.environment-tease.prod:hover {
+    background-color: #d9534f;
+}
+.environment-tease.stage {
+    background-color: #eea236;
+}
+.environment-tease.stage:hover {
+    background-color: #f0ad4e;
+}
+.environment-tease .icon {
+    color: #fff;
+}

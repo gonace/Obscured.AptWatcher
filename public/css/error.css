@@ -1,0 +1,82 @@
+html {
+    height: 100%;
+}
+
+body {
+    display: table;
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
+}
+
+.error-container {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.error-container .inner {
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 700px;
+}
+
+.error-container .inner h1 {
+    font-size: 145px;
+}
+
+/*
+ * Error Generic, Inline
+ */
+.error {
+    z-index: 150000;
+}
+.error .error-wrapper {
+    margin: 0 auto;
+    text-align: center;
+}
+.error.error-generic,
+.error.error-inline {
+    background: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+.error.error-inline {
+    position: absolute;
+}
+.error.error-generic .error-wrapper,
+.error.error-inline .error-wrapper {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    padding: 25px 45px;
+    transform: translateY(65%);
+    width: 500px;
+}
+.error.error-inline .error-wrapper {
+    background-color: transparent;
+    opacity: 0.5;
+    padding: 0;
+    position: relative;
+}
+.error.error-generic .error-title,
+.error.error-inline .error-title {
+    color: #ffffff;
+    font-size: 30px;
+    margin-bottom: 30px;
+    margin-top: 0;
+}
+.error.error-inline .error-title {
+    margin-bottom: 15px;
+}
+.error.error-generic .error-message,
+.error.error-inline .error-message {
+    color: #ffffff;
+    font-size: 18px;
+}
+.error.error-generic .error-message p,
+.error.error-inline .error-message p {
+    margin-bottom: 30px;
+    padding: 0 20px;
+}

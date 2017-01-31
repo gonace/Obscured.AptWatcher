@@ -1,0 +1,25 @@
+.dashhead.mb-3
+  .dashhead-titles
+    %h6.dashhead-subtitle Settings
+    %h3.dashhead-title Users
+  .dashhead-toolbar
+    .btn-group.dashhead-toolbar-item.btn-group-thirds
+      %a.btn.btn-primary.btn-pill{:href => '/users/create', :type => 'button'} Create
+.table-responsive
+  %table.table{'data-sort' => 'table'}
+    %thead
+      %tr
+        %th.header.headerSortDown Username/Email
+        %th.header First name
+        %th.header Last name
+        %th.header Role
+        %th.header Created
+    %tbody
+      - users.each do |user|
+        %tr
+          %td
+            %a{:href => "/users/#{user._id}"}= user.username
+          %td= user.first_name
+          %td= user.last_name
+          %td= user.role
+          %td= user.created

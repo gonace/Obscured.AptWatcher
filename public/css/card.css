@@ -1,0 +1,111 @@
+.card {
+}
+.card.card-identity {
+    background-color: #30343e;
+    border-radius: 2px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+    margin: 0 auto;
+    max-width: 350px;
+    padding: 40px;
+}
+.card.card-identity .card-mask {
+    background-color: #e1e1e1;
+    border-radius: 150px;
+    -webkit-border-radius: 150px;
+    -moz-border-radius: 150px;
+    display: block;
+    height: 96px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+    position: relative;
+    width: 96px;
+}
+.card.card-identity .card-mask img {
+    height: 100%;
+    width: 100%;
+}
+
+
+.card.card-current {
+    display: table;
+}
+.card.card-current .card-text {
+    color: #fff;
+    display: table-cell;
+    margin-left: 20px;
+    vertical-align: middle;
+    position: relative;
+    z-index: 15000;
+}
+.card.card-current .card-mask {
+    background-color: #e1e1e1;
+    border-radius: 150px;
+    -webkit-border-radius: 150px;
+    -moz-border-radius: 150px;
+    display: inline-block;
+    height: 34px;
+    margin: 0 0 0 10px;
+    overflow: hidden;
+    position: relative;
+    width: 34px;
+    z-index: 500;
+}
+.card.card-current .card-mask img {
+    height: 100%;
+    width: 100%;
+}
+
+
+.card-user {
+    margin-bottom: 25px;
+    position: relative;
+    padding-top: 0;
+    overflow: hidden;
+    text-align: center;
+    background-color: rgba(214, 224, 226, 0.2);
+}
+.card-user.single {
+    margin-bottom: 0;
+}
+.card-user .card-header {
+    background-size: cover;
+    height: 135px;
+}
+.card-user .avatar {
+    position: relative;
+    top: -50px;
+    margin-bottom: -50px;
+}
+.card-user .avatar img {
+    width: 100px;
+    height: 100px;
+    max-width: 100px;
+    max-height: 100px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    border: 5px solid rgba(255,255,255,0.5);
+}
+.card-user .info {
+    padding: 4px 8px 10px;
+}
+.card-user .info .title {
+    margin-bottom: 4px;
+    font-size: 24px;
+    line-height: 1;
+    color: #262626;
+    vertical-align: middle;
+}
+.card-user .info .desc {
+    overflow: hidden;
+    font-size: 12px;
+    line-height: 20px;
+    color: #737373;
+    text-overflow: ellipsis;
+}
+.card-user .bottom {
+    padding: 0 20px;
+    margin-bottom: 17px;
+}
