@@ -21,9 +21,9 @@
 .card.mb-3{ :style => 'background: transparent;border: 1px solid #434857;'}
   .card-block
     %code
-      - unless alert.backtrace.empty?
+      - if (defined? alert.backtrace)
         =alert.backtrace
-      - unless alert.payload.empty?
+      - if (defined? alert.payload)
         =alert.payload
 
 %form{:action => "/notifications/#{alert.id}/update", :method => 'post'}
