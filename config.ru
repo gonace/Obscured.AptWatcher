@@ -23,10 +23,7 @@ clients: {
   default: {
     uri: ENV['MONGODB_URI'],
     options: {
-      app_name: 'Obscured.AptWatcher',
-      read: {
-        mode: :secondary_preferred
-      }
+      app_name: 'Obscured.AptWatcher'
     }
   }
 })
