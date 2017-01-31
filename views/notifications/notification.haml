@@ -21,7 +21,10 @@
 .card.mb-3{ :style => 'background: transparent;border: 1px solid #434857;'}
   .card-block
     %code
-      =alert.backtrace
+      - unless alert.backtrace.empty?
+        =alert.backtrace
+      - unless alert.payload.empty?
+        =alert.payload
 
 %form{:action => "/notifications/#{alert.id}/update", :method => 'post'}
   - if alert.status == Obscured::Status::OPEN.to_s
