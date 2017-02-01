@@ -10,7 +10,7 @@ module Obscured
             first_scan = Obscured::AptWatcher::Models::Scan.where(:hostname => hostname, :created_at.gte => date_start.beginning_of_day, :created_at.lte => date_start.end_of_day).first
             second_scan = Obscured::AptWatcher::Models::Scan.where(:hostname => hostname, :created_at.gte => date_end.beginning_of_day, :created_at.lte => date_end.end_of_day).first
 
-            if (defined? first_scan.packages)
+            if (defined? first_scan)
               first_scan.packages.each do |package|
                 if second_scan.packages.include?(package)
                   package['installed'] = false
@@ -22,6 +22,8 @@ module Obscured
               first_scan.save!
 
               first_scan
+            else
+              Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => 'No scan could be found, this might not be an error if this is the first time the host is checked'})
             end
           end
         end
