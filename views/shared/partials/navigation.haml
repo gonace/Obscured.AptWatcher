@@ -17,7 +17,7 @@
           %small.iconav-nav-label.hidden-md-up Hosts
       %li.nav-item
         %a.nav-link{:class => ((defined? active) && active === 'notifications') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'Notifications', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/notifications', :title => ''}
-          %span.icon.icon-flash
+          %span.icon.icon-megaphone
           %small.iconav-nav-label.hidden-md-up Notifications
       %li.nav-item
         %a.nav-link{:class => ((defined? active) && active === 'statistics') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'Statistics', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/statistics', :title => ''}
@@ -38,5 +38,3 @@
         - else
           %a.nav-link{'data-container' => 'body', 'data-original-title' => 'Not sigend in', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/doorman/logout', :title => ''}
             %img.rounded-circle{:alt => 'payway@adeprimo.se', :src => "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest('payway@adeprimo.se')}"}
-
-          %small.iconav-nav-label.hidden-md-up @mdo

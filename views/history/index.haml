@@ -1,12 +1,12 @@
-.dashhead
+.dashhead.mb-3
   .dashhead-titles
     %h6.dashhead-subtitle History
     %h2.dashhead-title Scans
-  .btn-toolbar.dashhead-toolbar
+  .btn-toolbar.dashhead-toolbar{:style => 'display: none;'}
     .btn-toolbar-item.input-with-icon
       %input.form-control{'data-provide' => 'datepicker', :type => 'text', :value => '01/01/15 - 01/08/15'}
       %span.icon.icon-calendar
-.flextable.table-actions
+.flextable.table-actions{:style => 'display: none;'}
   .flextable-item.flextable-primary
     .btn-toolbar-item.input-with-icon
       %input.form-control.input-block{:placeholder => 'Search in scan history', :type => 'text'}
