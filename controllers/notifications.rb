@@ -29,7 +29,7 @@ module Obscured
           haml :notification, :locals => { :alert => alert }
         end
 
-        post '/:id/update' do
+        post '/view/:id/update' do
           authenticated?
 
           begin

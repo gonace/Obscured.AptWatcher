@@ -26,7 +26,7 @@
       - if (defined? alert.payload)
         =JSON.pretty_generate(alert.payload.to_json) rescue alert.payload
 
-%form{:action => "/notifications/#{alert.id}/update", :method => 'post'}
+%form{:action => "/notifications/view/#{alert.id}/update", :method => 'post'}
   - if alert.status == Obscured::Status::OPEN.to_s
     %button.btn.btn-pill.btn-success{:type => 'submit', :name => 'action', :value => 'resolve'} Resolve
   - if alert.status == Obscured::Status::CLOSED.to_s
