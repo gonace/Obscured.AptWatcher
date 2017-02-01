@@ -1,16 +1,4 @@
-modul
-
-
-Obscured.AptWatcher
-
-To proceed, Doorman kind of demands an identity, the identity is simply your email address.
-
-
-Enter your email
-Enter your password
-
-Or if you forgot your password, reset it by clicking here!
-e Obscured
+module Obscured
   module AptWatcher
     module Package
       class Matcher
