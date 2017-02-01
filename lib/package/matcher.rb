@@ -6,7 +6,6 @@ module Obscured
           def run(hostname, date_start=Date.yesterday, date_end=Date.today)
             date_start = Date.strptime(date_start, '%Y-%m-%d')
             date_end = Date.strptime(date_end, '%Y-%m-%d')
-
             first_scan = Obscured::AptWatcher::Models::Scan.where(:hostname => hostname, :created_at.gte => date_start.beginning_of_day, :created_at.lte => date_start.end_of_day).first
             second_scan = Obscured::AptWatcher::Models::Scan.where(:hostname => hostname, :created_at.gte => date_end.beginning_of_day, :created_at.lte => date_end.end_of_day).first
 

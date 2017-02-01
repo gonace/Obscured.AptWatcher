@@ -45,12 +45,12 @@ module Obscured
             end
             alert.save!
 
-            redirect "/notifications/#{params[:id]}"
+            redirect "/notifications/view/#{params[:id]}"
           rescue => e
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
 
             flash[:save_error] = "We're sad to say that an error occurred with the message: #{e.message}"
-            redirect "/notifications/#{params[:id]}"
+            redirect "/notifications/view/#{params[:id]}"
           end
         end
       end

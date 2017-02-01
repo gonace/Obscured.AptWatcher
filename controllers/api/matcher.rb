@@ -11,7 +11,7 @@ module Obscured
               raise Obscured::DomainError.new(:required_field_missing, what: ':date_start') if params[:date_start].empty?
               raise Obscured::DomainError.new(:required_field_missing, what: ':date_end') if params[:date_end].empty?
 
-              Obscured::AptWatcher::Package::Matcher.run(params[:hostname], params[:date_start], params[:date_start]).to_json
+              Obscured::AptWatcher::Package::Matcher.run(params[:hostname], params[:date_start], params[:date_end]).to_json
             rescue => e
               Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
               {:success => false, :logged => true, :message => e.message, :backtrace => e.backtrace}.to_json
