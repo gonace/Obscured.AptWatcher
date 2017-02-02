@@ -309,13 +309,13 @@ module Sinatra
             notify :error, :reset_unmatched_passwords
             redirect back
           else
-            geo_position = Geocoder.search(request.ip).first
+            geo_position = Geocoder.search(request.ip)
             Pony.mail(
               :to => user.username,
               :from => "aptwatcher@#{@smtp_domain}",
               :subject => 'Password change confirmation',
               :body => "The password for your account (#{user.username}) was recently changed. This change was made from the following device or browser from: ",
-              :html_body => (haml :'/templates/password_confirmation', :locals => {:user => user.username, :browser => "#{request.browser} #{request.browser_version}", :location => "#{geo_position.city},#{geo_position.region_name}", :ip => request.ip, :system => "#{request.os} #{request.os_version}"}, :layout => false),
+              :html_body => (haml :'/templates/password_confirmation', :locals => {:user => user.username, :browser => "#{request.browser} #{request.browser_version}", :location => "#{geo_position.first.city},#{geo_position.first.region_name}", :ip => request.ip, :system => "#{request.os} #{request.os_version}"}, :layout => false),
               :via => :smtp,
               :via_options => {
                 :address        	    => @smtp_server,
