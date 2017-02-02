@@ -121,7 +121,7 @@ var App = {
   },
 
   _tableSorters: function () {
-    $('[data-sort="table"]').tablesorter( {sortList: [[0,0]]} )
+    $('[data-sort="table"]').tablesorter( {sortList: ($('[data-sort="table"]').attr('data-sort-list')) ? eval($('[data-sort="table"]').attr('data-sort-list')) : [[0,1]] } )
   }
 }
 

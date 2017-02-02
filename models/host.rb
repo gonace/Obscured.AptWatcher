@@ -23,7 +23,21 @@ module Obscured
 
           host = self.new
           host.hostname = opts[:hostname]
-          host.environment = opts[:environment]
+
+          unless opts[:environment].nil?
+            raise Obscured::DomainError.new(:invalid_type, what: ':environment') unless opts[:environment].kind_of?(String)
+            host.environment = opts[:environment]
+          end
+
+          if (opts[:hostname].include?('production') || opts[:hostname].include?('prod'))
+            host.environment = :production
+          elsif (opts[:hostname].include?('staging') || opts[:hostname].include?('stage'))
+            host.environment = :staging
+          elsif (opts[:hostname].include?('testing') || opts[:hostname].include?('test') || opts[:hostname].include?('qa'))
+            host.environment = :test
+          elsif (opts[:hostname].include?('development') || opts[:hostname].include?('dev') || opts[:hostname].include?('local'))
+            host.environment = :development
+          end
 
           host
         end

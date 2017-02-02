@@ -11,7 +11,7 @@ module Obscured
               begin
                 host = Obscured::AptWatcher::Models::Host.where(hostname: hostname).first
                 if host.nil?
-                  host = Obscured::AptWatcher::Models::Host.make_and_save({:hostname => hostname, :environment => :"#{ENV['RACK_ENV']}"})
+                  host = Obscured::AptWatcher::Models::Host.make_and_save({:hostname => hostname})
                 end
 
                 request.body.rewind
@@ -27,7 +27,7 @@ module Obscured
 
                 attachments = [
                   {
-                    color: Obscured::Alert::Color::WARN,
+                    color: scan.packages.count > 10 ? Obscured::Alert::Color::ERROR : Obscured::Alert::Color::WARN,
                     fallback: "There are #{packages.count} available updates for this host",
                     pretext: "There are #{packages.count} available updates for this host",
                     fields: [

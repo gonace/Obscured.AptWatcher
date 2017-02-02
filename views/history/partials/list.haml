@@ -1,5 +1,5 @@
-.table-responsive{:id => id, 'data-sort' => 'table', 'data-length' => scans.properties.length, 'data-page' => scans.properties.page, 'data-page-size' => scans.properties.page_size, 'data-page-first' => scans.properties.page_first, 'data-page-last' => scans.properties.page_last}
-  %table.table{'data-sort' => 'table'}
+.table-responsive{:id => id, 'data-length' => scans.properties.length, 'data-page' => scans.properties.page, 'data-page-size' => scans.properties.page_size, 'data-page-first' => scans.properties.page_first, 'data-page-last' => scans.properties.page_last}
+  %table.table{'data-sort' => 'table', 'data-sort-list' => '[[1,1]]'}
     %thead
       %tr
         %th.header.headerSortDown Host
