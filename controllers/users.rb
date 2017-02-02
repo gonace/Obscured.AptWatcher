@@ -78,7 +78,7 @@ module Obscured
             user.save
 
             flash[:save_ok] = "We're glad to announce that we could successfully created the user (#{user.username})"
-            redirect "/users/#{user.id}"
+            redirect "/users/#{user.id}/view"
           rescue => e
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
 
