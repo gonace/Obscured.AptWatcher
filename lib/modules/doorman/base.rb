@@ -315,7 +315,7 @@ module Sinatra
               :from => "aptwatcher@#{@smtp_domain}",
               :subject => 'Password change confirmation',
               :body => "The password for your account (#{user.username}) was recently changed. This change was made from the following device or browser from: ",
-              :html_body => (haml :'/templates/password_confirmation', :locals => {:user => user.username, :browser => "#{request.browser} #{request.browser_version}", :location => "#{geo_position.first.city rescue ''},#{geo_position.first.region_name rescue ''}", :ip => request.ip, :system => "#{request.os} #{request.os_version}"}, :layout => false),
+              :html_body => (haml :'/templates/password_confirmation', :locals => {:user => user.username, :browser => "#{request.browser} #{request.browser_version}", :location => "#{geo_position.first.city rescue ''},#{geo_position.first.country rescue ''}", :ip => request.ip, :system => "#{request.os} #{request.os_version}"}, :layout => false),
               :via => :smtp,
               :via_options => {
                 :address        	    => @smtp_server,
