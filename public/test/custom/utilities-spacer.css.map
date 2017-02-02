@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAEA,MAAO;EAAE,QAAQ,EAAE,mBAAmB;;AACtC,MAAO;EAAE,QAAQ,EAAE,mBAAmB;;AACtC,MAAO;EAAE,QAAQ,EAAE,gBAAgB;;AAKnC,IAAO;EAAE,KAAK,EAAE,cAAc;;AAC9B,IAAO;EAAE,KAAK,EAAE,cAAc;;AAC9B,IAAO;EAAE,KAAK,EAAE,cAAc;;AAC9B,OAAQ;EAAE,KAAK,EAAE,eAAe",
-"sources": ["../../../scss/custom/utilities-spacer.scss"],
-"names": [],
-"file": "utilities-spacer.css"
-}

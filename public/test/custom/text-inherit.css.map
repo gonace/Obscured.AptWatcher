@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AACE,uDAEQ;EACN,KAAK,EAAE,OAAO;EACd,eAAe,EAAE,OAAO",
-"sources": ["../../../scss/custom/text-inherit.scss"],
-"names": [],
-"file": "text-inherit.css"
-}

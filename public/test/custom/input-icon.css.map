@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAKA,gBAAiB;EACf,QAAQ,EAAE,QAAQ;EAClB,OAAO,EAAE,YAAY;EACrB,cAAc,EAAE,MAAM;EAEtB,gCAAgB;IACd,YAAY,EAAE,IAAI;EAGpB,wBAAQ;IACN,QAAQ,EAAE,QAAQ;IAClB,GAAG,EAAE,GAAG;IACR,IAAI,EAAE,IAAI;IACV,KAAK,EAAE,IAAI",
-"sources": ["../../../scss/custom/input-icon.scss"],
-"names": [],
-"file": "input-icon.css"
-}
