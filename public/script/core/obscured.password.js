@@ -34,7 +34,7 @@ Obscured.Password = function ($) {
 
 
             $(options.element).on('keypress', function(e) {
-                if (e.target.value.length > 6) {
+                if (e.target.value.length > 4) {
                     var _class,
                         strength = PasswordStrength.test($(options.username).val(), e.target.value);
 
