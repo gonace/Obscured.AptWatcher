@@ -18,7 +18,7 @@
       - users.each do |user|
         %tr
           %td
-            %a{:href => "/users/#{user._id}"}= user.username
+            %a{:href => "/users/#{user._id}/view"}= user.username
           %td= user.first_name
           %td= user.last_name
           %td= user.role
