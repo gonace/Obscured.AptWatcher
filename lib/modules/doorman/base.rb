@@ -309,7 +309,7 @@ module Sinatra
             notify :error, :reset_unmatched_passwords
             redirect back
           else
-            geo_position = Geocoder.search(request.ip)
+            geo_position = Geocoder.search(request.ip).first
             Pony.mail(
               :to => user.username,
               :from => "aptwatcher@#{@smtp_domain}",
