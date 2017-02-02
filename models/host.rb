@@ -29,14 +29,18 @@ module Obscured
             host.environment = opts[:environment]
           end
 
-          if (opts[:hostname].include?('production') || opts[:hostname].include?('prod'))
-            host.environment = :production
-          elsif (opts[:hostname].include?('staging') || opts[:hostname].include?('stage'))
-            host.environment = :staging
-          elsif (opts[:hostname].include?('testing') || opts[:hostname].include?('test') || opts[:hostname].include?('qa'))
-            host.environment = :test
-          elsif (opts[:hostname].include?('development') || opts[:hostname].include?('dev') || opts[:hostname].include?('local'))
-            host.environment = :development
+          unless opts[:hostname].nil?
+            if (opts[:hostname].include?('production') || opts[:hostname].include?('prod'))
+              host.environment = :production
+            elsif (opts[:hostname].include?('staging') || opts[:hostname].include?('stage'))
+              host.environment = :staging
+            elsif (opts[:hostname].include?('testing') || opts[:hostname].include?('test') || opts[:hostname].include?('qa'))
+              host.environment = :test
+            elsif (opts[:hostname].include?('shared'))
+              host.environment = :shared
+            elsif (opts[:hostname].include?('development') || opts[:hostname].include?('dev') || opts[:hostname].include?('local'))
+              host.environment = :development
+            end
           end
 
           host

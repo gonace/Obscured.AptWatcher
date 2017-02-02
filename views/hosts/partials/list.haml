@@ -6,7 +6,8 @@
         %th.header Created
         %th.header Updated
         %th.header Description
-        %th.header Available Updates
+        %th.header Environment
+        %th.header.text-center Available Updates
     %tbody
       - hosts.items.each do |host|
         %tr
@@ -15,5 +16,12 @@
           %td= host.created_at
           %td= host.updated_at
           %td= host.description
-          %td= host.updates_pending
+          %td= host.environment
+          %td.text-center
+            - if host.updates_pending > 0
+              %span.text-danger
+                =host.updates_pending
+            - else
+              %span.text-success
+                =host.updates_pending
   = partial :'../shared/partials/pagination', :locals => { :_for => '#' + id, :url => url, :properties => hosts.properties }

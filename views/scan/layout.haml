@@ -13,9 +13,10 @@
 
   %body
     .with-iconav
-      = haml :'../shared/partials/navigation', :locals => {:active => 'history'}
+      = partial :'../shared/partials/navigation', :locals => {:active => 'history'}
       .container
+        = partial :'../shared/partials/error.generic'
         = yield
-      = haml :'../shared/partials/scripts'
+      = partial :'../shared/partials/scripts'
 
-    = haml :'../shared/footer'
+    = partial :'../shared/footer'

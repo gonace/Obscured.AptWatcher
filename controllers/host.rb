@@ -46,6 +46,62 @@ module Obscured
                                     :graph_alerts => graph_alerts,
                                     :graph_updates => graph_updates }
         end
+
+        get '/:id/edit' do
+          authenticated?
+
+          begin
+            raise Obscured::DomainError.new(:required_field_missing, what: ':id') if params[:id].empty?
+
+            host = Obscured::AptWatcher::Models::Host.find(params[:id]) rescue redirect('/')
+
+            haml :edit, :locals => { :host => host }
+          rescue => e
+            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+
+            flash[:generic_error] = 'An unknown error occurred!'
+            redirect "/host/#{params[:id]}"
+          end
+        end
+
+        post '/:id/edit' do
+          authenticated?
+
+          begin
+            raise Obscured::DomainError.new(:required_field_missing, what: ':id') if params[:id].empty?
+            host_hostname,host_environment = params.delete('host_hostname'), params.delete('host_environment')
+            host_description = params.delete('host_description')
+
+            host = Obscured::AptWatcher::Models::Host.find(params[:id]) rescue redirect('/')
+
+            unless host_hostname.empty?
+              unless host_hostname == host.hostname
+                host.hostname = host_hostname
+              end
+            end
+            unless host_environment.empty?
+              unless host_environment == host.environment
+                host.environment = host_environment
+              end
+            end
+            unless host_description.empty?
+              unless host_description == host.description
+                host.description = host_description
+              end
+            end
+            host.save
+
+            flash[:save_ok] = "We're glad to announce that we could successfully save the changes for (#{host.hostname})"
+            redirect "/host/#{host.id}/edit"
+          rescue => e
+            puts 'debug'
+
+            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+
+            flash[:generic_error] = 'An unknown error occurred!'
+            redirect "/host/#{params[:id]}"
+          end
+        end
       end
     end
   end

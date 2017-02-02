@@ -3,7 +3,9 @@
     %h6.dashhead-subtitle Host
     %h3.dashhead-title=host.hostname
   .dashhead-toolbar
-    .input-with-icon.dashhead-toolbar-item
+    .btn-group.dashhead-toolbar-item.btn-group-thirds
+      %a.btn.btn-outline-primary.active{:href => "/host/#{host.id}/edit"} Edit
+    .input-with-icon.dashhead-toolbar-item{:style => 'display: none;'}
       %input.form-control{'data-date-format' => 'yyyy-mm-dd', 'data-provide' => 'datepicker', :type => 'text', :value => Date.today}
       %span.icon.icon-calendar
 %ul.nav.nav-bordered.mt-4.mt-md-2.mb-0.clearfix{:role => 'tablist'}
