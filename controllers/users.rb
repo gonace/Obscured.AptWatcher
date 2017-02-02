@@ -16,10 +16,10 @@ module Obscured
         get '/me' do
           authenticated?
 
-          redirect "/users/#{current_user.id}"
+          redirect "/users/#{current_user.id}/view"
         end
 
-        get '/:id' do
+        get '/:id/view' do
           authenticated?
 
           begin

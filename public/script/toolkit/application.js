@@ -5,7 +5,7 @@ var App = {
   init: function () {
     App._tableSorters()
     App._tooltips()
-    App._navDoc()
+    //App._navDoc()
 
     $(window).on('resize', App._tooltips)
 
