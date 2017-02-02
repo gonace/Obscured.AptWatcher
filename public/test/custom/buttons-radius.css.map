@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAIA,SAAU;EACR,YAAY,EAAE,MAAM;EACpB,aAAa,EAAE,MAAM;EACrB,aAAa,EAAE,MAAM;;AAGvB,WAAY;EACV,aAAa,EAAE,CAAC",
-"sources": ["../../../scss/custom/buttons-radius.scss"],
-"names": [],
-"file": "buttons-radius.css"
-}
