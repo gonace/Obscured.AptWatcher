@@ -49,6 +49,14 @@ if Sinatra::Doorman::User.count == 0
   user.set_title(Sinatra::Doorman::Utils::Titles::GUARDIAN)
   user.save
 end
+###
+# Geolocation, defaults
+###
+Geocoder.configure(
+  lookup: :google,
+  timeout: 60,
+  units: :km
+)
 
 ###
 # Routes
