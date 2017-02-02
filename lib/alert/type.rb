@@ -3,6 +3,7 @@ module Obscured
     module Type
       SYSTEM = :system
       HOST = :host
+      PACKAGES = :packages
       TRANSPORT = :transport
     end
   end
