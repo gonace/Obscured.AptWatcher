@@ -54,11 +54,11 @@ module Obscured
 
             if user_email.empty?
               flash.now[:save_error] = 'We need an email address to create the user!'
-              haml :create, :locals => { :user => user }
+              return haml :create, :locals => { :user => user }
             else
               unless Sinatra::Doorman::User.get_by_username(user_email).nil?
                 flash.now[:save_error] = 'The username/email does already exists please change e-mail address!'
-                haml :create, :locals => { :user => user }
+                return haml :create, :locals => { :user => user }
               end
             end
             if password_new.empty? or password_verify.empty?
@@ -67,9 +67,17 @@ module Obscured
             else
               unless password_new == password_verify
                 flash.now[:save_error] = "The password verification does not match the password you've entered!"
-                haml :create, :locals => { :user => user }
+                return haml :create, :locals => { :user => user }
               end
             end
+
+
+            #puts 'DEBUG'
+            #password_strength = PasswordStrength.test(user.username, password_new)
+            #pp password_strength
+            #pp password_strength.status
+            #pp password_strength.valid?(:strong)
+            #puts '/DEBUG'
 
             user = Sinatra::Doorman::User.make({:username => user_email, :password => password_new})
             unless user_firstname.empty? or user_lastname.empty?
@@ -83,7 +91,7 @@ module Obscured
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
 
             flash.now[:save_error] = "We're sad to announce that we could not create the user for an unknown reason"
-            haml :create, :locals => { :user => user }
+            return haml :create, :locals => { :user => user }
           end
         end
 

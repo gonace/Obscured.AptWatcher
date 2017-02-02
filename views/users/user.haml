@@ -4,7 +4,7 @@
     %h2.dashhead-title=user.name
   .btn-toolbar.dashhead-toolbar
     .btn-toolbar-item.mr-2
-      %img.rounded-circle{:alt => user.username, :src => "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(user.username)}?d=http://img07.deviantart.net/3722/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png"}
+      %img.rounded-circle{:style => 'max-width: 50px;', :alt => user.username, :src => "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(user.username)}?d=http://img07.deviantart.net/3722/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png"}
 
 - if flash[:save_ok]
   .alert.alert-success.mt-2
@@ -27,7 +27,7 @@
   .form-group
     .row
       .col-12
-        %input.form-control{:placeholder => 'Email', :name => 'user_email', :value => user.username, :type => 'email'}
+        %input#inputUsername.form-control{:placeholder => 'Email', :name => 'user_email', :value => user.username, :type => 'email'}
   %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
 
 %form{:action => "/users/#{user.id}/password/update", :method => 'post'}
@@ -35,6 +35,7 @@
     %h3.hr-divider-content.hr-divider-heading Password
   .form-group
     .row
+      .col-12#passwordStrength.mb-2
       .col-6
         %input#inputPassword.form-control{'aria-describedby' => 'passwordHelpBlock', :name => 'password_new', :placeholder => 'New password', :type => 'password'}
       .col-6
@@ -48,3 +49,8 @@
 .hr-divider.my-4
   %h3.hr-divider-content.hr-divider-heading History
 = haml :'../shared/partials/history', :locals => {:history => user.history_logs}
+
+:javascript
+  jQuery(document).ready(function() {
+    Obscured.Password.Attach({username: '#inputUsername', element: jQuery('#inputPassword'), template: '#password-progress', wrapper: '#passwordStrength'});
+  });

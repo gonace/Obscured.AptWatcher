@@ -24,11 +24,12 @@
   .form-group
     .row
       .col-12
-        %input.form-control{:placeholder => 'Email', :name => 'user_email', :value => (defined? user) ? user.username : '', :type => 'email'}
+        %input#inputUsername.form-control{:placeholder => 'Email', :name => 'user_email', :value => (defined? user) ? user.username : '', :type => 'email'}
   .hr-divider.my-4
     %h3.hr-divider-content.hr-divider-heading Password
   .form-group
     .row
+      %div#passwordStrength
       .col-6
         %input#inputPassword.form-control{'aria-describedby' => 'passwordHelpBlock', :name => 'password_new', :placeholder => 'New password', :type => 'password'}
       .col-6
@@ -38,3 +39,8 @@
         %p#passwordHelpBlock.form-text.text-muted
           Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
   %button.btn.btn-primary.btn-pill{:type => 'submit'} Create
+
+:javascript
+  jQuery(document).ready(function() {
+    Obscured.Password.Attach({username: '#inputUsername', element: jQuery('#inputPassword'), template: '#password-progress', wrapper: '#passwordStrength'});
+  });

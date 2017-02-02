@@ -1,6 +1,7 @@
 require 'bcrypt'
-require 'mongoid'
 require 'json'
+require 'mongoid'
+require 'password_strength'
 require 'rack/cache'
 require 'rack-flash'
 require 'slack-notifier'
