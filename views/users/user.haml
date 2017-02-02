@@ -15,35 +15,35 @@
     %strong Oh snap!
     = flash[:save_error]
 
-%form{:action => "/users/#{user.id}/basics/update", :method => 'post'}
+%form#formBasics{:action => "/users/#{user.id}/basics/update", :method => 'post'}
   .hr-divider.my-4
     %h3.hr-divider-content.hr-divider-heading Basics
   .form-group
     .row
       .col-6
-        %input.form-control{:placeholder => 'First name', :name => 'user_firstname', :value => user.first_name, :type => 'text'}
+        %input.form-control{:placeholder => 'First name', :name => 'user_firstname', :value => user.first_name, :type => 'text', 'data-rule-required' => 'true'}
       .col-6
-        %input.form-control{:placeholder => 'Last name', :name => 'user_lastname', :value => user.last_name, :type => 'text'}
+        %input.form-control{:placeholder => 'Last name', :name => 'user_lastname', :value => user.last_name, :type => 'text', 'data-rule-required' => 'true'}
   .form-group
     .row
       .col-12
-        %input#inputUsername.form-control{:placeholder => 'Email', :name => 'user_email', :value => user.username, :type => 'email'}
+        %input#inputUsername.form-control{:placeholder => 'Email', :name => 'user_email', :value => user.username, :type => 'email', 'data-msg-email' => 'Please enter a valid email address', 'data-rule-required' => 'true', 'data-rule-email' => 'true'}
   %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
 
-%form{:action => "/users/#{user.id}/password/update", :method => 'post'}
+%form#formPassword{:action => "/users/#{user.id}/password/update", :method => 'post'}
   .hr-divider.my-4
     %h3.hr-divider-content.hr-divider-heading Password
   .form-group
     .row
       .col-12#passwordStrength.mb-2
       .col-6
-        %input#inputPassword.form-control{'aria-describedby' => 'passwordHelpBlock', :name => 'password_new', :placeholder => 'New password', :type => 'password'}
+        %input#inputPassword.form-control{'aria-describedby' => 'passwordHelpBlock', :name => 'password_new', :placeholder => 'New password', :type => 'password', :required => ''}
       .col-6
-        %input#inputVerifyPassword.form-control{'aria-describedby' => 'passwordHelpBlock', :name => 'password_verify', :placeholder => 'Verify password', :type => 'password'}
+        %input#inputVerifyPassword.form-control{'aria-describedby' => 'passwordHelpBlock', :name => 'password_verify', :placeholder => 'Verify password', :type => 'password', :required => ''}
     .row
       .col-12
         %p#passwordHelpBlock.form-text.text-muted
-          Your password must be 4-16 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+          Your password must be 6-22 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
   %button.btn.btn-primary.btn-pill{:type => 'submit'} Change password
 
 .hr-divider.my-4
@@ -52,5 +52,21 @@
 
 :javascript
   jQuery(document).ready(function() {
+    jQuery('#formBasics').validate();
+
+    jQuery('#formPassword').validate({
+      rules: {
+        password_new: {
+          maxlength: 22,
+          minlength: 6
+        },
+        password_verify: {
+          maxlength: 22,
+          minlength: 6,
+          equalTo: "#inputPassword"
+        }
+      }
+    });
+
     Obscured.Password.Attach({username: '#inputUsername', element: jQuery('#inputPassword'), template: '#password-progress', wrapper: '#passwordStrength'});
   });

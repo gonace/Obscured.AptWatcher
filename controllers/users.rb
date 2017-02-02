@@ -116,12 +116,12 @@ module Obscured
             user.save
 
             flash[:save_ok] = "We're glad to announce that we could successfully save the changes for (#{user.username})"
-            redirect "/users/#{user.id}"
+            redirect "/users/#{user.id}/view"
           rescue => e
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
 
             flash[:save_error] = "We're sad to announce that we could not save the changes for (#{user.username})"
-            redirect "/users/#{user.id}"
+            redirect "/users/#{user.id}/view"
           end
         end
 
@@ -146,12 +146,12 @@ module Obscured
             else
               flash[:save_error] = 'You have to provide a password!'
             end
-            redirect "/users/#{user.id}"
+            redirect "/users/#{user.id}/view"
           rescue => e
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
 
             flash[:save_error] = "We're sad to announce that we could not change password for (#{user.username})"
-            redirect "/users/#{user.id}"
+            redirect "/users/#{user.id}/view"
           end
         end
       end

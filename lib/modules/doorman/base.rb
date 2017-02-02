@@ -111,9 +111,10 @@ module Sinatra
           notify :success, 'Signed up: ' + user.confirm_token
           Pony.mail(
             :to => user.username,
-            :from => 'homer@adeprimo.se',
-            :subject => 'Activation for Homer 2.1',
-            :body => token_link('confirm', user),
+            :from => "aptwatcher@#{@smtp_domain}",
+            :subject => 'Account activation request',
+            :body => "You have to activate your account (#{user.username}) before using this service. " + token_link('confirm', user),
+            :html_body => '',
             :via => :smtp,
             :via_options => {
               :address        	    => @smtp_server,
@@ -249,9 +250,10 @@ module Sinatra
           user.forgot_password!
           Pony.mail(
             :to => user.username,
-            :from => 'homer@adeprimo.se',
-            :subject => 'Password reset for Homer 2.1',
-            :body => token_link('reset', user),
+            :from => "aptwatcher@#{@smtp_domain}",
+            :subject => 'Password change request',
+            :body => "We have received a password change request for your account (#{user.username}). " + token_link('reset', user),
+            :html_body => (haml :'/templates/password_reset', :locals => {:user => user.username, :link => token_link('reset', user)}, :layout => false),
             :via => :smtp,
             :via_options => {
               :address        	    => @smtp_server,
@@ -280,7 +282,7 @@ module Sinatra
             redirect '/doorman/login'
           end
 
-          haml :reset, :locals => { :confirm_token => user.confirm_token, :email => '' }
+          haml :reset, :locals => { :confirm_token => user.confirm_token, :email => user.username }
         end
 
         app.post '/doorman/reset' do
@@ -301,9 +303,28 @@ module Sinatra
             params['user']['password'],
             params['user']['password_confirmation'])
 
+
+
           unless success
             notify :error, :reset_unmatched_passwords
             redirect back
+          else
+            Pony.mail(
+              :to => user.username,
+              :from => "aptwatcher@#{@smtp_domain}",
+              :subject => 'Password change confirmation',
+              :body => "The password for your account (#{user.username}) was recently changed. This change was made from the following device or browser from: ",
+              :html_body => (haml :'/templates/password_confirmation', :locals => {:user => user.username, :browser => "#{request.browser} #{request.browser_version}", :location => request.location.city, :ip => request.ip, :system => "#{request.os} #{request.os_version}"}, :layout => false),
+              :via => :smtp,
+              :via_options => {
+                :address        	    => @smtp_server,
+                :port          	  	  => @smtp_port,
+                :enable_starttls_auto => true,
+                :user_name         	  => @smtp_username,
+                :password          	  => @smtp_password,
+                :authentication 	    => :plain,
+                :domain           	  => @smtp_domain
+              })
           end
 
           user.confirm_email!
@@ -320,6 +341,7 @@ module Sinatra
       register Base
       register RememberMe
       register ForgotPassword
+      use Rack::UserAgent
 
 
       def initialize(app, args)

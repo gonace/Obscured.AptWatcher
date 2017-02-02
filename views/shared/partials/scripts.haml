@@ -61,3 +61,22 @@
     // return the output of that result, or undefined if some error occured
     return result;
   });
+
+  // Set jQuery.validate settings for bootstrap integration
+  jQuery.validator.setDefaults({
+    highlight: function(element) {
+      jQuery(element).closest('.form-group').addClass('has-danger');
+    },
+    unhighlight: function(element) {
+      jQuery(element).closest('.form-group').removeClass('has-danger');
+    },
+    errorElement: 'span',
+    errorClass: 'form-control-feedback',
+    errorPlacement: function(error, element) {
+      if(element.parent('.input-group').length) {
+        error.insertAfter(element.parent());
+      } else {
+        error.insertAfter(element);
+      }
+    }
+  });

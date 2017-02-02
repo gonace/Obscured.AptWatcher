@@ -3,7 +3,7 @@
 .card.card-identity {
     background-color: #30343e;
     border-radius: 2px;
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
     margin: 0 auto;
     max-width: 350px;
     padding: 40px;
@@ -15,7 +15,6 @@
     -moz-border-radius: 150px;
     display: block;
     height: 96px;
-    margin-bottom: 10px;
     margin-left: auto;
     margin-right: auto;
     overflow: hidden;
@@ -23,6 +22,16 @@
     width: 96px;
 }
 .card.card-identity .card-mask img {
+    height: 100%;
+    width: 100%;
+}
+.card.card-identity .card-mask span {
+    background-color: #fff;
+    background-position: 50% 0;
+    background-repeat: no-repeat;
+    background-image: url('https://ssl.gstatic.com/accounts/ui/avatar_2x.png');
+    background-size: 100%;
+    position: absolute;
     height: 100%;
     width: 100%;
 }

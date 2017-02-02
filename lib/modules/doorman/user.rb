@@ -28,7 +28,6 @@ module Sinatra
 
       validates_presence_of :username
       validates_presence_of :password
-      #attr_protected :salt
 
       before_save :validate!
 
@@ -152,7 +151,7 @@ module Sinatra
         else
           self.password_confirmation  = new_password_confirmation
           self.password               = Password.create(new_password) if valid?
-          self.add_history_log('Password has been reset', Sinatra::Doorman::Utils::Types::HOMER)
+          self.add_history_log('Password has been reset', Sinatra::Doorman::Utils::Types::SYSTEM)
           self.save
         end
       end

@@ -17,18 +17,6 @@ body {
     display: table-cell;
     vertical-align: middle;
 }
-/*.cover-wrapper .cover-wrapper-inner .cover-container:after {
-    background-image: url('/img/homer-security.png');
-    background-repeat: no-repeat;
-    background-size: contain;
-    bottom: 0;
-    content: "";
-    display: block;
-    height: 300px;
-    position: absolute;
-    right: 0;
-    width: 245px;
-}*/
 .cover-wrapper .cover-wrapper-inner.baseline {
     vertical-align: baseline;
 }

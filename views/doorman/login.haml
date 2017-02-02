@@ -2,48 +2,49 @@
   .cover-wrapper-inner.baseline
     .cover-container
       .cover-inner
-        %span.text-center
-          %br/
-          %br/
-          %br/
+        %div.text-center.mt-5.mb-5
           %h1 Obscured.AptWatcher
           %p.lead
             To proceed,
             %code Doorman
             kind of demands an identity, the identity is simply your email address.
 
-        .card.card-identity
+        .card.card-identity.mb-3
           .card-mask
-            - if email
-              %img{:src => "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?s=200&d=http://img07.deviantart.net/3722/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png"}
+            - if email.nil?
+              %img{:src => "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?s=200&d=https://ssl.gstatic.com/accounts/ui/avatar_2x.png"}
             - else
-              %img{:src => '/img/homer-pool.png'}
-          %br/
-          %form{:action => '/doorman/login', :method => 'POST'}
+              %span
+
+          %form#formLogin.mt-4{:action => '/doorman/login', :method => 'POST'}
             - if flash[:success]
               %p.text-center.text-success= flash[:success]
             - if flash[:error]
               %p.text-center.text-danger= flash[:error]
-            %br/
+
             .form-group{:class => (flash[:email_error] or flash[:login_error]) ? 'has-error' : ''}
               %label.sr-only{:for => 'Email'} Enter your email
               - if flash[:login_error]
                 %label.control-label.small= flash[:login_error]
               - if flash[:email_error]
                 %label.control-label.small{:for => 'Email'}= flash[:email_error]
-              %input.form-control#Email{:autofocus => 'true', :name => 'user[login]', :placeholder => 'Enter your email', :type => 'email', :value => ''}
+              %input.form-control#Email{:autofocus => 'true', :name => 'user[login]', :placeholder => 'Enter your email', :type => 'email', :value => '', 'data-rule-required' => 'true'}
 
             .form-group{:class => (flash[:password_error] or flash[:login_error]) ? 'has-error' : ''}
               %label.sr-only{:for => 'Password'} Enter your password
               - if flash[:password_error]
                 %label.control-label.small{:for => 'Password'}= flash[:password_error]
-              %input.form-control#Password{:autofocus => 'true', :name => 'user[password]', :placeholder => 'Enter your password', :type => 'password', :value => ''}
+              %input.form-control#Password{:autofocus => 'true', :name => 'user[password]', :placeholder => 'Enter your password', :type => 'password', :value => '', 'data-rule-required' => 'true'}
 
-            %button.btn.btn-primary.btn-lg.btn-block{:type => 'submit'} Continue
+            %button.btn.btn-success.btn-pill.btn-block{:type => 'submit'} Next
 
-      %span.text-center
+      %div.text-center.mt-3
         %p
           %small
             Or if you forgot your password, reset it by clicking
             = succeed '!' do
               %a{:href => '/doorman/forgot'} here
+:javascript
+  jQuery(document).ready(function() {
+    jQuery('#formLogin').validate();
+  });

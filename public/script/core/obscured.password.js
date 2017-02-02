@@ -51,7 +51,7 @@ Obscured.Password = function ($) {
                     }
 
                     var contextModel = {
-                        progress: strength.score,
+                        progress: (strength.score < 10) ? 5 : strength.score,
                         theme: _class
                     };
                     Obscured.Template.Render({source: options.template, context: contextModel, parent: options.wrapper, method: 'insert'});
