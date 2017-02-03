@@ -22,17 +22,8 @@ require 'sinatra/namespace'
 require 'pp'
 require 'warden'
 
-# pull in the models, modules, helpers and controllers
-Dir.glob('./lib/{alert,common,helpers,package}/*.rb').sort.each { |file| require file }
-Dir.glob('./lib/*.rb').sort.each { |file| require file }
-Dir.glob('./lib/modules/*.rb').sort.each { |file| require file }
-Dir.glob('./models/*.rb').sort.each { |file| require file }
-Dir.glob('./controllers/*.rb').sort.each { |file| require file }
-Dir.glob('./controllers/api/*.rb').sort.each { |file| require file }
-Dir.glob('./controllers/api/collector/*.rb').sort.each { |file| require file }
-
 ###
-# Geocoder, configuration
+# Mongoid, configuration
 ###
 Mongoid.load_configuration(
 clients: {
@@ -44,6 +35,16 @@ clients: {
     }
   }
 })
+
+# pull in the models, modules, helpers and controllers
+Dir.glob('./lib/{alert,common,helpers,package}/*.rb').sort.each { |file| require file }
+Dir.glob('./lib/*.rb').sort.each { |file| require file }
+Dir.glob('./lib/modules/*.rb').sort.each { |file| require file }
+Dir.glob('./models/*.rb').sort.each { |file| require file }
+Dir.glob('./controllers/*.rb').sort.each { |file| require file }
+Dir.glob('./controllers/api/*.rb').sort.each { |file| require file }
+Dir.glob('./controllers/api/collector/*.rb').sort.each { |file| require file }
+
 ###
 # Geocoder, configuration
 ###
@@ -66,13 +67,14 @@ Obscured::Doorman.configure(
 )
 
 if Obscured::Doorman::User.count == 0
-  user = Obscured::Doorman::User.make({ :username => ENV['ADMIN_EMAIL'], :password => ENV['ADMIN_PASSWORD']})
+  user = Obscured::Doorman::User.make({:username => ENV['ADMIN_EMAIL'], :password => ENV['ADMIN_PASSWORD']})
   user.set_created_from(Obscured::Doorman::Types::SYSTEM)
   user.set_created_by(Obscured::Doorman::Types::CONSOLE)
   user.set_name('Homer', 'Simpson')
   user.set_title(Obscured::Doorman::Titles::GUARDIAN)
   user.save
 end
+
 
 ###
 # Routes
