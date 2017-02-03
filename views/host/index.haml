@@ -60,5 +60,5 @@
       %span.statcard-desc Last Updated
 %hr.my-4/
 .row
-  = haml :'../shared/partials/lists/scans', :locals => {:scans => scans}
-  = haml :'../shared/partials/lists/alerts', :locals => {:alerts => alerts}
+  = partial :'../shared/partials/lists/scans', :locals => {:scans => scans}
+  = partial :'../shared/partials/lists/alerts', :locals => {:alerts => alerts}
