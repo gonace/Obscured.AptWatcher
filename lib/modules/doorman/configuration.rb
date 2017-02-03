@@ -1,4 +1,4 @@
-module Sinatra
+module Obscured
   module Doorman
     ##
     # Configuration options should be set by passing a hash:
@@ -77,7 +77,7 @@ module Sinatra
       end
 
       def initialize # :nodoc
-        @data = Sinatra::Doorman::ConfigurationHash.new
+        @data = Obscured::Doorman::ConfigurationHash.new
         set_defaults
       end
 

@@ -14,8 +14,8 @@ module Obscured
             :key => 'rack.session',
             :path => '/',
             :secret => 'T58t2+6mYWAG$3TrUa@tWSm!s5+%HAWR'
-        use Sinatra::Doorman::Middleware
-        Sinatra::Doorman::Middleware.set :views, "#{File.dirname(__FILE__)}/../views/doorman"
+        use Obscured::Doorman::Middleware
+        Obscured::Doorman::Middleware.set :views, "#{File.dirname(__FILE__)}/../views/doorman"
         set :show_exceptions, :after_handler
 
         def warden_handler

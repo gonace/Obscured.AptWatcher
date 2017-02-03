@@ -8,7 +8,7 @@ module Obscured
         get '/' do
           authenticated?
 
-          users = Sinatra::Doorman::User.all
+          users = Obscured::Doorman::User.all
 
           haml :index, :locals => { :users => users }
         end
@@ -23,7 +23,7 @@ module Obscured
           authenticated?
 
           begin
-            user = Sinatra::Doorman::User.find(params[:id]) rescue redirect('/users')
+            user = Obscured::Doorman::User.find(params[:id]) rescue redirect('/users')
 
             haml :user, :locals => { :user => user }
           rescue => e
@@ -56,7 +56,7 @@ module Obscured
               flash.now[:save_error] = 'We need an email address to create the user!'
               return haml :create, :locals => { :user => user }
             else
-              unless Sinatra::Doorman::User.get_by_username(user_email).nil?
+              unless Obscured::Doorman::User.get_by_username(user_email).nil?
                 flash.now[:save_error] = 'The username/email does already exists please change e-mail address!'
                 return haml :create, :locals => { :user => user }
               end
@@ -71,7 +71,7 @@ module Obscured
               end
             end
 
-            user = Sinatra::Doorman::User.make({:username => user_email, :password => password_new})
+            user = Obscured::Doorman::User.make({:username => user_email, :password => password_new})
             unless user_firstname.empty? or user_lastname.empty?
               user.set_name(user_firstname, user_lastname)
             end
@@ -94,7 +94,7 @@ module Obscured
             raise Obscured::DomainError.new(:required_field_missing, what: ':id') if params[:id].empty?
 
             user_email,user_firstname,user_lastname = params.delete('user_email'), params.delete('user_firstname'), params.delete('user_lastname')
-            user = Sinatra::Doorman::User.find(params[:id]) rescue redirect('/')
+            user = Obscured::Doorman::User.find(params[:id]) rescue redirect('/')
 
             unless user_firstname.empty? and user_lastname.empty?
               user.set_name(user_firstname, user_lastname)
@@ -124,7 +124,7 @@ module Obscured
             raise Obscured::DomainError.new(:required_field_missing, what: ':id') if params[:id].empty?
 
             password_new,password_verify = params.delete('password_new'), params.delete('password_verify')
-            user = Sinatra::Doorman::User.find(params[:id]) rescue redirect('/users')
+            user = Obscured::Doorman::User.find(params[:id]) rescue redirect('/users')
 
             unless password_new.empty? and password_verify.empty?
               if password_new == password_verify

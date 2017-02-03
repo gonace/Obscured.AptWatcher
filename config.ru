@@ -55,7 +55,7 @@ Geocoder.configure(
 ###
 # Dorman, configuration
 ###
-Sinatra::Doorman.configure(
+Obscured::Doorman.configure(
   :confirmation => ENV['USER_CONFIRMATION'],
   :registration => ENV['USER_REGISTRATION'],
   :smtp_domain => ENV['SENDGRID_DOMAIN'],
@@ -65,12 +65,12 @@ Sinatra::Doorman.configure(
   :smtp_username => ENV['SENDGRID_USERNAME']
 )
 
-if Sinatra::Doorman::User.count == 0
-  user = Sinatra::Doorman::User.make({ :username => ENV['ADMIN_EMAIL'], :password => ENV['ADMIN_PASSWORD']})
-  user.set_created_from(Sinatra::Doorman::Utils::Types::SYSTEM)
-  user.set_created_by(Sinatra::Doorman::Utils::Types::CONSOLE)
+if Obscured::Doorman::User.count == 0
+  user = Obscured::Doorman::User.make({ :username => ENV['ADMIN_EMAIL'], :password => ENV['ADMIN_PASSWORD']})
+  user.set_created_from(Obscured::Doorman::Types::SYSTEM)
+  user.set_created_by(Obscured::Doorman::Types::CONSOLE)
   user.set_name('Homer', 'Simpson')
-  user.set_title(Sinatra::Doorman::Utils::Titles::GUARDIAN)
+  user.set_title(Obscured::Doorman::Titles::GUARDIAN)
   user.save
 end
 

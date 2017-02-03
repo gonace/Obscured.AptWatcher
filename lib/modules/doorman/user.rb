@@ -1,8 +1,8 @@
-module Sinatra
+module Obscured
   module Doorman
     class User
       include Mongoid::Document
-      include Sinatra::Doorman::TrackedEntity
+      include Obscured::Doorman::TrackedEntity
       include BCrypt
       store_in collection: 'users'
 
@@ -13,8 +13,8 @@ module Sinatra
       field :last_name,             type: String, :default => ''
       field :mobile,                type: String, :default => ''
 
-      field :title,                 type: String, :default => Sinatra::Doorman::Utils::Titles::APPRENTICE
-      field :role,                  type: Symbol, :default => Sinatra::Doorman::Utils::Roles::ADMIN
+      field :title,                 type: String, :default => Obscured::Doorman::Titles::APPRENTICE
+      field :role,                  type: Symbol, :default => Obscured::Doorman::Roles::ADMIN
 
       field :confirmed,             type: Boolean, :default => true
       field :confirm_token,         type: String
@@ -33,14 +33,14 @@ module Sinatra
 
       def self.make(opts)
         if User.where(:username => opts[:username]).exists?
-          raise Obscured::DomainError.new(:already_exists, what: 'User does already exists!')
+          raise Obscured::Doorman::DomainError.new(:already_exists, what: 'User does already exists!')
         end
 
         user = self.new
         user.username = opts[:username]
         user.password = Password.create(opts[:password])
-        user.set_created_by(Sinatra::Doorman::Utils::Types::SYSTEM)
-        user.add_history_log('User created', Sinatra::Doorman::Utils::Types::SYSTEM)
+        user.set_created_by(Obscured::Doorman::Types::SYSTEM)
+        user.add_history_log('User created', Obscured::Doorman::Types::SYSTEM)
 
         unless opts[:confirmed].nil?
           user.confirmed = opts[:confirmed]
@@ -72,7 +72,7 @@ module Sinatra
 
       def set_username(username)
         if User.where(:username => username).exists?
-          raise Obscured::DomainError.new(:already_exists, what: 'user')
+          raise Obscured::Doorman::DomainError.new(:already_exists, what: 'user')
         end
 
         self.username = username
@@ -101,11 +101,11 @@ module Sinatra
 
       def set_password(password)
         self.password = Password.create(password)
-        self.add_history_log('Password has been changed', Sinatra::Doorman::Utils::Types::SYSTEM)
+        self.add_history_log('Password has been changed', Obscured::Doorman::Types::SYSTEM)
       end
 
       def set_created_from(created_from)
-        raise Obscured::DomainError.new(:created_from_already_set) unless self[:created_from].blank?
+        raise Obscured::Doorman::DomainError.new(:created_from_already_set) unless self[:created_from].blank?
         self.created_from = created_from
       end
 
@@ -156,7 +156,7 @@ module Sinatra
         else
           self.password_confirmation  = new_password_confirmation
           self.password               = Password.create(new_password) if valid?
-          self.add_history_log('Password has been reset', Sinatra::Doorman::Utils::Types::SYSTEM)
+          self.add_history_log('Password has been reset', Obscured::Doorman::Types::SYSTEM)
           self.save
         end
       end
