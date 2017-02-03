@@ -33,7 +33,7 @@ module Sinatra
 
       def self.make(opts)
         if User.where(:username => opts[:username]).exists?
-          raise Obscured::DomainError.new(:already_exists, what: 'user')
+          raise Obscured::DomainError.new(:already_exists, what: 'User does already exists!')
         end
 
         user = self.new
@@ -41,6 +41,11 @@ module Sinatra
         user.password = Password.create(opts[:password])
         user.set_created_by(Sinatra::Doorman::Utils::Types::SYSTEM)
         user.add_history_log('User created', Sinatra::Doorman::Utils::Types::SYSTEM)
+
+        unless opts[:confirmed].nil?
+          user.confirmed = opts[:confirmed]
+        end
+
         user
       end
 

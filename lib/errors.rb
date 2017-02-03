@@ -54,15 +54,6 @@ module Obscured
     end
   end
 
-  class AccountFrozenError < DomainError
-    attr_reader :time_until_activation
-
-    def initialize(activation_time)
-      @time_until_activation = ((activation_time.to_i - DateTime.now.to_i)).ceil
-      super(:account_authentication_frozen, :error_data => { :time_until_activation => @time_until_activation})
-    end
-  end
-
   class InvalidPasswordError < DomainError
     attr_reader :attempts_left
 

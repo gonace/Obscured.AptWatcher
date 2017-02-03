@@ -48,7 +48,7 @@
 
 .hr-divider.my-4
   %h3.hr-divider-content.hr-divider-heading History
-= haml :'../shared/partials/history', :locals => {:history => user.history_logs}
+= partial :'../shared/partials/history', :locals => {:history => user.history_logs}
 
 :javascript
   jQuery(document).ready(function() {

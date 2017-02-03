@@ -10,8 +10,8 @@
             kind of demands an email address, so the mail end up in the right place.
 
         .card.card-identity.mb-3
-          .card-mask
-            - if email.nil?
+          .card-mask#userMask
+            - if (defined? email) && !email.nil?
               %img{:src => "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?s=200&d=https://ssl.gstatic.com/accounts/ui/avatar_2x.png"}
             - else
               %span
@@ -34,5 +34,12 @@
 
 :javascript
   jQuery(document).ready(function() {
+    jQuery('#Email').on('focusout', function(e) {
+      var wrapper = jQuery('#userMask'),
+          email = jQuery(e.target).val();
+
+      wrapper.html('<img src="http://www.gravatar.com/avatar/' + md5(email) + '?s=200&amp;d=https://ssl.gstatic.com/accounts/ui/avatar_2x.png">')
+    });
+
     jQuery('#formForgot').validate();
   });

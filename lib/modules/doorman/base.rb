@@ -59,13 +59,13 @@ module Sinatra
             action: 'auth/unauthenticated'
 
           manager.failure_app = lambda { |env|
-            env['x-rack.flash'][:error] = Messages[:auth_required] if defined?(Sinatra::Flash)
+            notify :error, Messages[:auth_required] if defined?(Sinatra::Flash)
             [302, { 'Location' => '/doorman/login' }, ['']]
           }
         end
         Warden::Manager.before_failure do |env,opts|
           # Because authentication failure can happen on any request but
-          # we handle it only under "post '/auth/unauthenticated'", we need
+          # we handle it only under "post '/doorman/unauthenticated'", we need
           # to change request to POST
           env['REQUEST_METHOD'] = 'POST'
           # And we need to do the following to work with  Rack::MethodOverride
@@ -76,45 +76,50 @@ module Sinatra
         Warden::Strategies.add(:password, PasswordStrategy)
 
         app.get '/doorman/register/?' do
-          ###
-          # Registration disabled
-          ###
-          #redirect '/organisations' if authenticated?
-          #haml :register
+          redirect '/home' if authenticated?
 
-          notify :error, 'Registration is disabled, contact team member for creation of account!'
-          redirect '/doorman/login'
+          puts 'DEBUG'
+          pp @registration
+          puts 'DEBUG'
+
+          unless @registration
+            notify :error, 'Registration is disabled, contact team member for creation of account!'
+            redirect '/doorman/login'
+          end
+
+          haml :register
         end
 
         app.post '/doorman/unauthenticated' do
           session[:return_to] = env['warden.options'][:attempted_path] if session[:return_to].nil?
-          redirect '/auth/login'
+          redirect '/doorman/login'
         end
 
         app.post '/doorman/register' do
-          ###
-          # Registration disabled
-          ###
-          notify :error, 'Registration is disabled, contact team member for creation of account!'
-          redirect '/doorman/login'
-
           redirect '/home' if authenticated?
 
-          user = User.make(params[:utils])
+          unless @registration
+            notify :error, 'Registration is disabled, contact team member for creation of account!'
+            redirect '/doorman/login'
+          end
 
-          unless user.save
-            notify :error, user.errors.first
+          begin
+            user = User.make({:username => params[:user][:login], :password => params[:user][:password], :confirmed => !@confirmation})
+            user.set_name(params[:user][:first_name], params[:user][:last_name])
+            user.save
+          rescue => e
+            notify :error, e.message
             redirect back
           end
 
           notify :success, :signup_success
-          notify :success, 'Signed up: ' + user.confirm_token
+          notify :success, 'Account successfully registered!'
           Pony.mail(
             :to => user.username,
             :from => "aptwatcher@#{@smtp_domain}",
             :subject => 'Account activation request',
             :body => "You have to activate your account (#{user.username}) before using this service. " + token_link('confirm', user),
-            :html_body => '',
+            :html_body => (haml :'/templates/account_activation', :locals => {:user => user.username, :link => token_link('confirm', user)}, :layout => false),
             :via => :smtp,
             :via_options => {
               :address        	    => @smtp_server,
@@ -126,7 +131,7 @@ module Sinatra
               :domain           	  => @smtp_domain
           })
 
-          redirect '/'
+          redirect "/doorman/login?email=#{user.username}"
         end
 
         app.get '/doorman/confirm/:token/?' do
@@ -149,17 +154,28 @@ module Sinatra
 
         app.get '/doorman/login/?' do
           redirect '/home' if authenticated?
-          haml :login, locals: {:email => ''}
+
+          email = cookies[:email]
+          if email.empty?
+            email = params[:email] rescue ''
+          end
+
+          haml :login, locals: {:email => email}
         end
 
         app.post '/doorman/login' do
           env['warden'].authenticate(:password)
+
+          # Set cookie
+          cookies[:email] = params['user']['login']
+
           redirect back
         end
 
         app.get '/doorman/logout/?' do
           env['warden'].logout(:default)
           notify :success, :logout_success
+
           redirect '/doorman/login'
         end
       end
@@ -303,8 +319,6 @@ module Sinatra
             params['user']['password'],
             params['user']['password_confirmation'])
 
-
-
           unless success
             notify :error, :reset_unmatched_passwords
             redirect back
@@ -342,6 +356,7 @@ module Sinatra
       register Base
       register RememberMe
       register ForgotPassword
+      helpers Sinatra::Cookies
       use Rack::UserAgent
 
 
@@ -353,12 +368,18 @@ module Sinatra
         raise ArgumentError, 'A SMTP username must be provided' if args[:smtp_username].nil?
         raise ArgumentError, 'A SMTP password must be provided' if args[:smtp_password].nil?
 
+        @registration = to_boolean(args[:registration]) rescue false
+        @confirmation = to_boolean(args[:confirmation]) rescue true
 
         @smtp_server = args[:smtp_server] rescue 'smtp.sendgrid.net'
         @smtp_port = args[:smtp_port] rescue '587'
         @smtp_domain = args[:smtp_domain]
         @smtp_username = args[:smtp_username]
         @smtp_password = args[:smtp_password]
+
+        def to_boolean(str)
+          str == 'true'
+        end
       end
     end
   end
