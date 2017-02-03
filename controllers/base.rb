@@ -14,13 +14,7 @@ module Obscured
             :key => 'rack.session',
             :path => '/',
             :secret => 'T58t2+6mYWAG$3TrUa@tWSm!s5+%HAWR'
-        use Sinatra::Doorman::Middleware, :confirmation => ENV['USER_CONFIRMATION'],
-                                          :registration => ENV['USER_REGISTRATION'],
-                                          :smtp_domain => ENV['SENDGRID_DOMAIN'],
-                                          :smtp_server => ENV['SENDGRID_SERVER'],
-                                          :smtp_port => ENV['SENDGRID_PORT'],
-                                          :smtp_username => ENV['SENDGRID_USERNAME'],
-                                          :smtp_password => ENV['SENDGRID_PASSWORD']
+        use Sinatra::Doorman::Middleware
         Sinatra::Doorman::Middleware.set :views, "#{File.dirname(__FILE__)}/../views/doorman"
         set :show_exceptions, :after_handler
 

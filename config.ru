@@ -22,6 +22,15 @@ require 'sinatra/namespace'
 require 'pp'
 require 'warden'
 
+# pull in the models, modules, helpers and controllers
+Dir.glob('./lib/{alert,common,helpers,package}/*.rb').sort.each { |file| require file }
+Dir.glob('./lib/*.rb').sort.each { |file| require file }
+Dir.glob('./lib/modules/*.rb').sort.each { |file| require file }
+Dir.glob('./models/*.rb').sort.each { |file| require file }
+Dir.glob('./controllers/*.rb').sort.each { |file| require file }
+Dir.glob('./controllers/api/*.rb').sort.each { |file| require file }
+Dir.glob('./controllers/api/collector/*.rb').sort.each { |file| require file }
+
 ###
 # Geocoder, configuration
 ###
@@ -39,19 +48,22 @@ clients: {
 # Geocoder, configuration
 ###
 Geocoder.configure(
-    lookup: :google,
-    timeout: 60,
-    units: :km
+  lookup: :google,
+  timeout: 60,
+  units: :km
 )
-
-# pull in the models, modules, helpers and controllers
-Dir.glob('./lib/{alert,common,helpers,package}/*.rb').sort.each { |file| require file }
-Dir.glob('./lib/*.rb').sort.each { |file| require file }
-Dir.glob('./lib/modules/*.rb').sort.each { |file| require file }
-Dir.glob('./models/*.rb').sort.each { |file| require file }
-Dir.glob('./controllers/*.rb').sort.each { |file| require file }
-Dir.glob('./controllers/api/*.rb').sort.each { |file| require file }
-Dir.glob('./controllers/api/collector/*.rb').sort.each { |file| require file }
+###
+# Dorman, configuration
+###
+Sinatra::Doorman.configure(
+  :confirmation => ENV['USER_CONFIRMATION'],
+  :registration => ENV['USER_REGISTRATION'],
+  :smtp_domain => ENV['SENDGRID_DOMAIN'],
+  :smtp_server => ENV['SENDGRID_SERVER'],
+  :smtp_password => ENV['SENDGRID_PASSWORD'],
+  :smtp_port => ENV['SENDGRID_PORT'],
+  :smtp_username => ENV['SENDGRID_USERNAME']
+)
 
 if Sinatra::Doorman::User.count == 0
   user = Sinatra::Doorman::User.make({ :username => ENV['ADMIN_EMAIL'], :password => ENV['ADMIN_PASSWORD']})
