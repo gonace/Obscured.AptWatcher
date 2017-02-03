@@ -23,7 +23,7 @@ require 'pp'
 require 'warden'
 
 ###
-# Geocoder, configuration
+# Mongoid, configuration
 ###
 Mongoid.load_configuration(
 clients: {
@@ -35,14 +35,6 @@ clients: {
     }
   }
 })
-###
-# Geocoder, configuration
-###
-Geocoder.configure(
-    lookup: :google,
-    timeout: 60,
-    units: :km
-)
 
 # pull in the models, modules, helpers and controllers
 Dir.glob('./lib/{alert,common,helpers,package}/*.rb').sort.each { |file| require file }
@@ -53,14 +45,36 @@ Dir.glob('./controllers/*.rb').sort.each { |file| require file }
 Dir.glob('./controllers/api/*.rb').sort.each { |file| require file }
 Dir.glob('./controllers/api/collector/*.rb').sort.each { |file| require file }
 
-if Sinatra::Doorman::User.count == 0
-  user = Sinatra::Doorman::User.make({ :username => ENV['ADMIN_EMAIL'], :password => ENV['ADMIN_PASSWORD']})
-  user.set_created_from(Sinatra::Doorman::Utils::Types::SYSTEM)
-  user.set_created_by(Sinatra::Doorman::Utils::Types::CONSOLE)
+###
+# Geocoder, configuration
+###
+Geocoder.configure(
+  lookup: :google,
+  timeout: 60,
+  units: :km
+)
+###
+# Doorman, configuration
+###
+Obscured::Doorman.configure(
+  :confirmation => ENV['USER_CONFIRMATION'],
+  :registration => ENV['USER_REGISTRATION'],
+  :smtp_domain => ENV['SENDGRID_DOMAIN'],
+  :smtp_server => ENV['SENDGRID_SERVER'],
+  :smtp_password => ENV['SENDGRID_PASSWORD'],
+  :smtp_port => ENV['SENDGRID_PORT'],
+  :smtp_username => ENV['SENDGRID_USERNAME']
+)
+
+if Obscured::Doorman::User.count == 0
+  user = Obscured::Doorman::User.make({:username => ENV['ADMIN_EMAIL'], :password => ENV['ADMIN_PASSWORD']})
+  user.set_created_from(Obscured::Doorman::Types::SYSTEM)
+  user.set_created_by(Obscured::Doorman::Types::CONSOLE)
   user.set_name('Homer', 'Simpson')
-  user.set_title(Sinatra::Doorman::Utils::Titles::GUARDIAN)
+  user.set_title(Obscured::Doorman::Titles::GUARDIAN)
   user.save
 end
+
 
 ###
 # Routes

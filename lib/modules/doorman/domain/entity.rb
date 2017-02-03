@@ -1,4 +1,4 @@
-module Sinatra
+module Obscured
   module Doorman
     # provides simple tracking to entities by adding fields for storing dates for creating/updating entities
     # as well as setting username for updates

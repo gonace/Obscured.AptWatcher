@@ -2,7 +2,7 @@ require 'sinatra/base'
 require 'warden'
 require 'pony'
 
-module Sinatra
+module Obscured
   module Doorman
     class Warden::SessionSerializer
       def serialize(user); user.id; end
@@ -78,11 +78,7 @@ module Sinatra
         app.get '/doorman/register/?' do
           redirect '/home' if authenticated?
 
-          puts 'DEBUG'
-          pp @registration
-          puts 'DEBUG'
-
-          unless @registration
+          unless Obscured::Doorman.config.registration
             notify :error, 'Registration is disabled, contact team member for creation of account!'
             redirect '/doorman/login'
           end
@@ -98,13 +94,13 @@ module Sinatra
         app.post '/doorman/register' do
           redirect '/home' if authenticated?
 
-          unless @registration
+          unless Obscured::Doorman.config.registration
             notify :error, 'Registration is disabled, contact team member for creation of account!'
             redirect '/doorman/login'
           end
 
           begin
-            user = User.make({:username => params[:user][:login], :password => params[:user][:password], :confirmed => !@confirmation})
+            user = User.make({:username => params[:user][:login], :password => params[:user][:password], :confirmed => !Obscured::Doorman.config.confirmation})
             user.set_name(params[:user][:first_name], params[:user][:last_name])
             user.save
           rescue => e
@@ -116,19 +112,19 @@ module Sinatra
           notify :success, 'Account successfully registered!'
           Pony.mail(
             :to => user.username,
-            :from => "aptwatcher@#{@smtp_domain}",
+            :from => "aptwatcher@#{Obscured::Doorman.config.smtp_domain}",
             :subject => 'Account activation request',
             :body => "You have to activate your account (#{user.username}) before using this service. " + token_link('confirm', user),
             :html_body => (haml :'/templates/account_activation', :locals => {:user => user.username, :link => token_link('confirm', user)}, :layout => false),
             :via => :smtp,
             :via_options => {
-              :address        	    => @smtp_server,
-              :port          	  	  => @smtp_port,
+              :address        	    => Obscured::Doorman.config.smtp_server,
+              :port          	  	  => Obscured::Doorman.config.smtp_port,
               :enable_starttls_auto => true,
-              :user_name         	  => @smtp_username,
-              :password          	  => @smtp_password,
+              :user_name         	  => Obscured::Doorman.config.smtp_username,
+              :password          	  => Obscured::Doorman.config.smtp_password,
               :authentication 	    => :plain,
-              :domain           	  => @smtp_domain
+              :domain           	  => Obscured::Doorman.config.smtp_domain
           })
 
           redirect "/doorman/login?email=#{user.username}"
@@ -258,7 +254,7 @@ module Sinatra
             notify :error, :forgot_no_user
             redirect back
           end
-          if user.role.to_sym == Sinatra::Doorman::Utils::Roles::SYSTEM
+          if user.role.to_sym == Obscured::Doorman::Roles::SYSTEM
             notify :error, :reset_system_user
             redirect '/doorman/forgot'
           end
@@ -266,19 +262,19 @@ module Sinatra
           user.forgot_password!
           Pony.mail(
             :to => user.username,
-            :from => "aptwatcher@#{@smtp_domain}",
+            :from => "aptwatcher@#{Obscured::Doorman.config.smtp_domain}",
             :subject => 'Password change request',
             :body => "We have received a password change request for your account (#{user.username}). " + token_link('reset', user),
             :html_body => (haml :'/templates/password_reset', :locals => {:user => user.username, :link => token_link('reset', user)}, :layout => false),
             :via => :smtp,
             :via_options => {
-              :address        	    => @smtp_server,
-              :port          	  	  => @smtp_port,
+              :address        	    => Obscured::Doorman.config.smtp_server,
+              :port          	  	  => Obscured::Doorman.config.smtp_port,
               :enable_starttls_auto => true,
-              :user_name         	  => @smtp_username,
-              :password          	  => @smtp_password,
+              :user_name         	  => Obscured::Doorman.config.smtp_username,
+              :password          	  => Obscured::Doorman.config.smtp_password,
               :authentication 	    => :plain,
-              :domain           	  => @smtp_domain
+              :domain           	  => Obscured::Doorman.config.smtp_domain
             })
           notify :success, :forgot_success
           redirect '/doorman/login'
@@ -310,7 +306,7 @@ module Sinatra
             notify :error, :reset_no_user
             redirect '/doorman/login'
           end
-          if user.role.to_sym == Sinatra::Doorman::Utils::Roles::SYSTEM
+          if user.role.to_sym == Obscured::Doorman::Roles::SYSTEM
             notify :error, :reset_system_user
             redirect '/doorman/login'
           end
@@ -326,19 +322,19 @@ module Sinatra
             geo_position = Geocoder.search(request.ip)
             Pony.mail(
               :to => user.username,
-              :from => "aptwatcher@#{@smtp_domain}",
+              :from => "aptwatcher@#{Obscured::Doorman.config.smtp_domain}",
               :subject => 'Password change confirmation',
               :body => "The password for your account (#{user.username}) was recently changed. This change was made from the following device or browser from: ",
               :html_body => (haml :'/templates/password_confirmation', :locals => {:user => user.username, :browser => "#{request.browser} #{request.browser_version}", :location => "#{geo_position.first.city rescue ''},#{geo_position.first.country rescue ''}", :ip => request.ip, :system => "#{request.os} #{request.os_version}"}, :layout => false),
               :via => :smtp,
               :via_options => {
-                :address        	    => @smtp_server,
-                :port          	  	  => @smtp_port,
+                :address        	    => Obscured::Doorman.config.smtp_server,
+                :port          	  	  => Obscured::Doorman.config.smtp_port,
                 :enable_starttls_auto => true,
-                :user_name         	  => @smtp_username,
-                :password          	  => @smtp_password,
+                :user_name         	  => Obscured::Doorman.config.smtp_username,
+                :password          	  => Obscured::Doorman.config.smtp_password,
                 :authentication 	    => :plain,
-                :domain           	  => @smtp_domain
+                :domain           	  => Obscured::Doorman.config.smtp_domain
               })
           end
 
@@ -358,29 +354,6 @@ module Sinatra
       register ForgotPassword
       helpers Sinatra::Cookies
       use Rack::UserAgent
-
-
-      def initialize(app, args)
-        super app
-        @args = args
-
-        raise ArgumentError, 'A SMTP domain must be provided' if args[:smtp_domain].nil?
-        raise ArgumentError, 'A SMTP username must be provided' if args[:smtp_username].nil?
-        raise ArgumentError, 'A SMTP password must be provided' if args[:smtp_password].nil?
-
-        @registration = to_boolean(args[:registration]) rescue false
-        @confirmation = to_boolean(args[:confirmation]) rescue true
-
-        @smtp_server = args[:smtp_server] rescue 'smtp.sendgrid.net'
-        @smtp_port = args[:smtp_port] rescue '587'
-        @smtp_domain = args[:smtp_domain]
-        @smtp_username = args[:smtp_username]
-        @smtp_password = args[:smtp_password]
-
-        def to_boolean(str)
-          str == 'true'
-        end
-      end
     end
   end
 end

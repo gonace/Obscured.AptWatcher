@@ -1,4 +1,4 @@
-module Sinatra
+module Obscured
   module Doorman
     class HistoryLog
       include Mongoid::Document

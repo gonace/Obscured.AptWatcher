@@ -11,6 +11,16 @@
   "repository": "https://github.com/gonace/Obscured.AptWatcher",
   "success_url": "/",
   "env": {
+    "USER_CONFIRMATION": {
+      "description": "Specifies if an account needs to be confirmed before accessing the service (default: false)",
+      "value": false,
+      "required": true
+    },
+    "USER_REGISTRATION": {
+      "description": "Specifies if registration is possible, this should only be turned on if the service is only reachable from an intranet (default: false)",
+      "value": false,
+      "required": true
+    },
     "ADMIN_EMAIL": {
       "description": "The username for the default administrator",
       "required": true
@@ -20,12 +30,12 @@
       "required": true
     },
     "API_USERNAME": {
-      "description": "The username to use for HTTP Basic authentication accessing the API",
+      "description": "The username to use for HTTP Basic authentication accessing the API (default: user)",
       "value": "user",
       "required": false
     },
     "API_PASSWORD": {
-      "description": "The password to use for HTTP Basic authentication accessing the API",
+      "description": "The password to use for HTTP Basic authentication accessing the API (default: password)",
       "value": "password",
       "required": false
     },
@@ -34,7 +44,7 @@
       "required": true
     },
     "SLACK_USER": {
-      "description": "The Slack user to use in notifications",
+      "description": "The Slack user to use in notifications (default: AptWatcher)",
       "value": "AptWatcher",
       "required": false
     },
@@ -43,7 +53,7 @@
       "required": true
     },
     "SLACK_ICON": {
-      "description": "The Slack icon to use in notifications",
+      "description": "The Slack icon to use in notifications (default: :slack:)",
       "value": ":slack:",
       "required": false
     },
@@ -52,12 +62,12 @@
       "required": false
     },
     "SENDGRID_SERVER": {
-      "description": "The server used when sending mail",
+      "description": "The server used when sending mail (default: smtp.sendgrid.net)",
       "value": "smtp.sendgrid.net",
       "required": false
     },
     "SENDGRID_PORT": {
-      "description": "The server port used when sending mail",
+      "description": "The server port used when sending mail (default: 587)",
       "value": "587",
       "required": false
     },

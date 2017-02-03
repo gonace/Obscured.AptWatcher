@@ -1,4 +1,4 @@
-module Sinatra
+module Obscured
   module Doorman
     Messages = {
       :auth_required => 'You must be logged in to view this page.',
