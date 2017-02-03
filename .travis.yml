@@ -1,3 +1,4 @@
 language: ruby
+bundler_args: --with development
 script:
   - "foreman start web"
