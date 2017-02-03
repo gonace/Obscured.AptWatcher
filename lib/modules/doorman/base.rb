@@ -156,7 +156,7 @@ module Sinatra
           redirect '/home' if authenticated?
 
           email = cookies[:email]
-          if email.empty?
+          if email.nil?
             email = params[:email] rescue ''
           end
 
