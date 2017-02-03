@@ -33,7 +33,7 @@ module Obscured
             alert.status = opts[:status]
           end
           unless opts[:type].nil?
-            raise Obscured::DomainError.new(:invalid_type, what: ':type') unless opts[:type].kind_of?(Obscured::Alert::Type)
+            #raise Obscured::DomainError.new(:invalid_type, what: ':type') unless opts[:type].kind_of?(Obscured::Alert::Type)
             alert.type = opts[:type]
           end
           unless opts[:notify].nil?

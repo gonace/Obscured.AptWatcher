@@ -1,3 +1,5 @@
+STDOUT.sync = true
+
 require 'bcrypt'
 require 'geocoder'
 require 'json'
@@ -20,7 +22,9 @@ require 'sinatra/namespace'
 require 'pp'
 require 'warden'
 
-STDOUT.sync = true
+###
+# Geocoder, configuration
+###
 Mongoid.load_configuration(
 clients: {
   default: {
@@ -31,6 +35,14 @@ clients: {
     }
   }
 })
+###
+# Geocoder, configuration
+###
+Geocoder.configure(
+    lookup: :google,
+    timeout: 60,
+    units: :km
+)
 
 # pull in the models, modules, helpers and controllers
 Dir.glob('./lib/{alert,common,helpers,package}/*.rb').sort.each { |file| require file }
@@ -49,14 +61,6 @@ if Sinatra::Doorman::User.count == 0
   user.set_title(Sinatra::Doorman::Utils::Titles::GUARDIAN)
   user.save
 end
-###
-# Geolocation, defaults
-###
-Geocoder.configure(
-  lookup: :google,
-  timeout: 60,
-  units: :km
-)
 
 ###
 # Routes
