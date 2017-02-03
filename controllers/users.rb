@@ -71,14 +71,6 @@ module Obscured
               end
             end
 
-
-            #puts 'DEBUG'
-            #password_strength = PasswordStrength.test(user.username, password_new)
-            #pp password_strength
-            #pp password_strength.status
-            #pp password_strength.valid?(:strong)
-            #puts '/DEBUG'
-
             user = Sinatra::Doorman::User.make({:username => user_email, :password => password_new})
             unless user_firstname.empty? or user_lastname.empty?
               user.set_name(user_firstname, user_lastname)
