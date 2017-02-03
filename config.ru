@@ -53,7 +53,7 @@ Geocoder.configure(
   units: :km
 )
 ###
-# Dorman, configuration
+# Doorman, configuration
 ###
 Obscured::Doorman.configure(
   :confirmation => ENV['USER_CONFIRMATION'],
