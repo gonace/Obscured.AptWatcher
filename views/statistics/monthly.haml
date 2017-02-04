@@ -27,12 +27,12 @@
         %h4 Active vs Inactive
       .col-md-4.mb-5
         .w-3.mx-auto
-          %canvas.ex-graph{'data-chart' => 'doughnut', 'data-dataset' => "[#{alerts_open},#{alerts_closed}]", 'data-dataset-options' => "{ borderColor: '#252830', backgroundColor: ['#e64759', '#1bc98e'] }", 'data-labels' => "['Open', 'Closed']", :height => '200', :width => '200'}
+          %canvas.ex-graph{'data-chart' => 'doughnut', 'data-dataset' => "[#{alerts_closed},#{alerts_open}]", 'data-dataset-options' => "{ borderColor: '#252830', backgroundColor: ['#1bc98e', '#e64759'] }", 'data-labels' => "['Closed', 'Open']", :height => '200', :width => '200'}
         %strong.text-muted Alerts
         %h4 Open vs Closed
       .col-md-4.mb-5
         .w-3.mx-auto
-          %canvas.ex-graph{'data-chart' => 'doughnut', 'data-dataset' => "[#{errors_open},#{errors_closed}]", 'data-dataset-options' => "{ borderColor: '#252830', backgroundColor: ['#e64759', '#1bc98e'] }", 'data-labels' => "['Open', 'Closed']", :height => '200', :width => '200'}
+          %canvas.ex-graph{'data-chart' => 'doughnut', 'data-dataset' => "[#{errors_closed},#{errors_open}]", 'data-dataset-options' => "{ borderColor: '#252830', backgroundColor: ['#1bc98e', '#e64759'] }", 'data-labels' => "['Closed', 'Open']", :height => '200', :width => '200'}
         %strong.text-muted Errors
         %h4 Open vs Closed
   #updates.tab-pane{:role => 'tabpanel'}

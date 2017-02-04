@@ -2,6 +2,7 @@ module Obscured
   module Doorman
     Messages = {
       :auth_required => 'You must be logged in to view this page.',
+      :signup_disabled => 'Registration is disabled, contact team member for creation of account!',
       :signup_success => 'You have signed up successfully. A confirmation email has been sent to you.',
       :confirm_no_token => 'Invalid confirmation URL.  Please make sure you have the correct link from the email.',
       :confirm_no_user => 'Invalid confirmation URL.  Please make sure you have the correct link from the email, and are not already confirmed.',

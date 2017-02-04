@@ -10,7 +10,7 @@ module Obscured
         end
 
         get '/' do
-          authenticated?
+          authorize!
 
           alerts = Obscured::AptWatcher::Models::Alert.where(:status => Obscured::Status::OPEN).order_by(created_at: :desc).limit(10)
           alerts_open = Obscured::AptWatcher::Models::Alert.where(:status => Obscured::Status::OPEN).count

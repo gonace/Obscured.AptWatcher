@@ -14,7 +14,6 @@ module Obscured
     #   * Signup with Email Confirmation
     #   * Login/Logout
     ##
-
     class PasswordStrategy < Warden::Strategies::Base
       def valid?
         params['user'] &&
@@ -22,31 +21,51 @@ module Obscured
           params['user']['password']
       end
 
+      # Authenticate a user against defined strategies
       def authenticate!
-        user = User.authenticate(params['user']['login'],params['user']['password'])
+        u = User.authenticate(params['user']['login'],params['user']['password'])
 
-        if user.nil?
-          fail!(:login_bad_credentials)
-        elsif !user.confirmed
-          fail!(:login_not_confirmed)
+        if u.nil?
+          fail!(Obscured::Doorman::Messages[:login_bad_credentials])
+        elsif !u.confirmed
+          fail!(Obscured::Doorman::Messages[:login_not_confirmed])
         else
-          success!(user)
+          success!(u)
         end
       end
     end
 
     module Base
       module Helpers
+        # The main accessor to the warden middleware
+        def warden
+          env['warden']
+        end
+
+        # Check the current session is authenticated to a given scope
         def authenticated?
-          env['warden'].authenticated?
+          warden.authenticated?
         end
         alias_method :logged_in?, :authenticated?
 
+        # Store the logged in user in the session
+        #
+        # @param [Object] user you want to store in the session
+        # @option opts [Symbol] :scope The scope to assign the user
+        # @example Set John as the current user
+        #   user = User.find_by_name('John')
+        def user=(user, opts={})
+          warden.set_user(user, opts)
+        end
+        alias_method :current_user=, :user=
+
+        # Generates a flash message by trying to fetch a default message, if that fails just pass the message
         def notify(type, message)
-          message = Messages[message] if message.is_a?(Symbol)
+          message = Obscured::Doorman::Messages[message] if message.is_a?(Symbol) else message
           flash[type] = message if defined?(Sinatra::Flash)
         end
 
+        # Generates a url for confirm account or reset password
         def token_link(type, user)
           "http://#{env['HTTP_HOST']}/doorman/#{type}/#{user.confirm_token}"
         end
@@ -56,11 +75,11 @@ module Obscured
         app.helpers Helpers
         app.use Warden::Manager do |manager|
           manager.scope_defaults :default,
-            action: 'auth/unauthenticated'
+            action: '/doorman/unauthenticated'
 
           manager.failure_app = lambda { |env|
-            notify :error, Messages[:auth_required] if defined?(Sinatra::Flash)
-            [302, { 'Location' => '/doorman/login' }, ['']]
+            notify :error, Obscured::Doorman[:auth_required] if defined?(Sinatra::Flash)
+            [302, { 'Location' => Obscured::Doorman.config.paths[:login] }, ['']]
           }
         end
         Warden::Manager.before_failure do |env,opts|
@@ -76,11 +95,11 @@ module Obscured
         Warden::Strategies.add(:password, PasswordStrategy)
 
         app.get '/doorman/register/?' do
-          redirect '/home' if authenticated?
+          redirect Obscured::Doorman.config.paths[:success] if authenticated?
 
           unless Obscured::Doorman.config.registration
-            notify :error, 'Registration is disabled, contact team member for creation of account!'
-            redirect '/doorman/login'
+            notify :error, :signup_disabled
+            redirect Obscured::Doorman.config.paths[:login]
           end
 
           haml :register
@@ -88,15 +107,15 @@ module Obscured
 
         app.post '/doorman/unauthenticated' do
           session[:return_to] = env['warden.options'][:attempted_path] if session[:return_to].nil?
-          redirect '/doorman/login'
+          redirect Obscured::Doorman.config.paths[:login]
         end
 
         app.post '/doorman/register' do
-          redirect '/home' if authenticated?
+          redirect Obscured::Doorman.config.paths[:success] if authenticated?
 
           unless Obscured::Doorman.config.registration
-            notify :error, 'Registration is disabled, contact team member for creation of account!'
-            redirect '/doorman/login'
+            notify :error, :signup_disabled
+            redirect Obscured::Doorman.config.paths[:login]
           end
 
           begin
@@ -109,7 +128,6 @@ module Obscured
           end
 
           notify :success, :signup_success
-          notify :success, 'Account successfully registered!'
           Pony.mail(
             :to => user.username,
             :from => "aptwatcher@#{Obscured::Doorman.config.smtp_domain}",
@@ -131,7 +149,7 @@ module Obscured
         end
 
         app.get '/doorman/confirm/:token/?' do
-          redirect '/home' if authenticated?
+          redirect Obscured::Doorman.config.paths[:success] if authenticated?
 
           if params[:token].nil? || params[:token].empty?
             notify :error, :confirm_no_token
@@ -145,11 +163,11 @@ module Obscured
             user.confirm_email!
             notify :success, :confirm_success
           end
-          redirect '/doorman/login'
+          redirect Obscured::Doorman.config.paths[:login]
         end
 
         app.get '/doorman/login/?' do
-          redirect '/home' if authenticated?
+          redirect Obscured::Doorman.config.paths[:success] if authenticated?
 
           email = cookies[:email]
           if email.nil?
@@ -160,28 +178,34 @@ module Obscured
         end
 
         app.post '/doorman/login' do
-          env['warden'].authenticate(:password)
+          warden.authenticate(:password)
 
           # Set cookie
           cookies[:email] = params['user']['login']
 
-          redirect back
+          # Notify if there are any messages from Warden.
+          unless warden.message.blank?
+            notify :error, warden.message
+          end
+
+          #redirect back
+          redirect Obscured::Doorman.config.use_referrer && session[:return_to] ? session.delete(:return_to) : Obscured::Doorman.config.paths[:success]
         end
 
         app.get '/doorman/logout/?' do
-          env['warden'].logout(:default)
+          warden.logout(:default)
           notify :success, :logout_success
 
-          redirect '/doorman/login'
+          redirect Obscured::Doorman.config.paths[:login]
         end
       end
     end
+
 
     ##
     # Remember Me Feature
     ##
     COOKIE_KEY = 'sinatra.doorman.remember'
-
     class RememberMeStrategy < Warden::Strategies::Base
       def valid?
         !!env['rack.cookies'][COOKIE_KEY]
@@ -203,7 +227,7 @@ module Obscured
         Warden::Strategies.add(:remember_me, RememberMeStrategy)
 
         app.before do
-          env['warden'].authenticate(:remember_me)
+          warden.authenticate(:remember_me)
         end
 
         Warden::Manager.after_authentication do |user, auth, opts|
@@ -213,7 +237,7 @@ module Obscured
             user.remember_me!  # new token
             auth.env['rack.cookies'][COOKIE_KEY] = {
               :value => user.remember_token,
-              :expires => Time.now + 7 * 24 * 3600,
+              :expires => Time.now + Obscured::Doorman.config.remember_for * 24 * 3600,
               :path => '/' }
           end
         end
@@ -225,10 +249,10 @@ module Obscured
       end
     end
 
+
     ##
     # Forgot Password Feature
     ##
-
     module ForgotPassword
       def self.registered(app)
         Warden::Manager.after_authentication do |user, auth, opts|
@@ -241,12 +265,18 @@ module Obscured
         end
 
         app.get '/doorman/forgot/?' do
-          redirect '/home' if authenticated?
-          haml :forgot, :locals => {:email => ''}
+          redirect Obscured::Doorman.config.paths[:success] if authenticated?
+
+          email = cookies[:email]
+          if email.nil?
+            email = params[:email] rescue ''
+          end
+
+          haml :forgot, :locals => {:email => email}
         end
 
         app.post '/doorman/forgot' do
-          redirect '/home' if authenticated?
+          redirect Obscured::Doorman.config.paths[:success] if authenticated?
           redirect '/' unless params['user']
 
           user = User.get_by_username(params['user']['login'])
@@ -256,7 +286,7 @@ module Obscured
           end
           if user.role.to_sym == Obscured::Doorman::Roles::SYSTEM
             notify :error, :reset_system_user
-            redirect '/doorman/forgot'
+            redirect Obscured::Doorman.config.paths[:forgot]
           end
 
           user.forgot_password!
@@ -277,11 +307,11 @@ module Obscured
               :domain           	  => Obscured::Doorman.config.smtp_domain
             })
           notify :success, :forgot_success
-          redirect '/doorman/login'
+          redirect Obscured::Doorman.config.paths[:login]
         end
 
         app.get '/doorman/reset/:token/?' do
-          redirect '/home' if authenticated?
+          redirect Obscured::Doorman.config.paths[:success] if authenticated?
 
           if params[:token].nil? || params[:token].empty?
             notify :error, :reset_no_token
@@ -291,24 +321,24 @@ module Obscured
           user = User.where({:confirm_token => params[:token]}).first
           if user.nil?
             notify :error, :reset_no_user
-            redirect '/doorman/login'
+            redirect Obscured::Doorman.config.paths[:login]
           end
 
           haml :reset, :locals => { :confirm_token => user.confirm_token, :email => user.username }
         end
 
         app.post '/doorman/reset' do
-          redirect '/home' if authenticated?
+          redirect Obscured::Doorman.config.paths[:success] if authenticated?
           redirect '/' unless params['user']
 
           user = User.where({:confirm_token => params[:user][:confirm_token]}).first rescue nil
           if user.nil?
             notify :error, :reset_no_user
-            redirect '/doorman/login'
+            redirect Obscured::Doorman.config.paths[:login]
           end
           if user.role.to_sym == Obscured::Doorman::Roles::SYSTEM
             notify :error, :reset_system_user
-            redirect '/doorman/login'
+            redirect Obscured::Doorman.config.paths[:login]
           end
 
           success = user.reset_password!(
@@ -339,9 +369,9 @@ module Obscured
           end
 
           user.confirm_email!
-          env['warden'].set_user(user)
+          warden.set_user(user)
           notify :success, :reset_success
-          redirect '/home'
+          redirect Obscured::Doorman.config.use_referrer && session[:return_to] ? session.delete(:return_to) : Obscured::Doorman.config.paths[:success]
         end
       end
     end

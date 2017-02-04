@@ -3,6 +3,7 @@ module Obscured
     module Controllers
       class Base < Sinatra::Base
         helpers Obscured::Helpers::SlackHelper
+        helpers Obscured::Doorman::Helper
         register Sinatra::Namespace
         register Sinatra::ConfigFile
         register Sinatra::Contrib
@@ -17,16 +18,6 @@ module Obscured
         use Obscured::Doorman::Middleware
         Obscured::Doorman::Middleware.set :views, "#{File.dirname(__FILE__)}/../views/doorman"
         set :show_exceptions, :after_handler
-
-        def warden_handler
-          env['warden']
-        end
-        def current_user
-          warden_handler.user
-        end
-        def authenticated?
-          redirect '/doorman/login' unless warden_handler.authenticated?
-        end
 
 
         error 401 do
