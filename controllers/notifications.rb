@@ -6,7 +6,7 @@ module Obscured
 
 
         get '/' do
-          authenticated?
+          authorize!
 
           alerts = Obscured::AptWatcher::Models::Alert.all.order_by(created_at: :desc, :status => Obscured::Status::OPEN)
 
@@ -14,7 +14,7 @@ module Obscured
         end
 
         get '/:page' do
-          authenticated?
+          authorize!
 
           alerts = Obscured::AptWatcher::Models::Alert.all.order_by(created_at: :desc, :status => Obscured::Status::OPEN)
 
@@ -22,7 +22,7 @@ module Obscured
         end
 
         get '/view/:id' do
-          authenticated?
+          authorize!
 
           alert = Obscured::AptWatcher::Models::Alert.find(params[:id]) rescue redirect('/')
 
@@ -30,7 +30,7 @@ module Obscured
         end
 
         post '/view/:id/update' do
-          authenticated?
+          authorize!
 
           begin
             action = params[:action]

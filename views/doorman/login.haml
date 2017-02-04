@@ -21,6 +21,8 @@
               %p.text-center.text-success= flash[:success]
             - if flash[:error]
               %p.text-center.text-danger= flash[:error]
+            - unless env['warden'].message.blank?
+              %p.text-center.text-danger= env['warden'].message
 
             .form-group
               %label.sr-only{:for => 'Email'} Enter your email
@@ -36,7 +38,13 @@
                 %label.control-label.small{:for => 'Password'}= flash[:password_error]
               %input.form-control#Password{:autofocus => 'true', :name => 'user[password]', :placeholder => 'Enter your password', :type => 'password', :value => '', 'data-rule-required' => 'true'}
 
-            %button.btn.btn-success.btn-pill.btn-block{:type => 'submit'} Next
+            .form-group
+              %label.custom-control.custom-checkbox
+                %input.custom-control-input{:type => 'checkbox', :name => 'user[remember_me]'}
+                %span.custom-control-indicator
+                %span.custom-control-description Remember me
+
+              %button.btn.btn-success.btn-pill.btn-block{:type => 'submit'} Next
 
       %div.text-center.mt-3
         %p

@@ -6,7 +6,7 @@ module Obscured
 
 
         get '/:id' do
-          authenticated?
+          authorize!
           raise Obscured::DomainError.new(:required_field_missing, what: ':id') if params[:id].empty?
 
           scan = Obscured::AptWatcher::Models::Scan.find(params[:id]) rescue redirect('/')

@@ -48,13 +48,14 @@ module Obscured
       include Singleton
 
       OPTIONS = [
-          :confirmation,
-          :registration,
-          :smtp_domain,
-          :smtp_server,
-          :smtp_port,
-          :smtp_username,
-          :smtp_password
+        :confirmation,
+        :registration,
+        :smtp_domain,
+        :smtp_server,
+        :smtp_port,
+        :smtp_username,
+        :smtp_password,
+        :paths
       ]
 
       attr_accessor :data
@@ -90,6 +91,17 @@ module Obscured
         @data[:smtp_port]         = '587'                 # SMTP Port, uses the recommended port for SendGrid
         @data[:smtp_server]       = nil                   # SMTP Server
         @data[:smtp_username]     = nil                   # SMTP Username
+
+        @data[:remember_for]      = 14                    # Setting the amount of days "Remember me" is valid
+        @data[:use_referrer]      = true                  # Setting this to true will store last request URL
+                                                          # into a user's session so that to redirect back to it
+                                                          # upon successful authentication
+
+        @data[:paths]             = { :success => '/home',
+                                      :login => '/doorman/login',
+                                      :logout => '/doorman/logout',
+                                      :forgot => '/doorman/forgot',
+                                      :reset => '/doorman/reset' }
       end
 
       instance_eval(OPTIONS.map do |option|

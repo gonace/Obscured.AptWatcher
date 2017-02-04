@@ -6,7 +6,7 @@ module Obscured
 
 
         get '/:id' do
-          authenticated?
+          authorize!
           raise Obscured::DomainError.new(:required_field_missing, what: ':id') if params[:id].empty?
 
           host = Obscured::AptWatcher::Models::Host.find(params[:id]) rescue redirect('/')
@@ -48,7 +48,7 @@ module Obscured
         end
 
         get '/:id/edit' do
-          authenticated?
+          authorize!
 
           begin
             raise Obscured::DomainError.new(:required_field_missing, what: ':id') if params[:id].empty?
@@ -65,7 +65,7 @@ module Obscured
         end
 
         post '/:id/edit' do
-          authenticated?
+          authorize!
 
           begin
             raise Obscured::DomainError.new(:required_field_missing, what: ':id') if params[:id].empty?
@@ -94,8 +94,6 @@ module Obscured
             flash[:save_ok] = "We're glad to announce that we could successfully save the changes for (#{host.hostname})"
             redirect "/host/#{host.id}/edit"
           rescue => e
-            puts 'debug'
-
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
 
             flash[:generic_error] = 'An unknown error occurred!'

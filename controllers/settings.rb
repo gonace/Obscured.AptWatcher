@@ -6,7 +6,7 @@ module Obscured
 
 
         get '/' do
-          authenticated?
+          authorize!
 
           haml :index, :locals => { }
         end

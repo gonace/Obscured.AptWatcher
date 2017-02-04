@@ -28,7 +28,7 @@
                 %label.control-label.small= flash[:login_error]
               - if flash[:email_error]
                 %label.control-label.small{:for => 'Email'}= flash[:email_error]
-              %input.form-control#Email{:autofocus => 'true', :name => 'user[login]', :placeholder => 'Enter your email', :type => 'email', :value => ''}
+              %input.form-control#Email{:autofocus => 'true', :name => 'user[login]', :placeholder => 'Enter your email', :type => 'email', :value => email}
 
             %button.btn.btn-success.btn-pill.btn-block{:type => 'submit'} Next
 

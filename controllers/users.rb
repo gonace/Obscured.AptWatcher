@@ -6,7 +6,7 @@ module Obscured
 
 
         get '/' do
-          authenticated?
+          authorize!
 
           users = Obscured::Doorman::User.all
 
@@ -14,13 +14,13 @@ module Obscured
         end
 
         get '/me' do
-          authenticated?
+          authorize!
 
           redirect "/users/#{current_user.id}/view"
         end
 
         get '/:id/view' do
-          authenticated?
+          authorize!
 
           begin
             user = Obscured::Doorman::User.find(params[:id]) rescue redirect('/users')
@@ -41,7 +41,7 @@ module Obscured
         end
 
         post '/create' do
-          authenticated?
+          authorize!
 
           begin
             user_email,user_firstname,user_lastname = params.delete('user_email'), params.delete('user_firstname'), params.delete('user_lastname')
@@ -88,7 +88,7 @@ module Obscured
         end
 
         post '/:id/basics/update' do
-          authenticated?
+          authorize!
 
           begin
             raise Obscured::DomainError.new(:required_field_missing, what: ':id') if params[:id].empty?
@@ -118,7 +118,7 @@ module Obscured
         end
 
         post '/:id/password/update' do
-          authenticated?
+          authorize!
 
           begin
             raise Obscured::DomainError.new(:required_field_missing, what: ':id') if params[:id].empty?

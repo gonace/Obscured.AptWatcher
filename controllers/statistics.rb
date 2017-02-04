@@ -6,7 +6,7 @@ module Obscured
 
 
         get '/' do
-          authenticated?
+          authorize!
 
           today = Date.today
           alerts_open = Obscured::AptWatcher::Models::Alert.where(:status => Obscured::Status::OPEN, :created_at.gte => (today - 7.days).beginning_of_day, :created_at.lte => today.end_of_day).count
@@ -57,7 +57,7 @@ module Obscured
         end
 
         get '/monthly' do
-          authenticated?
+          authorize!
 
           today = Date.today
           alerts_open = Obscured::AptWatcher::Models::Alert.where(:status => Obscured::Status::OPEN, :created_at.gte => today.beginning_of_month, :created_at.lte => today.end_of_month).count
@@ -109,7 +109,7 @@ module Obscured
         end
 
         get '/yearly' do
-          authenticated?
+          authorize!
 
           today = Date.today
           alerts_open = Obscured::AptWatcher::Models::Alert.where(:status => Obscured::Status::OPEN, :created_at.gte => today.beginning_of_year, :created_at.lte => today.end_of_year).count

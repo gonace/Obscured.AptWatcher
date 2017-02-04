@@ -6,7 +6,7 @@ module Obscured
 
 
         get '/' do
-          authenticated?
+          authorize!
 
           begin
             limit = params[:limit] ? Integer(params[:limit]) : 30
@@ -24,7 +24,7 @@ module Obscured
 
 
         get '/:page' do
-          authenticated?
+          authorize!
 
           begin
             raise ArgumentError, 'No page number provided' unless params[:page]
