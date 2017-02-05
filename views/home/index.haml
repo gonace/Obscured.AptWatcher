@@ -47,7 +47,7 @@
   .col-6.col-md-3.statcard.mb-4
     %h3.statcard-number{ :class => hosts_without_updates > 0 ? 'text-success' : 'text-danger'}
       =hosts_without_updates
-      %small.delta-indicator{:class => (hosts_with_updates + hosts_without_updates) == hosts_without_updates && (hosts_with_updates + hosts_without_updates) != 0  ? 'delta-positive' : 'delta-negative'}
+      %small.delta-indicator{:class => (hosts_with_updates + hosts_without_updates) == hosts_without_updates && (hosts_with_updates + hosts_without_updates) != 0  ? 'delta-negative' : 'delta-positive'}
         - if hosts_with_updates > 0
           ="#{(100/(hosts_with_updates + hosts_without_updates))*hosts_without_updates}%"
     %span.statcard-desc Hosts that are up to date
