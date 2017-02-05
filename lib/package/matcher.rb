@@ -23,10 +23,10 @@ module Obscured
 
                 first_scan
               else
-                Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => 'Scan does not contain a definition to :packages, this might not be an error if this is the first time the host is checked'})
+                Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SCAN, :message => 'Scan does not contain a definition to :packages, this might not be an error if this is the first time the host is checked'})
               end
             else
-              Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => 'No scan could be found, this might not be an error if this is the first time the host is checked'})
+              Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SCAN, :message => 'No scan could be found, this might not be an error if this is the first time the host is checked'})
             end
           end
         end

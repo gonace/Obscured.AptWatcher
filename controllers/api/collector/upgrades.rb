@@ -54,9 +54,9 @@ module Obscured
 
                 unless scan.packages.count == 0
                   slack_client.post icon_emoji: scan.packages.count > 10 ? ':bug-error:' : ':bug-warn:', attachments: attachments
-                  Obscured::AptWatcher::Models::Alert.make_and_save({ :hostname => hostname, :type => Obscured::Alert::Type::SYSTEM, :message => "There are #{scan.packages.count} available updates for this host", :payload => attachments })
+                  Obscured::AptWatcher::Models::Alert.make_and_save({ :hostname => hostname, :type => Obscured::Alert::Type::PACKAGES, :message => "There are #{scan.packages.count} available updates for this host", :payload => attachments })
                 else
-                  alerts = Obscured::AptWatcher::Models::Alert.where(:hostname => hostname, :type => Obscured::Alert::Type::SYSTEM)
+                  alerts = Obscured::AptWatcher::Models::Alert.where(:hostname => hostname, :type => Obscured::Alert::Type::PACKAGES)
 
                   alerts.each do |alert|
                     alert.status = Obscured::Status::CLOSED
