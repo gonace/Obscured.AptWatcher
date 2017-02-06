@@ -16,15 +16,22 @@
     %strong Oh snap!
     = flash[:save_error]
 
-%h4
-  Backtrace
-.card.mb-3{ :style => 'background: transparent;border: 1px solid #434857;'}
-  .card-block
-    %code
-      - if (defined? alert.backtrace)
+- unless alert.backtrace.nil?
+  %h4
+    Backtrace
+  .card.mb-3{ :style => 'background: transparent;border: 1px solid #434857;'}
+    .card-block
+      %code
         =alert.backtrace
-      - if (defined? alert.payload)
+
+- unless alert.payload.nil?
+  %h4
+    Payload
+  .card.mb-3{ :style => 'background: transparent;border: 1px solid #434857;'}
+    .card-block
+      %code
         =alert.payload
+
 %form{:action => "/notifications/view/#{alert.id}/update", :method => 'post'}
   - if alert.status == Obscured::Status::OPEN.to_s
     %button.btn.btn-pill.btn-success{:type => 'submit', :name => 'action', :value => 'resolve'} Resolve
