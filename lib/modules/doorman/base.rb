@@ -61,7 +61,7 @@ module Obscured
 
         # Generates a flash message by trying to fetch a default message, if that fails just pass the message
         def notify(type, message)
-          message = Obscured::Doorman::Messages[message] if message.is_a?(Symbol) else message
+          message = Obscured::Doorman::Messages[message] if message.is_a?(Symbol) rescue message
           flash[type] = message if defined?(Sinatra::Flash)
         end
 

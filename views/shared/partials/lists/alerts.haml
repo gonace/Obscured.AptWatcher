@@ -4,6 +4,6 @@
       Alerts
     - alerts.each do |alert|
       %a.list-group-item.list-group-item-action.justify-content-between{:href => "/notifications/view/#{alert.id}"}
-        =alert.message
+        =alert.message.truncate(35, omission: '...')
         %span.ml-a.text-muted= alert.type
   %a.btn.btn-outline-primary.px-3{:href => '/notifications'} View all alerts

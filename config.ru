@@ -1,5 +1,6 @@
 STDOUT.sync = true
 
+require 'awesome_print'
 require 'bcrypt'
 require 'geocoder'
 require 'json'
