@@ -2,25 +2,18 @@ module Obscured
   module Doorman
     class HistoryLog
       include Mongoid::Document
+      include Mongoid::Timestamps
       field :text, type: String
-      field :user, type: String
-      field :created, type: DateTime, default: -> {DateTime.now}
+      field :created_by, type: String
+      #field :created_at, type: DateTime, default: -> {DateTime.now}
 
       embedded_in :history, polymorphic: true
 
       def self.make(text, user)
         h = self.new
         h.text = text
-        h.user =user
+        h.created_by = user
         h
-      end
-
-      def to_view_model
-        {
-          :created => self.created,
-          :text => self.text,
-          :utils => self.user
-        }
       end
     end
   end

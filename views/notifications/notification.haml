@@ -31,3 +31,7 @@
     %button.btn.btn-pill.btn-success{:type => 'submit', :name => 'action', :value => 'resolve'} Resolve
   - if alert.status == Obscured::Status::CLOSED.to_s
     %button.btn.btn-pill.btn-warning{:type => 'submit', :name => 'action', :value => 'reopen'} Reopen
+
+.hr-divider.my-4
+  %h3.hr-divider-content.hr-divider-heading History
+  = partial :'../shared/partials/history', :locals => {:history => history}

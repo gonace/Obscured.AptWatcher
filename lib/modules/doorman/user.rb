@@ -2,6 +2,7 @@ module Obscured
   module Doorman
     class User
       include Mongoid::Document
+      include Mongoid::Timestamps
       include Obscured::Doorman::TrackedEntity
       include BCrypt
       store_in collection: 'users'
@@ -12,16 +13,12 @@ module Obscured
       field :first_name,            type: String, :default => ''
       field :last_name,             type: String, :default => ''
       field :mobile,                type: String, :default => ''
-
       field :title,                 type: String, :default => Obscured::Doorman::Titles::APPRENTICE
       field :role,                  type: Symbol, :default => Obscured::Doorman::Roles::ADMIN
-
       field :confirmed,             type: Boolean, :default => true
       field :confirm_token,         type: String
       field :remember_token,        type: String
-
       field :created_from,          type: Symbol
-      field :created_at,            type: DateTime
       field :last_login,            type: DateTime
 
       attr_accessor :password_confirmation

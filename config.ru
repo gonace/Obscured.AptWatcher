@@ -40,6 +40,7 @@ clients: {
 Dir.glob('./lib/{alert,common,helpers,package}/*.rb').sort.each { |file| require file }
 Dir.glob('./lib/*.rb').sort.each { |file| require file }
 Dir.glob('./lib/modules/*.rb').sort.each { |file| require file }
+Dir.glob('./models/embeded/*.rb').sort.each { |file| require file }
 Dir.glob('./models/*.rb').sort.each { |file| require file }
 Dir.glob('./controllers/*.rb').sort.each { |file| require file }
 Dir.glob('./controllers/api/*.rb').sort.each { |file| require file }
