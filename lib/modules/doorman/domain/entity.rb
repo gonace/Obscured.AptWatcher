@@ -1,12 +1,8 @@
 module Obscured
   module Doorman
-    # provides simple tracking to entities by adding fields for storing dates for creating/updating entities
-    # as well as setting username for updates
     module TrackedEntity
       def self.included(base)
-        base.field :created, type: DateTime, default: -> {DateTime.now}
         base.field :created_by, type: String
-        base.field :updated, type: DateTime
         base.field :updated_by, type: String
         base.embeds_many :history_logs, as: :history
         base.before_save :set_entity_updated
@@ -14,12 +10,10 @@ module Obscured
         @base_klass = base
       end
 
-      # @todo set "current user" as the user updating the entity
-      # @todo maybe remove callback in favour of observer
       def set_entity_updated
-        if self.created.nil?
+        if self.created_at.nil?
         else
-          self.updated = DateTime.now
+          self.updated_at = DateTime.now
         end
       end
 

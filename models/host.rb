@@ -21,51 +21,43 @@ module Obscured
             raise Obscured::DomainError.new(:already_exists, what: 'host')
           end
 
-          host = self.new
-          host.hostname = opts[:hostname]
+          entity = self.new
+          entity.hostname = opts[:hostname]
 
           unless opts[:environment].nil?
             raise Obscured::DomainError.new(:invalid_type, what: ':environment') unless opts[:environment].kind_of?(String)
-            host.environment = opts[:environment]
+            entity.environment = opts[:environment]
           end
 
           unless opts[:hostname].nil?
             if (opts[:hostname].include?('production') || opts[:hostname].include?('prod'))
-              host.environment = :production
+              entity.environment = :production
             elsif (opts[:hostname].include?('staging') || opts[:hostname].include?('stage'))
-              host.environment = :staging
+              entity.environment = :staging
             elsif (opts[:hostname].include?('testing') || opts[:hostname].include?('test') || opts[:hostname].include?('qa'))
-              host.environment = :test
+              entity.environment = :test
             elsif (opts[:hostname].include?('shared'))
-              host.environment = :shared
+              entity.environment = :shared
             elsif (opts[:hostname].include?('development') || opts[:hostname].include?('dev') || opts[:hostname].include?('local'))
-              host.environment = :development
+              entity.environment = :development
             end
           end
-
-          host
+          entity
         end
 
         def self.make_and_save(opts)
-          host = self.make(opts)
-          host.save
-
-          host
+          entity = self.make(opts)
+          entity.save
+          entity
         end
 
 
         def set_updates_pending(opts)
-          #raise Obscured::DomainError.new(:required_field_missing, what: ':packages') if opts[:packages].empty?
           raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].kind_of?(Array)
-
-          #self.updates_pending = opts[:packages].count rescue 0
           self.updates_pending = opts[:packages].select {|i| i['installed'] == false || !i.key?('installed')}.count
         end
         def set_updates_installed(opts)
-          #raise Obscured::DomainError.new(:required_field_missing, what: ':packages') if opts[:packages].empty?
           raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].kind_of?(Array)
-
-          #self.updates_installed = opts[:packages].count rescue 0
           self.updates_pending = opts[:packages].select {|i| i['installed'] == true}.count
         end
       end

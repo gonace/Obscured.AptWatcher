@@ -4,6 +4,7 @@ module Obscured
       class Scan
         include Mongoid::Document
         include Mongoid::Timestamps
+        include Obscured::AptWatcher::Models::TrackedEntity
         store_in collection: 'scans'
 
         field :hostname,              type: String
@@ -14,39 +15,33 @@ module Obscured
 
         def self.make(opts)
           raise Obscured::DomainError.new(:required_field_missing, what: ':hostname') if opts[:hostname].empty?
-          #raise Obscured::DomainError.new(:required_field_missing, what: ':packages') if opts[:packages].empty?
           raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].kind_of?(Array)
 
-
-          scan = self.new
-          scan.hostname = opts[:hostname]
-          scan.packages = opts[:packages]
-          scan.updates_pending = opts[:packages].select {|i| i['installed'] == false || !i.key?('installed')}.count
-
-          scan
+          entity = self.new
+          entity.hostname = opts[:hostname]
+          entity.packages = opts[:packages]
+          entity.updates_pending = opts[:packages].select {|i| i['installed'] == false || !i.key?('installed')}.count
+          entity
         end
 
         def self.make_and_save(opts)
-          scan = self.make(opts)
-          scan.save
-
-          scan
+          entity = self.make(opts)
+          entity.save
+          entity
         end
-
-
-        def set_updates_pending(opts)
-          #raise Obscured::DomainError.new(:required_field_missing, what: ':packages') if opts[:packages].empty?
-          raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].kind_of?(Array)
-
-          self.updates_pending = opts[:packages].select {|i| i['installed'] == false || !i.key?('installed')}.count
-        end
-
 
         def get_pending
           self.packages.select {|i| i['installed'] == false || !i.key?('installed')}
         end
+
         def get_installed
           self.packages.select {|i| i['installed'] == true}
+        end
+
+
+        def set_updates_pending(opts)
+          raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].kind_of?(Array)
+          self.updates_pending = opts[:packages].select {|i| i['installed'] == false || !i.key?('installed')}.count
         end
       end
     end
