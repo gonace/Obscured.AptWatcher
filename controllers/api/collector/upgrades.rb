@@ -21,6 +21,7 @@ module Obscured
                 end
 
                 host.set_updates_pending({ :packages => packages })
+                host.set_updates_installed({ :packages => packages })
                 host.save!
 
                 scan = Obscured::AptWatcher::Models::Scan.make_and_save({:hostname => hostname, :packages => packages})
@@ -98,6 +99,8 @@ module Obscured
 
                 Obscured::AptWatcher::Models::Error.make_and_save({ :notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />'), :payload => attachments })
                 {:success => false, :logged => true, :message => e.message, :backtrace => e.backtrace}.to_json
+
+                Raygun.track_exception(e)
               end
             end
           end

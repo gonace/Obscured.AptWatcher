@@ -19,6 +19,7 @@ module Obscured
                   end
                 end
                 first_scan.set_updates_pending({:packages => first_scan.packages})
+                first_scan.set_updates_installed({:packages => first_scan.packages})
                 first_scan.save!
 
                 first_scan
