@@ -8,7 +8,7 @@ require 'password_strength'
 require 'rack/cache'
 require 'rack/user_agent'
 require 'rack-flash'
-require 'slack-notifier'
+require 'raygun4ruby'
 require 'sinatra'
 require 'sinatra/base'
 require 'sinatra/config_file'
@@ -19,6 +19,7 @@ require 'sinatra/json'
 require 'sinatra/partial'
 require 'sinatra/multi_route'
 require 'sinatra/namespace'
+require 'slack-notifier'
 require 'pp'
 require 'warden'
 
@@ -35,6 +36,15 @@ clients: {
     }
   }
 })
+
+###
+# Raygun, configuration
+###
+Raygun.setup do |config|
+  config.api_key = ENV['RAYGUN_KEY']
+end
+use Raygun::Middleware::RackExceptionInterceptor
+
 
 # pull in the models, modules, helpers and controllers
 Dir.glob('./lib/{alert,common,helpers,package}/*.rb').sort.each { |file| require file }

@@ -10,6 +10,7 @@ module Obscured
         field :hostname,              type: String
         field :packages,              type: Array
         field :updates_pending,       type: Integer, :default => 0
+        field :updates_installed,     type: Integer, :default => 0
 
         before_save :validate!
 
@@ -21,6 +22,7 @@ module Obscured
           entity.hostname = opts[:hostname]
           entity.packages = opts[:packages]
           entity.updates_pending = opts[:packages].select {|i| i['installed'] == false || !i.key?('installed')}.count
+          entity.updates_installed = opts[:packages].select {|i| i['installed'] == true || !i.key?('installed')}.count
           entity
         end
 
@@ -42,6 +44,11 @@ module Obscured
         def set_updates_pending(opts)
           raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].kind_of?(Array)
           self.updates_pending = opts[:packages].select {|i| i['installed'] == false || !i.key?('installed')}.count
+        end
+
+        def set_updates_installed(opts)
+          raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].kind_of?(Array)
+          self.updates_installed = opts[:packages].select {|i| i['installed'] == true || !i.key?('installed')}.count
         end
       end
     end
