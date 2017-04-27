@@ -16,6 +16,7 @@ module Obscured
             haml :index, :locals => { :scans => pagination_scans }
           rescue => e
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Raygun.track_exception(e)
 
             flash[:generic_error] = e.message
             redirect '/'
@@ -39,6 +40,7 @@ module Obscured
             partial :'partials/list', :locals => {:id => 'hosts', :url => '/history', :scans => pagination_scans}
           rescue => e
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Raygun.track_exception(e)
 
             {success: false, error: e.message}
           end

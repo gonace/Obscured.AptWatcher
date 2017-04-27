@@ -6,6 +6,7 @@
         %th.header Created
         %th.header Updated
         %th.header.text-center Available Updates
+        %th.header.text-center Installed Updates
         %th.header.text-right Details
     %tbody
       - scans.items.each do |package|
@@ -15,6 +16,7 @@
           %td= package.created_at
           %td= package.updated_at
           %td.text-center= package.updates_pending
+          %td.text-center= package.get_installed.count
           %td.text-right
             %a{:href => "/scan/#{package._id}"}
               %span.icon.icon-dots-three-horizontal

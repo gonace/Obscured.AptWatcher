@@ -28,6 +28,7 @@ module Obscured
             haml :user, :locals => { :user => user }
           rescue => e
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Raygun.track_exception(e)
 
             flash[:generic_error] = 'An unknown error occurred!'
             redirect '/users'
@@ -81,6 +82,7 @@ module Obscured
             redirect "/users/#{user.id}/view"
           rescue => e
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Raygun.track_exception(e)
 
             flash.now[:save_error] = "We're sad to announce that we could not create the user for an unknown reason"
             return haml :create, :locals => { :user => user }
@@ -111,6 +113,7 @@ module Obscured
             redirect "/users/#{user.id}/view"
           rescue => e
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Raygun.track_exception(e)
 
             flash[:save_error] = "We're sad to announce that we could not save the changes for (#{user.username})"
             redirect "/users/#{user.id}/view"
@@ -141,6 +144,7 @@ module Obscured
             redirect "/users/#{user.id}/view"
           rescue => e
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Raygun.track_exception(e)
 
             flash[:save_error] = "We're sad to announce that we could not change password for (#{user.username})"
             redirect "/users/#{user.id}/view"

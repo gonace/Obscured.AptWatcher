@@ -21,10 +21,10 @@ module Obscured
                 end
 
                 host.set_updates_pending({ :packages => packages })
+                host.set_updates_installed({ :packages => packages })
                 host.save!
 
                 scan = Obscured::AptWatcher::Models::Scan.make_and_save({:hostname => hostname, :packages => packages})
-
                 attachments = [
                   {
                     color: scan.packages.count > 10 ? Obscured::Alert::Color::ERROR : Obscured::Alert::Color::WARN,
@@ -53,17 +53,23 @@ module Obscured
                 Obscured::AptWatcher::Package::Matcher.run(hostname, date_start.to_s, date_end).to_json
 
                 unless scan.packages.count == 0
+                  alerts = Obscured::AptWatcher::Models::Alert.where(:hostname => hostname, :type => Obscured::Alert::Type::PACKAGES, :status => Obscured::Status::OPEN).to_a
+                  alerts.each do |alert|
+                    alert.status = Obscured::Status::IGNORED
+                    alert.save
+                    alert.add_history_log("Changed status to #{alert.status}", Obscured::Alert::Type::SYSTEM)
+                  end
+
                   slack_client.post icon_emoji: scan.packages.count > 10 ? ':bug-error:' : ':bug-warn:', attachments: attachments
                   Obscured::AptWatcher::Models::Alert.make_and_save({ :hostname => hostname, :type => Obscured::Alert::Type::PACKAGES, :message => "There are #{scan.packages.count} available updates for this host", :payload => attachments })
                 else
-                  alerts = Obscured::AptWatcher::Models::Alert.where(:hostname => hostname, :type => Obscured::Alert::Type::PACKAGES)
-
+                  alerts = Obscured::AptWatcher::Models::Alert.where(:hostname => hostname, :type => Obscured::Alert::Type::PACKAGES).to_a
                   alerts.each do |alert|
                     alert.status = Obscured::Status::CLOSED
                     alert.save
+                    alert.add_history_log("Changed status to #{alert.status}", Obscured::Alert::Type::SYSTEM)
                   end
                 end
-
                 scan
               rescue => e
                 attachments = [
@@ -93,6 +99,8 @@ module Obscured
 
                 Obscured::AptWatcher::Models::Error.make_and_save({ :notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />'), :payload => attachments })
                 {:success => false, :logged => true, :message => e.message, :backtrace => e.backtrace}.to_json
+
+                Raygun.track_exception(e)
               end
             end
           end
