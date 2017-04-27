@@ -58,7 +58,7 @@ module Obscured
         end
         def set_updates_installed(opts)
           raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].kind_of?(Array)
-          self.updates_pending = opts[:packages].select {|i| i['installed'] == true}.count
+          self.updates_pending = opts[:packages].select {|i| i.key?('installed') && i['installed'] == true}.count
         end
       end
     end

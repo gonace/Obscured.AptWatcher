@@ -22,7 +22,7 @@ module Obscured
           entity.hostname = opts[:hostname]
           entity.packages = opts[:packages]
           entity.updates_pending = opts[:packages].select {|i| i['installed'] == false || !i.key?('installed')}.count
-          entity.updates_installed = opts[:packages].select {|i| i['installed'] == true || !i.key?('installed')}.count
+          entity.updates_installed = opts[:packages].select {|i| i.key?('installed') && i['installed'] == true}.count
           entity
         end
 
@@ -48,7 +48,7 @@ module Obscured
 
         def set_updates_installed(opts)
           raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].kind_of?(Array)
-          self.updates_installed = opts[:packages].select {|i| i['installed'] == true || !i.key?('installed')}.count
+          self.updates_installed = opts[:packages].select {|i| i.key?('installed') && i['installed'] == true}.count
         end
       end
     end
