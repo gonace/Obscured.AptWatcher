@@ -32,7 +32,7 @@
         %h4 Open vs Closed
       .col-md-4.mb-5
         .w-3.mx-auto
-          %canvas.ex-graph{'data-chart' => 'doughnut', 'data-dataset' => "[#{errors_closed},#{errors_open}]", 'data-dataset-options' => "{ borderColor: '#252830', backgroundColor: ['#1bc98e', '#e64759'] }", 'data-labels' => "['Closed', 'Open']", :height => '200', :width => '200'}
+          %canvas.ex-graph{'data-chart' => 'doughnut', 'data-dataset' => "[#{errors_closed},#{errors_open}]", 'data-dataset-options' => "{ borderColor: '#252830', backgroundColor: ['#1bc98e', '#e64759'] }", 'data-labels' => "['Closed (%)', 'Open (%)']", :height => '200', :width => '200'}
         %strong.text-muted Errors
         %h4 Open vs Closed
   #updates.tab-pane{:role => 'tabpanel'}
@@ -66,4 +66,30 @@
     %h3.statcard-number{ :class => count_errors > 0 ? 'text-danger' : 'text-success'}
       =count_errors
     %span.statcard-desc Errors
+
 .hr-divider.my-4
+  %h3.hr-divider-content.hr-divider-heading Packages
+
+.card{ :style => 'background: transparent;border: 1px solid #434857;'}
+  .card-block
+    .table-responsive
+      %table.table{'data-sort' => 'table', 'data-sort-list' => '[[0,0]]'}
+        %thead
+          %tr
+            %th.header #
+            %th.header.headerSortDown Name
+            %th.text-right.header Installed
+            %th.text-right.header Available
+            %th.text-center.header Installed
+        %tbody
+          - packages.each_with_index do |package,index|
+            %tr
+              %td=index+1
+              %td=package['name']
+              %td.text-right=package['version_installed']
+              %td.text-right=package['version_available']
+              %td.text-center
+                - if (package['installed'] rescue false)
+                  %span.icon.icon-check.text-success
+                - else
+                  %span.icon.icon-cross.text-danger
