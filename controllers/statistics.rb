@@ -36,7 +36,7 @@ module Obscured
 
           count_alerts = Obscured::AptWatcher::Models::Alert.where(:created_at.gte => (today - 7.days).beginning_of_day, :created_at.lte => today.end_of_day).count
           count_errors = Obscured::AptWatcher::Models::Error.where(:created_at.gte => (today - 7.days).beginning_of_day, :created_at.lte => today.end_of_day).count
-          count_hosts = Obscured::AptWatcher::Models::Host.where(:created_at.gte => (today - 7.days).beginning_of_day, :created_at.lte => today.end_of_day).count
+          count_hosts = (hosts_active + hosts_inactive)
           count_scans = Obscured::AptWatcher::Models::Scan.where(:created_at.gte => (today - 7.days).beginning_of_day, :created_at.lte => today.end_of_day).count
 
 
@@ -110,7 +110,7 @@ module Obscured
 
           count_alerts = Obscured::AptWatcher::Models::Alert.where(:created_at.gte => today.beginning_of_month, :created_at.lte => today.end_of_month).count
           count_errors = Obscured::AptWatcher::Models::Error.where(:created_at.gte => today.beginning_of_month, :created_at.lte => today.end_of_month).count
-          count_hosts = Obscured::AptWatcher::Models::Host.where(:created_at.gte => today.beginning_of_month, :created_at.lte => today.end_of_month).count
+          count_hosts = (hosts_active + hosts_inactive)
           count_scans = Obscured::AptWatcher::Models::Scan.where(:created_at.gte => today.beginning_of_month, :created_at.lte => today.end_of_month).count
 
 
@@ -183,7 +183,7 @@ module Obscured
 
           count_alerts = Obscured::AptWatcher::Models::Alert.where(:created_at.gte => today.beginning_of_year, :created_at.lte => today.end_of_year).count
           count_errors = Obscured::AptWatcher::Models::Error.where(:created_at.gte => today.beginning_of_year, :created_at.lte => today.end_of_year).count
-          count_hosts = Obscured::AptWatcher::Models::Host.where(:created_at.gte => today.beginning_of_year, :created_at.lte => today.end_of_year).count
+          count_hosts = (hosts_active + hosts_inactive)
           count_scans = Obscured::AptWatcher::Models::Scan.where(:created_at.gte => today.beginning_of_year, :created_at.lte => today.end_of_year).count
 
 

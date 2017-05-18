@@ -8,17 +8,41 @@ module Obscured
         get '/' do
           authorize!
 
-          alerts = Obscured::AptWatcher::Models::Alert.all.order_by(created_at: :desc, :status => Obscured::Status::OPEN)
+          begin
+            limit = params[:limit] ? Integer(params[:limit]) : 30
+            alerts = Obscured::AptWatcher::Models::Alert.order_by(created_at: :desc).limit(limit)
+            pagination_alerts = Obscured::AptWatcher::Helpers::Pagination.new(alerts, Obscured::AptWatcher::Models::Alert.order_by(created_at: :desc, :status => Obscured::Status::OPEN).count)
 
-          haml :index, :locals => { :alerts => alerts }
+            haml :index, :locals => { :alerts => pagination_alerts }
+          rescue => e
+            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Raygun.track_exception(e)
+
+            flash[:generic_error] = e.message
+            redirect '/'
+          end
         end
 
         get '/:page' do
           authorize!
 
-          alerts = Obscured::AptWatcher::Models::Alert.all.order_by(created_at: :desc, :status => Obscured::Status::OPEN)
+          begin
+            raise ArgumentError, 'No page number provided' unless params[:page]
 
-          haml :index, :locals => { :alerts => alerts }
+            page = Integer(params[:page])
+            limit = params[:limit] ? Integer(params[:limit]) : 30
+            skip = (limit*page)-limit
+
+            alerts = Obscured::AptWatcher::Models::Alert.all.order_by(created_at: :desc).skip(skip).limit(limit)
+            pagination_scans = Obscured::AptWatcher::Helpers::Pagination.new(alerts, Obscured::AptWatcher::Models::Alert.order_by(:created_at.desc).count, page)
+
+            partial :'partials/list', :locals => {:id => 'alerts', :url => '/notifications', :alerts => pagination_scans}
+          rescue => e
+            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Raygun.track_exception(e)
+
+            {success: false, error: e.message}
+          end
         end
 
         get '/view/:id' do

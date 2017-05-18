@@ -11,7 +11,7 @@ module Obscured
           begin
             limit = params[:limit] ? Integer(params[:limit]) : 30
             scans = Obscured::AptWatcher::Models::Scan.order_by(:created_at.desc).limit(limit)
-            pagination_scans = Obscured::AptWatcher::Helpers::Pagination.new(scans, Obscured::AptWatcher::Models::Scan.order_by(:created_at.desc).limit(limit).count)
+            pagination_scans = Obscured::AptWatcher::Helpers::Pagination.new(scans, Obscured::AptWatcher::Models::Scan.order_by(:created_at.desc).count)
 
             haml :index, :locals => { :scans => pagination_scans }
           rescue => e
@@ -37,7 +37,7 @@ module Obscured
             scans = Obscured::AptWatcher::Models::Scan.order_by(:created_at.desc).skip(skip).limit(limit)
             pagination_scans = Obscured::AptWatcher::Helpers::Pagination.new(scans, Obscured::AptWatcher::Models::Scan.order_by(:created_at.desc).count, page)
 
-            partial :'partials/list', :locals => {:id => 'hosts', :url => '/history', :scans => pagination_scans}
+            partial :'partials/list', :locals => {:id => 'scans', :url => '/history', :scans => pagination_scans}
           rescue => e
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
             Raygun.track_exception(e)
