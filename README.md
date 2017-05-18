@@ -26,11 +26,6 @@ One line is interperted as one service
 ```
 @daily apt-get --just-print upgrade 2>&1 | perl -ne 'if (/Inst\s([\w,\-,\d,\.,~,:,\+]+)\s\[([\w,\-,\d,\.,~,:,\+]+)\]\s\(([\w,\-,\d,\.,~,:,\+]+)\)? /i) {print "{\"name\":\"$1\",\"version_installed\":\"$2\",\"version_available\":\"$3\"} \n"}' | curl -u user:pass --data-binary @- http://hostname/api/collector/upgrades/$(hostname)
 ```
-###### Bash
-```
-@daily apt-get upgrade -s | grep ^Inst | awk '{ print $2,$3; }' | tr -d '[]' | curl -u user:pass --data-binary @- https://your.aptwatcher.url/api/collector/upgrades/$(hostname) &> /dev/null
-```
-
 
 If any packages are in that payload that weren't previously sent, a
 message is sent via a Slack incoming webhook with that list of new
