@@ -136,34 +136,31 @@ App.init()
 // production, but rather implement your charts using the chart.js docs-top
 // themselves, directly: www.chartjs.org/docs/
 $(function () {
-
   var Charts = {
-
     _HYPHY_REGEX: /-([a-z])/g,
 
     _cleanAttr: function (obj) {
-      delete obj["chart"]
-      delete obj["datasets"]
-      delete obj["datasetsOptions"]
-      delete obj["labels"]
-      delete obj["options"]
+      delete obj["chart"];
+      delete obj["datasets"];
+      delete obj["datasetsOptions"];
+      delete obj["labels"];
+      delete obj["options"];
     },
 
     doughnut: function (element) {
-      var attrData = $.extend({}, $(element).data())
+      var attrData    = $.extend({}, $(element).data());
+      var data        = attrData.dataset        ? eval(attrData.dataset) : {};
+      var dataOptions = attrData.datasetOptions ? eval('(' + attrData.datasetOptions + ')') : {};
+      var labels      = attrData.labels         ? eval(attrData.labels) : {};
+      var options     = attrData.options        ? eval('(' + attrData.options + ')') : {};
 
-      var data        = attrData.dataset        ? eval(attrData.dataset) : {}
-      var dataOptions = attrData.datasetOptions ? eval('(' + attrData.datasetOptions + ')') : {}
-      var labels      = attrData.labels         ? eval(attrData.labels) : {}
-      var options     = attrData.options        ? eval('(' + attrData.options + ')') : {}
-
-      Charts._cleanAttr(attrData)
+      Charts._cleanAttr(attrData);
 
       var datasets = $.extend({
         data: data,
         borderWidth: 2,
         hoverBorderColor: 'transparent'
-      }, dataOptions)
+      }, dataOptions);
 
       var options = $.extend({
         cutoutPercentage: 80,
@@ -174,7 +171,7 @@ $(function () {
           animateRotate: false,
           duration: 0
         }
-      }, options)
+      }, options);
 
       new Chart(element.getContext('2d'), {
           type:"doughnut",
@@ -187,12 +184,11 @@ $(function () {
     },
 
     'spark-line': function (element) {
-      var attrData = $.extend({}, $(element).data())
-
-      var data           = attrData.dataset        ? eval(attrData.dataset) : []
-      var datasetOptions = attrData.datasetOptions ? eval(attrData.datasetOptions) : []
-      var labels         = attrData.labels         ? eval(attrData.labels) : {}
-      var options     = attrData.options        ? eval('(' + attrData.options + ')') : {}
+      var attrData = $.extend({}, $(element).data());
+      var data            = attrData.dataset        ? eval(attrData.dataset) : [];
+      var datasetOptions  = attrData.datasetOptions ? eval(attrData.datasetOptions) : [];
+      var labels          = attrData.labels         ? eval(attrData.labels) : {};
+      var options         = attrData.options        ? eval('(' + attrData.options + ')') : {};
 
       var data = {
         labels   : labels,
@@ -207,9 +203,9 @@ $(function () {
             pointRadius: 0
           }, datasetOptions[i])
         })
-      }
+      };
 
-      Charts._cleanAttr(attrData)
+      Charts._cleanAttr(attrData);
 
       var options = $.extend({
         animation: {
@@ -239,13 +235,12 @@ $(function () {
     },
 
     line: function (element) {
-      var attrData = $.extend({}, $(element).data())
-
-      var data           = attrData.dataset        ? eval(attrData.dataset) : []
-      var datasetOptions = attrData.datasetOptions ? eval(attrData.datasetOptions) : []
-      var labels         = attrData.labels         ? eval(attrData.labels) : {}
-      var options        = attrData.options        ? eval('(' + attrData.options + ')') : {}
-      var isDark         = !!attrData.dark
+      var attrData        = $.extend({}, $(element).data());
+      var data            = attrData.dataset        ? eval(attrData.dataset) : [];
+      var datasetOptions  = attrData.datasetOptions ? eval(attrData.datasetOptions) : [];
+      var labels          = attrData.labels         ? eval(attrData.labels) : {};
+      var options         = attrData.options        ? eval('(' + attrData.options + ')') : {};
+      var isDark          = !!attrData.dark
 
       var data = {
         labels   : labels,
@@ -264,7 +259,7 @@ $(function () {
         })
       }
 
-      Charts._cleanAttr(attrData)
+      Charts._cleanAttr(attrData);
 
       var options = $.extend({
         maintainAspectRatio: false,
@@ -283,7 +278,6 @@ $(function () {
             },
             ticks: {
               beginAtZero: false,
-              fixedStepSize: 1000,
               fontColor: isDark ? '#a2a2a2' : 'rgba(0,0,0,.4)',
               fontSize: 14
             }
@@ -311,7 +305,7 @@ $(function () {
             }
           }
         }
-      }, options)
+      }, options);
 
       new Chart(element.getContext('2d'), {
           type: 'line',
@@ -321,13 +315,12 @@ $(function () {
     },
 
     bar: function (element) {
-      var attrData = $.extend({}, $(element).data())
-
-      var data           = attrData.dataset        ? eval(attrData.dataset) : []
-      var datasetOptions = attrData.datasetOptions ? eval(attrData.datasetOptions) : []
-      var labels         = attrData.labels         ? eval(attrData.labels) : {}
-      var options        = attrData.options        ? eval('(' + attrData.options + ')') : {}
-      var isDark         = !!attrData.dark
+      var attrData        = $.extend({}, $(element).data());
+      var data            = attrData.dataset        ? eval(attrData.dataset) : [];
+      var datasetOptions  = attrData.datasetOptions ? eval(attrData.datasetOptions) : [];
+      var labels          = attrData.labels         ? eval(attrData.labels) : {};
+      var options         = attrData.options        ? eval('(' + attrData.options + ')') : {};
+      var isDark          = !!attrData.dark
 
       var data = {
         labels   : labels,
@@ -341,7 +334,7 @@ $(function () {
         })
       }
 
-      Charts._cleanAttr(attrData)
+      Charts._cleanAttr(attrData);
 
       var options = $.extend({
         maintainAspectRatio: false,
@@ -378,7 +371,7 @@ $(function () {
           enabled: true,
           bodyFontSize: 14
         }
-      }, options)
+      }, options);
 
       new Chart(element.getContext('2d'), {
           type: 'bar',
@@ -386,7 +379,7 @@ $(function () {
           options: options
       })
     }
-  }
+  };
 
   $(document)
     .on('redraw.bs.charts', function () {
