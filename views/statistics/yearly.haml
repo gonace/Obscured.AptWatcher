@@ -80,7 +80,6 @@
             %th.header.headerSortDown Name
             %th.text-right.header Installed
             %th.text-right.header Available
-            %th.text-center.header Installed
         %tbody
           - packages.each_with_index do |package,index|
             %tr
@@ -88,8 +87,3 @@
               %td=package['name']
               %td.text-right=package['version_installed']
               %td.text-right=package['version_available']
-              %td.text-center
-                - if (package['installed'] rescue false)
-                  %span.icon.icon-check.text-success
-                - else
-                  %span.icon.icon-cross.text-danger

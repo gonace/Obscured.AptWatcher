@@ -2,22 +2,4 @@
   .dashhead-titles.mb-3
     %h6.dashhead-subtitle Alerts
     %h2.dashhead-title Alert history
-.table-responsive
-  %table.table{'data-sort' => 'table', 'data-sort-list' => '[[1,1]]'}
-    %thead
-      %tr
-        %th.header.headerSortDown Host
-        %th.header Created
-        %th.header Status
-        %th.header Message
-        %th.header.text-right Details
-    %tbody
-      - alerts.each do |alert|
-        %tr
-          %td= alert.hostname
-          %td= alert.created_at
-          %td= ":#{alert.status}"
-          %td= alert.message
-          %td.text-right
-            %a{:href => "/notifications/view/#{alert._id}"}
-              %span.icon.icon-dots-three-horizontal
+= partial :'/partials/list', :locals => { :id => 'alerts', :url => '/notifications', :alerts => alerts }
