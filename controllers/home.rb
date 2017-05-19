@@ -29,11 +29,8 @@ module Obscured
           today = Date.today
           (today - 7.days .. today).each do |date|
             count = 0
-            scan = Obscured::AptWatcher::Models::Scan.where(:created_at.gte => date.beginning_of_day, :created_at.lte => date.end_of_day)
-
-            unless scan.first.nil?
-              count = scan.first.updates_pending
-            end
+            scan = Obscured::AptWatcher::Models::Scan.where(:created_at.gte => date.beginning_of_day, :created_at.lte => date.end_of_day).to_a
+            scan.each { |item| count += (item.updates_pending + item.updates_installed) }
 
             (graph_updates['header'] ||= []) << date.strftime('%a %d')
             (graph_updates['data'] ||= []) << count
