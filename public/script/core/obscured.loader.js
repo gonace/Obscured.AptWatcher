@@ -29,7 +29,7 @@ Obscured.Loader = function ($) {
                 id: options.id,
                 text: options.text
             };
-            Obscured.Template.Render({ source: options.template.html(), context: loaderModel, parent: options.target, method: 'insert' })
+            Obscured.Template.Render({ source: options.template.html(), context: loaderModel, parent: options.target, method: 'append' })
 
             return options.id
         },

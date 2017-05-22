@@ -4,8 +4,25 @@
 }
 
 .loader.loader-app {
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 15000;
 }
 .loader.loader-app .loader-overlay {
+    background: rgba(0, 0, 0, 0.2);
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    z-index: 20000;
+}
+.loader.loader-app .loader-wrapper {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 
@@ -245,7 +262,7 @@
     width: 200px;
     height: 100px;
     border-radius: 1000px 1000px 0 0;
-    border-color: #fefefe;
+    border-color: #cfd2da;
     border-style: solid;
     border-width: 40px;
     border-bottom-width: 0;
