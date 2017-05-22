@@ -21,7 +21,7 @@ Obscured.Pagination = function ($) {
                 loaderId = guid();
 
             if(!disabled) {
-                //Obscured.Loader.Start({ id: loaderId, target: nav.data('for'), template: '#loader-inline' });
+                Obscured.Loader.Start({ id: loaderId, target: 'body', template: '#loader-app' });
                 Obscured.Ajax.Get({
                     url: url + "/" + page,
                     cache: false,
@@ -35,8 +35,8 @@ Obscured.Pagination = function ($) {
                             scrollTop: newWrapper.offset().top
                         }, 500);
                     },
-                    complete: function(jqxhr) {
-                        //Obscured.Loader.Stop({ id: loaderId });
+                    complete: function() {
+                        Obscured.Loader.Stop({ id: loaderId });
                     },
                     error: function (jqxhr, errMessage, errThrown) {
                         Obscured.Loader.Stop({ id: loaderId });

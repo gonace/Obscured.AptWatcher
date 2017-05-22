@@ -1,0 +1,23 @@
+%script#loader-app{:type => 'text/x-handlebars-template'}
+  .loader.loader-app{:id => '{{id}}'}
+    .loader-overlay
+    .loader-wrapper
+      .loader-image
+        .uil-rolling-css{:style => 'transform:scale(0.4);'}
+          %div
+            %div
+            %div
+      .loader-text
+        {{text}}
+
+%script#loader-inline{:type => 'text/x-handlebars-template'}
+  .loader.loader-inline{:id => '{{id}}'}
+    .loader-overlay
+    .loader-wrapper
+      .loader-image
+        .uil-rolling-css{:style => 'transform:scale(0.4);'}
+          %div
+            %div
+            %div
+      .loader-text
+        {{text}}
