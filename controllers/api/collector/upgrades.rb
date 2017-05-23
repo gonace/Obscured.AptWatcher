@@ -63,7 +63,7 @@ module Obscured
                   slack_client.post icon_emoji: scan.packages.count > 10 ? ':bug-error:' : ':bug-warn:', attachments: attachments
                   Obscured::AptWatcher::Models::Alert.make_and_save({ :hostname => hostname, :type => Obscured::Alert::Type::PACKAGES, :message => "There are #{scan.packages.count} available updates for this host", :payload => attachments })
                 else
-                  alerts = Obscured::AptWatcher::Models::Alert.where(:hostname => hostname, :type => Obscured::Alert::Type::PACKAGES).to_a
+                  alerts = Obscured::AptWatcher::Models::Alert.where(:hostname => hostname, :type => Obscured::Alert::Type::PACKAGES, :status => Obscured::Status::OPEN).to_a
                   alerts.each do |alert|
                     alert.status = Obscured::Status::CLOSED
                     alert.save
