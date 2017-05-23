@@ -100,6 +100,10 @@ map '/error' do
   run Obscured::AptWatcher::Controllers::Error
 end
 
+map '/errors' do
+  run Obscured::AptWatcher::Controllers::Errors
+end
+
 map '/history' do
   run Obscured::AptWatcher::Controllers::History
 end

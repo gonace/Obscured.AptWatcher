@@ -1,0 +1,5 @@
+.dashhead
+  .dashhead-titles.mb-3
+    %h6.dashhead-subtitle Errors
+    %h2.dashhead-title Error history
+= partial :'/partials/list', :locals => { :id => 'errors', :url => '/errors', :errors => errors }

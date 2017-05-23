@@ -1,0 +1,20 @@
+.table-responsive{:id => id, 'data-length' => errors.properties.length, 'data-page' => errors.properties.page, 'data-page-size' => errors.properties.page_size, 'data-page-first' => errors.properties.page_first, 'data-page-last' => errors.properties.page_last}
+  %table.table{'data-sort' => 'table', 'data-sort-list' => '[[0,1]]'}
+    %thead
+      %tr
+        %th.header.headerSortDown Date
+        %th.header Notifier
+        %th.header Type
+        %th.header Status
+        %th.header.text-right Details
+    %tbody
+      - errors.items.each do |error|
+        %tr
+          %td= error.created_at
+          %td= error.notifier
+          %td= error.type
+          %td= ":#{error.status}"
+          %td.text-right
+            %a{:href => "/errors/view/#{error._id}"}
+              %span.icon.icon-dots-three-horizontal
+  = partial :'../shared/partials/pagination', :locals => { :_for => '#' + id, :url => url, :properties => errors.properties }
