@@ -20,6 +20,7 @@ require 'sinatra/partial'
 require 'sinatra/multi_route'
 require 'sinatra/namespace'
 require 'slack-notifier'
+require 'platform-api'
 require 'pp'
 require 'warden'
 

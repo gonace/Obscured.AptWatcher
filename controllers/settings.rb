@@ -8,7 +8,10 @@ module Obscured
         get '/' do
           authorize!
 
-          haml :index, :locals => { }
+          heroku = PlatformAPI.connect_oauth(ENV['HEROKU_TOKEN'])
+          heroku_vars = heroku.config_var.info_for_app('aptwatcher')
+
+          haml :index, :locals => { :config => heroku_vars }
         end
       end
     end

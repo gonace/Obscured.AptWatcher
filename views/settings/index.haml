@@ -2,3 +2,110 @@
   .dashhead-titles.mb-3
     %h6.dashhead-subtitle Settings
     %h2.dashhead-title
+
+- if flash[:save_ok]
+  .alert.alert-success.mt-2
+    %strong Well done!
+    = flash[:save_ok]
+- if flash[:save_error]
+  .alert.alert-danger.mt-2
+    %strong Oh snap!
+    = flash[:save_error]
+- if config['HEROKU_TOKEN'].nil?
+  .alert.alert-danger.mt-2
+    %strong Oh snap!
+    It seams that you've not configured the
+    %code ENV['HEROKU_TOKEN']
+    config variable, to proceed and change these settings this step needs to be taken. Instructions
+    %a{:href => 'https://github.com/heroku/platform-api#a-real-world-example'} here!
+
+%form#formBasic{:action => '/settings/slack/update', :method => 'post'}
+  .hr-divider.my-4
+    %h3.hr-divider-content.hr-divider-heading Application
+  .form-group
+    .row
+      .col-4
+        %input.form-control{:placeholder => 'RayGun API Key', :name => 'slack_channel', :value => config['RAYGUN_KEY'], :type => 'text', 'data-rule-required' => 'true'}
+
+  .form-group
+    .alert.alert-info
+      %strong Heads up!
+      If you disable registration no user can register (users can be created once logged in) or if you disable confirmation the users email address will automatically be confirmed upon registration/creation.
+    .row
+      .col-3
+        %label User confirmation
+        %br
+        .btn-group{'data-toggle' => 'buttons'}
+          - if config['USER_CONFIRMATION'] == 'true'
+            %label.btn.btn-info.active
+              %input{:autocomplete => 'off', :checked => 'checked', :name => 'user_confirmation', :type => 'radio'}
+              On
+            %label.btn.btn-info
+              %input{:autocomplete => 'off', :name => 'user_confirmation', :type => 'radio'}
+              Off
+          - else
+            %label.btn.btn-info
+              %input{:autocomplete => 'off', :name => 'user_confirmation', :type => 'radio'}
+              On
+            %label.btn.btn-info.active
+              %input{:autocomplete => 'off', :checked => 'checked', :name => 'user_confirmation', :type => 'radio'}
+              Off
+      .col-3
+        %label User registration
+        %br
+        .btn-group{'data-toggle' => 'buttons'}
+          - if config['USER_REGISTRATION'] == 'true'
+            %label.btn.btn-info.active
+              %input{:autocomplete => 'off', :checked => 'checked', :name => 'user_registration', :type => 'radio'}
+              On
+            %label.btn.btn-info
+              %input{:autocomplete => 'off', :name => 'user_registration', :type => 'radio'}
+              Off
+          - else
+            %label.btn.btn-info
+              %input{:autocomplete => 'off', :name => 'user_registration', :type => 'radio'}
+              On
+            %label.btn.btn-info.active
+              %input{:autocomplete => 'off', :checked => 'checked', :name => 'user_registration', :type => 'radio'}
+              Off
+
+
+  %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes
+
+
+%form#formSlack{:action => '/settings/slack/update', :method => 'post'}
+  .hr-divider.my-4
+    %h3.hr-divider-content.hr-divider-heading Slack
+  .form-group
+    .row
+      .col-4
+        %input.form-control{:placeholder => 'channel', :name => 'slack_channel', :value => config['SLACK_CHANNEL'], :type => 'text', 'data-rule-required' => 'true'}
+      .col-4
+        %input.form-control{:placeholder => 'Obscuerd.AptWatcher', :name => 'slack_user', :value => config['SLACK_USER'], :type => 'text', 'data-rule-required' => 'true'}
+      .col-4
+        %input.form-control{:placeholder => ':slack:', :name => 'slack_icon', :value => config['SLACK_ICON'], :type => 'text', 'data-rule-required' => 'true'}
+  .form-group
+    .row
+      .col-12
+        %input#webhookUrl.form-control{:placeholder => 'http://', :name => 'slack_webhook', :value => config['SLACK_WEBHOOK_URL'], :type => 'text', 'data-rule-required' => 'true'}
+  %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes
+
+
+%form#formSendgrid{:action => '/settings/sendgrid/update', :method => 'post'}
+  .hr-divider.my-4
+    %h3.hr-divider-content.hr-divider-heading Sendgrid
+  .form-group
+    .row
+      .col-4
+        %input.form-control{:placeholder => 'obscured.se', :name => 'sendgrid_domain', :value => config['SENDGRID_DOMAIN'], :type => 'text', 'data-rule-required' => 'true'}
+      .col-4
+        %input.form-control{:placeholder => 'username', :name => 'sendgrid_username', :value => config['SENDGRID_USERNAME'], :type => 'text', 'data-rule-required' => 'true'}
+      .col-4
+        %input.form-control{:placeholder => 'password', :name => 'sendgrid_password', :value => config['SENDGRID_PASSWORD'], :type => 'text', 'data-rule-required' => 'true'}
+  .form-group
+    .row
+      .col-6
+        %input#sendgridServer.form-control{:placeholder => 'smtp.sendgrid.net', :name => 'sendgrid_server', :value => config['SENDGRID_SERVER'], :type => 'text', 'data-rule-required' => 'true'}
+      .col-6
+        %input#sendgridPort.form-control{:placeholder => '587', :name => 'sendgrid_port', :value => config['SENDGRID_PORT'], :type => 'text', 'data-rule-required' => 'true'}
+  %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes

@@ -27,10 +27,11 @@
         %a.nav-link{:class => ((defined? active) && active === 'users') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'Users', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/users', :title => ''}
           %span.icon.icon-key
           %small.iconav-nav-label.hidden-md-up Users
-      %li.nav-item{:style => 'display: none;'}
-        %a.nav-link{:class => ((defined? active) && active === 'settings') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'Settings', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/settings', :title => ''}
-          %span.icon.icon-tools
-          %small.iconav-nav-label.hidden-md-up Settings
+      - if current_user.role == Obscured::Doorman::Roles::ADMIN
+        %li.nav-item
+          %a.nav-link{:class => ((defined? active) && active === 'settings') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'Settings', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/settings', :title => ''}
+            %span.icon.icon-cog
+            %small.iconav-nav-label.hidden-md-up Settings
       %li.nav-item
         - if defined? current_user
           %a.nav-link{'data-container' => 'body', 'data-original-title' => "Signed in as #{current_user.username}", 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => Obscured::Doorman.config.paths[:logout], :title => ''}

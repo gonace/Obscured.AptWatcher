@@ -24,6 +24,7 @@ gem 'sinatra-partial'
 gem 'sinatra-json'
 gem 'slack-notifier'
 gem 'pony'
+gem 'platform-api'
 gem 'warden'
 
 group :test, :development do
