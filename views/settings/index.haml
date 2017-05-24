@@ -11,7 +11,7 @@
   .alert.alert-danger.mt-2
     %strong Oh snap!
     = flash[:save_error]
-- if config['HEROKU_TOKEN'].nil?
+- if ENV['HEROKU_TOKEN'].nil?
   .alert.alert-danger.mt-2
     %strong Oh snap!
     It seams that you've not configured the
