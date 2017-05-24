@@ -12,7 +12,7 @@
         .card.card-identity.mb-3
           .card-mask#userMask
             - if (defined? email) && !email.nil?
-              %img{:src => "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?s=200&d=https://ssl.gstatic.com/accounts/ui/avatar_2x.png"}
+              %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?s=200&d=https://ssl.gstatic.com/accounts/ui/avatar_2x.png"}
             - else
               %span
 
