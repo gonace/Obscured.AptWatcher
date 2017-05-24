@@ -1,9 +1,9 @@
 .table-responsive{:id => id, 'data-length' => scans.properties.length, 'data-page' => scans.properties.page, 'data-page-size' => scans.properties.page_size, 'data-page-first' => scans.properties.page_first, 'data-page-last' => scans.properties.page_last}
-  %table.table{'data-sort' => 'table', 'data-sort-list' => '[[1,1]]'}
+  %table.table{'data-sort' => 'table', 'data-sort-list' => '[[0,1]]'}
     %thead
       %tr
-        %th.header.headerSortDown Host
-        %th.header Created
+        %th.header.headerSortDown Created
+        %th.header Host
         %th.header Updated
         %th.header.text-center Available Updates
         %th.header.text-center Installed Updates
@@ -11,9 +11,8 @@
     %tbody
       - scans.items.each do |package|
         %tr
-          %td
-            %a= package.hostname
           %td= package.created_at
+          %td= package.hostname
           %td= package.updated_at
           %td.text-center= package.updates_pending
           %td.text-center= package.get_installed.count

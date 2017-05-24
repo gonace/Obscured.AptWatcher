@@ -1,6 +1,6 @@
 .dashhead
   .dashhead-titles.mb-3
-    %h6.dashhead-subtitle Settings
+    %h6.dashhead-subtitle User
     %h2.dashhead-title=user.name
   .btn-toolbar.dashhead-toolbar
     .btn-toolbar-item.mr-2
@@ -45,6 +45,24 @@
         %p#passwordHelpBlock.form-text.text-muted
           Your password must be 6-22 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
   %button.btn.btn-primary.btn-pill{:type => 'submit'} Change password
+
+%form#formPermissions{:action => "/users/#{user.id}/permissions/update", :method => 'post'}
+  .hr-divider.my-4
+    %h3.hr-divider-content.hr-divider-heading Permissions
+  .form-group
+    .row
+      .col-12
+        .input-group
+          %input{:type => 'hidden', :name=>'user_role', :value => user.nil? ? Obscured::Doorman::Roles::ADMIN : user.role}
+          %span.input-group-addon.control-label Role
+          %select.form-control.custom-select{:type => 'text', :name => 'user_role'}
+            - Obscured::Doorman::Roles.constants.each do |const|
+              - if !user.nil? and Obscured::Doorman::Roles.const_get(const) == user.role
+                %option{:value => Obscured::Doorman::Roles.const_get(const), :selected => 'selected'}= Obscured::Doorman::Roles.const_get(const)
+              - else
+                %option{:value => Obscured::Doorman::Roles.const_get(const)}= Obscured::Doorman::Roles.const_get(const)
+
+  %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
 
 .hr-divider.my-4
   %h3.hr-divider-content.hr-divider-heading History

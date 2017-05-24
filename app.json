@@ -6,7 +6,9 @@
     "ruby",
     "slack",
     "bootstrap",
-    "dashboard"
+    "dashboard",
+    "statistics",
+    "updates"
   ],
   "repository": "https://github.com/gonace/Obscured.AptWatcher",
   "success_url": "/",

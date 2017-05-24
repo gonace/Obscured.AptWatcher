@@ -1,0 +1,64 @@
+.dashhead
+  .dashhead-titles.mb-3
+    %h6.dashhead-subtitle Notifications
+    %h2.dashhead-title= alert.message
+
+- if flash[:save_ok]
+  .alert.alert-success.mt-2
+    %strong Well done!
+    = flash[:save_ok]
+- if flash[:save_warning]
+  .alert.alert-warning.mt-2
+    %strong Warning!
+    = flash[:save_warning]
+- if flash[:save_error]
+  .alert.alert-danger.mt-2
+    %strong Oh snap!
+    = flash[:save_error]
+
+.hr-divider.my-2
+  %h3.hr-divider-content.hr-divider-heading Properties
+.row
+  .col-6
+    %label{:for => 'alertType'} Type
+    %input#alertType.form-control{:name => 'alert_type', :value => alert.type, :disabled => 'disabled', :type => 'text'}
+  .col-6
+    %label{:for => 'alertHostname'} Hostname
+    %input#alertHostname.form-control{:name => 'alert_type', :value => alert.type, :disabled => 'disabled', :type => 'text'}
+.row.mt-2
+  .col-6
+    %label{:for => 'alertStatus'} Status
+    %input#alertStatus.form-control{:name => 'alert_status', :value => alert.status, :disabled => 'disabled', :type => 'text'}
+  .col-6
+    %label{:for => 'alertDate'} Date
+    %input#alertDate.form-control{:name => 'alert_date', :value => alert.created_at, :disabled => 'disabled', :type => 'text'}
+
+
+- if (defined? alert.backtrace and !alert.backtrace.blank?)
+  %h4.mt-4
+    Backtrace
+  .card.mb-3{ :style => 'background: transparent;border: 1px solid #434857;'}
+    .card-block
+      %code
+        =alert.backtrace
+        - if (defined? alert.payload)
+          =JSON.pretty_generate(alert.payload.to_json) rescue alert.payload
+
+- if (defined? alert.payload and !alert.payload.blank?)
+  %h4.mt-4
+    Payload
+  .card.mb-3{ :style => 'background: transparent;border: 1px solid #434857;'}
+    .card-block
+      %code
+        =alert.payload
+
+%form{:action => "/notifications/view/#{alert.id}/update", :method => 'post'}
+  - if alert.status == Obscured::Status::OPEN.to_s
+    %button.btn.btn-pill.btn-success{:type => 'submit', :name => 'action', :value => 'resolve'} Resolve
+  - if alert.status == Obscured::Status::CLOSED.to_s
+    %button.btn.btn-pill.btn-warning{:type => 'submit', :name => 'action', :value => 'reopen'} Reopen
+
+- if !history.blank?
+  .hr-divider.my-4
+    %h3.hr-divider-content.hr-divider-heading History
+    = partial :'../shared/partials/history', :locals => {:history => history}

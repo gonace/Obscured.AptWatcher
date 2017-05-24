@@ -20,6 +20,7 @@ require 'sinatra/partial'
 require 'sinatra/multi_route'
 require 'sinatra/namespace'
 require 'slack-notifier'
+require 'platform-api'
 require 'pp'
 require 'warden'
 
@@ -97,6 +98,10 @@ end
 
 map '/error' do
   run Obscured::AptWatcher::Controllers::Error
+end
+
+map '/errors' do
+  run Obscured::AptWatcher::Controllers::Errors
 end
 
 map '/history' do

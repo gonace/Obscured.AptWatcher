@@ -51,7 +51,7 @@ module Obscured
           alert = Obscured::AptWatcher::Models::Alert.find(params[:id]) rescue redirect('/')
           history = alert.history_logs.reverse { |a,b| a.created_at <=> b.created_at }
 
-          haml :notification, :locals => { :alert => alert, :history => history }
+          haml :view, :locals => { :alert => alert, :history => history }
         end
 
         post '/view/:id/update' do

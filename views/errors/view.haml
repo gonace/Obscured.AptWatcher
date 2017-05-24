@@ -1,0 +1,38 @@
+.dashhead
+  .dashhead-titles.mb-3
+    %h6.dashhead-subtitle Error
+    %h2.dashhead-title= error.message
+
+.hr-divider.my-2
+  %h3.hr-divider-content.hr-divider-heading Properties
+.row
+  .col-6
+    %label{:for => 'errorType'} Type
+    %input#errorType.form-control{:name => 'error_type', :value => error.type, :disabled => 'disabled', :type => 'text'}
+  .col-6
+    %label{:for => 'errorNotifier'} Notifier
+    %input#errorNotifier.form-control{:name => 'error_notifier', :value => error.notifier, :disabled => 'disabled', :type => 'text'}
+.row.mt-2
+  .col-6
+    %label{:for => 'errorStatus'} Status
+    %input#errorStatus.form-control{:name => 'error_status', :value => error.status, :disabled => 'disabled', :type => 'text'}
+  .col-6
+    %label{:for => 'errorDate'} Date
+    %input#errorDate.form-control{:name => 'error_date', :value => error.created_at, :disabled => 'disabled', :type => 'text'}
+
+
+- if (defined? error.backtrace and !error.backtrace.blank?)
+  %h4.mt-4
+    Backtrace
+  .card.mb-3{ :style => 'background: transparent;border: 1px solid #434857;'}
+    .card-block
+      %code
+        =error.backtrace
+
+- if (defined? error.payload and !error.payload.blank?)
+  %h4.mt-4
+    Payload
+  .card.mb-3{ :style => 'background: transparent;border: 1px solid #434857;'}
+    .card-block
+      %code
+        =error.payload

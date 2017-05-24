@@ -150,6 +150,32 @@ module Obscured
             redirect "/users/#{user.id}/view"
           end
         end
+
+        post '/:id/permissions/update' do
+          authorize!
+
+          begin
+            raise Obscured::DomainError.new(:required_field_missing, what: ':id') if params[:id].empty?
+
+
+            role = params.delete('user_role')
+            user = Obscured::Doorman::User.find(params[:id]) rescue redirect('/users')
+
+            unless role.empty?
+              user.set_role(role)
+              user.save
+              flash[:save_ok] = "We're glad to announce that we could successfully change the permission role for (#{user.username})"
+            end
+
+            redirect "/users/#{user.id}/view"
+          rescue => e
+            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Raygun.track_exception(e)
+
+            flash[:save_error] = "We're sad to announce that we could not update permissions for (#{user.username})"
+            redirect "/users/#{user.id}/view"
+          end
+        end
       end
     end
   end

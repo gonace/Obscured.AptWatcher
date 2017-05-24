@@ -8,12 +8,12 @@
     %meta{:content => '', :name => 'keywords'}
     %meta{:content => '', :name => 'author'}
 
-    %title= 'Notifications (Obscured.AptWatcher)'
+    %title= 'Errors (Obscured.AptWatcher)'
     = partial :'../shared/partials/styles'
 
   %body
     .with-iconav
-      = partial :'../shared/partials/navigation', :locals => { :active => 'notifications' }
+      = partial :'../shared/partials/navigation', :locals => {:active => 'errors'}
       .container
         = partial :'../shared/partials/error.generic'
         = yield
