@@ -1,10 +1,10 @@
-ruby '2.3.4'
 source 'https://rubygems.org'
+ruby '2.4.1'
 
 gem 'bcrypt'
 gem 'dotenv'
 gem 'geocoder'
-gem 'haml', '~> 4'
+gem 'haml', '~> 5'
 gem 'json'
 gem 'mongoid'
 gem 'password_strength'
