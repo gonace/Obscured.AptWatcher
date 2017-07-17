@@ -101,9 +101,6 @@ GEM
       tilt (>= 1.3, < 3)
     sinatra-flash (0.3.0)
       sinatra (>= 1.0.0)
-    sinatra-json (0.1.0)
-      multi_json (~> 1.0)
-      sinatra (~> 1.0)
     sinatra-param (1.4.0)
       sinatra (~> 1.3)
     sinatra-partial (1.0.0)
@@ -141,10 +138,9 @@ DEPENDENCIES
   raygun4ruby
   rerun
   sass
-  sinatra
+  sinatra (~> 1.4.8)
   sinatra-contrib
   sinatra-flash
-  sinatra-json
   sinatra-param
   sinatra-partial
   slack-notifier
