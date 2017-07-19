@@ -2,6 +2,7 @@ STDOUT.sync = true
 
 require 'bcrypt'
 require 'geocoder'
+require 'haml'
 require 'json'
 require 'mongoid'
 require 'password_strength'
@@ -23,6 +24,11 @@ require 'slack-notifier'
 require 'platform-api'
 require 'pp'
 require 'warden'
+
+###
+# Haml
+###
+Haml::TempleEngine.disable_option_validator!
 
 ###
 # Mongoid, configuration

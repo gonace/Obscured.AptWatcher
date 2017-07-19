@@ -7,7 +7,7 @@ list of packages that need to be updated and sends that list to
 AptWatcher:
 
 #### Structure
-One line is interperted as one service
+One line is interpreted as one service
 ```
 {
     "name": "service_name",
