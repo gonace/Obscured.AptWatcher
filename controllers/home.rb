@@ -4,6 +4,9 @@ module Obscured
       class Home < Obscured::AptWatcher::Controllers::Base
         set :views, settings.root + '/../views/home'
 
+        get '/test' do
+          Obscured::Doorman::Providers::Bitbucket.authenticate(self)
+        end
 
         get '/home' do
           redirect '/'

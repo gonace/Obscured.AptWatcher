@@ -1,21 +1,35 @@
 module Obscured
   module Doorman
-    module Helper
+    module Helpers
       # The main accessor to the warden middleware
       def warden
         request.env['warden']
       end
 
       # Check the current session is authenticated to a given scope
-      def authenticated?
-        warden.authenticated?
+      def authenticated?(scope=nil)
+        scope ? warden.authenticated?(:scope => scope) : warden.authenticated?
       end
+      alias_method :logged_in?, :authenticated?
+
+      # Authenticate a user against defined strategies
+      def authenticate(*args)
+        warden.authenticate!(*args)
+      end
+      alias_method :login, :authenticate
 
       # Return session info
       #
       # @param [Symbol] scope the scope to retrieve session info for
       def session_info(scope=nil)
         scope ? warden.session(scope) : scope
+      end
+
+      # Terminate the current session
+      #
+      # @param [Symbol] scopes the session scope to terminate
+      def logout(scopes=nil)
+        scopes ? warden.logout(scopes) : warden.logout(warden.config.default_scope)
       end
 
       # Access the user from the current session

@@ -17,6 +17,7 @@ require 'sinatra/contrib/all'
 require 'sinatra/cookies'
 require 'sinatra/flash'
 require 'sinatra/json'
+require 'sinatra/param'
 require 'sinatra/partial'
 require 'sinatra/multi_route'
 require 'sinatra/namespace'
@@ -75,14 +76,27 @@ Geocoder.configure(
 # Doorman, configuration
 ###
 Obscured::Doorman.configure(
-  :confirmation => ENV['USER_CONFIRMATION'],
-  :registration => ENV['USER_REGISTRATION'],
-  :smtp_domain => ENV['SENDGRID_DOMAIN'],
-  :smtp_server => ENV['SENDGRID_SERVER'],
-  :smtp_password => ENV['SENDGRID_PASSWORD'],
-  :smtp_port => ENV['SENDGRID_PORT'],
-  :smtp_username => ENV['SENDGRID_USERNAME']
+  :confirmation    => ENV['USER_CONFIRMATION'],
+  :registration    => ENV['USER_REGISTRATION'],
+  :smtp_domain     => ENV['SENDGRID_DOMAIN'],
+  :smtp_server     => ENV['SENDGRID_SERVER'],
+  :smtp_password   => ENV['SENDGRID_PASSWORD'],
+  :smtp_port       => ENV['SENDGRID_PORT'],
+  :smtp_username   => ENV['SENDGRID_USERNAME'],
+  :providers       => [
+    Obscured::Doorman::Providers::Bitbucket.configure(
+      :client_id       => ENV['BITBUCKET_KEY'],
+      :client_secret   => ENV['BITBUCKET_SECRET'],
+      :valid_domains   => 'adeprimo.se'
+    ),
+    Obscured::Doorman::Providers::GitHub.configure(
+      :client_id       => ENV['GITHUB_KEY'],
+      :client_secret   => ENV['GITHUB_SECRET'],
+      :valid_domains   => 'adeprimo.se'
+    )
+  ]
 )
+
 
 if Obscured::Doorman::User.count == 0
   user = Obscured::Doorman::User.make({:username => ENV['ADMIN_EMAIL'], :password => ENV['ADMIN_PASSWORD']})
@@ -169,3 +183,11 @@ end
 map '/api/scans' do
   run Obscured::AptWatcher::Controllers::Api::Scan
 end
+
+
+###
+# TEST
+##
+#map '/doorman/oauth/bitbucket' do
+#
+#end

@@ -3,7 +3,7 @@ module Obscured
     module Controllers
       class Base < Sinatra::Base
         helpers Obscured::Helpers::SlackHelper
-        helpers Obscured::Doorman::Helper
+        helpers Obscured::Doorman::Helpers
         register Sinatra::Namespace
         register Sinatra::ConfigFile
         register Sinatra::Contrib

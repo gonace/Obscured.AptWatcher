@@ -3,12 +3,12 @@ module Obscured
     ##
     # Configuration options should be set by passing a hash:
     #
-    #   Geocoder.configure(
+    #   Obscured::Doorman.configure(
     #     :confirmation   => false,
     #     :registration   => true,
-    #     :smtp_domain    => "domain.tld",
-    #     :smtp_username  => "username",
-    #     :smtp_password  => "password",
+    #     :smtp_domain    => 'domain.tld',
+    #     :smtp_username  => 'username',
+    #     :smtp_password  => 'password',
     #   )
     #
     def self.configure(options = nil, &block)
@@ -40,8 +40,8 @@ module Obscured
     # Merge the given hash into a lookup's existing configuration.
     #
     def self.merge_into_lookup_config(lookup_name, options)
-      base = Geocoder.config[lookup_name]
-      Geocoder.configure(lookup_name => base.merge(options))
+      base = Doorman.config[lookup_name]
+      Doorman.configure(lookup_name => base.merge(options))
     end
 
     class Configuration
@@ -55,7 +55,9 @@ module Obscured
         :smtp_port,
         :smtp_username,
         :smtp_password,
-        :paths
+        :paths,
+        :remember_cookie,
+        :providers
       ]
 
       attr_accessor :data
@@ -96,6 +98,8 @@ module Obscured
         @data[:use_referrer]      = true                  # Setting this to true will store last request URL
                                                           # into a user's session so that to redirect back to it
                                                           # upon successful authentication
+        @data[:remember_cookie]   = 'sinatra.doorman.remember'
+        @data[:providers]         = []
 
         @data[:paths]             = { :success => '/home',
                                       :login => '/doorman/login',
