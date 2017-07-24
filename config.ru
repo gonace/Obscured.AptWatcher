@@ -87,12 +87,12 @@ Obscured::Doorman.configure(
     Obscured::Doorman::Providers::Bitbucket.configure(
       :client_id       => ENV['BITBUCKET_KEY'],
       :client_secret   => ENV['BITBUCKET_SECRET'],
-      :valid_domains   => 'adeprimo.se'
+      :valid_domains   => ENV['VALID_DOMAINS']
     ),
     Obscured::Doorman::Providers::GitHub.configure(
       :client_id       => ENV['GITHUB_KEY'],
       :client_secret   => ENV['GITHUB_SECRET'],
-      :valid_domains   => 'adeprimo.se'
+      :valid_domains   => ENV['VALID_DOMAINS']
     )
   ]
 )
