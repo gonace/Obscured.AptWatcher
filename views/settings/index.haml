@@ -3,112 +3,277 @@
     %h6.dashhead-subtitle Settings
     %h2.dashhead-title
 
-.alert.alert-warning.mt-2
-  %strong Heads up!
-  This feature is in preview, no changes can be done but these are the environment variables in Heroku.
-- if flash[:save_ok]
-  .alert.alert-success.mt-2
-    %strong Well done!
-    = flash[:save_ok]
-- if flash[:save_error]
-  .alert.alert-danger.mt-2
-    %strong Oh snap!
-    = flash[:save_error]
-- if ENV['HEROKU_TOKEN'].nil?
-  .alert.alert-danger.mt-2
-    %strong Oh snap!
-    It seams that you've not configured the
-    %code ENV['HEROKU_TOKEN']
-    config variable, to proceed and change these settings this step needs to be taken. Instructions
-    %a{:href => 'https://github.com/heroku/platform-api#a-real-world-example'} here!
+%div#alert-wrapper
+  - if flash[:save_ok]
+    .alert.alert-success.mt-2
+      %strong Well done!
+      = flash[:save_ok]
+  - if flash[:save_error]
+    .alert.alert-danger.mt-2
+      %strong Oh snap!
+      = flash[:save_error]
+  - if ENV['HEROKU_TOKEN'].nil?
+    .alert.alert-danger.mt-2
+      %strong Oh snap!
+      It seams that you've not configured the
+      %code ENV['HEROKU_TOKEN']
+      config variable, to proceed and change these settings this step needs to be taken. Instructions
+      %a{:href => 'https://github.com/heroku/platform-api#a-real-world-example'} here!
 
-%form#formBasic{:action => '/settings/slack/update', :method => 'post'}
+%div
   .hr-divider.my-4
     %h3.hr-divider-content.hr-divider-heading Application
-  .form-group
-    .row
-      .col-4
-        %input.form-control{:placeholder => 'RayGun API Key', :name => 'slack_channel', :value => config['RAYGUN_KEY'], :type => 'text', 'data-rule-required' => 'true'}
-
   .form-group
     .alert.alert-info
       %strong Heads up!
       If you disable registration no user can register (users can be created once logged in) or if you disable confirmation the users email address will automatically be confirmed upon registration/creation.
     .row
       .col-3
-        %label User confirmation
-        %br
-        .btn-group{'data-toggle' => 'buttons'}
-          - if config['USER_CONFIRMATION'] == 'true'
-            %label.btn.btn-info.active
-              %input{:autocomplete => 'off', :checked => 'checked', :name => 'user_confirmation', :type => 'radio'}
-              On
-            %label.btn.btn-info
-              %input{:autocomplete => 'off', :name => 'user_confirmation', :type => 'radio'}
-              Off
-          - else
-            %label.btn.btn-info
-              %input{:autocomplete => 'off', :name => 'user_confirmation', :type => 'radio'}
-              On
-            %label.btn.btn-info.active
-              %input{:autocomplete => 'off', :checked => 'checked', :name => 'user_confirmation', :type => 'radio'}
-              Off
-      .col-3
         %label User registration
         %br
         .btn-group{'data-toggle' => 'buttons'}
-          - if config['USER_REGISTRATION'] == 'true'
-            %label.btn.btn-info.active
+          - if config.user_registration
+            %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/registration'}
               %input{:autocomplete => 'off', :checked => 'checked', :name => 'user_registration', :type => 'radio'}
               On
-            %label.btn.btn-info
+            %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/registration'}
               %input{:autocomplete => 'off', :name => 'user_registration', :type => 'radio'}
               Off
           - else
-            %label.btn.btn-info
+            %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/disable/registration'}
               %input{:autocomplete => 'off', :name => 'user_registration', :type => 'radio'}
               On
-            %label.btn.btn-info.active
+            %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/disable/registration'}
               %input{:autocomplete => 'off', :checked => 'checked', :name => 'user_registration', :type => 'radio'}
+              Off
+      .col-3
+        %label User confirmation
+        %br
+        .btn-group{'data-toggle' => 'buttons'}
+          - if config.user_confirmation
+            %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/confirmation'}
+              %input{:autocomplete => 'off', :checked => 'checked', :name => 'user_confirmation', :type => 'radio'}
+              On
+            %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/confirmation'}
+              %input{:autocomplete => 'off', :name => 'user_confirmation', :type => 'radio'}
+              Off
+          - else
+            %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/disable/confirmation'}
+              %input{:autocomplete => 'off', :name => 'user_confirmation', :type => 'radio'}
+              On
+            %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/disable/confirmation'}
+              %input{:autocomplete => 'off', :checked => 'checked', :name => 'user_confirmation', :type => 'radio'}
+              Off
+      .col-3
+        %label Raygun
+        %br
+        .btn-group{'data-toggle' => 'buttons'}
+          - if config.raygun_enabled
+            %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/raygun'}
+              %input{:autocomplete => 'off', :checked => 'checked', :name => 'raygun_enabled', :type => 'radio'}
+              On
+            %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/raygun'}
+              %input{:autocomplete => 'off', :name => 'raygun_enabled', :type => 'radio'}
+              Off
+          - else
+            %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/raygun'}
+              %input{:autocomplete => 'off', :name => 'raygun_enabled', :type => 'radio'}
+              On
+            %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/raygun'}
+              %input{:autocomplete => 'off', :checked => 'checked', :name => 'raygun_enabled', :type => 'radio'}
+              Off
+      .col-3
+        %label Mail
+        %br
+        .btn-group{'data-toggle' => 'buttons'}
+          - if config.smtp_enabled
+            %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/mail'}
+              %input{:autocomplete => 'off', :checked => 'checked', :name => 'smtp_enabled', :type => 'radio'}
+              On
+            %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/mail'}
+              %input{:autocomplete => 'off', :name => 'smtp_enabled', :type => 'radio'}
+              Off
+          - else
+            %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/mail'}
+              %input{:autocomplete => 'off', :name => 'smtp_enabled', :type => 'radio'}
+              On
+            %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/mail'}
+              %input{:autocomplete => 'off', :checked => 'checked', :name => 'smtp_enabled', :type => 'radio'}
+              Off
+      .col-3
+        %label Slack
+        %br
+        .btn-group{'data-toggle' => 'buttons'}
+          - if config.slack_enabled
+            %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/slack'}
+              %input{:autocomplete => 'off', :checked => 'checked', :name => 'smtp_enabled', :type => 'radio'}
+              On
+            %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/slack'}
+              %input{:autocomplete => 'off', :name => 'smtp_enabled', :type => 'radio'}
+              Off
+          - else
+            %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/slack'}
+              %input{:autocomplete => 'off', :name => 'smtp_enabled', :type => 'radio'}
+              On
+            %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/slack'}
+              %input{:autocomplete => 'off', :checked => 'checked', :name => 'smtp_enabled', :type => 'radio'}
+              Off
+      .col-3
+        %label Bitbucket SSO
+        %br
+        .btn-group{'data-toggle' => 'buttons'}
+          - if config.bitbucket_enabled
+            %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/bitbucket'}
+              %input{:autocomplete => 'off', :checked => 'checked', :name => 'bitbucket_enabled', :type => 'radio'}
+              On
+            %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/bitbucket'}
+              %input{:autocomplete => 'off', :name => 'bitbucket_enabled', :type => 'radio'}
+              Off
+          - else
+            %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/bitbucket'}
+              %input{:autocomplete => 'off', :name => 'bitbucket_enabled', :type => 'radio'}
+              On
+            %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/bitbucket'}
+              %input{:autocomplete => 'off', :checked => 'checked', :name => 'bitbucket_enabled', :type => 'radio'}
+              Off
+      .col-3
+        %label GitHub SSO
+        %br
+        .btn-group{'data-toggle' => 'buttons'}
+          - if config.github_enabled
+            %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/github'}
+              %input{:autocomplete => 'off', :checked => 'checked', :name => 'github_enabled', :type => 'radio'}
+              On
+            %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/github'}
+              %input{:autocomplete => 'off', :name => 'github_enabled', :type => 'radio'}
+              Off
+          - else
+            %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/github'}
+              %input{:autocomplete => 'off', :name => 'github_enabled', :type => 'radio'}
+              On
+            %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/github'}
+              %input{:autocomplete => 'off', :checked => 'checked', :name => 'github_enabled', :type => 'radio'}
               Off
 
 
-  %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes
+%form#formAPI{:action => '/settings/api/update', :method => 'post'}
+  .hr-divider.my-4
+    %h3.hr-divider-content.hr-divider-heading API
+  .form-group
+    .row
+      .col-6
+        %input.form-control{:placeholder => 'username', :name => 'api_username', :value => config.api_username, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '6'}
+      .col-6
+        %input.form-control{:placeholder => 'password', :name => 'api_password', :value => config.api_password, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '6'}
+  %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
+
+
+%form#formRaygun{:action => '/settings/raygun/update', :method => 'post'}
+  .hr-divider.my-4
+    %h3.hr-divider-content.hr-divider-heading Raygun
+  .form-group
+    - unless config.raygun_enabled
+      = partial :'../shared/partials/alert', :locals => { :klass => 'alert-danger mb-2', :title => 'Oh snap!', :message => "This feature is disabled so no changes can be made until it's re-enabled!"}
+    .row
+      .col-6
+        %input.form-control{:placeholder => 'RayGun API Key', :name => 'raygun_key', :value => config.raygun_key, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '6'}
+  - if config.raygun_enabled
+    %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
+  - else
+    %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes
 
 
 %form#formSlack{:action => '/settings/slack/update', :method => 'post'}
   .hr-divider.my-4
     %h3.hr-divider-content.hr-divider-heading Slack
   .form-group
+    - unless config.slack_enabled
+      = partial :'../shared/partials/alert', :locals => { :klass => 'alert-danger mb-2', :title => 'Oh snap!', :message => "This feature is disabled so no changes can be made until it's re-enabled!"}
     .row
       .col-4
-        %input.form-control{:placeholder => 'channel', :name => 'slack_channel', :value => config['SLACK_CHANNEL'], :type => 'text', 'data-rule-required' => 'true'}
+        %input.form-control{:placeholder => 'channel', :name => 'slack_channel', :value => config.slack_channel, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '1'}
       .col-4
-        %input.form-control{:placeholder => 'Obscuerd.AptWatcher', :name => 'slack_user', :value => config['SLACK_USER'], :type => 'text', 'data-rule-required' => 'true'}
+        %input.form-control{:placeholder => 'Obscuerd.AptWatcher', :name => 'slack_user', :value => config.slack_user, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '1'}
       .col-4
-        %input.form-control{:placeholder => ':slack:', :name => 'slack_icon', :value => config['SLACK_ICON'], :type => 'text', 'data-rule-required' => 'true'}
+        %input.form-control{:placeholder => ':slack:', :name => 'slack_icon', :value => config.slack_icon, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '1', 'data-rule-slackicon' => 'true'}
   .form-group
     .row
       .col-12
-        %input#webhookUrl.form-control{:placeholder => 'http://', :name => 'slack_webhook', :value => config['SLACK_WEBHOOK_URL'], :type => 'text', 'data-rule-required' => 'true'}
-  %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes
+        %input#webhookUrl.form-control{:placeholder => 'https://hooks.slack.com/services/***/***/***', :name => 'slack_webhook', :value => config.slack_webhook, :type => 'text', 'data-rule-required' => 'true'}
+  - if config.slack_enabled
+    %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
+  - else
+    %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes
 
 
-%form#formSendgrid{:action => '/settings/sendgrid/update', :method => 'post'}
+%form#formMail{:action => '/settings/mail/update', :method => 'post'}
   .hr-divider.my-4
-    %h3.hr-divider-content.hr-divider-heading Sendgrid
+    %h3.hr-divider-content.hr-divider-heading Mail
   .form-group
+    - unless config.smtp_enabled
+      = partial :'../shared/partials/alert', :locals => { :klass => 'alert-danger mb-2', :title => 'Oh snap!', :message => "This feature is disabled so no changes can be made until it's re-enabled!"}
     .row
       .col-4
-        %input.form-control{:placeholder => 'obscured.se', :name => 'sendgrid_domain', :value => config['SENDGRID_DOMAIN'], :type => 'text', 'data-rule-required' => 'true'}
+        %input.form-control{:placeholder => 'obscured.se', :name => 'smtp_domain', :value => config.smtp_domain, :type => 'text', 'data-rule-required' => 'true'}
       .col-4
-        %input.form-control{:placeholder => 'username', :name => 'sendgrid_username', :value => config['SENDGRID_USERNAME'], :type => 'text', 'data-rule-required' => 'true'}
+        %input.form-control{:placeholder => 'username', :name => 'smtp_username', :value => config.smtp_username, :type => 'text', 'data-rule-required' => 'true'}
       .col-4
-        %input.form-control{:placeholder => 'password', :name => 'sendgrid_password', :value => config['SENDGRID_PASSWORD'], :type => 'text', 'data-rule-required' => 'true'}
+        %input.form-control{:placeholder => 'password', :name => 'smtp_password', :value => config.smtp_password, :type => 'text', 'data-rule-required' => 'true'}
   .form-group
     .row
       .col-6
-        %input#sendgridServer.form-control{:placeholder => 'smtp.sendgrid.net', :name => 'sendgrid_server', :value => config['SENDGRID_SERVER'], :type => 'text', 'data-rule-required' => 'true'}
+        %input#smtpServer.form-control{:placeholder => 'smtp.sendgrid.net', :name => 'smtp_host', :value => config.smtp_host, :type => 'text', 'data-rule-required' => 'true'}
       .col-6
-        %input#sendgridPort.form-control{:placeholder => '587', :name => 'sendgrid_port', :value => config['SENDGRID_PORT'], :type => 'text', 'data-rule-required' => 'true'}
-  %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes
+        %input#smtpPort.form-control{:placeholder => '587', :name => 'smtp_port', :value => config.smtp_port, :type => 'text', 'data-rule-required' => 'true'}
+  - if config.smtp_enabled
+    %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
+  - else
+    %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes
+
+
+
+%form#formBitbucket{:action => '/settings/bitbucket/update', :method => 'post'}
+  .hr-divider.my-4
+    %h3.hr-divider-content.hr-divider-heading Bitbucket
+  .form-group
+    - unless config.bitbucket_enabled
+      = partial :'../shared/partials/alert', :locals => { :klass => 'alert-danger mb-2', :title => 'Oh snap!', :message => "This feature is disabled so no changes can be made until it's re-enabled!"}
+    .row
+      .col-6
+        %input.form-control{:placeholder => 'key', :name => 'bitbucket_key', :value => config.bitbucket_key, :type => 'text', 'data-rule-required' => 'true'}
+      .col-6
+        %input.form-control{:placeholder => 'secret', :name => 'bitbucket_secret', :value => config.bitbucket_secret, :type => 'text', 'data-rule-required' => 'true'}
+  - if config.bitbucket_enabled
+    %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
+  - else
+    %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes
+
+
+
+%form#formGitHub{:action => '/settings/github/update', :method => 'post'}
+  .hr-divider.my-4
+    %h3.hr-divider-content.hr-divider-heading GitHub
+  .form-group
+    - unless config.github_enabled
+      = partial :'../shared/partials/alert', :locals => { :klass => 'alert-danger mb-2', :title => 'Oh snap!', :message => "This feature is disabled so no changes can be made until it's re-enabled!"}
+    .row
+      .col-6
+        %input.form-control{:placeholder => 'key', :name => 'github_key', :value => config.github_key, :type => 'text', 'data-rule-required' => 'true'}
+      .col-6
+        %input.form-control{:placeholder => 'secret', :name => 'github_secret', :value => config.github_secret, :type => 'text', 'data-rule-required' => 'true'}
+  - if config.github_enabled
+    %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
+  - else
+    %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes
+
+:javascript
+  jQuery(document).ready(function() {
+    jQuery('#formAPI').validate();
+    jQuery('#formRaygun').validate();
+    jQuery('#formSlack').validate();
+    jQuery('#formMail').validate();
+    jQuery('#formBitbucket').validate();
+    jQuery('#formGitHub').validate();
+
+    Obscured.Helpers.Enabler.Bind({});
+  });

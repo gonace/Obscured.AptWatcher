@@ -11,6 +11,7 @@
 %script{:src => '/script/core/obscured.loader.js'}
 %script{:src => '/script/core/obscured.password.js'}
 %script{:src => '/script/core/obscured.pagination.js'}
+%script{:src => '/script/helpers/obscured.enabler.js'}
 
 
 %script{:src => '/script/toolkit/toolkit.min.js'}
@@ -80,3 +81,6 @@
       }
     }
   });
+  jQuery.validator.addMethod("slackicon", function(value, element) {
+    return (this.optional(element) || (value.startsWith(":") && value.endsWith(":")));
+  }, "Must start and end with the character :");

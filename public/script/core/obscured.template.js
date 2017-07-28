@@ -16,8 +16,10 @@ Obscured.Template = function ($) {
             // Set option values
             options.method = typeof options.method === "undefined" ? "append" : options.method;
 
-            if (options.method === "c")
+            if (options.method === "append")
                 options.parent.append(html);
+            else if (options.method === "before")
+                options.parent.before(html);
             else if (options.method === "prepend")
                 options.parent.prepend(html);
             else if (options.method === "insert" || options.method === "replace")

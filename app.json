@@ -3,6 +3,7 @@
   "description": "Obscured.AptWatcher is a simple Sinatra app that helps you keep track of packages that need updating on your servers.",
   "keywords": [
     "apt",
+    "aptitude",
     "ruby",
     "slack",
     "bootstrap",
@@ -59,25 +60,25 @@
       "value": ":slack:",
       "required": false
     },
-    "SENDGRID_DOMAIN": {
+    "SMTP_DOMAIN": {
       "description": "The domain used as sender address, when sending mail",
       "required": false
     },
-    "SENDGRID_SERVER": {
+    "SMTP_SERVER": {
       "description": "The server used when sending mail (default: smtp.sendgrid.net)",
       "value": "smtp.sendgrid.net",
       "required": false
     },
-    "SENDGRID_PORT": {
+    "SMTP_PORT": {
       "description": "The server port used when sending mail (default: 587)",
       "value": "587",
       "required": false
     },
-    "SENDGRID_USERNAME": {
+    "SMTP_USERNAME": {
       "description": "The username used to authenticate against the mail-server, when sending mail",
       "required": false
     },
-    "SENDGRID_PASSWORD": {
+    "SMTP_PASSWORD": {
       "description": "The password used to authenticate against the mail-server, when sending mail",
       "required": false
     }

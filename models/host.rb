@@ -12,7 +12,10 @@ module Obscured
         field :updates_pending,       type: Integer, :default => 0
         field :updates_installed,     type: Integer, :default => 0
 
+        index({ hostname: 1 }, { background: true })
+
         before_save :validate!
+
 
         def self.make(opts)
           raise Obscured::DomainError.new(:required_field_missing, what: ':hostname') if opts[:hostname].empty?

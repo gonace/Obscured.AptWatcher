@@ -172,6 +172,7 @@ module Obscured
       register Strategies::ForgotPassword
       register Obscured::Doorman::Providers::Bitbucket
       register Obscured::Doorman::Providers::GitHub
+      helpers Sinatra::Configuration
       helpers Sinatra::Cookies
       use Rack::UserAgent
     end

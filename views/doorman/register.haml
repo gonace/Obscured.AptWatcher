@@ -34,10 +34,10 @@
               .row
                 .col-12
                   %label Choose your username
-                  %input#Email.form-control{:name => 'user[login]', :placeholder => "user@#{ENV['SENDGRID_DOMAIN']}", :type => 'email', :value => '', 'data-rule-required' => 'true'}
+                  %input#Email.form-control{:name => 'user[login]', :placeholder => "user@#{ENV['SMTP_DOMAIN']}", :type => 'email', :value => '', 'data-rule-required' => 'true'}
             .form-group
               .row
-                .col-12
+                .col-12s
                   %label Create a password
                   %div#passwordStrength.mb-2
                   %input#Password.form-control{:name => 'user[password]', :placeholder => '', :type => 'password', :value => '', 'data-rule-required' => 'true'}

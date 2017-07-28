@@ -44,6 +44,8 @@ clients: {
     }
   }
 })
+Mongoid.logger.level = Logger::DEBUG
+Mongo::Logger.logger.level = Logger::DEBUG
 
 ###
 # Raygun, configuration
@@ -55,10 +57,10 @@ use Raygun::Middleware::RackExceptionInterceptor
 
 
 # pull in the models, modules, helpers and controllers
-Dir.glob('./lib/{alert,common,helpers,package}/*.rb').sort.each { |file| require file }
+Dir.glob('./lib/{alert,common,entities,helpers,package,sinatra}/*.rb').sort.each { |file| require file }
 Dir.glob('./lib/*.rb').sort.each { |file| require file }
 Dir.glob('./lib/modules/*.rb').sort.each { |file| require file }
-Dir.glob('./models/embeded/*.rb').sort.each { |file| require file }
+Dir.glob('./models/embedded/*.rb').sort.each { |file| require file }
 Dir.glob('./models/*.rb').sort.each { |file| require file }
 Dir.glob('./controllers/*.rb').sort.each { |file| require file }
 Dir.glob('./controllers/api/*.rb').sort.each { |file| require file }
@@ -78,11 +80,11 @@ Geocoder.configure(
 Obscured::Doorman.configure(
   :confirmation    => ENV['USER_CONFIRMATION'],
   :registration    => ENV['USER_REGISTRATION'],
-  :smtp_domain     => ENV['SENDGRID_DOMAIN'],
-  :smtp_server     => ENV['SENDGRID_SERVER'],
-  :smtp_password   => ENV['SENDGRID_PASSWORD'],
-  :smtp_port       => ENV['SENDGRID_PORT'],
-  :smtp_username   => ENV['SENDGRID_USERNAME'],
+  :smtp_domain     => ENV['SMTP_DOMAIN'],
+  :smtp_server     => ENV['SMTP_SERVER'],
+  :smtp_password   => ENV['SMTP_PASSWORD'],
+  :smtp_port       => ENV['SMTP_PORT'],
+  :smtp_username   => ENV['SMTP_USERNAME'],
   :providers       => [
     Obscured::Doorman::Providers::Bitbucket.configure(
       :client_id       => ENV['BITBUCKET_KEY'],
@@ -105,6 +107,11 @@ if Obscured::Doorman::User.count == 0
   user.set_name('Homer', 'Simpson')
   user.set_title(Obscured::Doorman::Titles::GUARDIAN)
   user.save
+end
+if Obscured::AptWatcher::Models::Configuration.count == 0
+  config = Obscured::AptWatcher::Models::Configuration.make({:instance => 'aptwatcher'})
+  config.instance = 'aptwatcher'
+  config.save
 end
 
 
