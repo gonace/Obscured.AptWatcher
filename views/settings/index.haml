@@ -1,3 +1,4 @@
+= partial :'../shared/partials/setup'
 .dashhead
   .dashhead-titles.mb-3
     %h6.dashhead-subtitle Settings
@@ -12,13 +13,6 @@
     .alert.alert-danger.mt-2
       %strong Oh snap!
       = flash[:save_error]
-  - if ENV['HEROKU_TOKEN'].nil?
-    .alert.alert-danger.mt-2
-      %strong Oh snap!
-      It seams that you've not configured the
-      %code ENV['HEROKU_TOKEN']
-      config variable, to proceed and change these settings this step needs to be taken. Instructions
-      %a{:href => 'https://github.com/heroku/platform-api#a-real-world-example'} here!
 
 %div
   .hr-divider.my-4
@@ -68,7 +62,7 @@
         %label Raygun
         %br
         .btn-group{'data-toggle' => 'buttons'}
-          - if config.raygun_enabled
+          - if config.raygun.enabled
             %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/raygun'}
               %input{:autocomplete => 'off', :checked => 'checked', :name => 'raygun_enabled', :type => 'radio'}
               On
@@ -86,7 +80,7 @@
         %label Mail
         %br
         .btn-group{'data-toggle' => 'buttons'}
-          - if config.smtp_enabled
+          - if config.smtp.enabled
             %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/mail'}
               %input{:autocomplete => 'off', :checked => 'checked', :name => 'smtp_enabled', :type => 'radio'}
               On
@@ -104,7 +98,7 @@
         %label Slack
         %br
         .btn-group{'data-toggle' => 'buttons'}
-          - if config.slack_enabled
+          - if config.slack.enabled
             %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/slack'}
               %input{:autocomplete => 'off', :checked => 'checked', :name => 'smtp_enabled', :type => 'radio'}
               On
@@ -122,7 +116,7 @@
         %label Bitbucket SSO
         %br
         .btn-group{'data-toggle' => 'buttons'}
-          - if config.bitbucket_enabled
+          - if config.bitbucket.enabled
             %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/bitbucket'}
               %input{:autocomplete => 'off', :checked => 'checked', :name => 'bitbucket_enabled', :type => 'radio'}
               On
@@ -140,7 +134,7 @@
         %label GitHub SSO
         %br
         .btn-group{'data-toggle' => 'buttons'}
-          - if config.github_enabled
+          - if config.github.enabled
             %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/github'}
               %input{:autocomplete => 'off', :checked => 'checked', :name => 'github_enabled', :type => 'radio'}
               On
@@ -162,9 +156,9 @@
   .form-group
     .row
       .col-6
-        %input.form-control{:placeholder => 'username', :name => 'api_username', :value => config.api_username, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '6'}
+        %input.form-control{:placeholder => 'username', :name => 'api_username', :value => config.api.username, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '6'}
       .col-6
-        %input.form-control{:placeholder => 'password', :name => 'api_password', :value => config.api_password, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '6'}
+        %input.form-control{:placeholder => 'password', :name => 'api_password', :value => config.api.password, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '6'}
   %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
 
 
@@ -172,12 +166,12 @@
   .hr-divider.my-4
     %h3.hr-divider-content.hr-divider-heading Raygun
   .form-group
-    - unless config.raygun_enabled
+    - unless config.raygun.enabled
       = partial :'../shared/partials/alert', :locals => { :klass => 'alert-danger mb-2', :title => 'Oh snap!', :message => "This feature is disabled so no changes can be made until it's re-enabled!"}
     .row
       .col-6
-        %input.form-control{:placeholder => 'RayGun API Key', :name => 'raygun_key', :value => config.raygun_key, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '6'}
-  - if config.raygun_enabled
+        %input.form-control{:placeholder => 'RayGun API Key', :name => 'raygun_key', :value => config.raygun.key, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '6'}
+  - if config.raygun.enabled
     %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
   - else
     %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes
@@ -187,20 +181,20 @@
   .hr-divider.my-4
     %h3.hr-divider-content.hr-divider-heading Slack
   .form-group
-    - unless config.slack_enabled
+    - unless config.slack.enabled
       = partial :'../shared/partials/alert', :locals => { :klass => 'alert-danger mb-2', :title => 'Oh snap!', :message => "This feature is disabled so no changes can be made until it's re-enabled!"}
     .row
       .col-4
-        %input.form-control{:placeholder => 'channel', :name => 'slack_channel', :value => config.slack_channel, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '1'}
+        %input.form-control{:placeholder => 'channel', :name => 'slack_channel', :value => config.slack.channel, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '1'}
       .col-4
-        %input.form-control{:placeholder => 'Obscuerd.AptWatcher', :name => 'slack_user', :value => config.slack_user, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '1'}
+        %input.form-control{:placeholder => 'Obscuerd.AptWatcher', :name => 'slack_user', :value => config.slack.user, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '1'}
       .col-4
-        %input.form-control{:placeholder => ':slack:', :name => 'slack_icon', :value => config.slack_icon, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '1', 'data-rule-slackicon' => 'true'}
+        %input.form-control{:placeholder => ':slack:', :name => 'slack_icon', :value => config.slack.icon, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '1', 'data-rule-slackicon' => 'true'}
   .form-group
     .row
       .col-12
-        %input#webhookUrl.form-control{:placeholder => 'https://hooks.slack.com/services/***/***/***', :name => 'slack_webhook', :value => config.slack_webhook, :type => 'text', 'data-rule-required' => 'true'}
-  - if config.slack_enabled
+        %input#webhookUrl.form-control{:placeholder => 'https://hooks.slack.com/services/***/***/***', :name => 'slack_webhook', :value => config.slack.webhook, :type => 'text', 'data-rule-required' => 'true'}
+  - if config.slack.enabled
     %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
   - else
     %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes
@@ -210,22 +204,22 @@
   .hr-divider.my-4
     %h3.hr-divider-content.hr-divider-heading Mail
   .form-group
-    - unless config.smtp_enabled
+    - unless config.smtp.enabled
       = partial :'../shared/partials/alert', :locals => { :klass => 'alert-danger mb-2', :title => 'Oh snap!', :message => "This feature is disabled so no changes can be made until it's re-enabled!"}
     .row
       .col-4
-        %input.form-control{:placeholder => 'obscured.se', :name => 'smtp_domain', :value => config.smtp_domain, :type => 'text', 'data-rule-required' => 'true'}
+        %input.form-control{:placeholder => 'obscured.se', :name => 'smtp_domain', :value => config.smtp.domain, :type => 'text', 'data-rule-required' => 'true'}
       .col-4
-        %input.form-control{:placeholder => 'username', :name => 'smtp_username', :value => config.smtp_username, :type => 'text', 'data-rule-required' => 'true'}
+        %input.form-control{:placeholder => 'username', :name => 'smtp_username', :value => config.smtp.username, :type => 'text', 'data-rule-required' => 'true'}
       .col-4
-        %input.form-control{:placeholder => 'password', :name => 'smtp_password', :value => config.smtp_password, :type => 'text', 'data-rule-required' => 'true'}
+        %input.form-control{:placeholder => 'password', :name => 'smtp_password', :value => config.smtp.password, :type => 'text', 'data-rule-required' => 'true'}
   .form-group
     .row
       .col-6
-        %input#smtpServer.form-control{:placeholder => 'smtp.sendgrid.net', :name => 'smtp_host', :value => config.smtp_host, :type => 'text', 'data-rule-required' => 'true'}
+        %input#smtpServer.form-control{:placeholder => 'smtp.sendgrid.net', :name => 'smtp_host', :value => config.smtp.host, :type => 'text', 'data-rule-required' => 'true'}
       .col-6
-        %input#smtpPort.form-control{:placeholder => '587', :name => 'smtp_port', :value => config.smtp_port, :type => 'text', 'data-rule-required' => 'true'}
-  - if config.smtp_enabled
+        %input#smtpPort.form-control{:placeholder => '587', :name => 'smtp_port', :value => config.smtp.port, :type => 'text', 'data-rule-required' => 'true'}
+  - if config.smtp.enabled
     %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
   - else
     %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes
@@ -236,14 +230,18 @@
   .hr-divider.my-4
     %h3.hr-divider-content.hr-divider-heading Bitbucket
   .form-group
-    - unless config.bitbucket_enabled
+    - unless config.bitbucket.enabled
       = partial :'../shared/partials/alert', :locals => { :klass => 'alert-danger mb-2', :title => 'Oh snap!', :message => "This feature is disabled so no changes can be made until it's re-enabled!"}
     .row
       .col-6
-        %input.form-control{:placeholder => 'key', :name => 'bitbucket_key', :value => config.bitbucket_key, :type => 'text', 'data-rule-required' => 'true'}
+        %input.form-control{:placeholder => 'key', :name => 'bitbucket_key', :value => config.bitbucket.key, :type => 'text', 'data-rule-required' => 'true'}
       .col-6
-        %input.form-control{:placeholder => 'secret', :name => 'bitbucket_secret', :value => config.bitbucket_secret, :type => 'text', 'data-rule-required' => 'true'}
-  - if config.bitbucket_enabled
+        %input.form-control{:placeholder => 'secret', :name => 'bitbucket_secret', :value => config.bitbucket.secret, :type => 'text', 'data-rule-required' => 'true'}
+  .form-group
+    .row
+      .col-12
+        %input.form-control{:placeholder => 'Domain whitelist', :name => 'bitbucket_domains', :value => config.bitbucket.domains, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '4'}
+  - if config.bitbucket.enabled
     %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
   - else
     %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes
@@ -254,14 +252,18 @@
   .hr-divider.my-4
     %h3.hr-divider-content.hr-divider-heading GitHub
   .form-group
-    - unless config.github_enabled
+    - unless config.github.enabled
       = partial :'../shared/partials/alert', :locals => { :klass => 'alert-danger mb-2', :title => 'Oh snap!', :message => "This feature is disabled so no changes can be made until it's re-enabled!"}
     .row
       .col-6
-        %input.form-control{:placeholder => 'key', :name => 'github_key', :value => config.github_key, :type => 'text', 'data-rule-required' => 'true'}
+        %input.form-control{:placeholder => 'key', :name => 'github_key', :value => config.github.key, :type => 'text', 'data-rule-required' => 'true'}
       .col-6
-        %input.form-control{:placeholder => 'secret', :name => 'github_secret', :value => config.github_secret, :type => 'text', 'data-rule-required' => 'true'}
-  - if config.github_enabled
+        %input.form-control{:placeholder => 'secret', :name => 'github_secret', :value => config.github.secret, :type => 'text', 'data-rule-required' => 'true'}
+  .form-group
+    .row
+      .col-12
+        %input.form-control{:placeholder => 'Domain whitelist', :name => 'github_domains', :value => config.github.domains, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '4'}
+  - if config.github.enabled
     %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
   - else
     %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes

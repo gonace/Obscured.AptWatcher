@@ -6,7 +6,6 @@ module Obscured
         helpers Obscured::Doorman::Helpers
         helpers Sinatra::Configuration
         register Sinatra::Namespace
-        #register Sinatra::ConfigFile
         register Sinatra::Contrib
         register Sinatra::Flash
         register Sinatra::Partial

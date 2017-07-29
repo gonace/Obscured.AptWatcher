@@ -7,38 +7,29 @@ module Obscured
         store_in collection: 'configuration'
 
         field :instance,          type: String, :default => ''
-
-        field :api_username,      type: String, :default => ''
-        field :api_password,      type: String, :default => ''
+        field :setup_completed,   type: Boolean, :default => false
         field :user_registration, type: Boolean, :default => false
         field :user_confirmation, type: Boolean, :default => false
 
-        field :bitbucket_enabled, type: Boolean, :default => false
-        field :bitbucket_key,     type: String, :default => ''
-        field :bitbucket_secret,  type: String, :default => ''
-
-        field :github_enabled,    type: Boolean, :default => false
-        field :github_key,        type: String, :default => ''
-        field :github_secret,     type: String, :default => ''
-
-
-        field :slack_enabled,     type: Boolean, :default => false
-        field :slack_channel,     type: String, :default => ''
-        field :slack_icon,        type: String, :default => ':slack:'
-        field :slack_user,        type: String, :default => 'AptWatcher'
-        field :slack_webhook,     type: String
-
-        field :smtp_enabled,      type: Boolean, :default => false
-        field :smtp_domain,       type: String, :default => ''
-        field :smtp_host,         type: String, :default => 'smtp.sendgrid.net'
-        field :smtp_port,         type: Integer, :default => 587
-        field :smtp_username,     type: String
-        field :smtp_password,     type: String
-
-        field :raygun_enabled,    type: Boolean, :default => false
-        field :raygun_key,        type: String
-
         index({ instance: 1 }, { background: true })
+
+        embeds_one :api, :class_name => 'Obscured::AptWatcher::Models::APIConfiguration', autobuild: true
+        embeds_one :slack, :class_name => 'Obscured::AptWatcher::Models::SlackConfiguration', autobuild: true
+        embeds_one :smtp, :class_name => 'Obscured::AptWatcher::Models::SMTPConfiguration', autobuild: true
+        embeds_one :raygun, :class_name => 'Obscured::AptWatcher::Models::RaygunConfiguration', autobuild: true
+        embeds_one :bitbucket, :class_name => 'Obscured::AptWatcher::Models::BitbucketConfiguration', autobuild: true
+        embeds_one :github, :class_name => 'Obscured::AptWatcher::Models::GitHubConfiguration', autobuild: true
+
+        validates_presence_of :api
+        validates_presence_of :slack
+        validates_presence_of :smtp
+        validates_presence_of :raygun
+        validates_presence_of :bitbucket
+        validates_presence_of :github
+
+        before_update do |document|
+          document.setup_completed = true
+        end
 
 
         def self.make(opts)
@@ -49,6 +40,72 @@ module Obscured
           config = self.new
           config
         end
+      end
+
+
+      class APIConfiguration
+        include Mongoid::Document
+
+        field :username,      type: String, :default => ''
+        field :password,      type: String, :default => ''
+
+        embedded_in :configuration, autobuild: true
+      end
+
+      class SlackConfiguration
+        include Mongoid::Document
+
+        field :enabled,     type: Boolean, :default => false
+        field :channel,     type: String, :default => ''
+        field :icon,        type: String, :default => ':slack:'
+        field :user,        type: String, :default => 'AptWatcher'
+        field :webhook,     type: String
+
+        embedded_in :configuration, autobuild: true
+      end
+
+      class SMTPConfiguration
+        include Mongoid::Document
+
+        field :enabled,      type: Boolean, :default => false
+        field :domain,       type: String, :default => ''
+        field :host,         type: String, :default => 'smtp.sendgrid.net'
+        field :port,         type: Integer, :default => 587
+        field :username,     type: String
+        field :password,     type: String
+
+        embedded_in :configuration, autobuild: true
+      end
+
+      class RaygunConfiguration
+        include Mongoid::Document
+
+        field :enabled,    type: Boolean, :default => false
+        field :key,        type: String
+
+        embedded_in :configuration, autobuild: true
+      end
+
+      class BitbucketConfiguration
+        include Mongoid::Document
+
+        field :enabled,    type: Boolean, :default => false
+        field :key,        type: String, :default => ''
+        field :secret,     type: String, :default => ''
+        field :domains,     type: String, :default => ''
+
+        embedded_in :configuration, autobuild: true
+      end
+
+      class GitHubConfiguration
+        include Mongoid::Document
+
+        field :enabled,    type: Boolean, :default => false
+        field :key,        type: String, :default => ''
+        field :secret,     type: String, :default => ''
+        field :domains,     type: String, :default => ''
+
+        embedded_in :configuration, autobuild: true
       end
     end
   end

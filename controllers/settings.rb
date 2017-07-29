@@ -63,9 +63,9 @@ module Obscured
             config = configuration
 
             if enabled == 'true'
-              config.raygun_enabled = true
+              config.raygun.enabled = true
             else
-              config.raygun_enabled = false
+              config.raygun.enabled = false
             end
             config.save
 
@@ -84,9 +84,9 @@ module Obscured
             config = configuration
 
             if enabled == 'true'
-              config.smtp_enabled = true
+              config.smtp.enabled = true
             else
-              config.smtp_enabled = false
+              config.smtp.enabled = false
             end
             config.save
 
@@ -105,9 +105,9 @@ module Obscured
             config = configuration
 
             if enabled == 'true'
-              config.slack_enabled = true
+              config.slack.enabled = true
             else
-              config.slack_enabled = false
+              config.slack.enabled = false
             end
             config.save
 
@@ -126,9 +126,9 @@ module Obscured
             config = configuration
 
             if enabled == 'true'
-              config.bitbucket_enabled = true
+              config.bitbucket.enabled = true
             else
-              config.bitbucket_enabled = false
+              config.bitbucket.enabled = false
             end
             config.save
 
@@ -147,9 +147,9 @@ module Obscured
             config = configuration
 
             if enabled == 'true'
-              config.github_enabled = true
+              config.github.enabled = true
             else
-              config.github_enabled = false
+              config.github.enabled = false
             end
             config.save
 
@@ -166,8 +166,8 @@ module Obscured
           raise ArgumentError, 'No api_password provided' unless params[:api_password]
 
           config = configuration
-          config.api_username = params[:api_username]
-          config.api_password = params[:api_password]
+          config.api.username = params[:api_username]
+          config.api.password = params[:api_password]
           config.save
 
           redirect '/settings'
@@ -178,7 +178,7 @@ module Obscured
           raise ArgumentError, 'No raygun_key provided' unless params[:raygun_key]
 
           config = configuration
-          config.raygun_key = params[:raygun_key]
+          config.raygun.key = params[:raygun_key]
           config.save
 
           redirect '/settings'
@@ -192,10 +192,10 @@ module Obscured
           raise ArgumentError, 'No slack_webhook provided' unless params[:slack_webhook]
 
           config = configuration
-          config.slack_channel = params[:slack_channel]
-          config.slack_user = params[:slack_user]
-          config.slack_icon = params[:slack_icon]
-          config.slack_webhook = params[:slack_webhook]
+          config.slack.channel = params[:slack_channel]
+          config.slack.user = params[:slack_user]
+          config.slack.icon = params[:slack_icon]
+          config.slack.webhook = params[:slack_webhook]
           config.save
 
           redirect '/settings'
@@ -210,11 +210,11 @@ module Obscured
           raise ArgumentError, 'No smtp_port provided' unless params[:smtp_port]
 
           config = configuration
-          config.smtp_domain = params[:smtp_domain]
-          config.smtp_username = params[:smtp_username]
-          config.smtp_password = params[:smtp_password]
-          config.smtp_host = params[:smtp_host]
-          config.smtp_port = params[:smtp_port]
+          config.smtp.domain = params[:smtp_domain]
+          config.smtp.username = params[:smtp_username]
+          config.smtp.password = params[:smtp_password]
+          config.smtp.host = params[:smtp_host]
+          config.smtp.port = params[:smtp_port]
           config.save
 
           redirect '/settings'
@@ -226,8 +226,9 @@ module Obscured
           raise ArgumentError, 'No bitbucket_secret provided' unless params[:bitbucket_secret]
 
           config = configuration
-          config.bitbucket_key = params[:bitbucket_key]
-          config.bitbucket_secret = params[:bitbucket_secret]
+          config.bitbucket.key = params[:bitbucket_key]
+          config.bitbucket.secret = params[:bitbucket_secret]
+          config.bitbucket.domains = params[:bitbucket_domains] if params[:bitbucket_domains]
           config.save
 
           redirect '/settings'
@@ -239,8 +240,9 @@ module Obscured
           raise ArgumentError, 'No github_secret provided' unless params[:github_secret]
 
           config = configuration
-          config.github_key = params[:github_key]
-          config.github_secret = params[:github_secret]
+          config.github.key = params[:github_key]
+          config.github.secret = params[:github_secret]
+          config.github.domains = params[:github_domains] if params[:github_domains]
           config.save
 
           redirect '/settings'

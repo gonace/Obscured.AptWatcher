@@ -2,9 +2,15 @@ module Obscured
   module Helpers
     module SlackHelper
       def slack_client
-        Slack::Notifier.new ENV['SLACK_WEBHOOK_URL'] do
-          defaults channel: ENV['SLACK_CHANNEL'],
-                   username: ENV['SLACK_USER']
+        config = Obscured::AptWatcher::Models::Configuration.where({:instance => 'aptwatcher'}).first
+        webhook = config.slack.webhook rescue ''
+        channel = config.slack.channel rescue ''
+        username = config.slack.username rescue ''
+
+
+        Slack::Notifier.new webhook do
+          defaults channel: channel,
+                   username: username
         end
       end
     end

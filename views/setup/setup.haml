@@ -5,23 +5,18 @@
         %div.text-center.mt-5.mb-5
           %h1 Obscured.AptWatcher
           %p.lead
-            To proceed,
+            To continue to the setup,
             %code Doorman
-            kind of demands an identity, the identity is simply your email address.
+            kind of demands the setup secret.
 
         .card.card-identity.mb-3
           .card-mask#userMask
-            - if (defined? email) && !email.nil?
-              %img{:src => "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?s=200&d=https://ssl.gstatic.com/accounts/ui/avatar_2x.png"}
-            - else
-              %span
+            %span
 
-          %form#formRegister.mt-4{:action => '/doorman/register', :method => 'POST'}
-            - if flash[:success]
-              %p.text-center.text-success= flash[:success]
+          %form#formSetup.mt-4{:action => '/setup/define', :method => 'POST'}
+            %input{:type => 'hidden', :name => 'secret', :value => secret }
             - if flash[:error]
               %p.text-center.text-danger= flash[:error]
-
             .form-group
               .row
                 .col-12
@@ -47,30 +42,9 @@
                   %label Confirm your password
                   %input#ConfirmPassword.form-control{:name => 'user[password_confirmation]', :placeholder => '', :type => 'password', :value => '', 'data-rule-required' => 'true'}
 
-            %button.btn.btn-success.btn-pill.btn-block{:type => 'submit'} Next
+            %button.btn.btn-success.btn-pill.btn-block.mb-4{:type => 'submit'} Next
 
 :javascript
   jQuery(document).ready(function() {
-    jQuery('#Email').on('focusout', function(e) {
-      var wrapper = jQuery('#userMask'),
-          email = jQuery(e.target).val();
-
-      wrapper.html('<img src="http://www.gravatar.com/avatar/' + md5(email) + '?s=200&amp;d=https://ssl.gstatic.com/accounts/ui/avatar_2x.png">')
-    });
-
-    jQuery('#formRegister').validate({
-      rules: {
-        "user[password]": {
-          maxlength: 22,
-          minlength: 6
-        },
-        "user[password_confirmation]": {
-          maxlength: 22,
-          minlength: 6,
-          equalTo: "#Password"
-        }
-      }
-    });
-
-    Obscured.Password.Attach({username: '#userEmail', element: jQuery('#Password'), template: '#password-progress', wrapper: '#passwordStrength'});
+    jQuery('#formSetup').validate();
   });

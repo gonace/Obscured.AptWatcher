@@ -47,15 +47,6 @@ clients: {
 Mongoid.logger.level = Logger::DEBUG
 Mongo::Logger.logger.level = Logger::DEBUG
 
-###
-# Raygun, configuration
-###
-Raygun.setup do |config|
-  config.api_key = ENV['RAYGUN_KEY']
-end
-use Raygun::Middleware::RackExceptionInterceptor
-
-
 # pull in the models, modules, helpers and controllers
 Dir.glob('./lib/{alert,common,entities,helpers,package,sinatra}/*.rb').sort.each { |file| require file }
 Dir.glob('./lib/*.rb').sort.each { |file| require file }
@@ -65,6 +56,21 @@ Dir.glob('./models/*.rb').sort.each { |file| require file }
 Dir.glob('./controllers/*.rb').sort.each { |file| require file }
 Dir.glob('./controllers/api/*.rb').sort.each { |file| require file }
 Dir.glob('./controllers/api/collector/*.rb').sort.each { |file| require file }
+
+###
+# Configuration
+###
+config = Obscured::AptWatcher::Models::Configuration.where({:instance => 'aptwatcher'}).first
+
+###
+# Raygun, configuration
+###
+if (config.raygun.enabled rescue false)
+  Raygun.setup do |cfg|
+    cfg.api_key = config.raygun.key
+  end
+  use Raygun::Middleware::RackExceptionInterceptor
+end
 
 ###
 # Geocoder, configuration
@@ -78,41 +84,26 @@ Geocoder.configure(
 # Doorman, configuration
 ###
 Obscured::Doorman.configure(
-  :confirmation    => ENV['USER_CONFIRMATION'],
-  :registration    => ENV['USER_REGISTRATION'],
-  :smtp_domain     => ENV['SMTP_DOMAIN'],
-  :smtp_server     => ENV['SMTP_SERVER'],
-  :smtp_password   => ENV['SMTP_PASSWORD'],
-  :smtp_port       => ENV['SMTP_PORT'],
-  :smtp_username   => ENV['SMTP_USERNAME'],
+  :registration    => (config.user_registration rescue false),
+  :confirmation    => (config.user_confirmation rescue false),
+  :smtp_domain     => (config.smtp.domain rescue 'obsured.se'),
+  :smtp_server     => (config.smtp.host rescue 'localhost'),
+  :smtp_username   => (config.smtp.username rescue nil),
+  :smtp_password   => (config.smtp.password rescue nil),
+  :smtp_port       => (config.smtp.port rescue 587),
   :providers       => [
     Obscured::Doorman::Providers::Bitbucket.configure(
-      :client_id       => ENV['BITBUCKET_KEY'],
-      :client_secret   => ENV['BITBUCKET_SECRET'],
-      :valid_domains   => ENV['VALID_DOMAINS']
+      :client_id       => (config.bitbucket.key rescue nil),
+      :client_secret   => (config.bitbucket.secret rescue nil),
+      :valid_domains   => (config.bitbucket.domains rescue nil)
     ),
     Obscured::Doorman::Providers::GitHub.configure(
-      :client_id       => ENV['GITHUB_KEY'],
-      :client_secret   => ENV['GITHUB_SECRET'],
-      :valid_domains   => ENV['VALID_DOMAINS']
+      :client_id       => (config.github.key rescue nil),
+      :client_secret   => (config.github.secret rescue nil),
+      :valid_domains   => (config.github.domains rescue nil)
     )
   ]
 )
-
-
-if Obscured::Doorman::User.count == 0
-  user = Obscured::Doorman::User.make({:username => ENV['ADMIN_EMAIL'], :password => ENV['ADMIN_PASSWORD']})
-  user.set_created_from(Obscured::Doorman::Types::SYSTEM)
-  user.set_created_by(Obscured::Doorman::Types::CONSOLE)
-  user.set_name('Homer', 'Simpson')
-  user.set_title(Obscured::Doorman::Titles::GUARDIAN)
-  user.save
-end
-if Obscured::AptWatcher::Models::Configuration.count == 0
-  config = Obscured::AptWatcher::Models::Configuration.make({:instance => 'aptwatcher'})
-  config.instance = 'aptwatcher'
-  config.save
-end
 
 
 ###
@@ -153,6 +144,10 @@ end
 
 map '/settings' do
   run Obscured::AptWatcher::Controllers::Settings
+end
+
+map '/setup' do
+  run Obscured::AptWatcher::Controllers::Setup
 end
 
 map '/statistics' do

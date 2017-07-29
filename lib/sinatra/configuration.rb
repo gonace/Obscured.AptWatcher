@@ -32,12 +32,17 @@ module Sinatra
   #     end
   #
   module Configuration
-    def self.registered(base)
-      set :configuration, Obscured::AptWatcher::Models::Configuration.where({:instance => 'aptwatcher'}).first
-    end
+    #def self.registered(base)
+    #  set :configuration, Obscured::AptWatcher::Models::Configuration.where({:instance => 'aptwatcher'}).first
+    #end
 
     def configuration
-      Obscured::AptWatcher::Models::Configuration.where({:instance => 'aptwatcher'}).first
+      config = Obscured::AptWatcher::Models::Configuration.where({:instance => 'aptwatcher'}).first
+
+      if config.nil?
+        redirect '/setup'
+      end
+      config
     end
     alias_method :config, :configuration
   end
