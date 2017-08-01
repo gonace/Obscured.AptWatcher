@@ -240,6 +240,9 @@
   .form-group
     .row
       .col-12
+        .alert.alert-info
+          %strong Heads up!
+          If you need to whitelist multiple domains the input need to be comma seperated (ex. domain.tld,domain.tld)
         %input.form-control{:placeholder => 'Domain whitelist', :name => 'bitbucket_domains', :value => config.bitbucket.domains, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '4'}
   - if config.bitbucket.enabled
     %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
@@ -262,6 +265,9 @@
   .form-group
     .row
       .col-12
+        .alert.alert-info
+          %strong Heads up!
+          If you need to whitelist multiple domains the input need to be comma seperated (ex. domain.tld,domain.tld)
         %input.form-control{:placeholder => 'Domain whitelist', :name => 'github_domains', :value => config.github.domains, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '4'}
   - if config.github.enabled
     %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
