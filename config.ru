@@ -44,8 +44,8 @@ clients: {
     }
   }
 })
-Mongoid.logger.level = Logger::DEBUG
-Mongo::Logger.logger.level = Logger::DEBUG
+#Mongoid.logger.level = Logger::DEBUG
+#Mongo::Logger.logger.level = Logger::DEBUG
 
 # pull in the models, modules, helpers and controllers
 Dir.glob('./lib/{alert,common,entities,helpers,package,sinatra}/*.rb').sort.each { |file| require file }
@@ -80,6 +80,7 @@ Geocoder.configure(
   timeout: 60,
   units: :km
 )
+
 ###
 # Doorman, configuration
 ###
@@ -185,11 +186,3 @@ end
 map '/api/scans' do
   run Obscured::AptWatcher::Controllers::Api::Scan
 end
-
-
-###
-# TEST
-##
-#map '/doorman/oauth/bitbucket' do
-#
-#end

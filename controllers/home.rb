@@ -11,11 +11,6 @@ module Obscured
         get '/' do
           authorize!
 
-          puts '=== DEBUG ==='
-          pp config.bitbucket
-          pp config.github
-          puts '============='
-
           alerts = Obscured::AptWatcher::Models::Alert.where(:status => Obscured::Status::OPEN).order_by(created_at: :desc).limit(10)
           alerts_open = Obscured::AptWatcher::Models::Alert.where(:status => Obscured::Status::OPEN).count
           alerts_closed = Obscured::AptWatcher::Models::Alert.where(:status => Obscured::Status::CLOSED).count
