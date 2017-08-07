@@ -68,7 +68,7 @@ module Obscured
           end
 
           def initialize # :nodoc
-            @data = Obscured::Doorman::Providers::GitHub::ConfigurationHash.new
+            @data = Doorman::ConfigurationHash.new
             set_defaults
           end
 
@@ -100,34 +100,20 @@ module Obscured
           end.join("\n\n"))
         end
 
-        class ConfigurationHash < Hash
-          include HashRecursiveMerge
-
-          def method_missing(meth, *args, &block)
-            has_key?(meth) ? self[meth] : super
-          end
-        end
-
-        module Helpers
-          # Generates a flash message by trying to fetch a default message, if that fails just pass the message
-          def notify(type, message)
-            message = Messages[message] if message.is_a?(Symbol)
-            flash[type] = message if defined?(Sinatra::Flash)
-          end
-        end
-
 
         def self.registered(app)
           app.helpers Doorman::Base::Helpers
+          app.helpers Doorman::Helpers
 
           # Enable Sessions
-          unless defined?(Rack::Session::Cookie)
-            app.set :sessions, true
-          end
+          #unless defined?(Rack::Session::Cookie)
+          #  app.set :sessions, true
+          #end
 
-          app.use Warden::Manager do |config|
-            config.strategies.add :github, GitHub::Strategy
-          end
+          #app.use Warden::Manager do |config|
+          #  config.strategies.add :github, GitHub::Strategy
+          #end
+          Warden::Strategies.add(:github, GitHub::Strategy)
 
           app.get '/doorman/oauth2/github' do
             redirect "#{GitHub.config[:authorize_url]}?client_id=#{GitHub.config[:client_id]}&response_type=code&scope=#{GitHub.config[:scopes]}"
@@ -155,21 +141,20 @@ module Obscured
               token.emails = emails.map { |e| e['email'] }
 
               GitHub.config[:token] = token
+
+              # Authenticate with :github strategy
+              warden.authenticate(:github)
             rescue RestClient::ExceptionWithResponse => e
               message = JSON.parse(e.response)
               notify :error, "#{message['error_description']} (#{message['error']})"
               redirect '/doorman/login'
+            ensure
+              # Notify if there are any messages from Warden.
+              unless warden.message.blank?
+                notify :error, warden.message
+              end
+              redirect Obscured::Doorman.config.use_referrer && session[:return_to] ? session.delete(:return_to) : Obscured::Doorman.config.paths[:success]
             end
-
-            warden.authenticate(:github)
-
-            # Notify if there are any messages from Warden.
-            unless warden.message.blank?
-              notify :error, warden.message
-            end
-
-            #redirect back
-            redirect Obscured::Doorman.config.use_referrer && session[:return_to] ? session.delete(:return_to) : Obscured::Doorman.config.paths[:success]
           end
         end
       end

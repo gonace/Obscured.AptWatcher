@@ -8,7 +8,6 @@ module Obscured
               params['user']['password']
         end
 
-        # Authenticate a user against defined strategies
         def authenticate!
           user = User.authenticate(params['user']['login'],params['user']['password'])
 

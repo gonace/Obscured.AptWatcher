@@ -1,3 +1,4 @@
+require 'warden'
 require File.expand_path('../messages', __FILE__)
 
 module Obscured
@@ -6,6 +7,7 @@ module Obscured
       module Bitbucket
         class Strategy < Warden::Strategies::Base
           def valid?
+            pp warden
             emails = Bitbucket.config[:token].emails
 
             unless Bitbucket.config.valid_domains.nil?
@@ -18,7 +20,7 @@ module Obscured
               end
             end
 
-            fail!(Bitbucket::Messages[:invalid_domain])
+            fail!(Obscured::Doorman::Messages[:login_bad_credentials])
             return false
           end
 

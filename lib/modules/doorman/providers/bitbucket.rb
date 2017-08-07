@@ -68,7 +68,7 @@ module Obscured
           end
 
           def initialize # :nodoc
-            @data = Bitbucket::ConfigurationHash.new
+            @data = Doorman::ConfigurationHash.new
             set_defaults
           end
 
@@ -100,34 +100,20 @@ module Obscured
           end.join("\n\n"))
         end
 
-        class ConfigurationHash < Hash
-          include HashRecursiveMerge
-
-          def method_missing(meth, *args, &block)
-            has_key?(meth) ? self[meth] : super
-          end
-        end
-
-        module Helpers
-          # Generates a flash message by trying to fetch a default message, if that fails just pass the message
-          def notify(type, message)
-            message = Messages[message] if message.is_a?(Symbol)
-            flash[type] = message if defined?(Sinatra::Flash)
-          end
-        end
-
 
         def self.registered(app)
           app.helpers Doorman::Base::Helpers
+          app.helpers Doorman::Helpers
 
           # Enable Sessions
-          unless defined?(Rack::Session::Cookie)
-            app.set :sessions, true
-          end
+          #unless defined?(Rack::Session::Cookie)
+          #  app.set :sessions, true
+          #end
 
-          app.use Warden::Manager do |config|
-            config.strategies.add :bitbucket, Bitbucket::Strategy
-          end
+          #app.use Warden::Manager do |config|
+          #  config.strategies.add :bitbucket, Bitbucket::Strategy
+          #end
+          Warden::Strategies.add(:bitbucket, Bitbucket::Strategy)
 
           app.get '/doorman/oauth2/bitbucket' do
             redirect "#{Bitbucket.config[:authorize_url]}?client_id=#{Bitbucket.config[:client_id]}&response_type=code&scopes=#{GitHub.config[:scopes]}"
@@ -154,21 +140,20 @@ module Obscured
               token.emails = emails.values[1].map { |e| e['email'] }
 
               Bitbucket.config[:token] = token
+
+              # Authenticate with :bitbucket strategy
+              warden.authenticate(:bitbucket)
             rescue RestClient::ExceptionWithResponse => e
               message = JSON.parse(e.response)
               notify :error, "#{message['error_description']} (#{message['error']})"
               redirect '/doorman/login'
+            ensure
+              # Notify if there are any messages from Warden.
+              unless warden.message.blank?
+                notify :error, warden.message
+              end
+              redirect Obscured::Doorman.config.use_referrer && session[:return_to] ? session.delete(:return_to) : Obscured::Doorman.config.paths[:success]
             end
-
-            warden.authenticate(:bitbucket)
-
-            # Notify if there are any messages from Warden.
-            unless warden.message.blank?
-              notify :error, warden.message
-            end
-
-            #redirect back
-            redirect Obscured::Doorman.config.use_referrer && session[:return_to] ? session.delete(:return_to) : Obscured::Doorman.config.paths[:success]
           end
         end
       end

@@ -165,15 +165,15 @@ module Obscured
 
 
     class Middleware < Sinatra::Base
-      register Sinatra::Flash
-      register Sinatra::Partial
-      register Base
-      register Strategies::RememberMe
-      register Strategies::ForgotPassword
-      register Obscured::Doorman::Providers::Bitbucket
-      register Obscured::Doorman::Providers::GitHub
       helpers Sinatra::Configuration
       helpers Sinatra::Cookies
+      register Sinatra::Flash
+      register Sinatra::Partial
+      register Strategies::RememberMe
+      register Strategies::ForgotPassword
+      register Doorman::Base
+      register Doorman::Providers::Bitbucket
+      register Doorman::Providers::GitHub
       use Rack::UserAgent
     end
   end

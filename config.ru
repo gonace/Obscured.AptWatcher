@@ -38,6 +38,7 @@ Mongoid.load_configuration(
 clients: {
   default: {
     uri: ENV['MONGODB_URI'],
+    #uri: 'mongodb://localhost/aptwatcher',
     options: {
       app_name: 'Obscured.AptWatcher',
       connect: :direct
