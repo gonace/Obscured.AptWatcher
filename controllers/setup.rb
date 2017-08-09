@@ -37,10 +37,6 @@ module Obscured
 
 
         post '/define' do
-          puts '=== DEBUG ==='
-          pp params
-          puts '============='
-
           unless params[:secret].to_s.eql? ENV['SETUP_AUTHORIZATION'].to_s
             flash[:error] = 'The setup secret provided is invalid or missing'
             redirect '/setup'
