@@ -126,7 +126,8 @@ module Obscured
                 :url => Bitbucket.config[:token_url],
                 :user => Bitbucket.config[:client_id],
                 :password => Bitbucket.config[:client_secret],
-                :payload => "code=#{params[:code]}&grant_type=authorization_code"
+                :payload => "code=#{params[:code]}&grant_type=authorization_code&scope=#{Bitbucket.config[:scopes]}",
+                :headers => {:Accept => 'application/json'}
               ).execute
 
               json = JSON.parse(response.body)
@@ -138,7 +139,6 @@ module Obscured
               emails = RestClient.get 'https://api.bitbucket.org/2.0/user/emails',{ 'Authorization' => "Bearer #{token.access_token}" }
               emails = JSON.parse(emails.body)
               token.emails = emails.values[1].map { |e| e['email'] }
-
               Bitbucket.config[:token] = token
 
               # Authenticate with :bitbucket strategy

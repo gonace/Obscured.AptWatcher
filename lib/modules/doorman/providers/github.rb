@@ -127,8 +127,7 @@ module Obscured
                 :user => GitHub.config[:client_id],
                 :password => GitHub.config[:client_secret],
                 :payload => "code=#{params[:code]}&grant_type=authorization_code&scope=#{GitHub.config[:scopes]}",
-                :headers => {:Accept => 'application/json'},
-                :log => Logger.new(STDOUT)
+                :headers => {:Accept => 'application/json'}
               ).execute
 
               json = JSON.parse(response.body)
@@ -139,7 +138,6 @@ module Obscured
               emails = RestClient.get 'https://api.github.com/user/emails',{ 'Authorization' => "token #{token.access_token}" }
               emails = JSON.parse(emails.body)
               token.emails = emails.map { |e| e['email'] }
-
               GitHub.config[:token] = token
 
               # Authenticate with :github strategy
