@@ -1,0 +1,15 @@
+!!! 5
+%html
+  %head
+    %meta{:charset => 'UTF-8'}
+    %meta{:content => '', :name => 'description' }
+    %meta{:content => 'Obscured', :name => 'author' }
+    %title= 'Setup (Obscured.AptWatcher)'
+    %link{:href => '/img/favicon.ico', :rel => 'Obscured.AptWatcher', :type  => 'image/x-icon'}
+    = partial :'../shared/partials/styles'
+    %link{:href => '/css/card.css', :rel => 'stylesheet'}
+
+  %body
+    = yield
+    = partial :'../shared/partials/scripts'
+    = partial :'../shared/footer'

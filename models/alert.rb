@@ -15,7 +15,12 @@ module Obscured
         field :notify,                type: Boolean, :default => true
         field :payload,               type: String
 
+        index({ hostname: 1 }, { background: true })
+        index({ status: 1 }, { background: true })
+        index({ trype: 1 }, { background: true })
+
         before_save :validate!
+
 
         def self.make(opts)
           raise Obscured::DomainError.new(:required_field_missing, what: ':hostname') if opts[:hostname].empty?

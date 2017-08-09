@@ -4,7 +4,6 @@ module Obscured
       class Home < Obscured::AptWatcher::Controllers::Base
         set :views, settings.root + '/../views/home'
 
-
         get '/home' do
           redirect '/'
         end

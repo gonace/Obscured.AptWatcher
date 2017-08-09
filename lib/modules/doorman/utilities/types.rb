@@ -5,6 +5,7 @@ module Obscured
       ADMIN = :admin
       CONSOLE = :console
       SCRIPT = :script
+      SETUP = :setup
       HEROKU = :heroku
     end
   end

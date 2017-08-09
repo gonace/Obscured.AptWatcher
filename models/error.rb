@@ -14,6 +14,7 @@ module Obscured
 
         before_save :validate!
 
+
         def self.make(opts)
           raise Obscured::DomainError.new(:required_field_missing, what: ':notifier') if opts[:notifier].empty?
           raise Obscured::DomainError.new(:required_field_missing, what: ':message') if opts[:message].empty?

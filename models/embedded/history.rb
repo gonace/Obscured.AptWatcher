@@ -6,7 +6,6 @@ module Obscured
         include Mongoid::Timestamps
         field :text, type: String
         field :created_by, type: String
-        #field :created_at, type: DateTime, default: -> {DateTime.now}
 
         embedded_in :history, polymorphic: true
 

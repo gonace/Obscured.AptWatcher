@@ -2,6 +2,7 @@ STDOUT.sync = true
 
 require 'bcrypt'
 require 'geocoder'
+require 'haml'
 require 'json'
 require 'mongoid'
 require 'password_strength'
@@ -16,6 +17,7 @@ require 'sinatra/contrib/all'
 require 'sinatra/cookies'
 require 'sinatra/flash'
 require 'sinatra/json'
+require 'sinatra/param'
 require 'sinatra/partial'
 require 'sinatra/multi_route'
 require 'sinatra/namespace'
@@ -25,37 +27,51 @@ require 'pp'
 require 'warden'
 
 ###
+# Haml
+###
+Haml::TempleEngine.disable_option_validator!
+
+###
 # Mongoid, configuration
 ###
 Mongoid.load_configuration(
 clients: {
   default: {
     uri: ENV['MONGODB_URI'],
+    #uri: 'mongodb://localhost/aptwatcher',
     options: {
       app_name: 'Obscured.AptWatcher',
       connect: :direct
     }
   }
 })
-
-###
-# Raygun, configuration
-###
-Raygun.setup do |config|
-  config.api_key = ENV['RAYGUN_KEY']
-end
-use Raygun::Middleware::RackExceptionInterceptor
-
+#Mongoid.logger.level = Logger::DEBUG
+#Mongo::Logger.logger.level = Logger::DEBUG
 
 # pull in the models, modules, helpers and controllers
-Dir.glob('./lib/{alert,common,helpers,package}/*.rb').sort.each { |file| require file }
+Dir.glob('./lib/{alert,common,entities,helpers,package,sinatra}/*.rb').sort.each { |file| require file }
 Dir.glob('./lib/*.rb').sort.each { |file| require file }
 Dir.glob('./lib/modules/*.rb').sort.each { |file| require file }
-Dir.glob('./models/embeded/*.rb').sort.each { |file| require file }
+Dir.glob('./models/embedded/*.rb').sort.each { |file| require file }
 Dir.glob('./models/*.rb').sort.each { |file| require file }
 Dir.glob('./controllers/*.rb').sort.each { |file| require file }
 Dir.glob('./controllers/api/*.rb').sort.each { |file| require file }
 Dir.glob('./controllers/api/collector/*.rb').sort.each { |file| require file }
+
+###
+# Configuration
+###
+config = Obscured::AptWatcher::Models::Configuration.where({:instance => 'aptwatcher'}).first
+
+###
+# Raygun, configuration
+###
+if (config.raygun.enabled rescue false)
+  Raygun.setup do |cfg|
+    cfg.api_key = config.raygun.key
+  end
+  use Raygun::Middleware::RackExceptionInterceptor
+end
 
 ###
 # Geocoder, configuration
@@ -65,27 +81,31 @@ Geocoder.configure(
   timeout: 60,
   units: :km
 )
+
 ###
 # Doorman, configuration
 ###
 Obscured::Doorman.configure(
-  :confirmation => ENV['USER_CONFIRMATION'],
-  :registration => ENV['USER_REGISTRATION'],
-  :smtp_domain => ENV['SENDGRID_DOMAIN'],
-  :smtp_server => ENV['SENDGRID_SERVER'],
-  :smtp_password => ENV['SENDGRID_PASSWORD'],
-  :smtp_port => ENV['SENDGRID_PORT'],
-  :smtp_username => ENV['SENDGRID_USERNAME']
+  :registration    => (config.user_registration rescue false),
+  :confirmation    => (config.user_confirmation rescue false),
+  :smtp_domain     => (config.smtp.domain rescue 'obsured.se'),
+  :smtp_server     => (config.smtp.host rescue 'localhost'),
+  :smtp_username   => (config.smtp.username rescue nil),
+  :smtp_password   => (config.smtp.password rescue nil),
+  :smtp_port       => (config.smtp.port rescue 587),
+  :providers       => [
+    Obscured::Doorman::Providers::Bitbucket.configure(
+      :client_id       => (config.bitbucket.key rescue nil),
+      :client_secret   => (config.bitbucket.secret rescue nil),
+      :valid_domains   => (config.bitbucket.domains rescue nil)
+    ),
+    Obscured::Doorman::Providers::GitHub.configure(
+      :client_id       => (config.github.key rescue nil),
+      :client_secret   => (config.github.secret rescue nil),
+      :valid_domains   => (config.github.domains rescue nil)
+    )
+  ]
 )
-
-if Obscured::Doorman::User.count == 0
-  user = Obscured::Doorman::User.make({:username => ENV['ADMIN_EMAIL'], :password => ENV['ADMIN_PASSWORD']})
-  user.set_created_from(Obscured::Doorman::Types::SYSTEM)
-  user.set_created_by(Obscured::Doorman::Types::CONSOLE)
-  user.set_name('Homer', 'Simpson')
-  user.set_title(Obscured::Doorman::Titles::GUARDIAN)
-  user.save
-end
 
 
 ###
@@ -126,6 +146,10 @@ end
 
 map '/settings' do
   run Obscured::AptWatcher::Controllers::Settings
+end
+
+map '/setup' do
+  run Obscured::AptWatcher::Controllers::Setup
 end
 
 map '/statistics' do

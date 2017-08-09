@@ -34,7 +34,7 @@
               .row
                 .col-12
                   %label Choose your username
-                  %input#Email.form-control{:name => 'user[login]', :placeholder => "user@#{ENV['SENDGRID_DOMAIN']}", :type => 'email', :value => '', 'data-rule-required' => 'true'}
+                  %input#Email.form-control{:name => 'user[login]', :placeholder => 'user@domain.tld', :type => 'email', :value => '', 'data-rule-required' => 'true'}
             .form-group
               .row
                 .col-12

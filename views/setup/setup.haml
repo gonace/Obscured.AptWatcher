@@ -1,0 +1,50 @@
+.cover-wrapper
+  .cover-wrapper-inner.baseline
+    .cover-container
+      .cover-inner
+        %div.text-center.mt-5.mb-5
+          %h1 Obscured.AptWatcher
+          %p.lead
+            To continue to the setup,
+            %code Doorman
+            kind of demands the setup secret.
+
+        .card.card-identity.mb-3
+          .card-mask#userMask
+            %span
+
+          %form#formSetup.mt-4{:action => '/setup/define', :method => 'POST'}
+            %input{:type => 'hidden', :name => 'secret', :value => secret }
+            - if flash[:error]
+              %p.text-center.text-danger= flash[:error]
+            .form-group
+              .row
+                .col-12
+                  %label Name
+                .col-6
+                  %input.form-control{:autofocus => true, :placeholder => 'First name', :name => 'user[first_name]', :value => '', :type => 'text', 'data-rule-required' => 'true'}
+                .col-6
+                  %input.form-control{:placeholder => 'Last name', :name => 'user[last_name]', :value => '', :type => 'text', 'data-rule-required' => 'true'}
+            .form-group
+              .row
+                .col-12
+                  %label Choose your username
+                  %input#Email.form-control{:name => 'user[login]', :placeholder => 'user@domain.tld', :type => 'email', :value => '', 'data-rule-required' => 'true'}
+            .form-group
+              .row
+                .col-12
+                  %label Create a password
+                  %div#passwordStrength.mb-2
+                  %input#Password.form-control{:name => 'user[password]', :placeholder => '', :type => 'password', :value => '', 'data-rule-required' => 'true'}
+            .form-group
+              .row
+                .col-12
+                  %label Confirm your password
+                  %input#ConfirmPassword.form-control{:name => 'user[password_confirmation]', :placeholder => '', :type => 'password', :value => '', 'data-rule-required' => 'true'}
+
+            %button.btn.btn-success.btn-pill.btn-block.mb-4{:type => 'submit'} Next
+
+:javascript
+  jQuery(document).ready(function() {
+    jQuery('#formSetup').validate();
+  });
