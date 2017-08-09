@@ -7,7 +7,6 @@ module Obscured
       module Bitbucket
         class Strategy < Warden::Strategies::Base
           def valid?
-            pp warden
             emails = Bitbucket.config[:token].emails
 
             unless Bitbucket.config.valid_domains.nil?
@@ -20,7 +19,7 @@ module Obscured
               end
             end
 
-            fail!(Obscured::Doorman::Messages[:login_bad_credentials])
+            fail!(Bitbucket::Messages[:invalid_domain])
             return false
           end
 

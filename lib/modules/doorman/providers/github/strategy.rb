@@ -6,6 +6,8 @@ module Obscured
       module GitHub
         class Strategy < Warden::Strategies::Base
           def valid?
+            emails = GitHub.config[:token].emails
+
             unless GitHub.config.valid_domains.nil?
               if valid_domain!
                 return true
