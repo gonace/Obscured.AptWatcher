@@ -5,7 +5,7 @@ module Obscured
         config = Obscured::AptWatcher::Models::Configuration.where({:instance => 'aptwatcher'}).first
         webhook = config.slack.webhook rescue ''
         channel = config.slack.channel rescue ''
-        username = config.slack.username rescue ''
+        username = config.slack.user rescue ''
 
 
         Slack::Notifier.new webhook do
