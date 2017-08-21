@@ -144,6 +144,7 @@ DEPENDENCIES
   rack-cache
   rack-contrib
   rack-flash3
+  rack-protection
   rack-user_agent
   raygun4ruby
   rerun
