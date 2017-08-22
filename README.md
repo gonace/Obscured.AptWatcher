@@ -1,4 +1,4 @@
-<a href="https://snyk.io/test/github/gonace/obscured.aptwatcher"><img src="https://snyk.io/test/github/gonace/obscured.aptwatcher/badge.svg" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/gonace/obscured.aptwatcher" style="max-width:100%;">
+<a href="https://snyk.io/test/github/gonace/obscured.aptwatcher"><img src="https://snyk.io/test/github/gonace/obscured.aptwatcher/badge.svg" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/gonace/obscured.aptwatcher" style="max-width:100%;"></a>
 
 AptWatcher is a simple Sinatra app that helps you keep track of packages that need updating on your servers.
 
