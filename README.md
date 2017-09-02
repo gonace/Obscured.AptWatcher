@@ -57,3 +57,7 @@ AptWatcher is copyright © 2017 Obscured It is free software, and may be redistr
 ## About Obscured
 
 AptWatcher is maintained by the friendly crew at [Obscured](https://www.obscured.se/), an exception, performance, and uptime monitoring service for developers.
+
+## Printscreens
+![Home](http://i.imgur.com/wtBiaGr.jpg)
+![Statistics](http://i.imgur.com/yLcp4mK.jpg)
