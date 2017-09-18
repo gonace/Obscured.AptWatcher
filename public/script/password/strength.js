@@ -86,7 +86,7 @@
 
             case "symbols":
                 if (this.password.match(MULTIPLE_SYMBOLS_RE)) {
-                    score = 5;PasswordStrength
+                    score = 5;
                 }
                 break;
 
@@ -144,8 +144,7 @@
                 score += -(this.repetitions(this.password, 3) * 3);
                 score += -(this.repetitions(this.password, 4) * 2);
                 break;
-        };
-
+        }
         return score;
     };
 
@@ -293,4 +292,4 @@
     } else if (typeof(window) === "object") {
         window.PasswordStrength = PasswordStrength;
     }
-})();
+}());
