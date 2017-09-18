@@ -24,7 +24,7 @@
         %input.form-control{:placeholder => 'Hostname', :name => 'host_hostname', :value => host.hostname, :type => 'text'}
       .col-6
         .form-group
-          %select.form-control{:type => 'text', :name => 'host_environment'}
+          %select.form-control.custom-select{:type => 'text', :name => 'host_environment'}
             - if host.environment.to_s == 'production'
               %option{:value => 'production', :selected => 'selected'}= :production
             - else
@@ -49,6 +49,15 @@
               %option{:value => 'development', :selected => 'development'}= :development
             - else
               %option{:value => 'development'}= :development
+      .col-12
+        .form-group
+          %input{:type => 'hidden', :name=>'user_role', :value => (host.nil? or host.state.nil?) ? Obscured::State::UNKNOWN : host.state}
+          %select.form-control.custom-select{:type => 'text', :name => 'user_role'}
+            - Obscured::State.constants.each do |const|
+              - if !user.nil? and Obscured::State.const_get(const) == user.role
+                %option{:value => Obscured::State.const_get(const), :selected => 'selected'}= Obscured::State.const_get(const)
+              - else
+                %option{:value => Obscured::State.const_get(const)}= Obscured::State.const_get(const)
   .form-group
     .row
       .col-12

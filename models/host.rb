@@ -11,6 +11,7 @@ module Obscured
         field :environment,           type: String, :default => ENV['RACK_ENV']
         field :updates_pending,       type: Integer, :default => 0
         field :updates_installed,     type: Integer, :default => 0
+        field :state,                 type: String, :default => Obscured::State::UNKNOWN
 
         index({ hostname: 1 }, { background: true })
 
@@ -55,10 +56,17 @@ module Obscured
         end
 
 
+        def set_state(state)
+          raise Obscured::DomainError.new(:required_field_missing, what: ':state') if state.empty?
+          raise Obscured::DomainError.new(:invalid_type, what: ':state') unless state.kind_of?(Obscured::State)
+          self.state = state
+        end
+
         def set_updates_pending(opts)
           raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].kind_of?(Array)
           self.updates_pending = opts[:packages].select {|i| i['installed'] == false || !i.key?('installed')}.count
         end
+
         def set_updates_installed(opts)
           raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].kind_of?(Array)
           self.updates_installed = opts[:packages].select {|i| i.key?('installed') && i['installed'] == true}.count
