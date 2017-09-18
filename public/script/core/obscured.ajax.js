@@ -206,4 +206,4 @@ Obscured.Ajax = (function () {
             }
         }
     };
-})();
+}());

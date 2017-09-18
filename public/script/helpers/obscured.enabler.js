@@ -50,4 +50,4 @@ Obscured.Helpers.Enabler = (function ($) {
             });
         }
     };
-})(jQuery);
+}(jQuery));

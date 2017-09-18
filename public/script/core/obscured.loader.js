@@ -48,4 +48,4 @@ Obscured.Loader = (function ($) {
             $(options.id).remove();
         }
     };
-})(jQuery);
+}(jQuery));

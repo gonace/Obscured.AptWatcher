@@ -59,4 +59,4 @@ Obscured.Password = (function ($) {
             })
         }
     };
-})(jQuery);
+}(jQuery));

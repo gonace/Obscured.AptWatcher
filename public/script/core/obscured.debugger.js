@@ -43,7 +43,7 @@ Obscured.Debug = (function () {
             }
         }
     };
-})();
+}());
 
 
 // Enable logging with parameter to make it more flexible
@@ -76,4 +76,4 @@ Obscured.Debug = (function () {
         debug = true;
         Obscured.Debug.Logger({ contract: 'environment', message: 'Develop environment, settings debug to true (port: ' + intPort + ')' });
     }
-})();
+}());

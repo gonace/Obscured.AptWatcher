@@ -31,4 +31,4 @@ Obscured.Template = (function () {
                 options.callback();
         }
     };
-})();
+}());

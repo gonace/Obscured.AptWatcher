@@ -82,4 +82,4 @@ Obscured.Storage = (function () {
             }
         }
     };
-})();
+}());

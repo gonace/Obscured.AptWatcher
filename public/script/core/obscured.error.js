@@ -145,7 +145,7 @@ Obscured.Error = (function ($) {
             return response;
         }
     };
-})(jQuery);
+}(jQuery));
 
 /**
  * @namespace Obscured.Error.Models Namespace
@@ -179,4 +179,4 @@ Obscured.Error.Models = (function () {
             this.Message = (typeof message === 'undefined' ? null : message);
         }
     };
-})();
+}());

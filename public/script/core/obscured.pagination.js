@@ -52,4 +52,4 @@ Obscured.Pagination = (function ($) {
             }
         }
     };
-})(jQuery);
+}(jQuery));
