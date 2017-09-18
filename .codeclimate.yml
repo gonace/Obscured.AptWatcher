@@ -18,3 +18,5 @@ exclude_paths:
 - "public/script/toolkit/"
 - "tests/"
 - "spec/"
+Metrics/MethodLength:
+    Enabled: false
