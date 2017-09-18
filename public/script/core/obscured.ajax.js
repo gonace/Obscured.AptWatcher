@@ -2,7 +2,7 @@
  * @namespace Obscured.Ajax Namespace
  * @this {Obscured.Ajax}
  */
-Obscured.Ajax = function ($) {
+Obscured.Ajax = function () {
     "use strict";
     /**
      * @public
@@ -11,7 +11,7 @@ Obscured.Ajax = function ($) {
      */
     var doCall = function (options) {
         // Check if options is undefined
-        if (typeof options === 'undefined' || options == null) {
+        if (typeof options === 'undefined' || options === null) {
             throw new ArgumentException('Obscured.Ajax.Query requires base options, please check your arguments');
         }
 
@@ -89,7 +89,7 @@ Obscured.Ajax = function ($) {
         if (typeof options.dataType !== 'undefined' && options.dataType !== null) {
             apiOptions.dataType = options.dataType;
         }
-        $.ajax(apiOptions);
+        jQuery.ajax(apiOptions);
     };
 
     return {
@@ -189,29 +189,21 @@ Obscured.Ajax = function ($) {
             switch(statusText) {
                 case "success":
                     return 200;
-                    break;
                 case "notmodified":
                     return 304;
-                    break;
                 case "nocontent":
                     return 204;
-                    break;
                 case "error":
                     return 500;
-                    break;
                 case "timeout":
                     return 408;
-                    break;
                 case "abort":
                     return 500;
-                    break;
                 case "parsererror":
                     return 500;
-                    break;
                 default:
                     return 500;
-                    break;
             }
         }
     };
-}(jQuery);
+}();
