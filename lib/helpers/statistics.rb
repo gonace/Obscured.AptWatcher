@@ -9,9 +9,12 @@ module Obscured
       end
 
 
-      def self.fetch_errors_count(errors_open, errors_closed)
-        raise Obscured::DomainError.new(:required_field_missing, what: ':errors_open') if errors_open.blank?
-        raise Obscured::DomainError.new(:required_field_missing, what: ':errors_closed') if errors_closed.blank?
+      def self.fetch_errors_count(from, to)
+        raise Obscured::DomainError.new(:required_field_missing, what: ':from') if from.blank?
+        raise Obscured::DomainError.new(:required_field_missing, what: ':to') if to.blank?
+
+        errors_open = Obscured::AptWatcher::Models::Error.where(:status => Obscured::Status::OPEN, :created_at.gte => from, :created_at.lte => to).count
+        errors_closed = Obscured::AptWatcher::Models::Error.where(:status => Obscured::Status::CLOSED, :created_at.gte => from, :created_at.lte => to).count
 
         e_open = 0
         e_closed = 0
