@@ -1,5 +1,5 @@
 ## other configuration excluded from example...
 exclude_paths:
-- "public/script/toolkit"
+- "public/script/toolkit/"
 - "tests/"
 - "spec/"
