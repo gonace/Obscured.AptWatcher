@@ -37,19 +37,19 @@ module Obscured
           config.scope_defaults :default,
             action: '/doorman/unauthenticated'
 
-          config.failure_app = lambda { |env|
+          config.failure_app = lambda { |_env|
             notify :error, Obscured::Doorman[:auth_required] if defined?(Sinatra::Flash)
             [302, { 'Location' => Obscured::Doorman.config.paths[:login] }, ['']]
           }
         end
 
-        Warden::Manager.before_failure do |env,opts|
+        Warden::Manager.before_failure do |env, _opts|
           # Because authentication failure can happen on any request but
           # we handle it only under "post '/doorman/unauthenticated'", we need
           # to change request to POST
           env['REQUEST_METHOD'] = 'POST'
           # And we need to do the following to work with  Rack::MethodOverride
-          env.each do |key, value|
+          env.each do |key, _value|
             env[key]['_method'] = 'post' if key == 'rack.request.form_hash'
           end
         end
@@ -150,8 +150,7 @@ module Obscured
             notify :error, warden.message
           end
 
-          #redirect back
-          redirect Obscured::Doorman.config.use_referrer && session[:return_to] ? session.delete(:return_to) : Obscured::Doorman.config.paths[:success]
+          redirect(Obscured::Doorman.config.use_referrer && session[:return_to] ? session.delete(:return_to) : Obscured::Doorman.config.paths[:success])
         end
 
         app.get '/doorman/logout/?' do
