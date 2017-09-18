@@ -2,6 +2,11 @@
 engines:
   rubocop:
     enabled: true
+    checks:
+      Rubocop/Metrics/ClassLength:
+        enabled: false
+      Rubocop/Metrics/MethodLength:
+        enabled: false
   coffeelint:
     enabled: true
   eslint:
@@ -18,5 +23,3 @@ exclude_paths:
 - "public/script/toolkit/"
 - "tests/"
 - "spec/"
-Metrics/MethodLength:
-    Enabled: false
