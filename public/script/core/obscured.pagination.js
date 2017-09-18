@@ -2,7 +2,7 @@
  * @namespace Obscured.Pagination Namespace
  * @this {Obscured.Pagination}
  */
-Obscured.Pagination = function ($) {
+Obscured.Pagination = (function ($) {
     "use strict";
     return {
         /**
@@ -52,4 +52,4 @@ Obscured.Pagination = function ($) {
             }
         }
     };
-}(jQuery);
+})(jQuery);

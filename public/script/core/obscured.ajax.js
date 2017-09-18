@@ -2,7 +2,7 @@
  * @namespace Obscured.Ajax Namespace
  * @this {Obscured.Ajax}
  */
-Obscured.Ajax = function () {
+Obscured.Ajax = (function () {
     "use strict";
     /**
      * @public
@@ -206,4 +206,4 @@ Obscured.Ajax = function () {
             }
         }
     };
-}();
+})();

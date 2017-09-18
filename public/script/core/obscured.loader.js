@@ -2,7 +2,7 @@
  * @namespace Obscured.Loader Namespace
  * @this {Obscured.Loader}
  */
-Obscured.Loader = function ($) {
+Obscured.Loader = (function ($) {
     "use strict";
     return {
         /**
@@ -48,4 +48,4 @@ Obscured.Loader = function ($) {
             $(options.id).remove();
         }
     };
-}(jQuery);
+})(jQuery);

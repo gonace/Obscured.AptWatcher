@@ -3,7 +3,7 @@
  * @this {Obscured.Error}
  * @extends Obscured
  */
-Obscured.Error = function ($) {
+Obscured.Error = (function ($) {
     "use strict";
     return {
         /**
@@ -145,13 +145,13 @@ Obscured.Error = function ($) {
             return response;
         }
     };
-}(jQuery);
+})(jQuery);
 
 /**
  * @namespace Obscured.Error.Models Namespace
  * @this {Obscured.Error.Models}
  */
-Obscured.Error.Models = function () {
+Obscured.Error.Models = (function () {
     "use strict";
     return {
         /**
@@ -179,4 +179,4 @@ Obscured.Error.Models = function () {
             this.Message = (typeof message === 'undefined' ? null : message);
         }
     };
-}();
+})();

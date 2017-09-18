@@ -5,7 +5,7 @@
  * @key - Is a key so that the localStorage is ordered and not a total mess
  * @entry - Is the value which is stored in the localStorage, this could be of any data type.
  */
-Obscured.Storage = function () {
+Obscured.Storage = (function () {
     "use strict";
     var storage;
 
@@ -82,4 +82,4 @@ Obscured.Storage = function () {
             }
         }
     };
-}();
+})();

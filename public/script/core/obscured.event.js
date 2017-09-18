@@ -1,4 +1,4 @@
-﻿Obscured.Event = function ($) {
+﻿Obscured.Event = (function ($) {
     function Event() {
         window.observers = {};
     }
@@ -26,4 +26,4 @@
         }
     };
     return Event;
-}(jQuery);
+})();

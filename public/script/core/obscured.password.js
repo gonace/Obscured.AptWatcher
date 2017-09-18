@@ -2,7 +2,7 @@
  * @namespace Obscured.Password Namespace
  * @this {Obscured.Password}
  */
-Obscured.Password = function ($) {
+Obscured.Password = (function ($) {
     "use strict";
     return {
         /**
@@ -59,4 +59,4 @@ Obscured.Password = function ($) {
             })
         }
     };
-}(jQuery);
+})(jQuery);
