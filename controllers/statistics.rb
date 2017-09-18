@@ -11,23 +11,8 @@ module Obscured
           today = Date.today
           alerts_open = Obscured::AptWatcher::Models::Alert.where(:status => Obscured::Status::OPEN, :created_at.gte => (today - 7.days).beginning_of_day, :created_at.lte => today.end_of_day).count
           alerts_closed = Obscured::AptWatcher::Models::Alert.where(:status => Obscured::Status::CLOSED, :created_at.gte => (today - 7.days).beginning_of_day, :created_at.lte => today.end_of_day).count
-          errors_open = Obscured::AptWatcher::Models::Error.where(:status => Obscured::Status::OPEN, :created_at.gte => (today - 7.days).beginning_of_day, :created_at.lte => today.end_of_day).count
-          errors_closed = Obscured::AptWatcher::Models::Error.where(:status => Obscured::Status::CLOSED, :created_at.gte => (today - 7.days).beginning_of_day, :created_at.lte => today.end_of_day).count
 
-          e_open = 0
-          e_closed = 0
-          if errors_open > 0 or errors_closed > 0
-            base = 100 / (errors_open + errors_closed).to_d
-
-            if errors_open > 0
-              e_open = (base * errors_open).to_i
-            end
-            if errors_closed > 0
-              e_closed = (base * errors_closed).to_i
-            end
-          else
-            e_closed = 100
-          end
+          e_open, e_closed = Obscured::Helpers::Statistics.fetch_errors_count((today - 7.days).beginning_of_day, today.end_of_day)
 
           hosts_active = 0
           Obscured::AptWatcher::Models::Host.all.each {|host| (Obscured::AptWatcher::Models::Scan.where(:hostname => host.hostname, :created_at.gte => (today - 7.days).beginning_of_day, :created_at.lte => today.end_of_day).distinct('hostname').count != 0)? hosts_active += 1 : 0}
@@ -85,23 +70,8 @@ module Obscured
           today = Date.today
           alerts_open = Obscured::AptWatcher::Models::Alert.where(:status => Obscured::Status::OPEN, :created_at.gte => today.beginning_of_month, :created_at.lte => today.end_of_month).count
           alerts_closed = Obscured::AptWatcher::Models::Alert.where(:status => Obscured::Status::CLOSED, :created_at.gte => today.beginning_of_month, :created_at.lte => today.end_of_month).count
-          errors_open = Obscured::AptWatcher::Models::Error.where(:status => Obscured::Status::OPEN, :created_at.gte => today.beginning_of_month, :created_at.lte => today.end_of_month).count
-          errors_closed = Obscured::AptWatcher::Models::Error.where(:status => Obscured::Status::CLOSED, :created_at.gte => today.beginning_of_month, :created_at.lte => today.end_of_month).count
 
-          e_open = 0
-          e_closed = 0
-          if errors_open > 0 or errors_closed > 0
-            base = 100 / (errors_open + errors_closed).to_d
-
-            if errors_open > 0
-              e_open = (base * errors_open).to_i
-            end
-            if errors_closed > 0
-              e_closed = (base * errors_closed).to_i
-            end
-          else
-            e_closed = 100
-          end
+          e_open, e_closed = Obscured::Helpers::Statistics.fetch_errors_count((today - 7.days).beginning_of_day, today.end_of_day)
 
           hosts_active = 0
           Obscured::AptWatcher::Models::Host.all.each {|host| (Obscured::AptWatcher::Models::Scan.where(:hostname => host.hostname, :created_at.gte => today.beginning_of_month, :created_at.lte => today.end_of_month).distinct('hostname').count != 0) ? hosts_active += 1 : 0}
@@ -158,23 +128,8 @@ module Obscured
           today = Date.today
           alerts_open = Obscured::AptWatcher::Models::Alert.where(:status => Obscured::Status::OPEN, :created_at.gte => today.beginning_of_year, :created_at.lte => today.end_of_year).count
           alerts_closed = Obscured::AptWatcher::Models::Alert.where(:status => :closed, :created_at.gte => today.beginning_of_year, :created_at.lte => today.end_of_year).count
-          errors_open = Obscured::AptWatcher::Models::Error.where(:status => Obscured::Status::OPEN, :created_at.gte => today.beginning_of_year, :created_at.lte => today.end_of_year).count
-          errors_closed = Obscured::AptWatcher::Models::Error.where(:status => Obscured::Status::CLOSED, :created_at.gte => today.beginning_of_year, :created_at.lte => today.end_of_year).count
 
-          e_open = 0
-          e_closed = 0
-          if errors_open > 0 or errors_closed > 0
-            base = 100 / (errors_open + errors_closed).to_d
-
-            if errors_open > 0
-              e_open = (base * errors_open).to_i
-            end
-            if errors_closed > 0
-              e_closed = (base * errors_closed).to_i
-            end
-          else
-            e_closed = 100
-          end
+          e_open, e_closed = Obscured::Helpers::Statistics.fetch_errors_count((today - 7.days).beginning_of_day, today.end_of_day)
 
           hosts_active = 0
           Obscured::AptWatcher::Models::Host.all.each {|host| (Obscured::AptWatcher::Models::Scan.where(:hostname => host.hostname, :created_at.gte => today.beginning_of_year, :created_at.lte => today.end_of_year).distinct('hostname').count != 0) ? hosts_active += 1 : 0}

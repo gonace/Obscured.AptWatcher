@@ -2,7 +2,7 @@
  * @namespace Obscured.Template Namespace
  * @this {Obscured.Template}
  */
-Obscured.Template = function ($) {
+Obscured.Template = (function () {
     "use strict";
     return {
         /**
@@ -31,4 +31,4 @@ Obscured.Template = function ($) {
                 options.callback();
         }
     };
-}(jQuery);
+}());

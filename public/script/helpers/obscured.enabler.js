@@ -2,7 +2,7 @@
  * @namespace Obscured.Helpers.Enabler Namespace
  * @this {Obscured.Helpers}
  */
-Obscured.Helpers.Enabler = function ($) {
+Obscured.Helpers.Enabler = (function ($) {
     "use strict";
     return {
         Bind: function (options) {
@@ -50,4 +50,4 @@ Obscured.Helpers.Enabler = function ($) {
             });
         }
     };
-}(jQuery);
+}(jQuery));

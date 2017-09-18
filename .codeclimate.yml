@@ -1,0 +1,25 @@
+## other configuration excluded from example...
+engines:
+  rubocop:
+    enabled: true
+    checks:
+      Rubocop/Metrics/ClassLength:
+        enabled: false
+      Rubocop/Metrics/MethodLength:
+        enabled: false
+  coffeelint:
+    enabled: true
+  eslint:
+    enabled: true
+  csslint:
+    enabled: true
+ratings:
+  paths:
+  - "**.rb"
+  - "**.js"
+  - "**.css"
+exclude_paths:
+- "public/css/toolkit-inverse.css"
+- "public/script/toolkit/"
+- "tests/"
+- "spec/"

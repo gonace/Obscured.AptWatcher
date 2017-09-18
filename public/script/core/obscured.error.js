@@ -3,16 +3,16 @@
  * @this {Obscured.Error}
  * @extends Obscured
  */
-Obscured.Error = function ($) {
+Obscured.Error = (function ($) {
     "use strict";
     return {
         /**
          * @public
          * @description Throw an error.
-         * @param {object} err containing error to be sent to raygun.
+         * @param {object} options containing error to be sent to raygun.
          */
         Throw: function (options) {
-            if (typeof options.raygun == 'undefined' || options.raygun == null) {
+            if (typeof options.raygun === 'undefined' || options.raygun === null) {
                 options.raygun = false;
             }
 
@@ -35,7 +35,7 @@ Obscured.Error = function ($) {
                     'Error': options.error || null,
                     'Level': options.level || undefined,
                     'Request': {
-                        'Parameters': options.parameters || null,
+                        'Parameters': options.parameters || null
                     }
                 };
 
@@ -54,7 +54,7 @@ Obscured.Error = function ($) {
         /**
          * @public
          * @description Renders the error to the browser.
-         * @param {object} model A Obscured.Error.Models.Error model that will be rendered.
+         * @param {object} options A Obscured.Error.Models.Error model that will be rendered.
          */
         Render: function (options) {
             options.title = (typeof options.title === 'undefined' ? undefined : options.title);
@@ -64,16 +64,16 @@ Obscured.Error = function ($) {
             options.template = (typeof options.template === 'undefined' ? $('#error-clientside').html() : $(options.template).html());
 
             var httpStatus = Obscured.Error.GetStatus(options.statusCode);
-            if (options.title == undefined && httpStatus && httpStatus.Status)
+            if (options.title === undefined && httpStatus && httpStatus.Status)
                 options.title = httpStatus.Status;
-            if (options.message == undefined && httpStatus && httpStatus.Message)
+            if (options.message === undefined && httpStatus && httpStatus.Message)
                 options.message = httpStatus.Message;
 
-            if (options.title == undefined)
+            if (options.title === undefined)
                 options.title = 'An extraterrestrial error has occurred.';
-            if (options.message == undefined)
+            if (options.message === undefined)
                 options.message = 'Something that we can not control happened. It may work the next time';
-            if (options.button == undefined)
+            if (options.button === undefined)
                 options.button = 'Ok, reload';
 
 
@@ -87,7 +87,7 @@ Obscured.Error = function ($) {
         /**
          * @public
          * @description GetStatus.
-         * @param {int} status A HTTP Status Code that describes the error thrown.
+         * @param {int} statusCode A HTTP Status Code that describes the error thrown.
          * @returns {object} Returns a Obscured.Error.Models.Status model.
          */
         GetStatus: function (statusCode) {
@@ -145,13 +145,13 @@ Obscured.Error = function ($) {
             return response;
         }
     };
-}(jQuery);
+}(jQuery));
 
 /**
  * @namespace Obscured.Error.Models Namespace
  * @this {Obscured.Error.Models}
  */
-Obscured.Error.Models = function () {
+Obscured.Error.Models = (function () {
     "use strict";
     return {
         /**
@@ -173,10 +173,10 @@ Obscured.Error.Models = function () {
          * @param {string} status A HTTP Status Header that describes the error thrown.
          * @param {string} message A HTTP Status Message that describes the error thrown.
          */
-        Status: function (statuscode, status, message, level) {
+        Status: function (statuscode, status, message) {
             this.StatusCode = (typeof statuscode === 'undefined' ? null : statuscode);
             this.Status = (typeof status === 'undefined' ? null : status);
             this.Message = (typeof message === 'undefined' ? null : message);
         }
     };
-}();
+}());
