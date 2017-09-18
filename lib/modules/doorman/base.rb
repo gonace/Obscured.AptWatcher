@@ -11,7 +11,7 @@ module Obscured
 
 
     module Base
-      module Helpers
+      module PrivateHelpers
         # Generates a flash message by trying to fetch a default message, if that fails just pass the message
         def notify(type, message)
           message = Obscured::Doorman::Messages[message] if message.is_a?(Symbol)
@@ -25,8 +25,8 @@ module Obscured
       end
 
       def self.registered(app)
-        app.helpers Doorman::Base::Helpers
-        app.helpers Doorman::Helpers
+        app.helpers Doorman::Base::PrivateHelpers
+        app.helpers Obscured::Doorman::Helpers
 
         # Enable Sessions
         unless defined?(Rack::Session::Cookie)
