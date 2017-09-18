@@ -1,5 +1,14 @@
 ## other configuration excluded from example...
+engines:
+  rubocop:
+    enabled: true
+  coffeelint:
+    enabled: true
+  eslint:
+    enabled: true
+  csslint:
+    enabled: true
 exclude_paths:
-  - "public/script/toolkit/"
-  - "tests/"
-  - "spec/"
+- "public/script/toolkit/"
+- "tests/"
+- "spec/"
