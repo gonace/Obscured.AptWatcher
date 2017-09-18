@@ -13,21 +13,21 @@ Obscured.Password = function ($) {
          */
         Attach: function (options) {
             // Check if options is undefined
-            if (typeof options == 'undefined' || options == null) {
+            if (typeof options === 'undefined' || options === null) {
                 throw new ArgumentException('Obscured.Password requires base options, please check your arguments');
             }
 
             // Set option values
             options.element = (typeof options.element === 'undefined' ? undefined : $(options.element));
-            if (typeof options.element == 'undefined') {
+            if (typeof options.element === 'undefined') {
                 throw new Error('Obscured.Password requires an element, please check your arguments');
             }
             options.username = (typeof options.username === 'undefined' ? undefined : options.username);
-            if (typeof options.username == 'undefined') {
+            if (typeof options.username === 'undefined') {
                 throw new Error('Obscured.Password requires a username, please check your arguments');
             }
             options.template = (typeof options.template === 'undefined' ? undefined : jQuery(options.template).html());
-            if (typeof options.username == 'undefined') {
+            if (typeof options.username === 'undefined') {
                 throw new Error('Obscured.Password requires a template, please check your arguments');
             }
             options.wrapper = (typeof options.wrapper === 'undefined' ? jQuery(options.element).parent() : jQuery(options.wrapper));

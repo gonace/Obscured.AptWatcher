@@ -11,7 +11,7 @@ Obscured.Ajax = function ($) {
      */
     var doCall = function (options) {
         // Check if options is undefined
-        if (typeof options == 'undefined' || options == null) {
+        if (typeof options === 'undefined' || options == null) {
             throw new ArgumentException('Obscured.Ajax.Query requires base options, please check your arguments');
         }
 
@@ -32,7 +32,7 @@ Obscured.Ajax = function ($) {
         options.query = (typeof options.query === 'undefined' ? undefined : options.query);
         options.url = (typeof options.url === 'undefined' ? undefined : options.url);
 
-        if (typeof options.url == 'undefined') {
+        if (typeof options.url === 'undefined') {
             throw new Error('Obscured.Ajax requires an url, please check your arguments');
         }
 
@@ -101,7 +101,7 @@ Obscured.Ajax = function ($) {
          */
         Post: function (options) {
             // Check if options is undefined
-            if (typeof options == 'undefined' || options == null) {
+            if (typeof options === 'undefined' || options === null) {
                 throw new ArgumentException('Obscured.Ajax.Post requires base options, please check your arguments');
             }
             options.type = 'POST';
@@ -116,7 +116,7 @@ Obscured.Ajax = function ($) {
          */
         Get: function (options) {
             // Check if options is undefined
-            if (typeof options == 'undefined' || options == null) {
+            if (typeof options === 'undefined' || options === null) {
                 throw new ArgumentException('Obscured.Ajax.Get requires base options, please check your arguments');
             }
             options.type = 'GET';
@@ -131,7 +131,7 @@ Obscured.Ajax = function ($) {
          */
         Put: function (options) {
             // Check if options is undefined
-            if (typeof options == 'undefined' || options == null) {
+            if (typeof options === 'undefined' || options === null) {
                 throw new ArgumentException('Obscured.Ajax.Put requires base options, please check your arguments');
             }
             options.type = 'PUT';
@@ -146,7 +146,7 @@ Obscured.Ajax = function ($) {
          */
         Delete: function (options) {
             // Check if options is undefined
-            if (typeof options == 'undefined' || options == null) {
+            if (typeof options === 'undefined' || options === null) {
                 throw new ArgumentException('Obscured.Ajax.Delete requires base options, please check your arguments');
             }
             options.type = 'DELETE';
@@ -177,10 +177,7 @@ Obscured.Ajax = function ($) {
          * @returns {boolean}
          */
         Eval: function (data) {
-            if (typeof data === 'undefined') {
-                return false;
-            }
-            return true;
+            return typeof data !== 'undefined';
         },
         /**
          * @public

@@ -127,9 +127,9 @@
                 break;
 
             case "username":
-                if (this.password == this.username) {
+                if (this.password === this.username) {
                     score = -100;
-                } else if (this.password.indexOf(this.username) != -1) {
+                } else if (this.password.indexOf(this.username) !== -1) {
                     score = -15;
                 }
                 break;
@@ -150,25 +150,25 @@
     };
 
     PasswordStrength.fn.isGood = function() {
-        return this.status == "good";
+        return this.status === "good";
     };
 
     PasswordStrength.fn.isWeak = function() {
-        return this.status == "weak";
+        return this.status === "weak";
     };
 
     PasswordStrength.fn.isStrong = function() {
-        return this.status == "strong";
+        return this.status === "strong";
     };
 
     PasswordStrength.fn.isInvalid = function() {
-        return this.status == "invalid";
+        return this.status === "invalid";
     };
 
     PasswordStrength.fn.isValid = function(level) {
-        if(level == "strong") {
+        if(level === "strong") {
             return this.isStrong();
-        } else if (level == "good") {
+        } else if (level === "good") {
             return this.isStrong() || this.isGood();
         } else {
             return !this.containInvalidMatches() && !this.usesCommonWord();
@@ -216,14 +216,14 @@
             codes.push(currentCode);
 
             if (previousCode) {
-                if (currentCode == previousCode + 1 || previousCode == currentCode) {
+                if (currentCode === previousCode + 1 || previousCode === currentCode) {
                     sequenceSize += 1;
                 } else {
                     sequenceSize = 0;
                 }
             }
 
-            if (sequenceSize == 2) {
+            if (sequenceSize === 2) {
                 matches += 1;
             }
         }
@@ -250,10 +250,10 @@
 
             matches[substring] = true;
 
-            while ((i = tmpText.indexOf(substring)) != -1) {
+            while ((i = tmpText.indexOf(substring)) !== -1) {
                 occurrences += 1;
                 tmpText = tmpText.substr(i + 1);
-            };
+            }
 
             if (occurrences > 1) {
                 count += 1;

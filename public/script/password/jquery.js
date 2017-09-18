@@ -8,7 +8,7 @@
     }
 }(function(PasswordStrength, $){
     $.strength = function(username, password, options, callback) {
-        if (typeof(options) == "function") {
+        if (typeof(options) === "function") {
             callback = options;
             options = {};
         } else if (!options) {
@@ -26,13 +26,13 @@
         var handler = function(){
             strength.username = $(usernameField).val();
 
-            if ($(usernameField).length == 0) {
+            if ($(usernameField).length === 0) {
                 strength.username = username;
             }
 
             strength.password = $(passwordField).val();
 
-            if ($(passwordField).length == 0) {
+            if ($(passwordField).length === 0) {
                 strength.password = password;
             }
 
