@@ -14,6 +14,7 @@ ratings:
   - "**.js"
   - "**.css"
 exclude_paths:
+- "public/css/toolkit-inverse.css"
 - "public/script/toolkit/"
 - "tests/"
 - "spec/"
