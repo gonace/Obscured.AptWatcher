@@ -8,6 +8,11 @@ engines:
     enabled: true
   csslint:
     enabled: true
+ratings:
+  paths:
+  - "**.rb"
+  - "**.js"
+  - "**.css"
 exclude_paths:
 - "public/script/toolkit/"
 - "tests/"
