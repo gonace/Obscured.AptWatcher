@@ -31,4 +31,6 @@ gem 'warden'
 group :test, :development do
   gem 'foreman'
   gem 'rerun' # Code reloading in dev
+  gem 'rspec'
+  gem 'webmock'
 end
