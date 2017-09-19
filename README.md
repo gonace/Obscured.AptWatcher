@@ -1,5 +1,5 @@
 <a href="https://snyk.io/test/github/gonace/obscured.aptwatcher"><img src="https://snyk.io/test/github/gonace/obscured.aptwatcher/badge.svg" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/gonace/obscured.aptwatcher" style="max-width:100%;"></a>
-[![Build Status](https://travis-ci.org/howardjones/obscured.aptwatcher.svg?branch=master)](https://travis-ci.org/gonace/Obscured.AptWatcher)
+[![Build Status](https://travis-ci.org/gonace/Obscured.AptWatcher.svg?branch=master)](https://travis-ci.org/gonace/Obscured.AptWatcher)
 [![Test Coverage](https://codeclimate.com/github/gonace/Obscured.AptWatcher/badges/coverage.svg)](https://codeclimate.com/github/gonace/Obscured.AptWatcher)
 [![Code Climate](https://codeclimate.com/github/gonace/Obscured.AptWatcher/badges/gpa.svg)](https://codeclimate.com/github/gonace/Obscured.AptWatcher)
 
