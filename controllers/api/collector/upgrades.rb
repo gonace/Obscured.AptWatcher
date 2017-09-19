@@ -20,7 +20,6 @@ module Obscured
                   packages.push JSON.parse(package)
                 end
 
-                host.set_state(Obscured::State::CONNECTED)
                 host.set_updates_pending({ :packages => packages })
                 host.set_updates_installed({ :packages => packages })
                 host.save!

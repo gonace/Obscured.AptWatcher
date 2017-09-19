@@ -57,12 +57,6 @@ module Obscured
         end
 
 
-        def set_state(state)
-          raise Obscured::DomainError.new(:required_field_missing, what: ':state') if state.empty?
-          raise Obscured::DomainError.new(:invalid_type, what: ':state') unless state.kind_of?(Obscured::State)
-          self.state = state
-        end
-
         def set_updates_pending(opts)
           raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].kind_of?(Array)
           self.updates_pending = opts[:packages].select {|i| i['installed'] == false || !i.key?('installed')}.count
