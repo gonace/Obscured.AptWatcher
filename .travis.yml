@@ -1,6 +1,6 @@
 language: ruby
 bundler_args: --with development
 script:
-  - "bundle exec foreman start"
+  - "bundle exec rspec"
 services:
   - mongodb
