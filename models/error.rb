@@ -50,6 +50,7 @@ module Obscured
           raise Obscured::DomainError.new(:invalid_type, what: ':status') unless status.kind_of?(Obscured::Status)
           self.status = status
         end
+
         def set_type(type)
           raise Obscured::DomainError.new(:required_field_missing, what: ':type') if type.empty?
           raise Obscured::DomainError.new(:invalid_type, what: ':type') unless type.kind_of?(Obscured::Alert::Type)

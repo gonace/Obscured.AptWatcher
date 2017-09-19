@@ -24,7 +24,7 @@
         %input.form-control{:placeholder => 'Hostname', :name => 'host_hostname', :value => host.hostname, :type => 'text'}
       .col-6
         .form-group
-          %select.form-control{:type => 'text', :name => 'host_environment'}
+          %select.form-control.custom-select{:type => 'text', :name => 'host_environment'}
             - if host.environment.to_s == 'production'
               %option{:value => 'production', :selected => 'selected'}= :production
             - else

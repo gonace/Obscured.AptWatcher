@@ -38,9 +38,13 @@
             %span.icon.icon-cog
             %small.iconav-nav-label.hidden-md-up Settings
       %li.nav-item
+        %a.nav-link{'data-container' => 'body', 'data-original-title' => 'Logout', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => Obscured::Doorman.config.paths[:logout], :title => ''}
+          %span.icon.icon-power-plug
+          %small.iconav-nav-label.hidden-md-up Logout
+      %li.nav-item
         - if defined? current_user
-          %a.nav-link{'data-container' => 'body', 'data-original-title' => "Signed in as #{current_user.username}", 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => Obscured::Doorman.config.paths[:logout], :title => ''}
+          %a.nav-link{'data-container' => 'body', 'data-original-title' => "Signed in as #{current_user.username}", 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/users/me', :title => ''}
             %img.rounded-circle{:alt => current_user.username, :src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}?d=https://img07.deviantart.net/3722/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png"}
         - else
           %a.nav-link{'data-container' => 'body', 'data-original-title' => 'Not sigend in', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => Obscured::Doorman.config.paths[:logout], :title => ''}
-            %img.rounded-circle{:alt => 'payway@adeprimo.se', :src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest('payway@adeprimo.se')}"}
+            %img.Jrounded-circle{:alt => 'payway@adeprimo.se', :src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest('payway@adeprimo.se')}"}
