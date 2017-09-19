@@ -1,11 +1,11 @@
 ﻿/**
  * @description Error level, used for alerts and error notifications
  */
-var Level = function (level, name, color) {
+var Level = (function (level, name, color) {
     this.level = level;
     this.name = name;
     this.color = color;
-};
+});
 
 Level.prototype = {
     toString: function () {

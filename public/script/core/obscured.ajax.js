@@ -2,7 +2,7 @@
  * @namespace Obscured.Ajax Namespace
  * @this {Obscured.Ajax}
  */
-Obscured.Ajax = function ($) {
+Obscured.Ajax = (function () {
     "use strict";
     /**
      * @public
@@ -11,7 +11,7 @@ Obscured.Ajax = function ($) {
      */
     var doCall = function (options) {
         // Check if options is undefined
-        if (typeof options == 'undefined' || options == null) {
+        if (typeof options === 'undefined' || options === null) {
             throw new ArgumentException('Obscured.Ajax.Query requires base options, please check your arguments');
         }
 
@@ -32,7 +32,7 @@ Obscured.Ajax = function ($) {
         options.query = (typeof options.query === 'undefined' ? undefined : options.query);
         options.url = (typeof options.url === 'undefined' ? undefined : options.url);
 
-        if (typeof options.url == 'undefined') {
+        if (typeof options.url === 'undefined') {
             throw new Error('Obscured.Ajax requires an url, please check your arguments');
         }
 
@@ -89,7 +89,7 @@ Obscured.Ajax = function ($) {
         if (typeof options.dataType !== 'undefined' && options.dataType !== null) {
             apiOptions.dataType = options.dataType;
         }
-        $.ajax(apiOptions);
+        jQuery.ajax(apiOptions);
     };
 
     return {
@@ -101,7 +101,7 @@ Obscured.Ajax = function ($) {
          */
         Post: function (options) {
             // Check if options is undefined
-            if (typeof options == 'undefined' || options == null) {
+            if (typeof options === 'undefined' || options === null) {
                 throw new ArgumentException('Obscured.Ajax.Post requires base options, please check your arguments');
             }
             options.type = 'POST';
@@ -116,7 +116,7 @@ Obscured.Ajax = function ($) {
          */
         Get: function (options) {
             // Check if options is undefined
-            if (typeof options == 'undefined' || options == null) {
+            if (typeof options === 'undefined' || options === null) {
                 throw new ArgumentException('Obscured.Ajax.Get requires base options, please check your arguments');
             }
             options.type = 'GET';
@@ -131,7 +131,7 @@ Obscured.Ajax = function ($) {
          */
         Put: function (options) {
             // Check if options is undefined
-            if (typeof options == 'undefined' || options == null) {
+            if (typeof options === 'undefined' || options === null) {
                 throw new ArgumentException('Obscured.Ajax.Put requires base options, please check your arguments');
             }
             options.type = 'PUT';
@@ -146,7 +146,7 @@ Obscured.Ajax = function ($) {
          */
         Delete: function (options) {
             // Check if options is undefined
-            if (typeof options == 'undefined' || options == null) {
+            if (typeof options === 'undefined' || options === null) {
                 throw new ArgumentException('Obscured.Ajax.Delete requires base options, please check your arguments');
             }
             options.type = 'DELETE';
@@ -177,10 +177,7 @@ Obscured.Ajax = function ($) {
          * @returns {boolean}
          */
         Eval: function (data) {
-            if (typeof data === 'undefined') {
-                return false;
-            }
-            return true;
+            return typeof data !== 'undefined';
         },
         /**
          * @public
@@ -192,29 +189,21 @@ Obscured.Ajax = function ($) {
             switch(statusText) {
                 case "success":
                     return 200;
-                    break;
                 case "notmodified":
                     return 304;
-                    break;
                 case "nocontent":
                     return 204;
-                    break;
                 case "error":
                     return 500;
-                    break;
                 case "timeout":
                     return 408;
-                    break;
                 case "abort":
                     return 500;
-                    break;
                 case "parsererror":
                     return 500;
-                    break;
                 default:
                     return 500;
-                    break;
             }
         }
     };
-}(jQuery);
+}());

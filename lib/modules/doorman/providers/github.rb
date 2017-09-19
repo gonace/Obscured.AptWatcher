@@ -102,7 +102,7 @@ module Obscured
 
 
         def self.registered(app)
-          app.helpers Doorman::Base::Helpers
+          app.helpers Doorman::Base::PrivateHelpers
           app.helpers Doorman::Helpers
 
           # Enable Sessions
