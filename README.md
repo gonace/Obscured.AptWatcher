@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/gonace/Obscured.AptWatcher.svg?branch=master)](https://travis-ci.org/gonace/Obscured.AptWatcher)
 [![Test Coverage](https://codeclimate.com/github/gonace/Obscured.AptWatcher/badges/coverage.svg)](https://codeclimate.com/github/gonace/Obscured.AptWatcher)
 [![Code Climate](https://codeclimate.com/github/gonace/Obscured.AptWatcher/badges/gpa.svg)](https://codeclimate.com/github/gonace/Obscured.AptWatcher)
+[![Dependency Status](https://gemnasium.com/badges/github.com/gonace/Obscured.AptWatcher.svg)](https://gemnasium.com/github.com/gonace/Obscured.AptWatcher)
 
 AptWatcher is a simple Sinatra app that helps you keep track of packages that need updating on your servers.
 
