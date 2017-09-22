@@ -60,6 +60,7 @@ GEM
     multi_json (1.12.2)
     multi_xml (0.6.0)
     mustermann (1.0.1)
+    neatjson (0.8.3)
     netrc (0.11.0)
     password_strength (1.1.4)
       activemodel
@@ -161,6 +162,7 @@ DEPENDENCIES
   haml (~> 5)
   json
   mongoid
+  neatjson
   password_strength
   platform-api
   pony

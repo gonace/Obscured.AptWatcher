@@ -20,8 +20,9 @@ module Obscured
                   packages.push JSON.parse(package)
                 end
 
-                host.set_updates_pending({ :packages => packages })
-                host.set_updates_installed({ :packages => packages })
+                host.set_state(Obscured::State::CONNECTED)
+                host.set_updates_pending({:packages => packages})
+                host.set_updates_installed({:packages => packages})
                 host.save!
 
                 scan = Obscured::AptWatcher::Models::Scan.make_and_save({:hostname => hostname, :packages => packages})
@@ -48,9 +49,13 @@ module Obscured
                     ]
                   }
                 ]
-                date_start = Date.yesterday.strftime('%Y-%m-%d')
-                date_end = Date.today.strftime('%Y-%m-%d')
-                Obscured::AptWatcher::Package::Matcher.run(hostname, date_start.to_s, date_end).to_json
+
+                #Only run matcher if host is older than one day
+                unless host.created_at.today?
+                  date_start = Date.yesterday.strftime('%Y-%m-%d')
+                  date_end = Date.today.strftime('%Y-%m-%d')
+                  Obscured::AptWatcher::Package::Matcher.run(hostname, date_start.to_s, date_end).to_json
+                end
 
                 unless scan.packages.count == 0
                   alerts = Obscured::AptWatcher::Models::Alert.where(:hostname => hostname, :type => Obscured::Alert::Type::PACKAGES, :status => Obscured::Status::OPEN).to_a
@@ -60,7 +65,7 @@ module Obscured
                     alert.add_history_log("Changed status to #{alert.status}", Obscured::Alert::Type::SYSTEM)
                   end
 
-                  slack_client.post icon_emoji: scan.packages.count > 10 ? ':bug-error:' : ':bug-warn:', attachments: attachments
+                  slack_client.post icon_emoji: scan.packages.count > 10 ? ':bug-error:' : ':bug-warn:', attachments: attachments if config.slack.enabled
                   Obscured::AptWatcher::Models::Alert.make_and_save({ :hostname => hostname, :type => Obscured::Alert::Type::PACKAGES, :message => "There are #{scan.packages.count} available updates for this host", :payload => attachments })
                 else
                   alerts = Obscured::AptWatcher::Models::Alert.where(:hostname => hostname, :type => Obscured::Alert::Type::PACKAGES, :status => Obscured::Status::OPEN).to_a
@@ -72,6 +77,8 @@ module Obscured
                 end
                 scan
               rescue => e
+                host.set_state(Obscured::State::FAILING)
+
                 attachments = [
                   {
                     color: Obscured::Alert::Color::ERROR,
@@ -95,12 +102,12 @@ module Obscured
                     ]
                   }
                 ]
-                slack_client.post icon_emoji: ':bug-error:', attachments: attachments
+                slack_client.post icon_emoji: ':bug-error:', attachments: attachments if config.slack.enabled
 
                 Obscured::AptWatcher::Models::Error.make_and_save({ :notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />'), :payload => attachments })
-                {:success => false, :logged => true, :message => e.message, :backtrace => e.backtrace}.to_json
+                Raygun.track_exception(e) if config.raygun.enabled
 
-                Raygun.track_exception(e)
+                {:success => false, :logged => true, :message => e.message, :backtrace => e.backtrace}.to_json
               end
             end
           end

@@ -13,7 +13,6 @@ module Obscured
         field :group,                 type: String, :default => ''
         field :updates_pending,       type: Integer, :default => 0
         field :updates_installed,     type: Integer, :default => 0
-        #field :state,                 type: String, :default => Obscured::State::UNKNOWN
 
         index({ hostname: 1 }, { background: true })
 
@@ -56,7 +55,6 @@ module Obscured
           entity.save
           entity
         end
-
 
         def set_updates_pending(opts)
           raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].kind_of?(Array)

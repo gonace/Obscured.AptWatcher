@@ -2,9 +2,8 @@
   .dashhead-titles
     %h6.dashhead-subtitle Host
     %h3.dashhead-title
-      =host.hostname
-      %small.label{:class => (host.state == 'connected') ? 'label-success' : 'label-danger' }
-        =host.state
+      = host.hostname
+      = partial :'partials/state', :locals => {:host => host}
   .dashhead-toolbar
     .btn-group.dashhead-toolbar-item.btn-group-thirds
       %a.btn.btn-outline-primary.active{:href => "/host/#{host.id}/edit"} Edit

@@ -1,7 +1,9 @@
 .dashhead
   .dashhead-titles
     %h6.dashhead-subtitle Host
-    %h3.dashhead-title=host.hostname
+    %h3.dashhead-title
+      = host.hostname
+      = partial :'partials/state', :locals => {:host => host}
 
 - if flash[:save_ok]
   .alert.alert-success.mt-2

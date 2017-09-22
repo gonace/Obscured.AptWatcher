@@ -1,0 +1,21 @@
+- if host.state.to_sym == Obscured::State::CONNECTED
+  %small.label.label-success
+    =host.state
+- elsif host.state.to_sym == Obscured::State::DISCONNECTED
+  %small.label.label-danger
+    =host.state
+- elsif host.state.to_sym == Obscured::State::FAILING
+  %small.label.label-danger
+    =host.state
+- elsif host.state.to_sym == Obscured::State::PAUSED
+  %small.label.label-danger
+    =host.state
+- elsif host.state.to_sym == Obscured::State::IGNORED
+  %small.label.label-danger
+    =host.state
+- elsif host.state.to_sym == Obscured::State::PENDING
+  %small.label.label-warning
+    =host.state
+- elsif host.state.to_sym == Obscured::State::UNKNOWN
+  %small.label.label-warning
+    =host.state

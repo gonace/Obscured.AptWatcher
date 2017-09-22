@@ -12,7 +12,7 @@ module Obscured
               Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
               {:success => false, :logged => true, :message => e.message, :backtrace => e.backtrace}.to_json
 
-              Raygun.track_exception(e)
+              Raygun.track_exception(e) if config.raygun.enabled
             end
           end
 
@@ -25,7 +25,7 @@ module Obscured
               Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
               {:success => false, :logged => true, :message => e.message, :backtrace => e.backtrace}.to_json
 
-              Raygun.track_exception(e)
+              Raygun.track_exception(e) if config.raygun.enabled
             end
           end
         end

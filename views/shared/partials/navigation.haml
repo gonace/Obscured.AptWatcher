@@ -1,50 +1,43 @@
-%nav.iconav
-  %a.iconav-brand{:href => '/'}
-    %span.icon.icon-leaf.iconav-brand-icon
-  .iconav-slider
-    %ul.flex-column.nav.nav-pills.iconav-nav{'data-active' => (defined? active) ? active : ''}
+%nav.navbar.navbar-expand-sm.fixed-top.navbar-dark.bg-dark.app-navbar
+  %a.navbar-brand{:href => '/'}
+    %span.icon.icon-leaf.navbar-brand-icon
+    AptWatcher
+
+  .collapse.navbar-collapse
+    %ul.nav.navbar-nav.mr-auto{'data-active' => (defined? active) ? active : ''}
       %li.nav-item
-        %a.nav-link{:class => ((defined? active) && active === 'home') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'Overview', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/', :title => ''}
-          %span.icon.icon-home
-          %small.iconav-nav-label.d-md-none Overview
+        %a.nav-link{:class => ((defined? active) && active === 'home') ? 'active' : '', 'data-container' => 'body', :href => '/', :title => ''}
+          Overview
       %li.nav-item
-        %a.nav-link{:class => ((defined? active) && active === 'history') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'History', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/history', :title => ''}
-          %span.icon.icon-back-in-time
-          %small.iconav-nav-label.d-md-none History
+        %a.nav-link{:class => ((defined? active) && active === 'history') ? 'active' : '', 'data-container' => 'body', :href => '/history', :title => ''}
+          Scans
       %li.nav-item
-        %a.nav-link{:class => ((defined? active) && active === 'hosts') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'Hosts', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/hosts', :title => ''}
-          %span.icon.icon-network
-          %small.iconav-nav-label.d-md-none Hosts
+        %a.nav-link{:class => ((defined? active) && active === 'hosts') ? 'active' : '', 'data-container' => 'body', :href => '/hosts', :title => ''}
+          Hosts
       %li.nav-item
-        %a.nav-link{:class => ((defined? active) && active === 'notifications') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'Notifications', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/notifications', :title => ''}
-          %span.icon.icon-megaphone
-          %small.iconav-nav-label.d-md-none Notifications
+        %a.nav-link{:class => ((defined? active) && active === 'notifications') ? 'active' : '', 'data-container' => 'body', :href => '/notifications', :title => ''}
+          Notifications
       %li.nav-item
-        %a.nav-link{:class => ((defined? active) && active === 'statistics') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'Statistics', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/statistics', :title => ''}
-          %span.icon.icon-line-graph
-          %small.iconav-nav-label.d-md-none Statistics
+        %a.nav-link{:class => ((defined? active) && active === 'statistics') ? 'active' : '', 'data-container' => 'body', :href => '/statistics', :title => ''}
+          Statistics
       %li.nav-item
-        %a.nav-link{:class => ((defined? active) && active === 'users') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'Users', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/users', :title => ''}
-          %span.icon.icon-key
-          %small.iconav-nav-label.d-md-none Users
+        %a.nav-link{:class => ((defined? active) && active === 'users') ? 'active' : '', 'data-container' => 'body', :href => '/users', :title => ''}
+          Users
       - if current_user.role == Obscured::Doorman::Roles::ADMIN
         %li.nav-item
-          %a.nav-link{:class => ((defined? active) && active === 'errors') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'Errors', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/errors', :title => ''}
-            %span.icon.icon-bug
-            %small.iconav-nav-label.d-md-none Errors
+          %a.nav-link{:class => ((defined? active) && active === 'errors') ? 'active' : '', :href => '/errors', :title => ''}
+            Errors
       - if current_user.role == Obscured::Doorman::Roles::ADMIN
         %li.nav-item
-          %a.nav-link{:class => ((defined? active) && active === 'settings') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'Settings', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/settings', :title => ''}
-            %span.icon.icon-cog
-            %small.iconav-nav-label.d-md-none Settings
+          %a.nav-link{:class => ((defined? active) && active === 'settings') ? 'active' : '', :href => '/settings', :title => ''}
+            Settings
       %li.nav-item
-        %a.nav-link{'data-container' => 'body', 'data-original-title' => 'Logout', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => Obscured::Doorman.config.paths[:logout], :title => ''}
-          %span.icon.icon-power-plug
-          %small.iconav-nav-label.d-md-none Logout
+        %a.nav-link{:href => Obscured::Doorman.config.paths[:logout], :title => ''}
+          Logout
       %li.nav-item
         - if defined? current_user
-          %a.nav-link{'data-container' => 'body', 'data-original-title' => "Signed in as #{current_user.username}", 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/users/me', :title => ''}
-            %img.rounded-circle{:alt => current_user.username, :src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}?d=https://img07.deviantart.net/3722/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png"}
+          %a.nav-link{'data-container' => 'body', 'data-original-title' => "Signed in as #{current_user.username}", 'data-placement' => 'bottom', 'data-toggle' => 'tooltip', :href => '/users/me', :title => ''}
+            %img.rounded-circle{:style => 'max-width:22px;', :alt => current_user.username, :src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}?d=https://img07.deviantart.net/3722/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png"}
         - else
-          %a.nav-link{'data-container' => 'body', 'data-original-title' => 'Not sigend in', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => Obscured::Doorman.config.paths[:logout], :title => ''}
-            %img.Jrounded-circle{:alt => 'payway@adeprimo.se', :src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest('payway@adeprimo.se')}"}
+          %a.nav-link{'data-container' => 'body', 'data-original-title' => 'Not sigend in', 'data-placement' => 'bottom', 'data-toggle' => 'tooltip', :href => Obscured::Doorman.config.paths[:logout], :title => ''}
+            %img.Jrounded-circle{:style => 'max-width:22px;', :alt => 'payway@adeprimo.se', :src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest('payway@adeprimo.se')}"}

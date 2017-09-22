@@ -4,6 +4,7 @@ module Obscured
       module Api
         class Base < Sinatra::Base
           helpers Obscured::Helpers::SlackHelper
+          helpers Sinatra::Configuration
 
           config = Obscured::AptWatcher::Models::Configuration.where({:instance => 'aptwatcher'}).first
           api_username = config.username.to_s rescue ''
