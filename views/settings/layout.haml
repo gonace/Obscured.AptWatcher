@@ -8,15 +8,13 @@
     %meta{:content => '', :name => 'keywords'}
     %meta{:content => '', :name => 'author'}
 
-    %title= 'Home (Obscured.AptWatcher)'
+    %title= 'Settings (Obscured.AptWatcher)'
     = partial :'../shared/partials/styles'
 
-  %body
-    .with-iconav
-      = partial :'../shared/partials/navigation', :locals => { :active => 'settings' }
-      .container
-        = partial :'../shared/partials/error.generic'
-        = yield
-      = partial :'../shared/partials/scripts'
-
+  %body.with-top-navbar
+    = partial :'../shared/partials/navigation', :locals => {:active => 'settings'}
+    .container-fluid.container-fluid-spacious.mt-4
+      = partial :'../shared/partials/error.generic'
+      = yield
+    = partial :'../shared/partials/scripts'
     = partial :'../shared/footer'

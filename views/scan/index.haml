@@ -1,7 +1,9 @@
 .dashhead
   .dashhead-titles
     %h6.dashhead-subtitle Scan
-    %h3.dashhead-title= scan.hostname
+    %h3.dashhead-title
+      = scan.hostname
+      = partial :'../host/partials/state', :locals => {:host => host}
 .hr-divider.my-4
   %h3.hr-divider-content.hr-divider-heading Quick stats
 .row.statcards.mt-3.mb-3.text-xs-center.text-md-left

@@ -11,12 +11,10 @@
     %title= 'Notifications (Obscured.AptWatcher)'
     = partial :'../shared/partials/styles'
 
-  %body
-    .with-iconav
-      = partial :'../shared/partials/navigation', :locals => { :active => 'notifications' }
-      .container
-        = partial :'../shared/partials/error.generic'
-        = yield
-      = partial :'../shared/partials/scripts'
-
+  %body.with-top-navbar
+    = partial :'../shared/partials/navigation', :locals => {:active => 'notifications'}
+    .container-fluid.container-fluid-spacious.mt-4
+      = partial :'../shared/partials/error.generic'
+      = yield
+    = partial :'../shared/partials/scripts'
     = partial :'../shared/footer'

@@ -40,9 +40,7 @@
   .card.mb-3{ :style => 'background: transparent;border: 1px solid #434857;'}
     .card-block
       %code
-        =alert.backtrace
-        - if (defined? alert.payload)
-          =JSON.pretty_generate(alert.payload.to_json) rescue alert.payload
+        =JSON.neat_generate(alert.backtrace, { wrap:true, aligned:true, arrayPadding:1, objectPadding:5, afterComma:1, aroundColonN:1 })
 
 - if (defined? alert.payload and !alert.payload.blank?)
   %h4.mt-4
@@ -50,7 +48,7 @@
   .card.mb-3{ :style => 'background: transparent;border: 1px solid #434857;'}
     .card-block
       %code
-        =alert.payload
+        =JSON.neat_generate(alert.payload, { wrap:true, aligned:true, arrayPadding:1, objectPadding:5, afterComma:1, aroundColonN:1 })
 
 %form{:action => "/notifications/view/#{alert.id}/update", :method => 'post'}
   - if alert.status == Obscured::Status::OPEN.to_s

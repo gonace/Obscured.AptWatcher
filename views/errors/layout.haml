@@ -11,12 +11,10 @@
     %title= 'Errors (Obscured.AptWatcher)'
     = partial :'../shared/partials/styles'
 
-  %body
-    .with-iconav
-      = partial :'../shared/partials/navigation', :locals => {:active => 'errors'}
-      .container
-        = partial :'../shared/partials/error.generic'
-        = yield
-      = partial :'../shared/partials/scripts'
-
+  %body.with-top-navbar
+    = partial :'../shared/partials/navigation', :locals => {:active => 'errors'}
+    .container-fluid.container-fluid-spacious.mt-4
+      = partial :'../shared/partials/error.generic'
+      = yield
+    = partial :'../shared/partials/scripts'
     = partial :'../shared/footer'

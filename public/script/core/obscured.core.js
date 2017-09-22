@@ -3,7 +3,7 @@
 }
 
 Obscured = (function () {
-}());
+});
 
 Obscured.Helpers = (function () {
-}());
+});

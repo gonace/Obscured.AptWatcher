@@ -18,13 +18,18 @@
     .row.text-center.m-t-md
       .col-md-4.mb-5
         .w-3.mx-auto
+          %canvas.ex-graph{'data-chart' => 'doughnut', 'data-dataset' => "[#{hosts_connected},#{hosts_disconnected}]", 'data-dataset-options' => "{ borderColor: '#252830', backgroundColor: ['#1bc98e', '#e64759'] }", 'data-labels' => "['Connected', 'Disonnected']", :height => '200', :width => '200'}
+        %strong.text-muted Hosts
+        %h4 Connected vs Disconnected
+      .col-md-4.mb-5
+        .w-3.mx-auto
           %canvas.ex-graph{'data-chart' => 'doughnut', 'data-dataset' => "[#{hosts_without_updates},#{hosts_with_updates}]", 'data-dataset-options' => "{ borderColor: '#252830', backgroundColor: ['#1bc98e', '#e64759'] }", 'data-labels' => "['Patched', 'Unpatched']", :height => '200', :width => '200'}
         %strong.text-muted Hosts
         %h4 Patched vs Upatched
       .col-md-4.mb-5
         .w-3.mx-auto
           %canvas.ex-graph{'data-chart' => 'doughnut', 'data-dataset' => "[#{alerts_closed},#{alerts_open}]", 'data-dataset-options' => "{ borderColor: '#252830', backgroundColor: ['#1bc98e', '#e64759'] }", 'data-labels' => "['Closed', 'Open']", :height => '200', :width => '200'}
-        %strong.text-muted Alerts
+        %strong.text-muted Notifications
         %h4 Open vs Closed
   #updates.tab-pane{:role => 'tabpanel'}
     .ex-line-graphs.mb-5
@@ -59,7 +64,7 @@
   .col-6.col-md-3.statcard.mb-4
     %h3.statcard-number{ :class => alerts_open > 0 ? 'text-danger' : 'text-success'}
       =alerts_open
-    %span.statcard-desc Alerts
+    %span.statcard-desc Notifications
 %hr.my-4/
 .row
   = partial :'../shared/partials/lists/hosts', :locals => {:hosts => hosts}

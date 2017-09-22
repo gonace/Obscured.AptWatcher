@@ -1,12 +1,15 @@
 !!! 5
 %html
   %head
-    %meta{:charset => 'UTF-8'}
-    %meta{:content => '', :name => 'description' }
-    %meta{:content => 'Obscured', :name => 'author' }
+    %meta{:charset => 'utf-8'}
+    %meta{:content => 'IE=edge', 'http-equiv' => 'X-UA-Compatible'}
+    %meta{:content => 'width=device-width, initial-scale=1', :name => 'viewport'}
+    %meta{:content => '', :name => 'description'}
+    %meta{:content => '', :name => 'keywords'}
+    %meta{:content => '', :name => 'author'}
+
     %title=title
-    %link{:href => '/img/favicon.ico', :rel => 'Obscured.AptWatcher', :type  => 'image/x-icon'}
     = partial :'../shared/partials/styles'
 
-  %body.bs-docs-home
+  %body
     = yield

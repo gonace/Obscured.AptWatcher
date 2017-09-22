@@ -19,12 +19,14 @@ module Obscured
           scans_total = Obscured::AptWatcher::Models::Scan.count
 
           hosts = Obscured::AptWatcher::Models::Host.all.order_by(updates_pending: :desc).limit(10)
+          hosts_connected = Obscured::AptWatcher::Models::Host.where(:state => Obscured::State::CONNECTED).count
+          hosts_disconnected = Obscured::AptWatcher::Models::Host.where(:state.ne => Obscured::State::CONNECTED).count
           hosts_with_updates = Obscured::AptWatcher::Models::Host.where(:updates_pending.gt => 0).count
           hosts_without_updates = Obscured::AptWatcher::Models::Host.where(:updates_pending => 0).count
 
           graph_alerts = {}
-          graph_updates = {}
           graph_scans = {}
+          graph_updates = {}
           today = Date.today
           (today - 7.days .. today).each do |date|
             count = 0
@@ -40,7 +42,6 @@ module Obscured
             (graph_alerts['data'] ||= [[],[]]).first << a_open
             (graph_alerts['data'] ||= [[],[]]).last << a_closed
 
-
             (graph_scans['header'] ||= []) << date.strftime('%a %d')
             (graph_scans['data'] ||= []) << scan.count
           end
@@ -49,6 +50,8 @@ module Obscured
                                     :alerts_open => alerts_open,
                                     :alerts_closed => alerts_closed,
                                     :hosts => hosts,
+                                    :hosts_connected => hosts_connected,
+                                    :hosts_disconnected => hosts_disconnected,
                                     :hosts_with_updates => hosts_with_updates,
                                     :hosts_without_updates => hosts_without_updates,
                                     :scans => scans,
