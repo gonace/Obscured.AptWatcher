@@ -13,9 +13,7 @@ module Mongoid
     # @example Set the updated at time.
     #   host.set_state
     def set_state
-      if able_to_set_updated_at?
-        self.state = Obscured::State::CONNECTED
-      end
+      self.state = Obscured::State::CONNECTED
     end
   end
 end

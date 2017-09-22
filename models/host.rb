@@ -10,6 +10,7 @@ module Obscured
         field :hostname,              type: String
         field :description,           type: String, :default => ''
         field :environment,           type: String, :default => ENV['RACK_ENV']
+        field :group,                 type: String, :default => ''
         field :updates_pending,       type: Integer, :default => 0
         field :updates_installed,     type: Integer, :default => 0
         #field :state,                 type: String, :default => Obscured::State::UNKNOWN

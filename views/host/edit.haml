@@ -15,40 +15,39 @@
 %form{:action => "/host/#{host.id}/edit", :method => 'post'}
   .hr-divider.my-4
     %h3.hr-divider-content.hr-divider-heading Basics
-  .form-group
-    .alert.alert-info
-      %strong Heads up!
-      If you change hostname all collected data will persist will the old hostname and therefore not be available for the new hostname.
-    .row
-      .col-6
-        %input.form-control{:placeholder => 'Hostname', :name => 'host_hostname', :value => host.hostname, :type => 'text'}
-      .col-6
-        .form-group
-          %select.form-control.custom-select{:type => 'text', :name => 'host_environment'}
-            - if host.environment.to_s == 'production'
-              %option{:value => 'production', :selected => 'selected'}= :production
-            - else
-              %option{:value => 'production'}= :production
+  .alert.alert-info
+    %strong Heads up!
+    If you change hostname all collected data will persist will the old hostname and therefore not be available for the new hostname.
+  .row
+    .col-6
+      %input.form-control{:placeholder => 'Hostname', :name => 'host_hostname', :value => host.hostname, :type => 'text'}
+    .col-6
+      .form-group
+        %select.form-control.custom-select{:type => 'text', :name => 'host_environment'}
+          - if host.environment.to_s == 'production'
+            %option{:value => 'production', :selected => 'selected'}= :production
+          - else
+            %option{:value => 'production'}= :production
 
-            - if host.environment.to_s == 'staging'
-              %option{:value => 'staging', :selected => 'selected'}= :staging
-            - else
-              %option{:value => 'staging'}= :staging
+          - if host.environment.to_s == 'staging'
+            %option{:value => 'staging', :selected => 'selected'}= :staging
+          - else
+            %option{:value => 'staging'}= :staging
 
-            - if host.environment.to_s == 'testing'
-              %option{:value => 'testing', :selected => 'selected'}= :testing
-            - else
-              %option{:value => 'testing'}= :testing
+          - if host.environment.to_s == 'testing'
+            %option{:value => 'testing', :selected => 'selected'}= :testing
+          - else
+            %option{:value => 'testing'}= :testing
 
-            - if host.environment.to_s == 'shared'
-              %option{:value => 'shared', :selected => 'selected'}= :shared
-            - else
-              %option{:value => 'shared'}= :shared
+          - if host.environment.to_s == 'shared'
+            %option{:value => 'shared', :selected => 'selected'}= :shared
+          - else
+            %option{:value => 'shared'}= :shared
 
-            - if host.environment.to_s == 'development'
-              %option{:value => 'development', :selected => 'development'}= :development
-            - else
-              %option{:value => 'development'}= :development
+          - if host.environment.to_s == 'development'
+            %option{:value => 'development', :selected => 'development'}= :development
+          - else
+            %option{:value => 'development'}= :development
   .form-group
     .row
       .col-12

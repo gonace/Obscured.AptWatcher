@@ -6,41 +6,41 @@
       %li.nav-item
         %a.nav-link{:class => ((defined? active) && active === 'home') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'Overview', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/', :title => ''}
           %span.icon.icon-home
-          %small.iconav-nav-label.hidden-md-up Overview
+          %small.iconav-nav-label.d-md-none Overview
       %li.nav-item
         %a.nav-link{:class => ((defined? active) && active === 'history') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'History', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/history', :title => ''}
           %span.icon.icon-back-in-time
-          %small.iconav-nav-label.hidden-md-up History
+          %small.iconav-nav-label.d-md-none History
       %li.nav-item
         %a.nav-link{:class => ((defined? active) && active === 'hosts') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'Hosts', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/hosts', :title => ''}
           %span.icon.icon-network
-          %small.iconav-nav-label.hidden-md-up Hosts
+          %small.iconav-nav-label.d-md-none Hosts
       %li.nav-item
         %a.nav-link{:class => ((defined? active) && active === 'notifications') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'Notifications', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/notifications', :title => ''}
           %span.icon.icon-megaphone
-          %small.iconav-nav-label.hidden-md-up Notifications
+          %small.iconav-nav-label.d-md-none Notifications
       %li.nav-item
         %a.nav-link{:class => ((defined? active) && active === 'statistics') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'Statistics', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/statistics', :title => ''}
           %span.icon.icon-line-graph
-          %small.iconav-nav-label.hidden-md-up Statistics
+          %small.iconav-nav-label.d-md-none Statistics
       %li.nav-item
         %a.nav-link{:class => ((defined? active) && active === 'users') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'Users', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/users', :title => ''}
           %span.icon.icon-key
-          %small.iconav-nav-label.hidden-md-up Users
+          %small.iconav-nav-label.d-md-none Users
       - if current_user.role == Obscured::Doorman::Roles::ADMIN
         %li.nav-item
           %a.nav-link{:class => ((defined? active) && active === 'errors') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'Errors', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/errors', :title => ''}
             %span.icon.icon-bug
-            %small.iconav-nav-label.hidden-md-up Errors
+            %small.iconav-nav-label.d-md-none Errors
       - if current_user.role == Obscured::Doorman::Roles::ADMIN
         %li.nav-item
           %a.nav-link{:class => ((defined? active) && active === 'settings') ? 'active' : '', 'data-container' => 'body', 'data-original-title' => 'Settings', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/settings', :title => ''}
             %span.icon.icon-cog
-            %small.iconav-nav-label.hidden-md-up Settings
+            %small.iconav-nav-label.d-md-none Settings
       %li.nav-item
         %a.nav-link{'data-container' => 'body', 'data-original-title' => 'Logout', 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => Obscured::Doorman.config.paths[:logout], :title => ''}
           %span.icon.icon-power-plug
-          %small.iconav-nav-label.hidden-md-up Logout
+          %small.iconav-nav-label.d-md-none Logout
       %li.nav-item
         - if defined? current_user
           %a.nav-link{'data-container' => 'body', 'data-original-title' => "Signed in as #{current_user.username}", 'data-placement' => 'right', 'data-toggle' => 'tooltip', :href => '/users/me', :title => ''}
