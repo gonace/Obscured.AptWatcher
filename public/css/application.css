@@ -1,4 +1,7 @@
 /* global body padding */
+html {
+    background-color: #252830;
+}
 body {
     padding-top:    20px;
     padding-bottom: 20px;
