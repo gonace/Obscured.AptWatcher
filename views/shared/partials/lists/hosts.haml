@@ -3,7 +3,7 @@
     %h6.list-group-header
       Hosts
     - hosts.each do |host|
-      %a.list-group-item.list-group-item-action.justify-content-between{:href => "/host/#{host.id}"}
+      %a.list-group-item.list-group-item-action.justify-content-between.d-flex{:href => "/host/#{host.id}"}
         =host.hostname
         %span.ml-a.text-muted= host.updates_pending
   %a.btn.btn-outline-primary.px-3{:href => '/hosts'} All hosts

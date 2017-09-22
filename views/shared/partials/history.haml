@@ -1,6 +1,6 @@
 .list-group.mb-3
   - history.each do |event|
-    %a.list-group-item.list-group-item-action.justify-content-between{:href => '#'}
+    %a.list-group-item.list-group-item-action.justify-content-between.d-flex{:href => '#'}
       %span
         =event.text
         %span.text-muted= "(#{event.created_at})"

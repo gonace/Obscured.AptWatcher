@@ -3,7 +3,7 @@
     %h6.list-group-header
       Scans
     - scans.each do |scan|
-      %a.list-group-item.list-group-item-action.justify-content-between{:href => "/scan/#{scan.id}"}
+      %a.list-group-item.list-group-item-action.justify-content-between.d-flex{:href => "/scan/#{scan.id}"}
         = "#{scan.hostname} (#{scan.updates_pending})"
         %span.ml-a.text-muted= scan.created_at.strftime('%Y-%m-%d')
   %a.btn.btn-outline-primary.px-3{:href => '/history'} View all scans
