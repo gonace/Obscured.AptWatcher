@@ -7,6 +7,7 @@
         %th.header Updated
         %th.header Description
         %th.header Environment
+        %th.header State
         %th.header.text-center Available Updates
     %tbody
       - hosts.items.each do |host|
@@ -17,6 +18,8 @@
           %td= host.updated_at
           %td= host.description
           %td= host.environment
+          %td
+            = partial :'../host/partials/state', :locals => {:host => host}
           %td.text-center
             - if host.updates_pending > 0
               %span.text-danger
