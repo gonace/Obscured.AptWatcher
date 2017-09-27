@@ -102,6 +102,33 @@ module Obscured
             redirect "/host/#{params[:id]}"
           end
         end
+
+        post '/:id/:action' do
+          authorize!
+          content_type :json
+
+          begin
+            action = params[:action]
+            id = params[:id]
+            host = Obscured::AptWatcher::Models::Host.find(id) rescue redirect('/')
+
+            case action
+              when 'connected' then host.set_state(Obscured::State::CONNECTED)
+              when 'disconnected' then host.set_state(Obscured::State::DISCONNECTED)
+              when 'failing' then host.set_state(Obscured::State::FAILING)
+              when 'paused' then host.set_state(Obscured::State::PAUSED)
+              when 'pending' then host.set_state(Obscured::State::PENDING)
+              when 'ignored' then host.set_state(Obscured::State::IGNORED)
+              when 'unknown' then host.set_state(Obscured::State::UNKNOWN)
+              else nil
+            end
+            host.save
+
+            Obscured::Entities::Ajax::Response.new({:action => action, :state => product.state}).to_json
+          rescue Exception => e
+            Obscured::Entities::Ajax::Error.new(e.message, e.class.name, false).to_json
+          end
+        end
       end
     end
   end

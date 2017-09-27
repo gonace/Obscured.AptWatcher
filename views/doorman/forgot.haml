@@ -29,8 +29,7 @@
               - if flash[:email_error]
                 %label.control-label.small{:for => 'Email'}= flash[:email_error]
               %input.form-control#Email{:autofocus => 'true', :name => 'user[login]', :placeholder => 'Enter your email', :type => 'email', :value => email}
-
-            %button.btn.btn-success.btn-pill.btn-block{:type => 'submit'} Next
+            %button.btn.btn-success.btn-block{:type => 'submit'} Next
 
 :javascript
   jQuery(document).ready(function() {
