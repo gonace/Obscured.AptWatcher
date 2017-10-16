@@ -18,11 +18,11 @@ require 'sinatra/contrib/all'
 require 'sinatra/cookies'
 require 'sinatra/flash'
 require 'sinatra/json'
-#require 'sinatra/param'
 require 'sinatra/partial'
 require 'sinatra/multi_route'
 require 'sinatra/namespace'
 require 'slack-notifier'
+require 'sprockets'
 require 'platform-api'
 require 'pp'
 require 'warden'
@@ -115,6 +115,13 @@ Obscured::Doorman.configure(
 map '/' do
   run Obscured::AptWatcher::Controllers::Home
   use Rack::Static, :urls => %w(/css /img /script /assets /fonts), :root => File.expand_path('../public', __FILE__)
+end
+
+map '/assets' do
+  env = Sprockets::Environment.new
+  env.js_compressor  = :uglify
+  env.append_path 'assets/javascript'
+  run env
 end
 
 map '/error' do
