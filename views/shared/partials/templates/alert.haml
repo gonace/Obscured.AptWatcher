@@ -2,3 +2,41 @@
   .alert.mt-2{:class => '{{class}}'}
     %strong {{title}}
     {{message}}
+
+%script#alert-delete{:type => 'text/x-handlebars-template'}
+  .alert.alert-danger.alert-dismissible.fade.in{:role => 'alert'}
+    %button.close{'aria-label' => 'Close', 'data-dismiss' => 'alert', :type => 'button'}
+      %span{'aria-hidden' => 'true'} ×
+    %h4 {{title}}
+    %p {{{message}}}
+    %p.mt-4
+      %a.btn.btn-danger{:type => 'button', :href => '{{engage_link}}'} {{engage_button}}
+      %button.btn.btn-default{:type => 'button', 'data-dismiss' => 'alert'} {{dismiss_button}}
+
+%script#alert-disabled{:type => 'text/x-handlebars-template'}
+  .alert.alert-warning.alert-dismissible.fade.in{:role => 'alert'}
+    %button.close{'aria-label' => 'Close', 'data-dismiss' => 'alert', :type => 'button'}
+      %span{'aria-hidden' => 'true'} ×
+    %h4 {{title}}
+    %p {{{message}}}
+    %p.mt-4
+      %button.btn.btn-default{:type => 'button', 'data-dismiss' => 'alert'} {{dismiss_button}}
+
+%script#alert-action{:type => 'text/x-handlebars-template'}
+  .alert.alert-danger.alert-dismissible.fade.in{:role => 'alert'}
+    %button.close{'aria-label' => 'Close', 'data-dismiss' => 'alert', :type => 'button'}
+      %span{'aria-hidden' => 'true'} ×
+    %h4 {{title}}
+    %p {{{message}}}
+    %p.mt-4
+      %a.btn.btn-danger{:type => 'button', :onclick => 'Obscured.Helpers.Action.Trigger("{{engage_link}}");'} {{engage_button}}
+      %button.btn.btn-default{:type => 'button', 'data-dismiss' => 'alert'} {{dismiss_button}}
+
+%script#alert-success{:type => 'text/x-handlebars-template'}
+  .alert.alert-success.alert-dismissible.fade.in{:role => 'alert'}
+    %button.close{'aria-label' => 'Close', 'data-dismiss' => 'alert', :type => 'button'}
+      %span{'aria-hidden' => 'true'} ×
+    %h4 {{title}}
+    %p {{{message}}}
+    %p.mt-4
+      %button.btn.btn-default{:type => 'button', 'data-dismiss' => 'alert'} {{dismiss_button}}

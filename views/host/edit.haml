@@ -55,4 +55,23 @@
       .col-12
         %label{:for => 'hostDescription'} Description
         %textarea#hostDescription.form-control{:rows => '3', :name => 'host_description'}
-  %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
+  %button.btn.btn-primary{:type => 'submit'} Save changes
+
+  .btn-group
+    - unless (host.state == Obscured::State::DISCONNECTED)
+      %a.btn.btn-danger{'data-trigger' => 'action', 'data-url' => "/host/#{host.id}", 'data-action' => Obscured::State::CONNECTED} Connected
+    - else
+      %a.btn.btn-danger{'data-trigger' => 'action', 'data-url' => "/host/#{host.id}", 'data-action' => Obscured::State::DISCONNECTED} Disconnected
+
+    %button.btn.btn-danger.dropdown-toggle{'aria-expanded' => 'false', 'aria-haspopup' => 'true', 'data-toggle' => 'dropdown', :type => 'button'}
+      %span.caret
+      %span.sr-only Toggle Dropdown
+    %ul.dropdown-menu
+      %li
+        %a{'data-trigger' => 'action', 'data-url' => "/host/#{host.id}", 'data-action' => Obscured::State::FAILING} Failed
+      %li
+        %a{'data-trigger' => 'action', 'data-url' => "/host/#{host.id}", 'data-action' => Obscured::State::PAUSED} Pause
+      %li
+        %a{'data-trigger' => 'action', 'data-url' => "/host/#{host.id}", 'data-action' => Obscured::State::PENDING} Pending
+      %li
+        %a{'data-trigger' => 'action', 'data-url' => "/host/#{host.id}", 'data-action' => Obscured::State::IGNORED} Ignored

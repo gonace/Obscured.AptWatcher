@@ -28,7 +28,7 @@
     .row
       .col-12
         %input#inputUsername.form-control{:placeholder => 'Email', :name => 'user_email', :value => user.username, :type => 'email', 'data-msg-email' => 'Please enter a valid email address', 'data-rule-required' => 'true', 'data-rule-email' => 'true'}
-  %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
+  %button.btn.btn-primary{:type => 'submit'} Save changes
 
 %form#formPassword{:action => "/users/#{user.id}/password/update", :method => 'post'}
   .hr-divider.my-4
@@ -44,7 +44,7 @@
       .col-12
         %p#passwordHelpBlock.form-text.text-muted
           Your password must be 6-22 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
-  %button.btn.btn-primary.btn-pill{:type => 'submit'} Change password
+  %button.btn.btn-primary{:type => 'submit'} Change password
 
 %form#formPermissions{:action => "/users/#{user.id}/permissions/update", :method => 'post'}
   .hr-divider.my-4
@@ -62,7 +62,7 @@
               - else
                 %option{:value => Obscured::Doorman::Roles.const_get(const)}= Obscured::Doorman::Roles.const_get(const)
 
-  %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
+  %button.btn.btn-primary{:type => 'submit'} Save changes
 
 .hr-divider.my-4
   %h3.hr-divider-content.hr-divider-heading History

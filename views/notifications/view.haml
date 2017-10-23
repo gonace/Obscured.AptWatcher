@@ -52,9 +52,9 @@
 
 %form{:action => "/notifications/view/#{alert.id}/update", :method => 'post'}
   - if alert.status == Obscured::Status::OPEN.to_s
-    %button.btn.btn-pill.btn-success{:type => 'submit', :name => 'action', :value => 'resolve'} Resolve
+    %button.btn.btn-success{:type => 'submit', :name => 'action', :value => 'resolve'} Resolve
   - if alert.status == Obscured::Status::CLOSED.to_s
-    %button.btn.btn-pill.btn-warning{:type => 'submit', :name => 'action', :value => 'reopen'} Reopen
+    %button.btn.btn-warning{:type => 'submit', :name => 'action', :value => 'reopen'} Reopen
 
 - if !history.blank?
   .hr-divider.my-4

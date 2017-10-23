@@ -159,7 +159,7 @@
         %input.form-control{:placeholder => 'username', :name => 'api_username', :value => config.api.username, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '6'}
       .col-6
         %input.form-control{:placeholder => 'password', :name => 'api_password', :value => config.api.password, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '6'}
-  %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
+  %button.btn.btn-primary{:type => 'submit'} Save changes
 
 
 %form#formRaygun{:action => '/settings/raygun/update', :method => 'post'}
@@ -172,9 +172,9 @@
       .col-6
         %input.form-control{:placeholder => 'RayGun API Key', :name => 'raygun_key', :value => config.raygun.key, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '6'}
   - if config.raygun.enabled
-    %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
+    %button.btn.btn-primary{:type => 'submit'} Save changes
   - else
-    %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes
+    %button.btn.btn-primary{:type => 'submit', :disabled => 'disabled'} Save changes
 
 
 %form#formSlack{:action => '/settings/slack/update', :method => 'post'}
@@ -195,9 +195,9 @@
       .col-12
         %input#webhookUrl.form-control{:placeholder => 'https://hooks.slack.com/services/***/***/***', :name => 'slack_webhook', :value => config.slack.webhook, :type => 'text', 'data-rule-required' => 'true'}
   - if config.slack.enabled
-    %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
+    %button.btn.btn-primary{:type => 'submit'} Save changes
   - else
-    %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes
+    %button.btn.btn-primary{:type => 'submit', :disabled => 'disabled'} Save changes
 
 
 %form#formMail{:action => '/settings/mail/update', :method => 'post'}
@@ -220,9 +220,9 @@
       .col-6
         %input#smtpPort.form-control{:placeholder => '587', :name => 'smtp_port', :value => config.smtp.port, :type => 'text', 'data-rule-required' => 'true'}
   - if config.smtp.enabled
-    %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
+    %button.btn.btn-primary{:type => 'submit'} Save changes
   - else
-    %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes
+    %button.btn.btn-primary{:type => 'submit', :disabled => 'disabled'} Save changes
 
 
 
@@ -245,9 +245,9 @@
           If you need to whitelist multiple domains the input need to be comma seperated (ex. domain.tld,domain.tld)
         %input.form-control{:placeholder => 'Domain whitelist', :name => 'bitbucket_domains', :value => config.bitbucket.domains, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '4'}
   - if config.bitbucket.enabled
-    %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
+    %button.btn.btn-primary{:type => 'submit'} Save changes
   - else
-    %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes
+    %button.btn.btn-primary{:type => 'submit', :disabled => 'disabled'} Save changes
 
 
 
@@ -270,9 +270,9 @@
           If you need to whitelist multiple domains the input need to be comma seperated (ex. domain.tld,domain.tld)
         %input.form-control{:placeholder => 'Domain whitelist', :name => 'github_domains', :value => config.github.domains, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '4'}
   - if config.github.enabled
-    %button.btn.btn-primary.btn-pill{:type => 'submit'} Save changes
+    %button.btn.btn-primary{:type => 'submit'} Save changes
   - else
-    %button.btn.btn-primary.btn-pill{:type => 'submit', :disabled => 'disabled'} Save changes
+    %button.btn.btn-primary{:type => 'submit', :disabled => 'disabled'} Save changes
 
 :javascript
   jQuery(document).ready(function() {
