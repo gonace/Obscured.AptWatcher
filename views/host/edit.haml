@@ -57,21 +57,16 @@
         %textarea#hostDescription.form-control{:rows => '3', :name => 'host_description'}
   %button.btn.btn-primary{:type => 'submit'} Save changes
 
-  .btn-group
-    - unless (host.state == Obscured::State::DISCONNECTED)
-      %a.btn.btn-danger{'data-trigger' => 'action', 'data-url' => "/host/#{host.id}", 'data-action' => Obscured::State::CONNECTED} Connected
-    - else
-      %a.btn.btn-danger{'data-trigger' => 'action', 'data-url' => "/host/#{host.id}", 'data-action' => Obscured::State::DISCONNECTED} Disconnected
+  .hr-divider.my-4
+    %h3.hr-divider-content.hr-divider-heading State
+  %div#state-wrapper
+  %a.btn.btn-dark{'data-trigger' => 'action', 'data-wrapper' => '#state-wrapper', 'data-url' => "/host/#{host.id}", 'data-action' => Obscured::State::CONNECTED} Connected
+  %a.btn.btn-dark{'data-trigger' => 'action', 'data-wrapper' => '#state-wrapper', 'data-url' => "/host/#{host.id}", 'data-action' => Obscured::State::DISCONNECTED} Disconnected
+  %a.btn.btn-dark{'data-trigger' => 'action', 'data-wrapper' => '#state-wrapper', 'data-url' => "/host/#{host.id}", 'data-action' => Obscured::State::DECOMMISSIONED} Decommissioned
+  %a.btn.btn-dark{'data-trigger' => 'action', 'data-wrapper' => '#state-wrapper', 'data-url' => "/host/#{host.id}", 'data-action' => Obscured::State::PAUSED} Paused
+  %a.btn.btn-dark{'data-trigger' => 'action', 'data-wrapper' => '#state-wrapper', 'data-url' => "/host/#{host.id}", 'data-action' => Obscured::State::IGNORED} Ignored
 
-    %button.btn.btn-danger.dropdown-toggle{'aria-expanded' => 'false', 'aria-haspopup' => 'true', 'data-toggle' => 'dropdown', :type => 'button'}
-      %span.caret
-      %span.sr-only Toggle Dropdown
-    %ul.dropdown-menu
-      %li
-        %a{'data-trigger' => 'action', 'data-url' => "/host/#{host.id}", 'data-action' => Obscured::State::FAILING} Failed
-      %li
-        %a{'data-trigger' => 'action', 'data-url' => "/host/#{host.id}", 'data-action' => Obscured::State::PAUSED} Pause
-      %li
-        %a{'data-trigger' => 'action', 'data-url' => "/host/#{host.id}", 'data-action' => Obscured::State::PENDING} Pending
-      %li
-        %a{'data-trigger' => 'action', 'data-url' => "/host/#{host.id}", 'data-action' => Obscured::State::IGNORED} Ignored
+:javascript
+  jQuery(document).ready(function() {
+    Obscured.Helpers.Action.Bind({});
+  });

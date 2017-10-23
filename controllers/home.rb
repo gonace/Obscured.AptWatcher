@@ -18,7 +18,7 @@ module Obscured
           scans = Obscured::AptWatcher::Models::Scan.all.order_by(created_at: :desc).limit(10)
           scans_total = Obscured::AptWatcher::Models::Scan.count
 
-          hosts = Obscured::AptWatcher::Models::Host.all.order_by(updates_pending: :desc).limit(10)
+          hosts = Obscured::AptWatcher::Models::Host.where(:state.ne => Obscured::State::DECOMMISSIONED).all.order_by(updates_pending: :desc).limit(10)
           hosts_connected = Obscured::AptWatcher::Models::Host.where(:state => Obscured::State::CONNECTED).count
           hosts_disconnected = Obscured::AptWatcher::Models::Host.where(:state.ne => Obscured::State::CONNECTED).count
           hosts_with_updates = Obscured::AptWatcher::Models::Host.where(:updates_pending.gt => 0).count

@@ -4,6 +4,9 @@
 - elsif host.state.to_sym == Obscured::State::DISCONNECTED
   %small.label.label-danger
     =host.state
+- elsif host.state.to_sym == Obscured::State::DECOMMISSIONED
+  %small.label.label-warning
+    =host.state
 - elsif host.state.to_sym == Obscured::State::FAILING
   %small.label.label-danger
     =host.state
