@@ -12,7 +12,7 @@ Obscured.Helpers.Action = function ($) {
 
                 var url = jQuery(this).attr('data-url'),
                     action = jQuery(this).attr('data-action'),
-                    wrapper = (typeof jQuery(this).attr('data-wrapper') === 'undefined' ? jQuery('#action-wrapper') : jQuery(this).attr('data-wrapper'));
+                    wrapper = (typeof jQuery(this).attr('data-wrapper') === 'undefined' ? jQuery('#action-wrapper') : jQuery(jQuery(this).attr('data-wrapper')));
 
                 jQuery('html, body').animate({
                     scrollTop: wrapper.offset().top - 25

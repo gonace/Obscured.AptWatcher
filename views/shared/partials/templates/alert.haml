@@ -4,7 +4,7 @@
     {{message}}
 
 %script#alert-delete{:type => 'text/x-handlebars-template'}
-  .alert.alert-danger.alert-dismissible.fade.in{:role => 'alert'}
+  .alert.alert-danger.alert-dismissible{:role => 'alert'}
     %button.close{'aria-label' => 'Close', 'data-dismiss' => 'alert', :type => 'button'}
       %span{'aria-hidden' => 'true'} ×
     %h4 {{title}}
@@ -14,7 +14,7 @@
       %button.btn.btn-default{:type => 'button', 'data-dismiss' => 'alert'} {{dismiss_button}}
 
 %script#alert-disabled{:type => 'text/x-handlebars-template'}
-  .alert.alert-warning.alert-dismissible.fade.in{:role => 'alert'}
+  .alert.alert-warning.alert-dismissible{:role => 'alert'}
     %button.close{'aria-label' => 'Close', 'data-dismiss' => 'alert', :type => 'button'}
       %span{'aria-hidden' => 'true'} ×
     %h4 {{title}}
@@ -23,7 +23,7 @@
       %button.btn.btn-default{:type => 'button', 'data-dismiss' => 'alert'} {{dismiss_button}}
 
 %script#alert-action{:type => 'text/x-handlebars-template'}
-  .alert.alert-danger.alert-dismissible.fade.in{:role => 'alert'}
+  .alert.alert-danger.alert-dismissible{:role => 'alert'}
     %button.close{'aria-label' => 'Close', 'data-dismiss' => 'alert', :type => 'button'}
       %span{'aria-hidden' => 'true'} ×
     %h4 {{title}}
@@ -33,7 +33,7 @@
       %button.btn.btn-default{:type => 'button', 'data-dismiss' => 'alert'} {{dismiss_button}}
 
 %script#alert-success{:type => 'text/x-handlebars-template'}
-  .alert.alert-success.alert-dismissible.fade.in{:role => 'alert'}
+  .alert.alert-success.alert-dismissible{:role => 'alert'}
     %button.close{'aria-label' => 'Close', 'data-dismiss' => 'alert', :type => 'button'}
       %span{'aria-hidden' => 'true'} ×
     %h4 {{title}}

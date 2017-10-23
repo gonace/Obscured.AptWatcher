@@ -115,6 +115,7 @@ module Obscured
             case action
               when 'connected' then host.set_state(Obscured::State::CONNECTED)
               when 'disconnected' then host.set_state(Obscured::State::DISCONNECTED)
+              when 'decommissioned' then host.set_state(Obscured::State::DECOMMISSIONED)
               when 'failing' then host.set_state(Obscured::State::FAILING)
               when 'paused' then host.set_state(Obscured::State::PAUSED)
               when 'pending' then host.set_state(Obscured::State::PENDING)
@@ -124,9 +125,9 @@ module Obscured
             end
             host.save
 
-            Obscured::Entities::Ajax::Response.new({:action => action, :state => product.state}).to_json
+            Obscured::AptWatcher::Entities::Ajax::Response.new({:action => action, :state => host.state}).to_json
           rescue Exception => e
-            Obscured::Entities::Ajax::Error.new(e.message, e.class.name, false).to_json
+            Obscured::AptWatcher::Entities::Ajax::Error.new(e.message, e.class.name, false).to_json
           end
         end
       end

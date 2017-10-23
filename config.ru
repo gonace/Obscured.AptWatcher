@@ -119,7 +119,7 @@ end
 
 map '/assets' do
   env = Sprockets::Environment.new
-  env.js_compressor  = :uglify
+  env.js_compressor  = :uglify if ENV['RACK_ENV'] == 'production'
   env.append_path 'assets/javascript'
   run env
 end
