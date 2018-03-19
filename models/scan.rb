@@ -1,3 +1,6 @@
+require_relative 'embedded/history'
+require_relative 'embedded/tracked'
+
 module Obscured
   module AptWatcher
     module Models
