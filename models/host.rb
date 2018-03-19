@@ -1,5 +1,3 @@
-require_relative 'embedded/state'
-
 module Obscured
   module AptWatcher
     module Models
