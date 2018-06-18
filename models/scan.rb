@@ -13,6 +13,7 @@ module Obscured
         field :updates_installed,     type: Integer, :default => 0
 
         index({ hostname: 1 }, { background: true })
+        index({ created_at: 1}, { background: true, expire_after_seconds: 31536000 })
 
         before_save :validate!
 
