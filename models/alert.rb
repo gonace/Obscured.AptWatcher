@@ -17,7 +17,7 @@ module Obscured
 
         index({ hostname: 1 }, { background: true })
         index({ status: 1 }, { background: true })
-        index({ trype: 1 }, { background: true })
+        index({ type: 1 }, { background: true })
 
         before_save :validate!
 
