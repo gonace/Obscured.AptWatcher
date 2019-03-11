@@ -30,8 +30,10 @@ gem 'uglifier'
 gem 'warden'
 
 group :test, :development do
+  gem 'factory_bot'
   gem 'foreman'
   gem 'rerun' # Code reloading in dev
   gem 'rspec'
+  gem 'timecop'
   gem 'webmock'
 end

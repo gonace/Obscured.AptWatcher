@@ -5,6 +5,7 @@ module Obscured
         include Mongoid::Document
         include Mongoid::Timestamps
         include Obscured::AptWatcher::Models::TrackedEntity
+
         store_in collection: 'scans'
 
         field :hostname,              type: String
@@ -37,11 +38,11 @@ module Obscured
         end
 
         def get_pending
-          self.packages.select {|i| i['installed'] == false || !i.key?('installed')}
+          self.packages.select {|i| !i['installed'] || !i.key?('installed')}
         end
 
         def get_installed
-          self.packages.select {|i| i['installed'] == true}
+          self.packages.select {|i| i['installed']}
         end
 
 

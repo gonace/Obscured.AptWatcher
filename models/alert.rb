@@ -5,6 +5,7 @@ module Obscured
         include Mongoid::Document
         include Mongoid::Timestamps
         include Obscured::AptWatcher::Models::TrackedEntity
+
         store_in collection: 'alerts'
 
         field :hostname,              type: String
