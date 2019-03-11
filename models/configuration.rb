@@ -4,6 +4,7 @@ module Obscured
       class Configuration
         include Mongoid::Document
         include Mongoid::Timestamps
+
         store_in collection: 'configuration'
 
         field :instance,          type: String, :default => ''

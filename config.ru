@@ -45,18 +45,16 @@ clients: {
     }
   }
 })
-#Mongoid.logger.level = Logger::DEBUG
-#Mongo::Logger.logger.level = Logger::DEBUG
 
 # pull in the models, modules, helpers and controllers
-Dir.glob('./lib/{alert,common,entities,helpers,package,sinatra}/*.rb').sort.each { |file| require file }
-Dir.glob('./lib/*.rb').sort.each { |file| require file }
-Dir.glob('./lib/modules/*.rb').sort.each { |file| require file }
-Dir.glob('./models/embedded/*.rb').sort.each { |file| require file }
-Dir.glob('./models/*.rb').sort.each { |file| require file }
-Dir.glob('./controllers/*.rb').sort.each { |file| require file }
-Dir.glob('./controllers/api/*.rb').sort.each { |file| require file }
-Dir.glob('./controllers/api/collector/*.rb').sort.each { |file| require file }
+Dir.glob('./lib/{alert,common,entities,helpers,package,sinatra}/*.rb').sort.each(&method(:require))
+Dir.glob('./lib/*.rb').sort.each(&method(:require))
+Dir.glob('./lib/modules/*.rb').sort.each(&method(:require))
+Dir.glob('./models/embedded/*.rb').sort.each(&method(:require))
+Dir.glob('./models/*.rb').sort.each(&method(:require))
+Dir.glob('./controllers/*.rb').sort.each(&method(:require))
+Dir.glob('./controllers/api/*.rb').sort.each(&method(:require))
+Dir.glob('./controllers/api/collector/*.rb').sort.each(&method(:require))
 
 ###
 # Configuration
@@ -88,7 +86,7 @@ Geocoder.configure(
 Obscured::Doorman.configure(
   :registration    => (config.user_registration rescue false),
   :confirmation    => (config.user_confirmation rescue false),
-  :smtp_domain     => (config.smtp.domain rescue 'obsured.se'),
+  :smtp_domain     => (config.smtp.domain rescue 'obscured.se'),
   :smtp_server     => (config.smtp.host rescue 'localhost'),
   :smtp_username   => (config.smtp.username rescue nil),
   :smtp_password   => (config.smtp.password rescue nil),

@@ -5,6 +5,7 @@ module Obscured
         include Mongoid::Document
         include Mongoid::Timestamps
         include Mongoid::State
+
         store_in collection: 'hosts'
 
         field :hostname,              type: String

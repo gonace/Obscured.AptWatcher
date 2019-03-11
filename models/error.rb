@@ -4,6 +4,7 @@ module Obscured
       class Error
         include Mongoid::Document
         include Mongoid::Timestamps
+
         store_in collection: 'errors'
 
         field :notifier,              type: String
