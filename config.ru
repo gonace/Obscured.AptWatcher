@@ -23,7 +23,7 @@ require 'sinatra/multi_route'
 require 'sinatra/namespace'
 require 'slack-notifier'
 require 'sprockets'
-require 'platform-api'
+#require 'platform-api'
 require 'pp'
 require 'warden'
 

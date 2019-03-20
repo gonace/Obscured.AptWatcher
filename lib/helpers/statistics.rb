@@ -4,8 +4,6 @@ module Obscured
       def self.fetch(from, to)
         raise Obscured::DomainError.new(:required_field_missing, what: ':from') if from.blank?
         raise Obscured::DomainError.new(:required_field_missing, what: ':to') if to.blank?
-
-
       end
 
 
