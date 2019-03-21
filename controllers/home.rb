@@ -20,9 +20,9 @@ module Obscured
 
           hosts = Obscured::AptWatcher::Models::Host.where(:state.ne => Obscured::State::DECOMMISSIONED).all.order_by(updates_pending: :desc).limit(10)
           hosts_connected = Obscured::AptWatcher::Models::Host.where(:state => Obscured::State::CONNECTED).count
-          hosts_disconnected = Obscured::AptWatcher::Models::Host.where(:state.ne => Obscured::State::CONNECTED).count
-          hosts_with_updates = Obscured::AptWatcher::Models::Host.where(:updates_pending.gt => 0).count
-          hosts_without_updates = Obscured::AptWatcher::Models::Host.where(:updates_pending => 0).count
+          hosts_disconnected = Obscured::AptWatcher::Models::Host.where(:state.nin => [Obscured::State::CONNECTED, Obscured::State::DECOMMISSIONED]).count
+          hosts_with_updates = Obscured::AptWatcher::Models::Host.where(:updates_pending.gt => 0, :state.ne => Obscured::State::DECOMMISSIONED).count
+          hosts_without_updates = Obscured::AptWatcher::Models::Host.where(:updates_pending => 0, :state.ne => Obscured::State::DECOMMISSIONED).count
 
           graph_alerts = {}
           graph_scans = {}
@@ -46,19 +46,22 @@ module Obscured
             (graph_scans['data'] ||= []) << scan.count
           end
 
-          haml :index, :locals => { :alerts => alerts,
-                                    :alerts_open => alerts_open,
-                                    :alerts_closed => alerts_closed,
-                                    :hosts => hosts,
-                                    :hosts_connected => hosts_connected,
-                                    :hosts_disconnected => hosts_disconnected,
-                                    :hosts_with_updates => hosts_with_updates,
-                                    :hosts_without_updates => hosts_without_updates,
-                                    :scans => scans,
-                                    :scans_total => scans_total,
-                                    :graph_alerts => graph_alerts,
-                                    :graph_scans => graph_scans,
-                                    :graph_updates => graph_updates }
+
+          haml :index, :locals => {
+            :alerts => alerts,
+            :alerts_open => alerts_open,
+            :alerts_closed => alerts_closed,
+            :hosts => hosts,
+            :hosts_connected => hosts_connected,
+            :hosts_disconnected => hosts_disconnected,
+            :hosts_with_updates => hosts_with_updates,
+            :hosts_without_updates => hosts_without_updates,
+            :scans => scans,
+            :scans_total => scans_total,
+            :graph_alerts => graph_alerts,
+            :graph_scans => graph_scans,
+            :graph_updates => graph_updates
+          }
         end
       end
     end

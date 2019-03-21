@@ -18,6 +18,7 @@
 
 .hr-divider.my-2
   %h3.hr-divider-content.hr-divider-heading Properties
+
 .row
   .col-6
     %label{:for => 'alertType'} Type
@@ -34,21 +35,21 @@
     %input#alertDate.form-control{:name => 'alert_date', :value => alert.created_at, :disabled => 'disabled', :type => 'text'}
 
 
-- if (defined? alert.backtrace and !alert.backtrace.blank?)
+- if defined? alert.backtrace and !alert.backtrace.blank?
   %h4.mt-4
     Backtrace
   .card.mb-3{ :style => 'background: transparent;border: 1px solid #434857;'}
     .card-block
       %code
-        =JSON.neat_generate(alert.backtrace, { wrap:true, aligned:true, arrayPadding:1, objectPadding:5, afterComma:1, aroundColonN:1 })
+        =JSON.neat_generate(alert.backtrace, { wrap: 40 })
 
-- if (defined? alert.payload and !alert.payload.blank?)
+- if defined? alert.payload and !alert.payload.blank?
   %h4.mt-4
     Payload
   .card.mb-3{ :style => 'background: transparent;border: 1px solid #434857;'}
     .card-block
       %code
-        =JSON.neat_generate(alert.payload, { wrap:true, aligned:true, arrayPadding:1, objectPadding:5, afterComma:1, aroundColonN:1 })
+        =JSON.neat_generate(alert.payload, { wrap: 40 })
 
 %form{:action => "/notifications/view/#{alert.id}/update", :method => 'post'}
   - if alert.status == Obscured::Status::OPEN.to_s
@@ -59,4 +60,4 @@
 - if !history.blank?
   .hr-divider.my-4
     %h3.hr-divider-content.hr-divider-heading History
-    = partial :'../shared/partials/history', :locals => {:history => history}
+  = partial :'../shared/partials/history', :locals => {:history => history}

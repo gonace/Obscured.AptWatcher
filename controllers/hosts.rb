@@ -10,7 +10,7 @@ module Obscured
 
           begin
             limit = params[:limit] ? Integer(params[:limit]) : 30
-            hosts = Obscured::AptWatcher::Models::Host.order_by(:hostname.asc).limit(limit)
+            hosts = Obscured::AptWatcher::Models::Host.order_by(:state.asc, :hostname.asc).limit(limit)
             pagination_hosts = Obscured::AptWatcher::Helpers::Pagination.new(hosts, Obscured::AptWatcher::Models::Host.order_by(:hostname.asc).count)
 
             haml :index, :locals => { :hosts => pagination_hosts }
