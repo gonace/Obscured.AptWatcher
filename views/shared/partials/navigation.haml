@@ -41,3 +41,7 @@
         - else
           %a.nav-link{'data-container' => 'body', 'data-original-title' => 'Not sigend in', 'data-placement' => 'bottom', 'data-toggle' => 'tooltip', :href => Obscured::Doorman.config.paths[:logout], :title => ''}
             %img.Jrounded-circle{:style => 'max-width:22px;', :alt => 'payway@adeprimo.se', :src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest('payway@adeprimo.se')}"}
+
+  - if (searchable rescue false)
+    %form.form-inline.d-none.d-md-flex.ml-auto{:action => "#{search_path}", :method => "POST"}
+      %input.form-control{"data-action" => "grow", :placeholder => "Search", :name => "query", :type => "text"}

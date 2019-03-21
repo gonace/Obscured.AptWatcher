@@ -12,9 +12,10 @@
     = partial :'../shared/partials/styles'
 
   %body.with-top-navbar
-    = partial :'../shared/partials/navigation', :locals => {:active => 'users'}
+    = partial :'../shared/partials/navigation', :locals => {:active => 'users', :searchable => true, :search_path => "/users/search"}
     .container-fluid.container-fluid-spacious.mt-4
       = partial :'../shared/partials/error.generic'
       = yield
-    = partial :'../shared/partials/scripts'
+
+    = partial :'../shared/partials/scripts.footer'
     = partial :'../shared/footer'

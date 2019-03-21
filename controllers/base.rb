@@ -49,18 +49,12 @@ module Obscured
         end
 
         error 500 do
-          #if Tulo.c('homer.raygun.enabled')
-          #  Raygun.track_exception(request.env['sinatra.error'])
-          #end
           flash[:error_type] = request.env['sinatra.error'].class.name
           flash[:error_message] = request.env['sinatra.error'].to_s
           redirect ('/error/500')
         end
 
         error do
-          #if Tulo.c('homer.raygun.enabled')
-          #  Raygun.track_exception(request.env['sinatra.error'])
-          #end
           flash[:error_type] = request.env['sinatra.error'].class.name
           flash[:error_message] = request.env['sinatra.error'].to_s
           redirect ('/error/500')

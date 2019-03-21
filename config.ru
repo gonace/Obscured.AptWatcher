@@ -5,6 +5,7 @@ require 'geocoder'
 require 'haml'
 require 'json'
 require 'mongoid'
+require 'mongoid_search'
 require 'neatjson'
 require 'password_strength'
 require 'rack/cache'
@@ -23,7 +24,6 @@ require 'sinatra/multi_route'
 require 'sinatra/namespace'
 require 'slack-notifier'
 require 'sprockets'
-#require 'platform-api'
 require 'pp'
 require 'warden'
 
@@ -50,11 +50,19 @@ clients: {
 Dir.glob('./lib/{alert,common,entities,helpers,package,sinatra}/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/modules/*.rb').sort.each(&method(:require))
-Dir.glob('./models/embedded/*.rb').sort.each(&method(:require))
-Dir.glob('./models/*.rb').sort.each(&method(:require))
+Dir.glob('./lib/models/embedded/*.rb').sort.each(&method(:require))
+Dir.glob('./lib/models/*.rb').sort.each(&method(:require))
 Dir.glob('./controllers/*.rb').sort.each(&method(:require))
 Dir.glob('./controllers/api/*.rb').sort.each(&method(:require))
 Dir.glob('./controllers/api/collector/*.rb').sort.each(&method(:require))
+
+###
+# Mongoid::Search
+##
+Mongoid::Search.setup do |cfg|
+  cfg.strip_symbols = /[\"]/
+  cfg.strip_accents = //
+end
 
 ###
 # Configuration
@@ -117,8 +125,13 @@ end
 map '/assets' do
   env = Sprockets::Environment.new
   env.js_compressor  = :uglify if ENV['RACK_ENV'] == 'production'
+  env.css_compressor = :scss if ENV['RACK_ENV'] == 'production'
   env.append_path 'assets/javascript'
+  env.append_path 'assets/style'
   run env
+
+  puts "Sprockets.root           => #{env.root}"
+  puts "Sprockets.paths          => #{env.paths}"
 end
 
 map '/error' do

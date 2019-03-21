@@ -57,7 +57,7 @@ module Obscured
 
             haml :edit, :locals => { :host => host }
           rescue => e
-            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
             Raygun.track_exception(e)
 
             flash[:generic_error] = 'An unknown error occurred!'
@@ -95,7 +95,7 @@ module Obscured
             flash[:save_ok] = "We're glad to announce that we could successfully save the changes for (#{host.hostname})"
             redirect "/host/#{host.id}/edit"
           rescue => e
-            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
             Raygun.track_exception(e)
 
             flash[:generic_error] = 'An unknown error occurred!'

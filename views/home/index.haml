@@ -43,28 +43,43 @@
 .hr-divider.my-4
   %h3.hr-divider-content.hr-divider-heading Quick stats
 .row.statcards.mt-3.mb-3.text-xs-center.text-md-left
+  .statcard
+    %iframe.chartjs-hidden-iframe{:style => "display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;", :tabindex => "-1"}
+    .p-a
+      %span.statcard-desc Hosts with updates
+      %h2.statcard-number
+        12,938
+        %small.badge.badge-success 5%
+    %canvas#sparkline1.sparkline.js-chart-drawn{"data-chart" => "spark-line", "data-dataset" => "[[28,68,41,43,96,45,100]]", "data-dataset-options" => "[{borderColor: '#1ca8dd', backgroundColor:'rgba(28,168,221,.03)'}]", "data-labels" => "['a', 'b','c','d','e','f','g']", :height => "146", :style => "width: 590px; height: 146px; display: block;", :width => "590"}
+
+
+
+  .col-6.col-md-3.mb-4.statcard
+    .p-a
+      %span.statcard-desc Hosts with updates
+      %h3.statcard-number{ :class => hosts_with_updates > 0 ? 'text-danger' : 'text-success'}
+        =hosts_with_updates
+        %small.delta-indicator{:class => (hosts_with_updates + hosts_without_updates) == hosts_without_updates ? 'delta-positive' : 'delta-negative'}
+          - if hosts_with_updates > 0
+            ="#{(100/(hosts_with_updates + hosts_without_updates))*hosts_with_updates}%"
   .col-6.col-md-3.statcard.mb-4
-    %h3.statcard-number{ :class => hosts_with_updates > 0 ? 'text-danger' : 'text-success'}
-      =hosts_with_updates
-      %small.delta-indicator{:class => (hosts_with_updates + hosts_without_updates) == hosts_without_updates ? 'delta-positive' : 'delta-negative'}
-        - if hosts_with_updates > 0
-          ="#{(100/(hosts_with_updates + hosts_without_updates))*hosts_with_updates}%"
-    %span.statcard-desc Hosts with updates
+    .p-a
+      %span.statcard-desc Hosts that are up to date
+      %h3.statcard-number{ :class => hosts_without_updates > 0 ? 'text-success' : 'text-danger'}
+        =hosts_without_updates
+        %small.delta-indicator{:class => (hosts_with_updates + hosts_without_updates) == hosts_without_updates && (hosts_with_updates + hosts_without_updates) != 0  ? 'delta-negative' : 'delta-positive'}
+          - if hosts_with_updates > 0
+            ="#{(100/(hosts_with_updates + hosts_without_updates))*hosts_without_updates}%"
   .col-6.col-md-3.statcard.mb-4
-    %h3.statcard-number{ :class => hosts_without_updates > 0 ? 'text-success' : 'text-danger'}
-      =hosts_without_updates
-      %small.delta-indicator{:class => (hosts_with_updates + hosts_without_updates) == hosts_without_updates && (hosts_with_updates + hosts_without_updates) != 0  ? 'delta-negative' : 'delta-positive'}
-        - if hosts_with_updates > 0
-          ="#{(100/(hosts_with_updates + hosts_without_updates))*hosts_without_updates}%"
-    %span.statcard-desc Hosts that are up to date
+    .p-a
+      %span.statcard-desc Scans
+      %h3.statcard-number{ :class => scans_total == 0 ? 'text-danger' : 'text-secondary'}
+        =scans_total
   .col-6.col-md-3.statcard.mb-4
-    %h3.statcard-number{ :class => scans_total == 0 ? 'text-danger' : 'text-secondary'}
-      =scans_total
-    %span.statcard-desc Scans
-  .col-6.col-md-3.statcard.mb-4
-    %h3.statcard-number{ :class => alerts_open > 0 ? 'text-danger' : 'text-success'}
-      =alerts_open
-    %span.statcard-desc Notifications
+    .p-a
+      %span.statcard-desc Notifications
+      %h3.statcard-number{ :class => alerts_open > 0 ? 'text-danger' : 'text-success'}
+        =alerts_open
 %hr.my-4/
 .row
   = partial :'../shared/partials/lists/hosts', :locals => {:hosts => hosts}

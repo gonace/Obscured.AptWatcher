@@ -10,7 +10,7 @@ module Obscured
             second_scan = Obscured::AptWatcher::Models::Scan.where(:hostname => hostname, :created_at.gte => date_end.beginning_of_day, :created_at.lte => date_end.end_of_day).first
 
             if first_scan.nil? && second_scan.nil?
-              Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SCAN, :message => 'No scan could be found, this might not be an error if this is the first time the host is checked'})
+              Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SCAN, :message => 'No scan could be found, this might not be an error if this is the first time the host is checked'})
             else
               if defined? first_scan.packages
                 first_scan.packages.each do |package|
@@ -26,7 +26,7 @@ module Obscured
 
                 first_scan
               else
-                Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SCAN, :message => 'Scan does not contain a definition of :packages, this might not be an error if this is the first time the host is checked'})
+                Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SCAN, :message => 'Scan does not contain a definition of :packages, this might not be an error if this is the first time the host is checked'})
               end
             end
           end

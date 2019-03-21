@@ -3,23 +3,29 @@ module Obscured
     class User
       include Mongoid::Document
       include Mongoid::Timestamps
+      include Mongoid::Search
       include Obscured::Doorman::TrackedEntity
       include BCrypt
+
       store_in collection: 'users'
 
-      field :username,              type: String
-      field :password,              type: String
-      field :salt,                  type: String
-      field :first_name,            type: String, :default => ''
-      field :last_name,             type: String, :default => ''
-      field :mobile,                type: String, :default => ''
-      field :title,                 type: String, :default => Obscured::Doorman::Titles::APPRENTICE
-      field :role,                  type: Symbol, :default => Obscured::Doorman::Roles::ADMIN
-      field :confirmed,             type: Boolean, :default => true
-      field :confirm_token,         type: String
-      field :remember_token,        type: String
-      field :created_from,          type: Symbol
-      field :last_login,            type: DateTime
+      field :username, type: String
+      field :password, type: String
+      field :salt, type: String
+      field :first_name, type: String, :default => ''
+      field :last_name, type: String, :default => ''
+      field :mobile, type: String, :default => ''
+      field :title, type: String, :default => Obscured::Doorman::Titles::APPRENTICE
+      field :role, type: Symbol, :default => Obscured::Doorman::Roles::ADMIN
+      field :confirmed, type: Boolean, :default => true
+      field :confirm_token, type: String
+      field :remember_token, type: String
+      field :created_from, type: Symbol
+      field :last_login, type: DateTime
+
+      index({ username: 1 }, { background: true })
+
+      search_in :hostname, :first_name, :last_name, :mobile, :title, :role
 
       attr_accessor :password_confirmation
 
@@ -28,30 +34,30 @@ module Obscured
 
       before_save :validate!
 
-      def self.make(opts)
-        if User.where(:username => opts[:username]).exists?
-          raise Obscured::Doorman::DomainError.new(:already_exists, what: 'User does already exists!')
-        end
-
-        user = self.new
-        user.username = opts[:username]
-        user.password = Password.create(opts[:password])
-        user.set_created_by(Obscured::Doorman::Types::SYSTEM)
-        user.add_history_log('User created', Obscured::Doorman::Types::SYSTEM)
-
-        unless opts[:confirmed].nil?
-          user.confirmed = opts[:confirmed]
-        end
-
-        user
-      end
-
-      def self.make_and_save(opts)
-        user = self.make(opts)
-        user.save
-      end
 
       class << self
+        def make(opts)
+          if User.where(:username => opts[:username]).exists?
+            raise Obscured::Doorman::DomainError.new(:already_exists, what: 'User does already exists!')
+          end
+
+          doc = self.new
+          doc.username = opts[:username]
+          doc.password = Password.create(opts[:password])
+          doc.set_created_by(Obscured::Doorman::Types::SYSTEM)
+          doc.add_history_log('User created', Obscured::Doorman::Types::SYSTEM)
+
+          unless opts[:confirmed].nil?
+            doc.confirmed = opts[:confirmed]
+          end
+
+          doc
+        end
+        def make!(opts)
+          doc = self.make(opts)
+          doc.save
+        end
+
         def get(id)
           self.where(:_id => id).first
         end
@@ -64,7 +70,7 @@ module Obscured
 
 
       def name
-        return "#{self.first_name} #{self.last_name}"
+        "#{self.first_name} #{self.last_name}"
       end
 
       def set_username(username)
@@ -147,19 +153,20 @@ module Obscured
         self.save
       end
 
-      def reset_password!(new_password, new_password_confirmation)
-        unless new_password == new_password_confirmation
-          false
-        else
-          self.password_confirmation  = new_password_confirmation
-          self.password               = Password.create(new_password) if valid?
+      def reset_password!(new, confirmation)
+        if new == confirmation
+          self.password_confirmation = confirmation
+          self.password = Password.create(new) if valid?
           self.add_history_log('Password has been reset', Obscured::Doorman::Types::SYSTEM)
           self.save
+        else
+          false
         end
       end
 
 
       protected
+
       def salt
         if @salt.nil? || @salt.empty?
           secret    = Digest::SHA1.hexdigest("--#{Time.now.utc}--")

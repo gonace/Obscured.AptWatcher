@@ -10,9 +10,11 @@
 
     %title= 'Setup (Obscured.AptWatcher)'
     = partial :'../shared/partials/styles'
+    = partial :'../shared/partials/scripts.head'
     %link{:href => '/css/card.css', :rel => 'stylesheet'}
 
   %body
     = yield
-    = partial :'../shared/partials/scripts'
+
+    = partial :'../shared/partials/scripts.footer'
     = partial :'../shared/footer'

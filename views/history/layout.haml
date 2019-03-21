@@ -10,11 +10,13 @@
 
     %title= 'History (Obscured.AptWatcher)'
     = partial :'../shared/partials/styles'
+    = partial :'../shared/partials/scripts.head'
 
   %body.with-top-navbar
-    = partial :'../shared/partials/navigation', :locals => {:active => 'history'}
+    = partial :'../shared/partials/navigation', :locals => {:active => 'history', :searchable => true, :search_path => "/history/search"}
     .container-fluid.container-fluid-spacious.mt-4
       = partial :'../shared/partials/error.generic'
       = yield
-    = partial :'../shared/partials/scripts'
+
+    = partial :'../shared/partials/scripts.footer'
     = partial :'../shared/footer'

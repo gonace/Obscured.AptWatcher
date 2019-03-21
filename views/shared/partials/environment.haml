@@ -1,12 +1,12 @@
 - if ENV['RACK_ENV'] == 'production'
-  %div.environment-tease.prod
+  %div.teaser.teaser-environment.prod
     %span.icon.icon-warning
     Warning, you're operating in a production environment, so be careful!
 - elsif ENV['RACK_ENV'] == 'staging'
-  %div.environment-tease.stage
+  %div.teaser.teaser-environment.stage
     %span.icon.icon-warning
     Information, you're operating in a #{ENV['RACK_ENV']} environment!
 - else
-  %div.environment-tease
+  %div.teaser.teaser-environment
     %span.icon.icon-warning
     Information, you're operating in a #{ENV['RACK_ENV']} environment!

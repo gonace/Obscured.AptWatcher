@@ -28,17 +28,17 @@
         .btn-group{'data-toggle' => 'buttons'}
           - if config.user_registration
             %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/registration'}
-              %input{:autocomplete => 'off', :checked => 'checked', :name => 'user_registration', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :checked => 'checked', :name => 'user_registration', :type => 'radio'}
               On
             %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/registration'}
-              %input{:autocomplete => 'off', :name => 'user_registration', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :name => 'user_registration', :type => 'radio'}
               Off
           - else
             %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/disable/registration'}
-              %input{:autocomplete => 'off', :name => 'user_registration', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :name => 'user_registration', :type => 'radio'}
               On
             %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/disable/registration'}
-              %input{:autocomplete => 'off', :checked => 'checked', :name => 'user_registration', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :checked => 'checked', :name => 'user_registration', :type => 'radio'}
               Off
       .col-3
         %label User confirmation
@@ -46,17 +46,17 @@
         .btn-group{'data-toggle' => 'buttons'}
           - if config.user_confirmation
             %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/confirmation'}
-              %input{:autocomplete => 'off', :checked => 'checked', :name => 'user_confirmation', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :checked => 'checked', :name => 'user_confirmation', :type => 'radio'}
               On
             %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/confirmation'}
-              %input{:autocomplete => 'off', :name => 'user_confirmation', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :name => 'user_confirmation', :type => 'radio'}
               Off
           - else
             %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/disable/confirmation'}
-              %input{:autocomplete => 'off', :name => 'user_confirmation', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :name => 'user_confirmation', :type => 'radio'}
               On
             %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/disable/confirmation'}
-              %input{:autocomplete => 'off', :checked => 'checked', :name => 'user_confirmation', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :checked => 'checked', :name => 'user_confirmation', :type => 'radio'}
               Off
       .col-3
         %label Raygun
@@ -64,17 +64,17 @@
         .btn-group{'data-toggle' => 'buttons'}
           - if config.raygun.enabled
             %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/raygun'}
-              %input{:autocomplete => 'off', :checked => 'checked', :name => 'raygun_enabled', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :checked => 'checked', :name => 'raygun_enabled', :type => 'radio'}
               On
             %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/raygun'}
-              %input{:autocomplete => 'off', :name => 'raygun_enabled', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :name => 'raygun_enabled', :type => 'radio'}
               Off
           - else
             %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/raygun'}
-              %input{:autocomplete => 'off', :name => 'raygun_enabled', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :name => 'raygun_enabled', :type => 'radio'}
               On
             %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/raygun'}
-              %input{:autocomplete => 'off', :checked => 'checked', :name => 'raygun_enabled', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :checked => 'checked', :name => 'raygun_enabled', :type => 'radio'}
               Off
       .col-3
         %label Mail
@@ -82,17 +82,17 @@
         .btn-group{'data-toggle' => 'buttons'}
           - if config.smtp.enabled
             %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/mail'}
-              %input{:autocomplete => 'off', :checked => 'checked', :name => 'smtp_enabled', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :checked => 'checked', :name => 'smtp_enabled', :type => 'radio'}
               On
             %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/mail'}
-              %input{:autocomplete => 'off', :name => 'smtp_enabled', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :name => 'smtp_enabled', :type => 'radio'}
               Off
           - else
             %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/mail'}
-              %input{:autocomplete => 'off', :name => 'smtp_enabled', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :name => 'smtp_enabled', :type => 'radio'}
               On
             %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/mail'}
-              %input{:autocomplete => 'off', :checked => 'checked', :name => 'smtp_enabled', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :checked => 'checked', :name => 'smtp_enabled', :type => 'radio'}
               Off
       .col-3
         %label Slack
@@ -100,17 +100,17 @@
         .btn-group{'data-toggle' => 'buttons'}
           - if config.slack.enabled
             %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/slack'}
-              %input{:autocomplete => 'off', :checked => 'checked', :name => 'smtp_enabled', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :checked => 'checked', :name => 'smtp_enabled', :type => 'radio'}
               On
             %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/slack'}
-              %input{:autocomplete => 'off', :name => 'smtp_enabled', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :name => 'smtp_enabled', :type => 'radio'}
               Off
           - else
             %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/slack'}
-              %input{:autocomplete => 'off', :name => 'smtp_enabled', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :name => 'smtp_enabled', :type => 'radio'}
               On
             %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/slack'}
-              %input{:autocomplete => 'off', :checked => 'checked', :name => 'smtp_enabled', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :checked => 'checked', :name => 'smtp_enabled', :type => 'radio'}
               Off
       .col-3
         %label Bitbucket SSO
@@ -118,17 +118,17 @@
         .btn-group{'data-toggle' => 'buttons'}
           - if config.bitbucket.enabled
             %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/bitbucket'}
-              %input{:autocomplete => 'off', :checked => 'checked', :name => 'bitbucket_enabled', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :checked => 'checked', :name => 'bitbucket_enabled', :type => 'radio'}
               On
             %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/bitbucket'}
-              %input{:autocomplete => 'off', :name => 'bitbucket_enabled', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :name => 'bitbucket_enabled', :type => 'radio'}
               Off
           - else
             %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/bitbucket'}
-              %input{:autocomplete => 'off', :name => 'bitbucket_enabled', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :name => 'bitbucket_enabled', :type => 'radio'}
               On
             %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/bitbucket'}
-              %input{:autocomplete => 'off', :checked => 'checked', :name => 'bitbucket_enabled', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :checked => 'checked', :name => 'bitbucket_enabled', :type => 'radio'}
               Off
       .col-3
         %label GitHub SSO
@@ -136,17 +136,17 @@
         .btn-group{'data-toggle' => 'buttons'}
           - if config.github.enabled
             %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/github'}
-              %input{:autocomplete => 'off', :checked => 'checked', :name => 'github_enabled', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :checked => 'checked', :name => 'github_enabled', :type => 'radio'}
               On
             %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/github'}
-              %input{:autocomplete => 'off', :name => 'github_enabled', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :name => 'github_enabled', :type => 'radio'}
               Off
           - else
             %label.btn.btn-info{'data-trigger' => 'enabler', 'data-enabled' => 'true', 'data-url' => '/settings/enable/github'}
-              %input{:autocomplete => 'off', :name => 'github_enabled', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :name => 'github_enabled', :type => 'radio'}
               On
             %label.btn.btn-info.active{'data-trigger' => 'enabler', 'data-enabled' => 'false', 'data-url' => '/settings/enable/github'}
-              %input{:autocomplete => 'off', :checked => 'checked', :name => 'github_enabled', :type => 'radio'}
+              %input{:style => 'display: none;', :autocomplete => 'off', :checked => 'checked', :name => 'github_enabled', :type => 'radio'}
               Off
 
 

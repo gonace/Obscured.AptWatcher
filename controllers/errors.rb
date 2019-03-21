@@ -15,7 +15,7 @@ module Obscured
 
             haml :index, :locals => { :errors => pagination_errors }
           rescue => e
-            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
             Raygun.track_exception(e)
 
             flash[:generic_error] = e.message
@@ -38,7 +38,7 @@ module Obscured
 
             partial :'partials/list', :locals => {:id => 'errors', :url => '/errors', :errors => pagination_errors}
           rescue => e
-            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
             Raygun.track_exception(e)
 
             {success: false, error: e.message}
