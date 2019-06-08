@@ -8,8 +8,10 @@
     %meta{:content => '', :name => 'keywords'}
     %meta{:content => '', :name => 'author'}
 
-    %title=title
+    %title= title
     = partial :'../shared/partials/styles'
+    = partial :'../shared/partials/scripts.head'
 
   %body
     = yield
+    = partial :'../shared/partials/scripts.footer'

@@ -1,15 +1,15 @@
 !!! 5
 %html
   %head
-    %meta{:charset => 'UTF-8'}
-    %meta{:content => '', :name => 'description' }
-    %meta{:content => 'Obscured', :name => 'author' }
+    %meta{:charset => 'utf-8'}
+    %meta{:content => 'width=device-width, initial-scale=1', :name => 'viewport'}
+
     %title= 'Doorman (Obscured.AptWatcher)'
     %link{:href => '/img/favicon.ico', :rel => 'Obscured.AptWatcher', :type  => 'image/x-icon'}
+    %link{:href => '/assets/modular.min.css', :rel => 'stylesheet'}
     = partial :'../shared/partials/styles'
-    %link{:href => '/css/card.css', :rel => 'stylesheet'}
+    = partial :'../shared/partials/scripts.head'
 
   %body
     = yield
-    = partial :'../shared/partials/scripts'
     = partial :'../shared/footer'

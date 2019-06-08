@@ -1,0 +1,25 @@
+.cover-wrapper {
+  display: table;
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+
+  .cover-wrapper-inner {
+    display: table-cell;
+    vertical-align: middle;
+
+    &.baseline {
+      vertical-align: baseline;
+    }
+
+    .cover-container {
+      margin-right: auto;
+      margin-left: auto;
+      width: 550px;
+
+      .cover-inner {
+        padding: 30px;
+      }
+    }
+  }
+}

@@ -1,0 +1,70 @@
+.error-container {
+  display: table-cell;
+  vertical-align: middle;
+
+  &.inner {
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 700px;
+
+    h1 {
+      font-size: 145px;
+    }
+  }
+}
+
+
+.error {
+  z-index: 150000;
+
+  .error-wrapper {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  &.error-inline {
+    position: absolute;
+
+    .error-wrapper {
+      background-color: transparent;
+      opacity: 0.5;
+      padding: 0;
+      position: relative;
+    }
+  }
+
+  &.error-generic,
+  &.error-inline {
+    background: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+
+    .error-wrapper {
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 15px;
+      padding: 25px 45px;
+      transform: translateY(65%);
+      width: 500px;
+    }
+
+    .error-title {
+      color: #ffffff;
+      font-size: 30px;
+      margin-bottom: 30px;
+      margin-top: 0;
+    }
+
+    .error-message {
+      color: #ffffff;
+      font-size: 18px;
+
+      p {
+        margin-bottom: 30px;
+        padding: 0 20px;
+      }
+    }
+  }
+}

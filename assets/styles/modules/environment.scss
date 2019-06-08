@@ -1,0 +1,39 @@
+.environment-tease {
+  background-color: #46b8da;
+  color: #fff;
+  display: block;
+  font-weight: bold;
+  padding: 15px 20px;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 100%;
+
+  .icon {
+    color: #fff;
+  }
+
+  &:hover {
+    background-color: #5bc0de;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  &.prod,
+  &.production {
+    background-color: #d43f3a;
+
+    &:hover {
+      background-color: #d9534f;
+    }
+  }
+
+  &.stage,
+  &.staging {
+    background-color: #eea236;
+
+    &:hover {
+      background-color: #f0ad4e;
+    }
+  }
+}

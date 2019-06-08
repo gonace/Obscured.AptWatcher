@@ -47,11 +47,11 @@
               %button.btn.btn-success.btn-block.mb-4{:type => 'submit'} Next
               - if configuration.bitbucket.enabled
                 %a.btn.btn-block.btn-social.btn-bitbucket{:href => Obscured::Doorman::Providers::Bitbucket.config[:login_url]}
-                  %i.fa.fa-bitbucket
+                  %i.fab.fa-bitbucket
                   Sign in with Bitbucket
               - if configuration.github.enabled
                 %a.btn.btn-block.btn-social.btn-github{:href => Obscured::Doorman::Providers::GitHub.config[:login_url]}
-                  %i.fa.fa-github
+                  %i.fab.fa-github
                   Sign in with GitHub
 
       %div.text-center.mt-3

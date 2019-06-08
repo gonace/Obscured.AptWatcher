@@ -2,17 +2,14 @@
 %html
   %head
     %meta{:charset => 'utf-8'}
-    %meta{:content => 'IE=edge', 'http-equiv' => 'X-UA-Compatible'}
     %meta{:content => 'width=device-width, initial-scale=1', :name => 'viewport'}
-    %meta{:content => '', :name => 'description'}
-    %meta{:content => '', :name => 'keywords'}
-    %meta{:content => '', :name => 'author'}
 
     %title= 'Setup (Obscured.AptWatcher)'
+    %link{:href => '/img/favicon.ico', :rel => 'Obscured.AptWatcher', :type  => 'image/x-icon'}
+    %link{:href => '/assets/modular.min.css', :rel => 'stylesheet'}
     = partial :'../shared/partials/styles'
-    %link{:href => '/css/card.css', :rel => 'stylesheet'}
+    = partial :'../shared/partials/scripts.head'
 
   %body
     = yield
-    = partial :'../shared/partials/scripts'
     = partial :'../shared/footer'

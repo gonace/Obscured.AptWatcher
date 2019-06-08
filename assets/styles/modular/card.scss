@@ -1,0 +1,72 @@
+.card {
+  &.card-current {
+    display: table;
+
+    .card-text {
+      color: #fff;
+      display: table-cell;
+      margin-left: 20px;
+      vertical-align: middle;
+      position: relative;
+      z-index: 15000;
+    }
+
+    .card-mask {
+      background-color: #e1e1e1;
+      border-radius: 150px;
+      -webkit-border-radius: 150px;
+      -moz-border-radius: 150px;
+      display: inline-block;
+      height: 34px;
+      margin: 0 0 0 10px;
+      overflow: hidden;
+      position: relative;
+      width: 34px;
+      z-index: 500;
+
+      img {
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
+
+  &.card-identity {
+    background-color: #30343e;
+    border-radius: 2px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+    margin: 0 auto;
+    max-width: 350px;
+    padding: 40px;
+
+    .card-mask {
+      background-color: #e1e1e1;
+      border-radius: 150px;
+      -webkit-border-radius: 150px;
+      -moz-border-radius: 150px;
+      display: block;
+      height: 96px;
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      position: relative;
+      width: 96px;
+
+      img {
+        height: 100%;
+        width: 100%;
+      }
+
+      span {
+        background-color: #fff;
+        background-position: 50% 0;
+        background-repeat: no-repeat;
+        background-image: url('https://ssl.gstatic.com/accounts/ui/avatar_2x.png');
+        background-size: 100%;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
+}
