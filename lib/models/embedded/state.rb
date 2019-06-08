@@ -16,7 +16,9 @@ module Mongoid
       self.set({:state => state}) if state.is_a?(Symbol)
     end
 
+
     protected
+
     # Update the state field on the Document to the pending state.
     # This is only called on create and on save (create).
     #

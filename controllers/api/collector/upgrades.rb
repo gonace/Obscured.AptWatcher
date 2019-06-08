@@ -61,8 +61,8 @@ module Obscured
                   alerts = Obscured::AptWatcher::Models::Alert.where(:hostname => hostname, :type => Obscured::Alert::Type::PACKAGES, :status => Obscured::Status::OPEN).to_a
                   alerts.each do |alert|
                     alert.status = Obscured::Status::IGNORED
+                    alert.add_event(type: :status, message: "Changed status to #{alert.status}", producer: Obscured::Alert::Type::SYSTEM)
                     alert.save
-                    alert.add_history_log("Changed status to #{alert.status}", Obscured::Alert::Type::SYSTEM)
                   end
 
                   slack_client.post icon_emoji: scan.packages.count > 10 ? ':bug-error:' : ':bug-warn:', attachments: attachments if config.slack.enabled
@@ -71,8 +71,8 @@ module Obscured
                   alerts = Obscured::AptWatcher::Models::Alert.where(:hostname => hostname, :type => Obscured::Alert::Type::PACKAGES, :status => Obscured::Status::OPEN).to_a
                   alerts.each do |alert|
                     alert.status = Obscured::Status::CLOSED
+                    alert.add_event(type: :status, message: "Changed status to #{alert.status}", producer: Obscured::Alert::Type::SYSTEM)
                     alert.save
-                    alert.add_history_log("Changed status to #{alert.status}", Obscured::Alert::Type::SYSTEM)
                   end
                 end
                 scan

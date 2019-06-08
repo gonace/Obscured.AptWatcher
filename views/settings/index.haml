@@ -162,117 +162,110 @@
   %button.btn.btn-primary{:type => 'submit'} Save changes
 
 
-%form#formRaygun{:action => '/settings/raygun/update', :method => 'post'}
-  .hr-divider.my-4
-    %h3.hr-divider-content.hr-divider-heading Raygun
-  .form-group
-    - unless config.raygun.enabled
-      = partial :'../shared/partials/alert', :locals => { :klass => 'alert-danger mb-2', :title => 'Oh snap!', :message => "This feature is disabled so no changes can be made until it's re-enabled!"}
-    .row
-      .col-6
-        %input.form-control{:placeholder => 'RayGun API Key', :name => 'raygun_key', :value => config.raygun.key, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '6'}
-  - if config.raygun.enabled
-    %button.btn.btn-primary{:type => 'submit'} Save changes
-  - else
-    %button.btn.btn-primary{:type => 'submit', :disabled => 'disabled'} Save changes
+- if config.raygun.enabled
+  %form#formRaygun{:action => '/settings/raygun/update', :method => 'post'}
+    .hr-divider.my-4
+      %h3.hr-divider-content.hr-divider-heading Raygun
+    .form-group
+      .row
+        .col-6
+          %input.form-control{:placeholder => 'RayGun API Key', :name => 'raygun_key', :value => config.raygun.key, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '6'}
+    - if config.raygun.enabled
+      %button.btn.btn-primary{:type => 'submit'} Save changes
+    - else
+      %button.btn.btn-primary{:type => 'submit', :disabled => 'disabled'} Save changes
 
 
-%form#formSlack{:action => '/settings/slack/update', :method => 'post'}
-  .hr-divider.my-4
-    %h3.hr-divider-content.hr-divider-heading Slack
-  .form-group
-    - unless config.slack.enabled
-      = partial :'../shared/partials/alert', :locals => { :klass => 'alert-danger mb-2', :title => 'Oh snap!', :message => "This feature is disabled so no changes can be made until it's re-enabled!"}
-    .row
-      .col-4
-        %input.form-control{:placeholder => 'channel', :name => 'slack_channel', :value => config.slack.channel, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '1'}
-      .col-4
-        %input.form-control{:placeholder => 'Obscuerd.AptWatcher', :name => 'slack_user', :value => config.slack.user, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '1'}
-      .col-4
-        %input.form-control{:placeholder => ':slack:', :name => 'slack_icon', :value => config.slack.icon, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '1', 'data-rule-slackicon' => 'true'}
-  .form-group
-    .row
-      .col-12
-        %input#webhookUrl.form-control{:placeholder => 'https://hooks.slack.com/services/***/***/***', :name => 'slack_webhook', :value => config.slack.webhook, :type => 'text', 'data-rule-required' => 'true'}
-  - if config.slack.enabled
-    %button.btn.btn-primary{:type => 'submit'} Save changes
-  - else
-    %button.btn.btn-primary{:type => 'submit', :disabled => 'disabled'} Save changes
+- if config.slack.enabled
+  %form#formSlack{:action => '/settings/slack/update', :method => 'post'}
+    .hr-divider.my-4
+      %h3.hr-divider-content.hr-divider-heading Slack
+    .form-group
+      .row
+        .col-4
+          %input.form-control{:placeholder => 'channel', :name => 'slack_channel', :value => config.slack.channel, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '1'}
+        .col-4
+          %input.form-control{:placeholder => 'Obscuerd.AptWatcher', :name => 'slack_user', :value => config.slack.user, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '1'}
+        .col-4
+          %input.form-control{:placeholder => ':slack:', :name => 'slack_icon', :value => config.slack.icon, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '1', 'data-rule-slackicon' => 'true'}
+    .form-group
+      .row
+        .col-12
+          %input#webhookUrl.form-control{:placeholder => 'https://hooks.slack.com/services/***/***/***', :name => 'slack_webhook', :value => config.slack.webhook, :type => 'text', 'data-rule-required' => 'true'}
+    - if config.slack.enabled
+      %button.btn.btn-primary{:type => 'submit'} Save changes
+    - else
+      %button.btn.btn-primary{:type => 'submit', :disabled => 'disabled'} Save changes
 
 
-%form#formMail{:action => '/settings/mail/update', :method => 'post'}
-  .hr-divider.my-4
-    %h3.hr-divider-content.hr-divider-heading Mail
-  .form-group
-    - unless config.smtp.enabled
-      = partial :'../shared/partials/alert', :locals => { :klass => 'alert-danger mb-2', :title => 'Oh snap!', :message => "This feature is disabled so no changes can be made until it's re-enabled!"}
-    .row
-      .col-4
-        %input.form-control{:placeholder => 'obscured.se', :name => 'smtp_domain', :value => config.smtp.domain, :type => 'text', 'data-rule-required' => 'true'}
-      .col-4
-        %input.form-control{:placeholder => 'username', :name => 'smtp_username', :value => config.smtp.username, :type => 'text', 'data-rule-required' => 'true'}
-      .col-4
-        %input.form-control{:placeholder => 'password', :name => 'smtp_password', :value => config.smtp.password, :type => 'text', 'data-rule-required' => 'true'}
-  .form-group
-    .row
-      .col-6
-        %input#smtpServer.form-control{:placeholder => 'smtp.sendgrid.net', :name => 'smtp_host', :value => config.smtp.host, :type => 'text', 'data-rule-required' => 'true'}
-      .col-6
-        %input#smtpPort.form-control{:placeholder => '587', :name => 'smtp_port', :value => config.smtp.port, :type => 'text', 'data-rule-required' => 'true'}
-  - if config.smtp.enabled
-    %button.btn.btn-primary{:type => 'submit'} Save changes
-  - else
-    %button.btn.btn-primary{:type => 'submit', :disabled => 'disabled'} Save changes
+- if config.smtp.enabled
+  %form#formMail{:action => '/settings/mail/update', :method => 'post'}
+    .hr-divider.my-4
+      %h3.hr-divider-content.hr-divider-heading Mail
+    .form-group
+      .row
+        .col-4
+          %input.form-control{:placeholder => 'obscured.se', :name => 'smtp_domain', :value => config.smtp.domain, :type => 'text', 'data-rule-required' => 'true'}
+        .col-4
+          %input.form-control{:placeholder => 'username', :name => 'smtp_username', :value => config.smtp.username, :type => 'text', 'data-rule-required' => 'true'}
+        .col-4
+          %input.form-control{:placeholder => 'password', :name => 'smtp_password', :value => config.smtp.password, :type => 'text', 'data-rule-required' => 'true'}
+    .form-group
+      .row
+        .col-6
+          %input#smtpServer.form-control{:placeholder => 'smtp.sendgrid.net', :name => 'smtp_host', :value => config.smtp.host, :type => 'text', 'data-rule-required' => 'true'}
+        .col-6
+          %input#smtpPort.form-control{:placeholder => '587', :name => 'smtp_port', :value => config.smtp.port, :type => 'text', 'data-rule-required' => 'true'}
+    - if config.smtp.enabled
+      %button.btn.btn-primary{:type => 'submit'} Save changes
+    - else
+      %button.btn.btn-primary{:type => 'submit', :disabled => 'disabled'} Save changes
 
 
-
-%form#formBitbucket{:action => '/settings/bitbucket/update', :method => 'post'}
-  .hr-divider.my-4
-    %h3.hr-divider-content.hr-divider-heading Bitbucket
-  .form-group
-    - unless config.bitbucket.enabled
-      = partial :'../shared/partials/alert', :locals => { :klass => 'alert-danger mb-2', :title => 'Oh snap!', :message => "This feature is disabled so no changes can be made until it's re-enabled!"}
-    .row
-      .col-6
-        %input.form-control{:placeholder => 'key', :name => 'bitbucket_key', :value => config.bitbucket.key, :type => 'text', 'data-rule-required' => 'true'}
-      .col-6
-        %input.form-control{:placeholder => 'secret', :name => 'bitbucket_secret', :value => config.bitbucket.secret, :type => 'text', 'data-rule-required' => 'true'}
-  .form-group
-    .row
-      .col-12
-        .alert.alert-info
-          %strong Heads up!
-          If you need to whitelist multiple domains the input need to be comma seperated (ex. domain.tld,domain.tld)
-        %input.form-control{:placeholder => 'Domain whitelist', :name => 'bitbucket_domains', :value => config.bitbucket.domains, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '4'}
-  - if config.bitbucket.enabled
-    %button.btn.btn-primary{:type => 'submit'} Save changes
-  - else
-    %button.btn.btn-primary{:type => 'submit', :disabled => 'disabled'} Save changes
+- if config.bitbucket.enabled
+  %form#formBitbucket{:action => '/settings/bitbucket/update', :method => 'post'}
+    .hr-divider.my-4
+      %h3.hr-divider-content.hr-divider-heading Bitbucket
+    .form-group
+      .row
+        .col-6
+          %input.form-control{:placeholder => 'key', :name => 'bitbucket_key', :value => config.bitbucket.key, :type => 'text', 'data-rule-required' => 'true'}
+        .col-6
+          %input.form-control{:placeholder => 'secret', :name => 'bitbucket_secret', :value => config.bitbucket.secret, :type => 'text', 'data-rule-required' => 'true'}
+    .form-group
+      .row
+        .col-12
+          .alert.alert-info
+            %strong Heads up!
+            If you need to whitelist multiple domains the input need to be comma seperated (ex. domain.tld,domain.tld)
+          %input.form-control{:placeholder => 'Domain whitelist', :name => 'bitbucket_domains', :value => config.bitbucket.domains, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '4'}
+    - if config.bitbucket.enabled
+      %button.btn.btn-primary{:type => 'submit'} Save changes
+    - else
+      %button.btn.btn-primary{:type => 'submit', :disabled => 'disabled'} Save changes
 
 
-
-%form#formGitHub{:action => '/settings/github/update', :method => 'post'}
-  .hr-divider.my-4
-    %h3.hr-divider-content.hr-divider-heading GitHub
-  .form-group
-    - unless config.github.enabled
-      = partial :'../shared/partials/alert', :locals => { :klass => 'alert-danger mb-2', :title => 'Oh snap!', :message => "This feature is disabled so no changes can be made until it's re-enabled!"}
-    .row
-      .col-6
-        %input.form-control{:placeholder => 'key', :name => 'github_key', :value => config.github.key, :type => 'text', 'data-rule-required' => 'true'}
-      .col-6
-        %input.form-control{:placeholder => 'secret', :name => 'github_secret', :value => config.github.secret, :type => 'text', 'data-rule-required' => 'true'}
-  .form-group
-    .row
-      .col-12
-        .alert.alert-info
-          %strong Heads up!
-          If you need to whitelist multiple domains the input need to be comma seperated (ex. domain.tld,domain.tld)
-        %input.form-control{:placeholder => 'Domain whitelist', :name => 'github_domains', :value => config.github.domains, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '4'}
-  - if config.github.enabled
-    %button.btn.btn-primary{:type => 'submit'} Save changes
-  - else
-    %button.btn.btn-primary{:type => 'submit', :disabled => 'disabled'} Save changes
+- if config.github.enabled
+  %form#formGitHub{:action => '/settings/github/update', :method => 'post'}
+    .hr-divider.my-4
+      %h3.hr-divider-content.hr-divider-heading GitHub
+    .form-group
+      .row
+        .col-6
+          %input.form-control{:placeholder => 'key', :name => 'github_key', :value => config.github.key, :type => 'text', 'data-rule-required' => 'true'}
+        .col-6
+          %input.form-control{:placeholder => 'secret', :name => 'github_secret', :value => config.github.secret, :type => 'text', 'data-rule-required' => 'true'}
+    .form-group
+      .row
+        .col-12
+          .alert.alert-info
+            %strong Heads up!
+            If you need to whitelist multiple domains the input need to be comma seperated (ex. domain.tld,domain.tld)
+          %input.form-control{:placeholder => 'Domain whitelist', :name => 'github_domains', :value => config.github.domains, :type => 'text', 'data-rule-required' => 'true', 'data-rule-minlength' => '4'}
+    - if config.github.enabled
+      %button.btn.btn-primary{:type => 'submit'} Save changes
+    - else
+      %button.btn.btn-primary{:type => 'submit', :disabled => 'disabled'} Save changes
 
 :javascript
   jQuery(document).ready(function() {

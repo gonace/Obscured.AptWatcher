@@ -106,7 +106,7 @@ module Obscured
                 user.set_username user_email
               end
             end
-            user.add_history_log('Updated user basic properties', current_user.username)
+            user.add_event(type: :account, message: 'Updated user basic properties', producer: current_user.username)
             user.save
 
             flash[:save_ok] = "We're glad to announce that we could successfully save the changes for (#{user.username})"
@@ -132,7 +132,7 @@ module Obscured
             unless password_new.empty? and password_verify.empty?
               if password_new == password_verify
                 user.set_password(password_new)
-                user.add_history_log('Updated user password', current_user.username)
+                user.add_event(type: :password, message: 'Updated user password', producer: current_user.username)
                 user.save
                 flash[:save_ok] = "We're glad to announce that we could successfully change the password for (#{user.username})"
               else

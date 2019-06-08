@@ -23,7 +23,6 @@ require 'sinatra/multi_route'
 require 'sinatra/namespace'
 require 'slack-notifier'
 require 'sprockets'
-#require 'platform-api'
 require 'pp'
 require 'warden'
 
@@ -50,8 +49,8 @@ clients: {
 Dir.glob('./lib/{alert,common,entities,helpers,package,sinatra}/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/modules/*.rb').sort.each(&method(:require))
-Dir.glob('./models/embedded/*.rb').sort.each(&method(:require))
-Dir.glob('./models/*.rb').sort.each(&method(:require))
+Dir.glob('./lib/models/embedded/*.rb').sort.each(&method(:require))
+Dir.glob('./lib/models/*.rb').sort.each(&method(:require))
 Dir.glob('./controllers/*.rb').sort.each(&method(:require))
 Dir.glob('./controllers/api/*.rb').sort.each(&method(:require))
 Dir.glob('./controllers/api/collector/*.rb').sort.each(&method(:require))
@@ -64,7 +63,7 @@ config = Obscured::AptWatcher::Models::Configuration.where({:instance => 'aptwat
 ###
 # Raygun, configuration
 ###
-if (config.raygun.enabled rescue false)
+if(config.raygun.enabled rescue false)
   Raygun.setup do |cfg|
     cfg.api_key = config.raygun.key
   end

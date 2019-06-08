@@ -1,10 +1,11 @@
 module Obscured
   module Doorman
     class User
-      include Mongoid::Document
-      include Mongoid::Timestamps
-      include Obscured::Doorman::TrackedEntity
       include BCrypt
+      include Mongoid::Document
+      include Mongoid::Timeline::Tracker
+      include Mongoid::Timestamps
+
       store_in collection: 'users'
 
       field :username,              type: String
@@ -28,30 +29,30 @@ module Obscured
 
       before_save :validate!
 
-      def self.make(opts)
-        if User.where(:username => opts[:username]).exists?
-          raise Obscured::Doorman::DomainError.new(:already_exists, what: 'User does already exists!')
-        end
-
-        user = self.new
-        user.username = opts[:username]
-        user.password = Password.create(opts[:password])
-        user.set_created_by(Obscured::Doorman::Types::SYSTEM)
-        user.add_history_log('User created', Obscured::Doorman::Types::SYSTEM)
-
-        unless opts[:confirmed].nil?
-          user.confirmed = opts[:confirmed]
-        end
-
-        user
-      end
-
-      def self.make_and_save(opts)
-        user = self.make(opts)
-        user.save
-      end
 
       class << self
+        def make(opts)
+          if User.where(:username => opts[:username]).exists?
+            raise Obscured::Doorman::DomainError.new(:already_exists, what: 'User does already exists!')
+          end
+
+          user = self.new
+          user.username = opts[:username]
+          user.password = Password.create(opts[:password])
+          user.set_created_by(Obscured::Doorman::Types::SYSTEM)
+          user.add_event(type: :account, message: 'Account created', producer: Obscured::Doorman::Types::SYSTEM)
+
+          unless opts[:confirmed].nil?
+            user.confirmed = opts[:confirmed]
+          end
+
+          user
+        end
+        def make!(opts)
+          user = self.make(opts)
+          user.save
+        end
+
         def get(id)
           self.where(:_id => id).first
         end
@@ -64,7 +65,7 @@ module Obscured
 
 
       def name
-        return "#{self.first_name} #{self.last_name}"
+        "#{self.first_name} #{self.last_name}"
       end
 
       def set_username(username)
@@ -98,7 +99,7 @@ module Obscured
 
       def set_password(password)
         self.password = Password.create(password)
-        self.add_history_log('Password has been changed', Obscured::Doorman::Types::SYSTEM)
+        self.add_event(type: :password, message: 'Password has been changed', producer: Obscured::Doorman::Types::SYSTEM)
       end
 
       def set_created_from(created_from)
@@ -147,19 +148,20 @@ module Obscured
         self.save
       end
 
-      def reset_password!(new_password, new_password_confirmation)
-        unless new_password == new_password_confirmation
-          false
-        else
-          self.password_confirmation  = new_password_confirmation
-          self.password               = Password.create(new_password) if valid?
-          self.add_history_log('Password has been reset', Obscured::Doorman::Types::SYSTEM)
+      def reset_password!(password, confirmation)
+        if password == confirmation
+          self.password_confirmation = confirmation
+          self.password = Password.create(password) if valid?
+          self.add_event(type: :password, message: 'Password has been reset', producer: Obscured::Doorman::Types::SYSTEM)
           self.save
+        else
+          false
         end
       end
 
 
-      protected
+      private
+
       def salt
         if @salt.nil? || @salt.empty?
           secret    = Digest::SHA1.hexdigest("--#{Time.now.utc}--")

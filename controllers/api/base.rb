@@ -10,7 +10,7 @@ module Obscured
           api_username = config.username.to_s rescue ''
           api_password = config.password.to_s rescue ''
 
-          if api_username != ''
+          unless api_username.blank?
             use Rack::Auth::Basic do |username, password|
               username == api_username && password == api_password
             end

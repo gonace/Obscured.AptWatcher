@@ -2,9 +2,8 @@ lib = File.dirname(__FILE__)
 $:.unshift(lib) unless $:.include?(lib)
 
 require 'rack/contrib/cookies'
+require File.expand_path('../timeline', __FILE__)
 require File.expand_path('../doorman/errors', __FILE__)
-require File.expand_path('../doorman/domain/entity', __FILE__)
-require File.expand_path('../doorman/domain/history', __FILE__)
 require File.expand_path('../doorman/providers/bitbucket', __FILE__)
 require File.expand_path('../doorman/providers/github', __FILE__)
 require File.expand_path('../doorman/strategies/password', __FILE__)

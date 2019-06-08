@@ -6,10 +6,8 @@
 AptWatcher is a simple Sinatra app that helps you keep track of packages that need updating on your servers.
 
 ## How it works
-
-On each server you manage you set up a daily cron job that fetches the
-list of packages that need to be updated and sends that list to
-AptWatcher:
+On each server you manage you set up a daily cron job that fetches the list of packages that need to be updated and sends that list to
+AptWatcher.
 
 #### Structure
 One line is interpreted as one service
@@ -37,7 +35,6 @@ message is sent via a Slack incoming webhook with that list of new
 packages.
 
 ## Installation
-
 The easiest way to get going is deploying to Heroku:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
@@ -49,18 +46,24 @@ $ bundle
 ```
 
 ## Configuration
-
 Check the [`.env` file](/.env) for the environment variables you can use to
 configure the app.
 
 ## License
-
 AptWatcher is copyright © 2017 Obscured It is free software, and may be redistributed under the terms specified in the [LICENSE](/LICENSE) file.
 
-## About Obscured
-
+## About AptWatcher
 AptWatcher is maintained by the friendly crew at [Obscured](https://www.obscured.se/), an exception, performance, and uptime monitoring service for developers.
 
-## Printscreens
+## Print Screens
 ![Home](http://i.imgur.com/wtBiaGr.jpg)
+
 ![Statistics](http://i.imgur.com/yLcp4mK.jpg)
+
+### Slack Icons
+Icon:                                                           | Name
+--------------------------------------------------------------- | ---------
+![bug Ok](public/icons/bug-ok.png?raw=true ":bug-ok:")          | :bug-ok:
+![bug info](public/icons/bug-info.png?raw=true ":bug-info:")    | :bug-info:
+![bug Warn](public/icons/bug-warn.png?raw=true ":bug-warn:")    | :bug-warn:
+![bug Error](public/icons/bug-error.png?raw=true ":bug-error:") | :bug-error:

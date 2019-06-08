@@ -4,7 +4,6 @@ module Obscured
       class Alert
         include Mongoid::Document
         include Mongoid::Timestamps
-        include Obscured::AptWatcher::Models::TrackedEntity
 
         store_in collection: 'alerts'
 

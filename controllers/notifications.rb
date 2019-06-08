@@ -64,11 +64,11 @@ module Obscured
             if action == 'resolve'
               flash[:save_ok] = 'The alert is marked as closed/resolved'
               alert.status = Obscured::Status::CLOSED
-              alert.add_history_log("Changed status to #{alert.status}", user.username)
+              alert.add_event(type: :status, message: "Changed status to #{alert.status}", producer: user.username)
             elsif action == 'reopen'
               flash[:save_warning] = 'The alert is marked as open'
               alert.status = Obscured::Status::OPEN
-              alert.add_history_log("Changed status to #{alert.status}", user.username)
+              alert.add_event(type: :status, message: "Changed status to #{alert.status}", producer: user.username)
             end
             alert.save!
 

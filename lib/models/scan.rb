@@ -4,7 +4,6 @@ module Obscured
       class Scan
         include Mongoid::Document
         include Mongoid::Timestamps
-        include Obscured::AptWatcher::Models::TrackedEntity
 
         store_in collection: 'scans'
 
@@ -19,22 +18,23 @@ module Obscured
         before_save :validate!
 
 
-        def self.make(opts)
-          raise Obscured::DomainError.new(:required_field_missing, what: ':hostname') if opts[:hostname].empty?
-          raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].kind_of?(Array)
+        class << self
+          def make(opts)
+            raise Obscured::DomainError.new(:required_field_missing, what: ':hostname') if opts[:hostname].empty?
+            raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].kind_of?(Array)
 
-          entity = self.new
-          entity.hostname = opts[:hostname]
-          entity.packages = opts[:packages]
-          entity.updates_pending = opts[:packages].select {|i| i['installed'] == false || !i.key?('installed')}.count
-          entity.updates_installed = opts[:packages].select {|i| i.key?('installed') && i['installed'] == true}.count
-          entity
-        end
-
-        def self.make_and_save(opts)
-          entity = self.make(opts)
-          entity.save
-          entity
+            doc = self.new
+            doc.hostname = opts[:hostname]
+            doc.packages = opts[:packages]
+            doc.updates_pending = opts[:packages].select {|i| i['installed'] == false || !i.key?('installed')}.count
+            doc.updates_installed = opts[:packages].select {|i| i.key?('installed') && i['installed'] == true}.count
+            doc
+          end
+          def make!(opts)
+            doc = self.make(opts)
+            doc.save
+            doc
+          end
         end
 
         def get_pending
