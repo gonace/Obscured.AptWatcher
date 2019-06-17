@@ -15,8 +15,6 @@ module Obscured
         index({ hostname: 1 }, { background: true })
         index({ created_at: 1}, { background: true, expire_after_seconds: 31536000 })
 
-        before_save :validate!
-
 
         class << self
           def make(opts)

@@ -1,0 +1,22 @@
+!!! 5
+%html
+  %head
+    %meta{:charset => 'utf-8'}
+    %meta{:content => 'width=device-width, initial-scale=1', :name => 'viewport'}
+    %meta{:content => '', :name => 'description'}
+    %meta{:content => '', :name => 'keywords'}
+    %meta{:content => '', :name => 'author'}
+
+    %title= 'Profile (Obscured.AptWatcher)'
+    = partial :'../shared/partials/styles'
+    = partial :'../shared/partials/scripts.head'
+
+  %body.application.application-offset
+    .container-fluid.container-application
+      = partial :'../shared/partials/chat'
+      = partial :'../shared/partials/sidebar'
+      .main-content.position-relative
+        = partial :'../shared/partials/navigation', :locals => {:active => 'home'}
+        = partial :'../shared/partials/error.generic'
+        = yield
+        = partial :'../shared/footer'

@@ -1,66 +1,544 @@
-.dashhead
-  .dashhead-titles
-    %h6.dashhead-subtitle Host
-    %h3.dashhead-title
-      = host.hostname
-      = partial :'partials/state', :locals => {:host => host}
-  .dashhead-toolbar
-    .btn-group.dashhead-toolbar-item.btn-group-thirds
-      %a.btn.btn-outline-primary.active{:href => "/host/#{host.id}/edit"} Edit
-    .input-with-icon.dashhead-toolbar-item{:style => 'display: none;'}
-      %input.form-control{'data-date-format' => 'yyyy-mm-dd', 'data-provide' => 'datepicker', :type => 'text', :value => Date.today}
-      %span.icon.icon-calendar
-%ul.nav.nav-bordered.mt-4.mt-md-2.mb-0.clearfix{:role => 'tablist'}
-  %li.nav-item{:role => 'presentation'}
-    %a.nav-link.active{'aria-controls' => 'Overview', 'data-toggle' => 'tab', :href => '#overview', :role => 'tab'} Overview
-  %li.nav-item{:role => 'presentation'}
-    %a.nav-link{'aria-controls' => 'Updates', 'data-toggle' => 'tab', :href => '#updates', :role => 'tab'} Updates
-  %li.nav-item{:role => 'presentation'}
-    %a.nav-link{'aria-controls' => 'Alerts', 'data-toggle' => 'tab', :href => '#alerts', :role => 'tab'} Alerts
-%hr.mt-0.mb-5/
-.tab-content
-  #overview.tab-pane.active{:role => 'tabpanel'}
-    .row.text-center.m-t-md
-      .col-md-4.mb-5
-        .w-3.mx-auto
-          %canvas.ex-graph{'data-chart' => 'doughnut', 'data-dataset' => "[#{host.updates_pending}, #{host.updates_installed}]", 'data-dataset-options' => "{ borderColor: '#252830', backgroundColor: ['#e64759', '#1bc98e'] }", 'data-labels' => "['Missing', 'Installed']", :height => '200', :width => '200'}
-        %strong.text-muted Updates
-        %h4 Missing vs Installed
-      .col-md-4.mb-5
-        .w-3.mx-auto
-          %canvas.ex-graph{'data-chart' => 'doughnut', 'data-dataset' => "[#{alerts_open},#{alerts_closed}]", 'data-dataset-options' => "{ borderColor: '#252830', backgroundColor: ['#e64759', '#1bc98e'] }", 'data-labels' => "['Open', 'Closed']", :height => '200', :width => '200'}
-        %strong.text-muted Alerts
-        %h4 Open vs Closed
-  #updates.tab-pane{:role => 'tabpanel'}
-    .ex-line-graphs.mb-5
-      %canvas.ex-line-graph{'data-chart' => 'line', 'data-dark' => 'true', 'data-dataset' => "[#{graph_updates['data']}]", 'data-labels' => "#{graph_updates['header']}", :height => '400', :width => '600'}
-  #alerts.tab-pane{:role => 'tabpanel'}
-    .ex-line-graphs.mb-5
-      %canvas.ex-line-graph{'data-chart' => 'bar', 'data-dark' => 'true', 'data-dataset' => "#{graph_alerts['data']}", 'data-dataset-options' => "[{label: 'Open', backgroundColor: '#e64759'}, {label: 'Closed', backgroundColor: '#1bc98e'}]", 'data-labels' => "#{graph_alerts['header']}", :height => '400', :width => '600'}
-.hr-divider.my-4
-  %h3.hr-divider-content.hr-divider-heading Quick stats
-.row.statcards.mt-3.mb-3.text-xs-center.text-md-left
-  .col-6.col-md-3.statcard.mb-4
-    %h3.statcard-number{ :class => host.updates_pending > 0 ? 'text-danger' : 'text-success'}
-      = host.updates_pending
-    %span.statcard-desc Pending updates
-  .col-6.col-md-3.statcard.mb-4
-    %h3.statcard-number{ :class => alerts_open > 0 ? 'text-danger' : 'text-success'}
-      =alerts_open
-    %span.statcard-desc Alerts on host
-  .col-6.col-md-3.statcard.mb-4
-    %h3.statcard-number{ :class => scans.count <= 0 ? 'text-danger' : 'text-secondary'}
-      =scans.count
-    %span.statcard-desc Scans
-  .col-6.col-md-3.statcard.mb-4
-    - if (defined? scans.first.created_at)
-      %h3.statcard-number{ :class => scans.first.created_at.strftime('%Y-%m-%d') == Date.today.strftime('%Y-%m-%d') ? 'text-success' : 'text-danger' }
-        =scans.first.created_at.strftime('%Y-%m-%d')
-      %span.statcard-desc Last Updated
-    - else
-      %h3.statcard-number.text-danger Never
-      %span.statcard-desc Last Updated
-%hr.my-4/
-.row
-  = partial :'../shared/partials/lists/scans', :locals => {:scans => scans}
-  = partial :'../shared/partials/lists/alerts', :locals => {:alerts => alerts}
+/ Page content
+.page-content
+  / Team selection modal
+  #modal-users.modal.fade{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+    .modal-dialog.modal-lg.modal-dialog-centered{:role => "document"}
+      .modal-content
+        .modal-header.align-items-center
+          .modal-title
+            %h6.mb-0 Select team
+          %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+            %span{"aria-hidden" => "true"} ×
+        .modal-body
+          / Connections
+          .row
+            .col-6.col-md-3
+              .card
+                .card-body.text-center
+                  .avatar-parent-child
+                    %a.avatar.avatar-lg.rounded-circle{:href => "#"}
+                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-1-800x800.jpg"}/
+                    %span.avatar-child.avatar-badge.bg-success
+                  %h6.text-sm.my-3 John Sullivan
+                  %button.btn.btn-xs.btn-secondary{:type => "button"} Add
+            .col-6.col-md-3
+              .card
+                .card-body.text-center
+                  .avatar-parent-child
+                    %a.avatar.avatar-lg.rounded-circle{:href => "#"}
+                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-2-800x800.jpg"}/
+                    %span.avatar-child.avatar-badge.bg-warning
+                  %h6.text-sm.my-3 Heather Wright
+                  %button.btn.btn-xs.btn-secondary{:type => "button"} Add
+            .col-6.col-md-3
+              .card
+                .card-body.text-center
+                  .avatar-parent-child
+                    %a.avatar.avatar-lg.rounded-circle{:href => "#"}
+                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-3-800x800.jpg"}/
+                    %span.avatar-child.avatar-badge.bg-danger
+                  %h6.text-sm.my-3 James Lewis
+                  %button.btn.btn-xs.btn-secondary{:type => "button"} Add
+            .col-6.col-md-3
+              .card
+                .card-body.text-center
+                  .avatar-parent-child
+                    %a.avatar.avatar-lg.rounded-circle{:href => "#"}
+                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-4-800x800.jpg"}/
+                    %span.avatar-child.avatar-badge.bg-success
+                  %h6.text-sm.my-3 Martin Gray
+                  %button.btn.btn-xs.btn-secondary{:type => "button"} Add
+            .col-6.col-md-3
+              .card
+                .card-body.text-center
+                  .avatar-parent-child
+                    %a.avatar.avatar-lg.rounded-circle{:href => "#"}
+                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-5-800x800.jpg"}/
+                    %span.avatar-child.avatar-badge.bg-success
+                  %h6.text-sm.my-3 John Snow
+                  %button.btn.btn-xs.btn-secondary{:type => "button"} Add
+            .col-6.col-md-3
+              .card
+                .card-body.text-center
+                  .avatar-parent-child
+                    %a.avatar.avatar-lg.rounded-circle{:href => "#"}
+                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-6-800x800.jpg"}/
+                    %span.avatar-child.avatar-badge.bg-success
+                  %h6.text-sm.my-3 John Michael
+                  %button.btn.btn-xs.btn-secondary{:type => "button"} Add
+            .col-6.col-md-3
+              .card
+                .card-body.text-center
+                  .avatar-parent-child
+                    %a.avatar.avatar-lg.rounded-circle{:href => "#"}
+                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-7-800x800.jpg"}/
+                    %span.avatar-child.avatar-badge.bg-warning
+                  %h6.text-sm.my-3 Monroe Parker
+                  %button.btn.btn-xs.btn-secondary{:type => "button"} Add
+            .col-6.col-md-3
+              .card
+                .card-body.text-center
+                  .avatar-parent-child
+                    %a.avatar.avatar-lg.rounded-circle{:href => "#"}
+                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-8-800x800.jpg"}/
+                    %span.avatar-child.avatar-badge.bg-danger
+                  %h6.text-sm.my-3 Danielle Levin
+                  %button.btn.btn-xs.btn-secondary{:type => "button"} Add
+  / Page title
+  .page-title
+    .row.justify-content-between.align-items-center
+      .col-md-6.d-flex.align-items-center.justify-content-between.justify-content-md-start.mb-3.mb-md-0
+        / Page title + Go Back button
+        .d-inline-block
+          %h5.h4.d-inline-block.font-weight-400.mb-0.text-white Application UI Design
+        / Additional info
+      .col-md-6.d-flex.align-items-center.justify-content-between.justify-content-md-end
+        .avatar-group
+          %a.avatar.rounded-circle.avatar-sm{:href => "#"}
+            %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}?d=https://img07.deviantart.net/3722/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png"}
+          %a.avatar.rounded-circle.avatar-sm{:href => "#"}
+            %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}?d=https://img07.deviantart.net/3722/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png"}
+          %a.avatar.rounded-circle.avatar-sm{:href => "#"}
+            %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}?d=https://img07.deviantart.net/3722/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png"}
+        %a.btn.btn-sm.btn-white.rounded-circle.btn-icon-only.ml-2{"data-toggle" => "modal", :href => "#modal-users"}
+          %span.btn-inner--icon
+            %i.fa.fa-user-plus
+  .row
+    .col-xl-3.col-sm-6
+      / Stats card
+      .card.card-stats.border-0
+        / Card body
+        .card-body
+          .row
+            .col
+              %h6.text-muted.mb-1 Spendings
+              %span.h3.font-weight-bold.mb-0 $7.500
+            .col-auto
+              #progress-circle-1.progress-circle.progress-sm{"data-color" => "primary", "data-progress" => "40", "data-text" => "40%"}
+      / Project performance
+      .card
+        .card-body
+          %div
+            .row
+              .col-6
+                %h6.mb-0 357
+                %span.text-sm.text-muted Tasks done
+              .col-6.text-right
+                %span.badge.badge-pill.badge-success
+                  Good
+          .w-100.pt-4.pb-5
+            .spark-chart{"data-color" => "info", "data-dataset" => "[47, 94, 24, 18, 26, 65, 31, 47, 10, 44, 45]", "data-toggle" => "spark-chart"}
+          .progress-wrapper.mb-3
+            %small.progress-label Concept
+            .progress.mt-0{:style => "height: 3px;"}
+              .progress-bar.bg-info{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "40", :role => "progressbar", :style => "width: 40%;"}
+          .progress-wrapper
+            %small.progress-label Prototyping
+            .progress.mt-0{:style => "height: 3px;"}
+              .progress-bar.bg-info{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "40", :role => "progressbar", :style => "width: 40%;"}
+          .progress-wrapper
+            %small.progress-label Testing
+            .progress.mt-0{:style => "height: 3px;"}
+              .progress-bar.bg-info{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "40", :role => "progressbar", :style => "width: 40%;"}
+    .col-xl-3.col-sm-6
+      / Stats card
+      .card.card-stats
+        / Card body
+        .card-body
+          .row
+            .col
+              %h6.text-muted.mb-1 New tasks
+              %span.h3.font-weight-bold.mb-0 34
+            .col-auto
+              #progress-circle-2.progress-circle.progress-sm{"data-color" => "primary", "data-progress" => "60", "data-text" => "60%"}
+      / Project performance
+      .card
+        .card-body
+          %div
+            .row
+              .col-6
+                %h6.mb-0 642
+                %span.text-sm.text-muted Hours spent
+              .col-6.text-right
+                %span.badge.badge-pill.badge-danger
+                  At risk
+          .w-100.pt-4.pb-5
+            .spark-chart{"data-color" => "warning", "data-dataset" => "[47, 94, 24, 18, 26, 65, 31, 47, 10, 44, 45]", "data-toggle" => "spark-chart"}
+          .progress-wrapper.mb-3
+            %small.progress-label Concept
+            .progress.mt-0{:style => "height: 3px;"}
+              .progress-bar.bg-warning{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "40", :role => "progressbar", :style => "width: 40%;"}
+          .progress-wrapper
+            %small.progress-label Prototyping
+            .progress.mt-0{:style => "height: 3px;"}
+              .progress-bar.bg-warning{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "40", :role => "progressbar", :style => "width: 40%;"}
+          .progress-wrapper
+            %small.progress-label Testing
+            .progress.mt-0{:style => "height: 3px;"}
+              .progress-bar.bg-warning{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "40", :role => "progressbar", :style => "width: 40%;"}
+    .col-sm-6
+      / Project overview
+      .card.card-fluid
+        .card-header
+          %h6.mb-0 Project overview
+        .card-body.py-3.flex-grow-1
+          / Progress
+          .pb-3.mb-3.border-bottom
+            .row.align-items-center
+              .col-auto
+                / Avatar
+                %img.avatar.rounded-circle{:alt => "Image placeholder", :src => "../../assets/img/theme/light/brand-avatar-2.png"}/
+              .col.ml-n2
+                .progress-wrapper
+                  %span.progress-percentage
+                    %small.font-weight-bold> Completed:
+                    70%
+                  .progress.progress-xs.mt-2
+                    .progress-bar.bg-success{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "70", :role => "progressbar", :style => "width: 70%;"}
+          / Description
+          %p.text-sm.mb-0
+            Purpose Application UI is unique and beautiful collection of elements that are all flexible and modular.
+        .card-footer.py-0
+          %ul.list-group.list-group-flush
+            %li.list-group-item.px-0
+              .row.align-items-center
+                .col-6
+                  %span.form-control-label Private project:
+                .col-6.text-right
+                  %span.badge.badge-success.badge-pill Yes
+            %li.list-group-item.px-0
+              .row.align-items-center
+                .col-6
+                  %span.form-control-label Published:
+                .col-6.text-right
+                  %span.badge.badge-danger.badge-pill No
+            %li.list-group-item.px-0
+              .row.align-items-center
+                .col-6
+                  %small Start date:
+                  .h6.mb-0 23-05-2018
+                .col-6
+                  %small End date:
+                  .h6.mb-0 30-06-2019
+  / Project details
+  .row
+    .col-xl-12
+      .card
+        .card-header.border-0
+          .row.align-items-center
+            .col
+              %h6.mb-0 User performance
+            .col-auto
+              .actions
+                %a.action-item{:href => "#!"}
+                  %i.far.fa-file-export
+                  %span.d-none.d-sm-inline-block.mr-4 Export
+                %a.action-item{:href => "#!"}
+                  %i.far.fa-print
+                  %span.d-none.d-sm-inline-block Print
+        .table-responsive
+          %table.table.align-items-center
+            %thead
+              %tr
+                %th.sort{"data-sort" => "name", :scope => "col"} Name
+                %th.sort{"data-sort" => "groups", :scope => "col"} Groups
+                %th.sort{"data-sort" => "tasks", :scope => "col"} Tasks
+                %th.sort{"data-sort" => "billing", :scope => "col"} Hours billed
+                %th{:scope => "col"} Completion
+                %th.sort{"data-sort" => "issues", :scope => "col"} Closed issues
+            %tbody.list
+              %tr
+                %th{:scope => "row"}
+                  .media.align-items-center
+                    %div
+                      %img.avatar.rounded-circle.avatar-sm{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-1-800x800.jpg"}/
+                    .media-body.ml-3
+                      %a.name.mb-0.h6.text-sm{:href => "overview.html"} John Sullivan
+                %td
+                  %a.badge.badge-secondary{:href => "#"} Design
+                  %a.badge.badge-secondary{:href => "#"} Marketing
+                %td.budget
+                  %span 11
+                %td
+                  80 h
+                %td
+                  .d-flex.align-items-center
+                    %span.completion.mr-2 14%
+                    %div
+                      .progress{:style => "width: 100px;"}
+                        .progress-bar.bg-success{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "14", :role => "progressbar", :style => "width: 14%;"}
+                %td
+                  %span.badge.badge-secondary.mr-2 7
+                  %a.text-muted{"data-original-title" => "Unclosed issues", "data-toggle" => "tooltip", :href => "#"} 8
+              %tr
+                %th{:scope => "row"}
+                  .media.align-items-center
+                    %div
+                      %img.avatar.rounded-circle.avatar-sm{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-2-800x800.jpg"}/
+                    .media-body.ml-3
+                      %a.name.mb-0.h6.text-sm{:href => "overview.html"} Heather Wright
+                %td
+                  %a.badge.badge-secondary{:href => "#"} Dev
+                  %a.badge.badge-secondary{:href => "#"} Testing
+                %td.budget
+                  %span 22
+                %td
+                  160 h
+                %td
+                  .d-flex.align-items-center
+                    %span.completion.mr-2 28%
+                    %div
+                      .progress{:style => "width: 100px;"}
+                        .progress-bar.bg-warning{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "28", :role => "progressbar", :style => "width: 28%;"}
+                %td
+                  %span.badge.badge-secondary.mr-2 14
+                  %a.text-muted{"data-original-title" => "Unclosed issues", "data-toggle" => "tooltip", :href => "#"} 16
+              %tr
+                %th{:scope => "row"}
+                  .media.align-items-center
+                    %div
+                      %img.avatar.rounded-circle.avatar-sm{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-3-800x800.jpg"}/
+                    .media-body.ml-3
+                      %a.name.mb-0.h6.text-sm{:href => "overview.html"} James Lewis
+                %td
+                  %a.badge.badge-secondary{:href => "#"} Design
+                  %a.badge.badge-secondary{:href => "#"} Mobile
+                %td.budget
+                  %span 33
+                %td
+                  240 h
+                %td
+                  .d-flex.align-items-center
+                    %span.completion.mr-2 42%
+                    %div
+                      .progress{:style => "width: 100px;"}
+                        .progress-bar.bg-danger{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "42", :role => "progressbar", :style => "width: 42%;"}
+                %td
+                  %span.badge.badge-secondary.mr-2 21
+                  %a.text-muted{"data-original-title" => "Unclosed issues", "data-toggle" => "tooltip", :href => "#"} 24
+              %tr
+                %th{:scope => "row"}
+                  .media.align-items-center
+                    %div
+                      %img.avatar.rounded-circle.avatar-sm{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-4-800x800.jpg"}/
+                    .media-body.ml-3
+                      %a.name.mb-0.h6.text-sm{:href => "overview.html"} Martin Gray
+                %td
+                  %a.badge.badge-secondary{:href => "#"} Dev
+                  %a.badge.badge-secondary{:href => "#"} Mobile
+                %td.budget
+                  %span 44
+                %td
+                  320 h
+                %td
+                  .d-flex.align-items-center
+                    %span.completion.mr-2 56%
+                    %div
+                      .progress{:style => "width: 100px;"}
+                        .progress-bar.bg-success{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "56", :role => "progressbar", :style => "width: 56%;"}
+                %td
+                  %span.badge.badge-secondary.mr-2 28
+                  %a.text-muted{"data-original-title" => "Unclosed issues", "data-toggle" => "tooltip", :href => "#"} 32
+              %tr
+                %th{:scope => "row"}
+                  .media.align-items-center
+                    %div
+                      %img.avatar.rounded-circle.avatar-sm{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-5-800x800.jpg"}/
+                    .media-body.ml-3
+                      %a.name.mb-0.h6.text-sm{:href => "overview.html"} John Snow
+                %td
+                  %a.badge.badge-secondary{:href => "#"} Sales
+                  %a.badge.badge-secondary{:href => "#"} Marketing
+                %td.budget
+                  %span 55
+                %td
+                  400 h
+                %td
+                  .d-flex.align-items-center
+                    %span.completion.mr-2 70%
+                    %div
+                      .progress{:style => "width: 100px;"}
+                        .progress-bar.bg-success{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "70", :role => "progressbar", :style => "width: 70%;"}
+                %td
+                  %span.badge.badge-secondary.mr-2 35
+                  %a.text-muted{"data-original-title" => "Unclosed issues", "data-toggle" => "tooltip", :href => "#"} 40
+  .row
+    .col-sm-6
+      .card
+        .card-header
+          .d-flex.justify-content-between.align-items-center
+            %div
+              %h6.mb-0 Attachments
+            .text-right
+              .actions
+                %a.action-item{:href => "#"}
+                  %i.far.fa-sync
+                .dropdown.action-item{"data-toggle" => "dropdown"}
+                  %a.action-item{:href => "#"}
+                    %i.far.fa-ellipsis-h
+                  .dropdown-menu.dropdown-menu-right
+                    %a.dropdown-item{:href => "#"} Refresh
+                    %a.dropdown-item{:href => "#"} Manage Widgets
+                    %a.dropdown-item{:href => "#"} Settings
+        .card-wrapper.p-3
+          / Files
+          .card.mb-3.border.shadow-none
+            .px-3.py-3
+              .row.align-items-center
+                .col-auto
+                  %img.img-fluid{:alt => "Image placeholder", :src => "../../assets/img/icons/files/pdf.png", :style => "width: 40px;"}/
+                .col.ml-n2
+                  %h6.text-sm.mb-0
+                    %a{:href => "#!"} design-principles.pdf
+                  %p.card-text.small.text-muted
+                    189 KB
+                .col-auto.actions
+                  .dropdown{"data-toggle" => "dropdown"}
+                    %a.action-item{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+                      %i.far.fa-ellipsis-h
+                    .dropdown-menu.dropdown-menu-right
+                      %a.dropdown-item{:href => "#"} Refresh
+                      %a.dropdown-item{:href => "#"} Manage Widgets
+                      %a.dropdown-item{:href => "#"} Settings
+          .card.mb-3.border.shadow-none
+            .px-3.py-3
+              .row.align-items-center
+                .col-auto
+                  %img.img-fluid{:alt => "Image placeholder", :src => "../../assets/img/icons/files/psd.png", :style => "width: 40px;"}/
+                .col.ml-n2
+                  %h6.text-sm.mb-0
+                    %a{:href => "#!"} website-wireframe.psd
+                  %p.card-text.small.text-muted
+                    45.9 MB
+                .col-auto.actions
+                  .dropdown{"data-toggle" => "dropdown"}
+                    %a.action-item{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+                      %i.far.fa-ellipsis-h
+                    .dropdown-menu.dropdown-menu-right
+                      %a.dropdown-item{:href => "#"} Refresh
+                      %a.dropdown-item{:href => "#"} Manage Widgets
+                      %a.dropdown-item{:href => "#"} Settings
+          .card.mb-3.border.shadow-none
+            .px-3.py-3
+              .row.align-items-center
+                .col-auto
+                  %img.img-fluid{:alt => "Image placeholder", :src => "../../assets/img/icons/files/doc.png", :style => "width: 40px;"}/
+                .col.ml-n2
+                  %h6.text-sm.mb-0
+                    %a{:href => "#!"} product-guidelines.doc
+                  %p.card-text.small.text-muted
+                    87 KB
+                .col-auto.actions
+                  .dropdown{"data-toggle" => "dropdown"}
+                    %a.action-item{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+                      %i.far.fa-ellipsis-h
+                    .dropdown-menu.dropdown-menu-right
+                      %a.dropdown-item{:href => "#"} Refresh
+                      %a.dropdown-item{:href => "#"} Manage Widgets
+                      %a.dropdown-item{:href => "#"} Settings
+          .card.mb-3.border.shadow-none
+            .px-3.py-3
+              .row.align-items-center
+                .col-auto
+                  %img.img-fluid{:alt => "Image placeholder", :src => "../../assets/img/icons/files/avi.png", :style => "width: 40px;"}/
+                .col.ml-n2
+                  %h6.text-sm.mb-0
+                    %a{:href => "#!"} banner-video.avi
+                  %p.card-text.small.text-muted
+                    23 MB
+                .col-auto.actions
+                  .dropdown{"data-toggle" => "dropdown"}
+                    %a.action-item{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+                      %i.far.fa-ellipsis-h
+                    .dropdown-menu.dropdown-menu-right
+                      %a.dropdown-item{:href => "#"} Refresh
+                      %a.dropdown-item{:href => "#"} Manage Widgets
+                      %a.dropdown-item{:href => "#"} Settings
+          .card.mb-3.border.shadow-none
+            .px-3.py-3
+              .row.align-items-center
+                .col-auto
+                  %img.img-fluid{:alt => "Image placeholder", :src => "../../assets/img/icons/files/png.png", :style => "width: 40px;"}/
+                .col.ml-n2
+                  %h6.text-sm.mb-0
+                    %a{:href => "#!"} logo.png
+                  %p.card-text.small.text-muted
+                    189 kb
+                .col-auto.actions
+                  .dropdown{"data-toggle" => "dropdown"}
+                    %a.action-item{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+                      %i.far.fa-ellipsis-h
+                    .dropdown-menu.dropdown-menu-right
+                      %a.dropdown-item{:href => "#"} Refresh
+                      %a.dropdown-item{:href => "#"} Manage Widgets
+                      %a.dropdown-item{:href => "#"} Settings
+    .col-sm-6
+      .card.card-fluid
+        .card-header
+          .d-flex.justify-content-between.align-items-center
+            %div
+              %h6.mb-0 Latest comments
+            .text-right
+              .actions
+                %a.action-item{:href => "#"}
+                  %i.far.fa-sync
+                .dropdown.action-item{"data-toggle" => "dropdown"}
+                  %a.action-item{:href => "#"}
+                    %i.far.fa-ellipsis-h
+                  .dropdown-menu.dropdown-menu-right
+                    %a.dropdown-item{:href => "#"} Refresh
+                    %a.dropdown-item{:href => "#"} Manage Widgets
+                    %a.dropdown-item{:href => "#"} Settings
+        .list-group.list-group-flush
+          %a.list-group-item.list-group-item-action{:href => "#"}
+            .d-flex.align-items-center{"data-placement" => "right", "data-title" => "2 hrs ago", "data-toggle" => "tooltip"}
+              %div
+                %span.avatar.bg-primary.text-white.rounded-circle AM
+              .flex-fill.ml-3
+                .h6.text-sm.mb-0
+                  Alex Michael
+                  %small.float-right.text-muted 2 hrs ago
+                %p.text-sm.lh-140.mb-0
+                  Some quick example text to build on the card title.
+          %a.list-group-item.list-group-item-action{:href => "#"}
+            .d-flex.align-items-center{"data-placement" => "right", "data-title" => "3 hrs ago", "data-toggle" => "tooltip"}
+              %div
+                %span.avatar.bg-warning.text-white.rounded-circle SW
+              .flex-fill.ml-3
+                .h6.text-sm.mb-0
+                  Sandra Wayne
+                  %small.float-right.text-muted 3 hrs ago
+                %p.text-sm.lh-140.mb-0
+                  Some quick example text to build on the card title.
+          %a.list-group-item.list-group-item-action{:href => "#"}
+            .d-flex.align-items-center{"data-placement" => "right", "data-title" => "5 hrs ago", "data-toggle" => "tooltip"}
+              %div
+                %span.avatar.bg-info.text-white.rounded-circle JM
+              .flex-fill.ml-3
+                .h6.text-sm.mb-0
+                  Jason Miller
+                  %small.float-right.text-muted 5 hrs ago
+                %p.text-sm.lh-140.mb-0
+                  Some quick example text to build on the card title.
+          %a.list-group-item.list-group-item-action{:href => "#"}
+            .d-flex.align-items-center{"data-placement" => "right", "data-title" => "2 hrs ago", "data-toggle" => "tooltip"}
+              %div
+                %span.avatar.bg-dark.text-white.rounded-circle MJ
+              .flex-fill.ml-3
+                .h6.text-sm.mb-0
+                  Mike Thomson
+                  %small.float-right.text-muted 2 hrs ago
+                %p.text-sm.lh-140.mb-0
+                  Some quick example text to build on the card title.
+          %a.list-group-item.list-group-item-action{:href => "#"}
+            .d-flex.align-items-center{"data-placement" => "right", "data-title" => "3 hrs ago", "data-toggle" => "tooltip"}
+              %div
+                %span.avatar.bg-primary.text-white.rounded-circle RN
+              .flex-fill.ml-3
+                .h6.text-sm.mb-0
+                  Richard Nixon
+                  %small.float-right.text-muted 3 hrs ago
+                %p.text-sm.lh-140.mb-0
+                  Some quick example text to build on the card title.
+        .card-footer.py-2.text-center
+          %a.text-sm.text-muted.font-weight-bold{:href => "#"} See all notifications

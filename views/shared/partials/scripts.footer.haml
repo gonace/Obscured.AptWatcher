@@ -1,13 +1,12 @@
+%script{:src => '/assets/purpose.min.js'}
 %script{:src => '/assets/obscured.aptwatcher.min.js'}
-%script{:src => '/script/toolkit/toolkit.min.js'}
-%script{:src => '/script/toolkit/application.js'}
 %script{:src => '/script/password/strength.js'}
 %script{:src => '/script/password/jquery.js'}
 
 
 :javascript
   // Set jQuery.validate settings for bootstrap integration
-  jQuery.validator.setDefaults({
+  /*jQuery.validator.setDefaults({
     highlight: function(element) {
       jQuery(element).closest('.form-group').addClass('has-danger');
     },
@@ -26,4 +25,4 @@
   });
   jQuery.validator.addMethod("slackicon", function(value, element) {
     return (this.optional(element) || (value.startsWith(":") && value.endsWith(":")));
-  }, "Must start and end with the character :");
+  }, "Must start and end with the character :");*/

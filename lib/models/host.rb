@@ -18,8 +18,6 @@ module Obscured
 
         index({ hostname: 1 }, { background: true })
 
-        before_save :validate!
-
 
         class << self
           def make(opts)

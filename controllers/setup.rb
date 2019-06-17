@@ -42,13 +42,12 @@ module Obscured
             redirect '/setup'
           end
 
-          config = Obscured::AptWatcher::Models::Configuration.make({:instance => 'aptwatcher'})
+          config = Models::Configuration.make({:instance => 'aptwatcher'})
           config.instance = 'aptwatcher'
           config.save
 
-          user = Obscured::Doorman::User.make({:username => params[:user][:login], :password => params[:user][:password]})
-          user.set_created_from(Obscured::Doorman::Types::ADMIN)
-          user.set_created_by(Obscured::Doorman::Types::SETUP)
+          user = Obscured::Doorman::User.make(username: params[:user][:email], password: params[:user][:password])
+          user.set_created_from(Obscured::Doorman::Types::SETUP)
           user.set_name(params[:user][:first_name], params[:user][:last_name])
           user.save
 

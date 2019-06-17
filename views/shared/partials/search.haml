@@ -1,0 +1,39 @@
+#omnisearch.omnisearch
+  .container
+    %form.omnisearch-form
+      .form-group
+        .input-group.input-group-merge.input-group-flush
+          .input-group-prepend
+            %span.input-group-text
+              %i.fa.fa-search
+          %input.form-control{:placeholder => "Type and hit enter ...", :type => "text"}/
+    .omnisearch-suggestions
+      %h6.heading Search Suggestions
+      .row
+        .col-sm-6
+          %ul.list-unstyled.mb-0
+            %li
+              %a.list-link{:href => "#"}
+                %i.far.fa-search
+                %span macbook pro
+                in Laptops
+            %li
+              %a.list-link{:href => "#"}
+                %i.far.fa-search
+                %span iphone 8
+                in Smartphones
+            %li
+              %a.list-link{:href => "#"}
+                %i.far.fa-search
+                %span macbook pro
+                in Laptops
+            %li
+              %a.list-link{:href => "#"}
+                %i.far.fa-search
+                %span beats pro solo 3
+                in Headphones
+            %li
+              %a.list-link{:href => "#"}
+                %i.far.fa-search
+                %span smasung galaxy 10
+                in Phones

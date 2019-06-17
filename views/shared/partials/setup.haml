@@ -1,5 +1,8 @@
 - unless (config.setup_completed rescue false)
-  .alert.alert-danger
-    %strong Oh snap!
-    It looks like you're running a fresh instance/installation of AptWatcher, you need to look through the settings to complete the setup.
-    %a{:href => '/settings'} Take me to the settings page!
+  .col-md-12.mb-0.mt-2
+    .alert.alert-modern.alert-success.mb-0
+      %span.badge.badge-success.badge-pill
+        New
+      %span.alert-content
+        You're running a fresh installation of AptWatcher, you need to look through the settings to complete the setup.
+        %a{:href => '/settings'} Take me to the settings page!

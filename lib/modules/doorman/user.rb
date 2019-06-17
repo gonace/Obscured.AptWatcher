@@ -38,8 +38,7 @@ module Obscured
 
           user = self.new
           user.username = opts[:username]
-          user.password = Password.create(opts[:password])
-          user.set_created_by(Obscured::Doorman::Types::SYSTEM)
+          user.password = BCrypt::Password.create(opts[:password])
           user.add_event(type: :account, message: 'Account created', producer: Obscured::Doorman::Types::SYSTEM)
 
           unless opts[:confirmed].nil?
@@ -93,12 +92,8 @@ module Obscured
         self.mobile = mobile
       end
 
-      def set_created_by(created_by)
-        self.created_by = created_by
-      end
-
       def set_password(password)
-        self.password = Password.create(password)
+        self.password = BCrypt::Password.create(password)
         self.add_event(type: :password, message: 'Password has been changed', producer: Obscured::Doorman::Types::SYSTEM)
       end
 
@@ -114,7 +109,7 @@ module Obscured
       end
 
       def authenticated?(password)
-        db_password = Password.new(self.password)
+        db_password = BCrypt::Password.new(self.password)
         if db_password == password
           true
         else
@@ -151,7 +146,7 @@ module Obscured
       def reset_password!(password, confirmation)
         if password == confirmation
           self.password_confirmation = confirmation
-          self.password = Password.create(password) if valid?
+          self.password = BCrypt::Password.create(password) if valid?
           self.add_event(type: :password, message: 'Password has been reset', producer: Obscured::Doorman::Types::SYSTEM)
           self.save
         else

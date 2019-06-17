@@ -8,7 +8,7 @@ module Obscured
       :confirm_no_user => 'Invalid confirmation URL.  Please make sure you have the correct link from the email, and are not already confirmed.',
       :confirm_success => 'You have successfully confirmed your account. Please log in.',
       # Auto login upon confirmation?
-      :login_bad_credentials => 'Invalid Login and Password. Please try again.',
+      :login_bad_credentials => 'Invalid Login and/or Password. Please try again.',
       :login_not_confirmed => 'You must confirm your account before you can log in. Please click the confirmation link sent to you.',
       # Note: resend confirmation link?
       :logout_success => 'You have been logged out.',

@@ -1,5 +1,37 @@
+#footer-main.footer.pt-5.pb-4.footer-light
+  .row.text-center.text-sm-left.align-items-sm-center
+    .col-sm-6
+      %p.text-sm.mb-0
+        © 2019
+        = succeed "." do
+          %a.h6.text-sm{:href => "https://webpixels.io", :target => "_blank"} Webpixels
+    .col-sm-6.mb-md-0
+      %ul.nav.justify-content-center.justify-content-md-end
+        %li.nav-item.dropdown.border-right
+          %a.nav-link{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+            %img{:src => "/img/icons/flags/ro.svg"}
+            %span.h6.text-sm.mb-0 RO
+          .dropdown-menu.dropdown-menu-sm.dropdown-menu-right
+            %a.dropdown-item{:href => "#"}
+              %img.mr-2{:alt => "Image placeholder", :src => "/img/icons/flags/es.svg"}
+              Spanish
+            %a.dropdown-item{:href => "#"}
+              %img.mr-2{:alt => "Image placeholder", :src => "/img/icons/flags/us.svg"}
+              English
+            %a.dropdown-item{:href => "#"}
+              %img.mr-2{:alt => "Image placeholder", :src => "/img/icons/flags/gr.svg"}
+              Greek
+        %li.nav-item
+          %a.nav-link{:href => "#"} Support
+        %li.nav-item
+          %a.nav-link{:href => "#"} Terms
+        %li.nav-item
+          %a.nav-link.pr-0{:href => "#"} Privacy
+
 = partial :'../shared/partials/scripts.footer'
 = partial :'../shared/partials/templates/alert'
 = partial :'../shared/partials/templates/error'
 = partial :'../shared/partials/templates/loader'
 = partial :'../shared/partials/templates/password'
+
+= partial :'../shared/partials/search'

@@ -1,28 +1,32 @@
-.cover-wrapper
-  .cover-wrapper-inner.baseline
-    .cover-container
-      .cover-inner
-        %div.text-center.mt-5.mb-5
-          %h1 Obscured.AptWatcher
-          %p.lead
-            To continue to the setup,
-            %code Doorman
-            kind of demands the setup secret.
-
-        .card.card-identity.mb-3
-          .card-mask#userMask
-            %span
-
-          %form#formSetup.mt-4{:action => '/setup', :method => 'POST'}
-            - if flash[:error]
-              %p.text-center.text-danger= flash[:error]
-            .form-group
-              %label.sr-only{:for => 'secret'} Secret
-              %input.form-control{:autofocus => 'true', :name => 'secret', :placeholder => 'Enter the secret', :type => 'text', :value => '', 'data-rule-required' => 'true'}
-
-            %button.btn.btn-success.btn-block.mb-4{:type => 'submit'} Next
+.min-vh-100.py-5.d-flex.align-items-center
+  .w-100
+    .row.justify-content-center
+      .col-sm-8.col-lg-4
+        .card.shadow.zindex-100.mb-0
+          .card-body.px-md-5.py-5
+            .mb-5
+              %h6.h3 Setup
+              %p.text-muted.mb-0 To continue the setup, please provide the setup secret.
+            %span.clearfix
+            %form#setup{:action => '/setup', :method => 'POST', :role => "form"}
+              = partial :'../shared/partials/error.generic'
+              .form-group.mb-4
+                .input-group.input-group-merge
+                  .input-group-prepend
+                    %span.input-group-text
+                      %i.fas.fa-key
+                  %input#input-secret.form-control{:placeholder => "Secret", :type => "password", :name => 'secret', 'data-rule-required' => 'true'}
+                  .input-group-append
+                    %span.input-group-text
+                      %a{"data-target" => "#input-secret", "data-toggle" => "password-text", :href => "#"}
+                        %i.fas.fa-eye
+              .mt-4
+                %button.btn.btn-sm.btn-primary.btn-icon.rounded-pill{:type => "submit"}
+                  %span.btn-inner--text Continue
+                  %span.btn-inner--icon
+                    %i.fas.fa-long-arrow-alt-right
 
 :javascript
   jQuery(document).ready(function() {
-    jQuery('#formSetup').validate();
+    jQuery('#setup').validate();
   });

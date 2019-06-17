@@ -142,6 +142,10 @@ map '/hosts' do
   run Obscured::AptWatcher::Controllers::Hosts
 end
 
+map '/me' do
+  run Obscured::AptWatcher::Controllers::Me
+end
+
 map '/notifications' do
   run Obscured::AptWatcher::Controllers::Notifications
 end

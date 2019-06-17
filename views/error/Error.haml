@@ -1,14 +1,18 @@
-.error-container
-  .inner
-    %div
-      %h1 Doh!
-      %h3 Sorry, Something went wrong
-      %p.lead There was a problem serving the requested page!
-      %code Error code: 500
-
-      - if flash[:error_type] and flash[:error_message]
-        .bs-callout.bs-callout-danger
-          %h4
-            = flash[:error_type]
-          %p
-            = flash[:error_message]
+.bg-absolute-cover.vh-100.overflow-hidden.d-none.d-md-block.bg-gradient-danger
+  %figure.w-100
+    %img.svg-inject{:src => "/img/svg/backgrounds/bg-4.svg"}
+.container.position-relative.zindex-100
+  .row.justify-content-center.align-items-center
+    .col-lg-6
+      %h6.display-1.mb-3.font-weight-600.text-white= (flash[:error_type].blank? ? "500" : flash[:error_type])
+      %p.lead.text-lg.text-white.mb-5
+        Sorry, something has gone wrong on the website's server.
+      %p.lead.text-lg.text-white.mb-5
+        = flash[:error_message]
+      %a.btn.btn-white.btn-icon.rounded-pill.hover-translate-y-n3{:href => "/"}
+        %span.btn-inner--icon
+          %i.fas.fa-home
+        %span.btn-inner--text Return home
+    .col-lg-6.d-none.d-lg-block
+      %figure.w-100
+        %img.svg-inject.opacity-8.img-fluid{:src => "/img/svg/illustrations/server-down.svg", :style => "height: 500px;"}

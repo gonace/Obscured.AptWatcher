@@ -1,15 +1,18 @@
-.error-container
-  .inner
-    %div
-      %h1 Oops!
-      %h3
-        - if defined? title
-          = title
-        - else
-          = 'Page Not Found'
-      %p.lead
-        - if defined? message
-          = message
-        - else
-          = "We can't seem to find the page you're looking for."
-      %code Error code: 404
+.bg-absolute-cover.vh-100.overflow-hidden.d-none.d-md-block
+  %figure.w-100
+    %img.svg-inject{:src => "/img/svg/backgrounds/bg-4.svg"}
+.container.position-relative.zindex-100
+  .row.justify-content-center.align-items-center
+    .col-lg-6
+      %h6.display-1.mb-3.font-weight-600.text-white 404
+      %p.lead.text-lg.text-white.mb-5
+        Sorry, the page you are looking for could not be found.
+      %p.lead.text-lg.text-white.mb-5
+        = flash[:error_message]
+      %a.btn.btn-white.btn-icon.rounded-pill.hover-translate-y-n3{:href => "/"}
+        %span.btn-inner--icon
+          %i.fas.fa-home
+        %span.btn-inner--text Return home
+    .col-lg-6.d-none.d-lg-block
+      %figure.w-100
+        %img.svg-inject.opacity-8.img-fluid{:src => "/img/svg/illustrations/design-thinking.svg", :style => "height: 500px;"}

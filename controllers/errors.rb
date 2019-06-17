@@ -18,7 +18,7 @@ module Obscured
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
             Raygun.track_exception(e)
 
-            flash[:generic_error] = e.message
+            flash[:error] = e.message
             redirect '/'
           end
         end

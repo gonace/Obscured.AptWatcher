@@ -1,44 +1,27 @@
-.cover-wrapper
-  .cover-wrapper-inner.baseline
-    .cover-container
-      .cover-inner
-        %div.text-center.mt-5.mb-5
-          %h1 Obscured.AptWatcher
-          %p.lead
-            To proceed,
-            %code Doorman
-            kind of demands an email address, so the mail end up in the right place.
-
-        .card.card-identity.mb-3
-          .card-mask#userMask
-            - if (defined? email) && !email.nil?
-              %img{:src => "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?s=200&d=https://ssl.gstatic.com/accounts/ui/avatar_2x.png"}
-            - else
-              %span
-
-          %form#formForgot.mt-4{:action => '/doorman/forgot', :method => 'POST'}
-            - if flash[:success]
-              %p.text-center.text-success= flash[:success]
-            - if flash[:error]
-              %p.text-center.text-danger= flash[:error]
-
-            .form-group{:class => (flash[:email_error] or flash[:login_error]) ? 'has-error' : ''}
-              %label.sr-only{:for => 'Email'} Enter your email
-              - if flash[:login_error]
-                %label.control-label.small= flash[:login_error]
-              - if flash[:email_error]
-                %label.control-label.small{:for => 'Email'}= flash[:email_error]
-              %input.form-control#Email{:autofocus => 'true', :name => 'user[login]', :placeholder => 'Enter your email', :type => 'email', :value => email}
-            %button.btn.btn-success.btn-block{:type => 'submit'} Next
-
-:javascript
-  jQuery(document).ready(function() {
-    jQuery('#Email').on('focusout', function(e) {
-      var wrapper = jQuery('#userMask'),
-          email = jQuery(e.target).val();
-
-      wrapper.html('<img src="http://www.gravatar.com/avatar/' + md5(email) + '?s=200&amp;d=https://ssl.gstatic.com/accounts/ui/avatar_2x.png">')
-    });
-
-    jQuery('#formForgot').validate();
-  });
+.min-vh-100.py-5.d-flex.align-items-center
+  .w-100
+    .row.justify-content-center
+      .col-sm-8.col-lg-5.col-xl-4
+        .card.shadow.zindex-100.mb-0
+          .card-body.px-md-5.py-5
+            .mb-5
+              %h6.h3 Password reset
+              %p.text-muted.mb-0 Enter your email below to proceed.
+            %span.clearfix
+            %form{:action => '/doorman/forgot', :method => 'POST', :role => "form"}
+              = partial :'../shared/partials/error.generic'
+              .form-group
+                %label.form-control-label Email address
+                .input-group.input-group-merge
+                  .input-group-prepend
+                    %span.input-group-text
+                      %i.fas.fa-user
+                  %input#input-email.form-control{:placeholder => "name@example.com", :type => "email", :name => 'user[email]'}
+              .mt-4
+                %button.btn.btn-sm.btn-primary.btn-icon.rounded-pill{:type => "submit"}
+                  %span.btn-inner--text Reset password
+                  %span.btn-inner--icon
+                    %i.fas.fa-long-arrow-alt-right
+          .card-footer.px-md-5
+            %small Not registered?
+            %a.small.font-weight-bold{:href => "/doorman/register"} Create account

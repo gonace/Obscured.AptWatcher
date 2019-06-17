@@ -19,8 +19,6 @@ module Obscured
         index({ status: 1 }, { background: true })
         index({ type: 1 }, { background: true })
 
-        before_save :validate!
-
 
         def self.make(opts)
           raise Obscured::DomainError.new(:required_field_missing, what: ':hostname') if opts[:hostname].empty?

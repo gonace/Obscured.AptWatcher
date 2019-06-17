@@ -1,48 +1,59 @@
-.cover-wrapper
-  .cover-wrapper-inner.baseline
-    .cover-container
-      .cover-inner
-        %div.text-center.mt-5.mb-5
-          %h1 Obscured.AptWatcher
-          %p.lead
-            To continue to the setup,
-            %code Doorman
-            kind of demands the setup secret.
-
-        .card.card-identity.mb-3
-          .card-mask#userMask
-            %span
-
-          %form#formSetup.mt-4{:action => '/setup/define', :method => 'POST'}
-            %input{:type => 'hidden', :name => 'secret', :value => secret }
-            - if flash[:error]
-              %p.text-center.text-danger= flash[:error]
-            .form-group
+.min-vh-100.py-5.d-flex.align-items-center
+  .w-100
+    .row.justify-content-center
+      .col-sm-8.col-lg-5
+        .card.shadow.zindex-100.mb-0
+          .card-body.px-md-5.py-5
+            .mb-5
+              %h6.h3 Setup
+              %p.text-muted.mb-0 Made with love by developers for developers.
+            %span.clearfix
+            %form{:action => '/setup/define', :method => 'POST', :role => "form"}
+              %input{:type => 'hidden', :name => 'secret', :value => secret }
+              = partial :'../shared/partials/error.generic'
               .row
-                .col-12
-                  %label Name
-                .col-6
-                  %input.form-control{:autofocus => true, :placeholder => 'First name', :name => 'user[first_name]', :value => '', :type => 'text', 'data-rule-required' => 'true'}
-                .col-6
-                  %input.form-control{:placeholder => 'Last name', :name => 'user[last_name]', :value => '', :type => 'text', 'data-rule-required' => 'true'}
-            .form-group
-              .row
-                .col-12
-                  %label Choose your username
-                  %input#Email.form-control{:name => 'user[login]', :placeholder => 'user@domain.tld', :type => 'email', :value => '', 'data-rule-required' => 'true'}
-            .form-group
-              .row
-                .col-12
-                  %label Create a password
-                  %div#passwordStrength.mb-2
-                  %input#Password.form-control{:name => 'user[password]', :placeholder => '', :type => 'password', :value => '', 'data-rule-required' => 'true'}
-            .form-group
-              .row
-                .col-12
-                  %label Confirm your password
-                  %input#ConfirmPassword.form-control{:name => 'user[password_confirmation]', :placeholder => '', :type => 'password', :value => '', 'data-rule-required' => 'true'}
-
-            %button.btn.btn-success.btn-block.mb-4{:type => 'submit'} Next
+                .col-md-6
+                  .form-group
+                    %label.form-control-label First name
+                    %input.form-control{:placeholder => "Enter your first name", :type => "text", :name => 'user[first_name]'}
+                .col-md-6
+                  .form-group
+                    %label.form-control-label Last name
+                    %input.form-control{:placeholder => "Also your last name", :type => "text", :name => 'user[last_name]'}
+              .form-group
+                %label.form-control-label Email address
+                .input-group.input-group-merge
+                  .input-group-prepend
+                    %span.input-group-text
+                      %i.fas.fa-user
+                  %input#input-email.form-control{:placeholder => "name@example.com", :type => "email", :name => 'user[email]'}
+              .form-group.mb-2
+                %label.form-control-label Password
+                .input-group.input-group-merge
+                  .input-group-prepend
+                    %span.input-group-text
+                      %i.fas.fa-key
+                  %input#input-password.form-control{:placeholder => "Password", :type => "password", :name => 'user[password]'}
+                  .input-group-append
+                    %span.input-group-text
+                      %a{"data-target" => "#input-password", "data-toggle" => "password-text", :href => "#"}
+                        %i.fas.fa-eye
+              .my-4
+                .custom-control.custom-checkbox.mb-3
+                  %input#check-terms.custom-control-input{:type => "checkbox"}
+                  %label.custom-control-label{:for => "check-terms"}
+                    I agree to the
+                    %a{:href => "#"} terms and conditions
+                .custom-control.custom-checkbox
+                  %input#check-privacy.custom-control-input{:type => "checkbox"}
+                  %label.custom-control-label{:for => "check-privacy"}
+                    I agree to the
+                    %a{:href => "#"} privacy policy
+              .mt-4
+                %button.btn.btn-sm.btn-primary.btn-icon.rounded-pill{:type => "submit"}
+                  %span.btn-inner--text Continue
+                  %span.btn-inner--icon
+                    %i.fas.fa-long-arrow-alt-right
 
 :javascript
   jQuery(document).ready(function() {

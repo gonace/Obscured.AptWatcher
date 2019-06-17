@@ -1,72 +1,122 @@
-= partial :'../shared/partials/setup'
-.dashhead
-  .dashhead-titles
-    %h6.dashhead-subtitle Dashboards
-    %h3.dashhead-title Overview
-%ul.nav.nav-bordered.mt-4.mt-md-2.mb-0.clearfix{:role => 'tablist'}
-  %li.nav-item{:role => 'presentation'}
-    %a.nav-link.active{'aria-controls' => 'Overview', 'data-toggle' => 'tab', :href => '#overview', :role => 'tab'} Overview
-  %li.nav-item{:role => 'presentation'}
-    %a.nav-link{'aria-controls' => 'Updates', 'data-toggle' => 'tab', :href => '#updates', :role => 'tab'} Updates
-  %li.nav-item{:role => 'presentation'}
-    %a.nav-link{'aria-controls' => 'Alerts', 'data-toggle' => 'tab', :href => '#alerts', :role => 'tab'} Alerts
-  %li.nav-item{:role => 'presentation'}
-    %a.nav-link{'aria-controls' => 'Scans', 'data-toggle' => 'tab', :href => '#scans', :role => 'tab'} Scans
-%hr.mt-0.mb-5/
-.tab-content
-  #overview.tab-pane.active{:role => 'tabpanel'}
-    .row.text-center.m-t-md
-      .col-md-4.mb-5
-        .w-3.mx-auto
-          %canvas.ex-graph{'data-chart' => 'doughnut', 'data-dataset' => "[#{hosts_connected},#{hosts_disconnected}]", 'data-dataset-options' => "{ borderColor: '#252830', backgroundColor: ['#1bc98e', '#e64759'] }", 'data-labels' => "['Connected', 'Disonnected']", :height => '200', :width => '200'}
-        %strong.text-muted Hosts
-        %h4 Connected vs Disconnected
-      .col-md-4.mb-5
-        .w-3.mx-auto
-          %canvas.ex-graph{'data-chart' => 'doughnut', 'data-dataset' => "[#{hosts_without_updates},#{hosts_with_updates}]", 'data-dataset-options' => "{ borderColor: '#252830', backgroundColor: ['#1bc98e', '#e64759'] }", 'data-labels' => "['Patched', 'Unpatched']", :height => '200', :width => '200'}
-        %strong.text-muted Hosts
-        %h4 Patched vs Upatched
-      .col-md-4.mb-5
-        .w-3.mx-auto
-          %canvas.ex-graph{'data-chart' => 'doughnut', 'data-dataset' => "[#{alerts_closed},#{alerts_open}]", 'data-dataset-options' => "{ borderColor: '#252830', backgroundColor: ['#1bc98e', '#e64759'] }", 'data-labels' => "['Closed', 'Open']", :height => '200', :width => '200'}
-        %strong.text-muted Notifications
-        %h4 Open vs Closed
-  #updates.tab-pane{:role => 'tabpanel'}
-    .ex-line-graphs.mb-5
-      %canvas.ex-line-graph{'data-chart' => 'line', 'data-dark' => 'true', 'data-dataset' => "[#{graph_updates['data']}]", 'data-labels' => "#{graph_updates['header']}", :height => '400', :width => '600'}
-  #alerts.tab-pane{:role => 'tabpanel'}
-    .ex-line-graphs.mb-5
-      %canvas.ex-line-graph{'data-chart' => 'bar', 'data-dark' => 'true', 'data-dataset' => "#{graph_alerts['data']}", 'data-dataset-options' => "[{label: 'Open', backgroundColor: '#e64759'}, {label: 'Closed', backgroundColor: '#1bc98e'}]", 'data-labels' => "#{graph_alerts['header']}", :height => '400', :width => '600'}
-  #scans.tab-pane{:role => 'tabpanel'}
-    .ex-line-graphs.mb-5
-      %canvas.ex-line-graph{'data-chart' => 'line', 'data-dark' => 'true', 'data-dataset' => "[#{graph_scans['data']}]", 'data-labels' => "#{graph_scans['header']}", :height => '400', :width => '600'}
-.hr-divider.my-4
-  %h3.hr-divider-content.hr-divider-heading Quick stats
-.row.statcards.mt-3.mb-3.text-xs-center.text-md-left
-  .col-6.col-md-3.statcard.mb-4
-    %h3.statcard-number{ :class => hosts_with_updates > 0 ? 'text-danger' : 'text-success'}
-      =hosts_with_updates
-      %small.delta-indicator{:class => (hosts_with_updates + hosts_without_updates) == hosts_without_updates ? 'delta-positive' : 'delta-negative'}
-        - if hosts_with_updates > 0
-          ="#{(100/(hosts_with_updates + hosts_without_updates))*hosts_with_updates}%"
-    %span.statcard-desc Hosts with updates
-  .col-6.col-md-3.statcard.mb-4
-    %h3.statcard-number{ :class => hosts_without_updates > 0 ? 'text-success' : 'text-danger'}
-      =hosts_without_updates
-      %small.delta-indicator{:class => (hosts_with_updates + hosts_without_updates) == hosts_without_updates && (hosts_with_updates + hosts_without_updates) != 0  ? 'delta-negative' : 'delta-positive'}
-        - if hosts_with_updates > 0
-          ="#{(100/(hosts_with_updates + hosts_without_updates))*hosts_without_updates}%"
-    %span.statcard-desc Hosts that are up to date
-  .col-6.col-md-3.statcard.mb-4
-    %h3.statcard-number{ :class => scans_total == 0 ? 'text-danger' : 'text-secondary'}
-      =scans_total
-    %span.statcard-desc Scans
-  .col-6.col-md-3.statcard.mb-4
-    %h3.statcard-number{ :class => alerts_open > 0 ? 'text-danger' : 'text-success'}
-      =alerts_open
-    %span.statcard-desc Notifications
-%hr.my-4/
-.row
-  = partial :'../shared/partials/lists/hosts', :locals => {:hosts => hosts}
-  = partial :'../shared/partials/lists/scans', :locals => {:scans => scans}
-  = partial :'../shared/partials/lists/alerts', :locals => {:alerts => alerts}
+.page-content
+  / Page title
+  .page-title
+    .row.justify-content-between.align-items-center
+      .col-md-6.mb-3.mb-md-0
+        %h5.h3.font-weight-400.mb-0.text-white= "Morning, #{user.first_name}!"
+        %span.text-sm.text-white.opacity-8 Have a nice day!
+      = partial :'../shared/partials/setup'
+  .row
+    .col-xl-8.col-md-6
+      .card.card-fluid
+        .card-header
+          %h6.mb-0 Packages
+        .card-body
+          #apex-engagement{"data-color" => "primary", "data-height" => "280"}
+    .col-xl-4.col-md-6
+      .card.card-fluid
+        .card-body.text-center.d-flex.flex-column.justify-content-center
+          %h5.mb-4 Notifications
+          #progress-5.progress-circle.progress-lg.mx-auto{"data-color" => "warning", "data-progress" => "48.22", "data-text" => "141", "data-textclass" => "h1"}
+          .d-flex.mt-4
+            .col
+              %span.d-block.badge.badge-dot.badge-lg.h6
+                %i.bg-danger>
+                30 errors
+              %span.d-block.badge.badge-dot.badge-lg.h6
+                %i.bg-warning>
+                38 warnings
+            .col
+              %span.d-block.badge.badge-dot.badge-lg.h6
+                %i.bg-success>
+                68 solved
+              %span.d-block.badge.badge-dot.badge-lg.h6
+                %i.bg-warning>
+                5 suspended
+          %a.btn.btn-block.btn-secondary.mt-auto{:href => "#"} Open insights
+  .row
+    .col-lg-4.col-sm-6
+      .card.card-fluid
+        .card-body
+          .row.align-items-center.mb-4
+            .col-auto
+              #progress-1.progress-circle.progress-sm{"data-color" => "success", "data-progress" => "73.13"}
+            .col
+              %a.d-block.h6.mb-0{:href => "#!"} 98 packages installed
+              %a.text-sm.text-muted{:href => "#"} or ignored!
+          .row.align-items-center.mb-4
+            .col-auto
+              #progress-2.progress-circle.progress-sm{"data-color" => "danger", "data-progress" => "9.7"}
+            .col
+              %a.d-block.h6.mb-0{:href => "#!"} 13 packages pending
+              %a.text-sm.text-muted{:href => "#"} or failed!
+          .row.align-items-center
+            .col-auto
+              #progress-3.progress-circle.progress-sm{"data-color" => "warning", "data-progress" => "17.16"}
+            .col
+              %a.d-block.h6.mb-0{:href => "#!"} 23 packages rejected
+              %a.text-sm.text-muted{:href => "#"} or reverted!
+          %a.btn.btn-sm.btn-block.btn-secondary.mt-5{:href => "#"} Open insights
+    .col-lg-4.col-sm-6
+      .card.card-fluid
+        .card-body.text-center.d-flex.flex-column.justify-content-center
+          %h5.mb-4 Congratulations!
+          #progress-4.progress-circle.progress-lg.mx-auto{"data-color" => "primary", "data-progress" => "78", "data-text" => "23", "data-textclass" => "h1"}
+          %p.mt-4.mb-0
+            Servers where were updated this week.
+    .col-lg-4
+      .card.card-fluid.bg-gradient-dark.border-0
+        .card-header.border-0.pb-0
+          %h6.text-white.mb-0
+            %span.text-success.mr-2> ●
+            Beloved sponsor
+        .card-body.text-center
+          %a.avatar.avatar-lg.rounded-circle{:href => "#"}
+            %img{:src => "/img/brand/webpixels.png"}
+          %h5.h6.mt-4.mb-2.text-white Webpixels
+          %p.text-sm.mb-0.text-white A unique and beautiful collection of UI elements that are all flexible and modular. A complete and customisable Bootstrap Theme for building the website of your dreams. Not convinced yet?
+  .row
+    .col-xl-7.d-sm-flex.flex-sm-column
+      .row.flex-sm-fill
+        .col-sm-4
+          .card.card-fluid
+            .card-body.text-center
+              .avatar-parent-child
+                %a.avatar.avatar-lg.bg-primary.rounded-circle.text-white{:href => "#"} PN
+                %span.avatar-child.avatar-badge.bg-success
+              %h5.h6.mt-4.mb-4 Pippin
+              .actions.d-flex.justify-content-between.px-4
+                %a.action-item{:href => "#"}
+                  %i.fa.fa-clipboard-list
+                %a.action-item{:href => "#"}
+                  %i.fa.fa-bullhorn
+                %a.action-item{:href => "#"}
+                  %i.fa.fa-calculator
+        .col-sm-4
+          .card.card-fluid
+            .card-body.text-center
+              .avatar-parent-child
+                %a.avatar.avatar-lg.bg-info.rounded-circle.text-white{:href => "#"} BR
+                %span.avatar-child.avatar-badge.bg-success
+              %h5.h6.mt-4.mb-4 Boromir
+              .actions.d-flex.justify-content-between.px-4
+                %a.action-item{:href => "#"}
+                  %i.fa.fa-clipboard-list
+                %a.action-item{:href => "#"}
+                  %i.fa.fa-bullhorn
+                %a.action-item{:href => "#"}
+                  %i.fa.fa-calculator
+        .col-sm-4
+          .card.card-fluid
+            .card-body.text-center
+              .avatar-parent-child
+                %a.avatar.avatar-lg.bg-dark.rounded-circle.text-white{:href => "#"} SE
+                %span.avatar-child.avatar-badge.bg-danger
+              %h5.h6.mt-4.mb-4 Samwise
+              .actions.d-flex.justify-content-between.px-4
+                %a.action-item{:href => "#"}
+                  %i.fa.fa-clipboard-list
+                %a.action-item{:href => "#"}
+                  %i.fa.fa-bullhorn
+                %a.action-item{:href => "#"}
+                  %i.fa.fa-calculator

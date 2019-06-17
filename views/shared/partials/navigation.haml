@@ -1,43 +1,240 @@
-%nav.navbar.navbar-expand-sm.fixed-top.navbar-dark.bg-dark.app-navbar
-  %a.navbar-brand{:href => '/'}
-    %span.icon.icon-leaf.navbar-brand-icon
-    AptWatcher
+%nav#navbar-main.navbar.navbar-main.navbar-expand-lg.navbar-dark.bg-primary.navbar-border
+  .container-fluid
+    / Brand + Toggler (for mobile devices)
+    %button.navbar-toggler{"aria-controls" => "navbar-main-collapse", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbar-main-collapse", "data-toggle" => "collapse", :type => "button"}
+      %span.navbar-toggler-icon
+    / User's navbar
+    .navbar-user.d-lg-none.ml-auto
+      %ul.navbar-nav.flex-row.align-items-center
+        %li.nav-item
+          %a.nav-link.nav-link-icon.sidenav-toggler{"data-action" => "sidenav-pin", "data-target" => "#sidenav-main", :href => "#"}
+            %i.fas.fa-bars
+        %li.nav-item
+          %a.nav-link.nav-link-icon{"data-action" => "omnisearch-open", "data-target" => "#omnisearch", :href => "#"}
+            %i.fas.fa-search
+        %li.nav-item.dropdown.dropdown-animate
+          %a.nav-link.nav-link-icon{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+            %i.fas.fa-bell
+          .dropdown-menu.dropdown-menu-right.dropdown-menu-lg.dropdown-menu-arrow.p-0
+            .py-3.px-3
+              %h5.heading.h6.mb-0 Notifications
+            .list-group.list-group-flush
+              %a.list-group-item.list-group-item-action{:href => "#"}
+                .d-flex.align-items-center{"data-placement" => "right", "data-title" => "2 hrs ago", "data-toggle" => "tooltip"}
+                  %div
+                    %span.avatar.bg-primary.text-white.rounded-circle AM
+                  .flex-fill.ml-3
+                    .h6.text-sm.mb-0
+                      Alex Michael
+                      %small.float-right.text-muted 2 hrs ago
+                    %p.text-sm.lh-140.mb-0
+                      Some quick example text to build on the card title.
+              %a.list-group-item.list-group-item-action{:href => "#"}
+                .d-flex.align-items-center{"data-placement" => "right", "data-title" => "3 hrs ago", "data-toggle" => "tooltip"}
+                  %div
+                    %span.avatar.bg-warning.text-white.rounded-circle SW
+                  .flex-fill.ml-3
+                    .h6.text-sm.mb-0
+                      Sandra Wayne
+                      %small.float-right.text-muted 3 hrs ago
+                    %p.text-sm.lh-140.mb-0
+                      Some quick example text to build on the card title.
+              %a.list-group-item.list-group-item-action{:href => "#"}
+                .d-flex.align-items-center{"data-placement" => "right", "data-title" => "5 hrs ago", "data-toggle" => "tooltip"}
+                  %div
+                    %span.avatar.bg-info.text-white.rounded-circle JM
+                  .flex-fill.ml-3
+                    .h6.text-sm.mb-0
+                      Jason Miller
+                      %small.float-right.text-muted 5 hrs ago
+                    %p.text-sm.lh-140.mb-0
+                      Some quick example text to build on the card title.
+              %a.list-group-item.list-group-item-action{:href => "#"}
+                .d-flex.align-items-center{"data-placement" => "right", "data-title" => "2 hrs ago", "data-toggle" => "tooltip"}
+                  %div
+                    %span.avatar.bg-dark.text-white.rounded-circle MJ
+                  .flex-fill.ml-3
+                    .h6.text-sm.mb-0
+                      Mike Thomson
+                      %small.float-right.text-muted 2 hrs ago
+                    %p.text-sm.lh-140.mb-0
+                      Some quick example text to build on the card title.
+              %a.list-group-item.list-group-item-action{:href => "#"}
+                .d-flex.align-items-center{"data-placement" => "right", "data-title" => "3 hrs ago", "data-toggle" => "tooltip"}
+                  %div
+                    %span.avatar.bg-primary.text-white.rounded-circle RN
+                  .flex-fill.ml-3
+                    .h6.text-sm.mb-0
+                      Richard Nixon
+                      %small.float-right.text-muted 3 hrs ago
+                    %p.text-sm.lh-140.mb-0
+                      Some quick example text to build on the card title.
+            .py-3.text-center
+              %a.link.link-sm.link--style-3{:href => "#"} View all notifications
+        %li.nav-item.dropdown.dropdown-animate
+          %a.nav-link.pr-lg-0{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+            %span.avatar.avatar-sm.rounded-circle
+              %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}?d=https://img07.deviantart.net/3722/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png"}
+          .dropdown-menu.dropdown-menu-sm.dropdown-menu-right.dropdown-menu-arrow
+            %h6.dropdown-header.px-0 Hi, Heather!
+            %a.dropdown-item{:href => "../application/user/profile.html"}
+              %i.fas.fa-user
+              %span My profile
+            %a.dropdown-item{:href => "../application/account/settings.html"}
+              %i.fas.fa-cog
+              %span Settings
+            %a.dropdown-item{:href => "../application/account/billing.html"}
+              %i.fas.fa-credit-card
+              %span Billing
+            %a.dropdown-item{:href => "../application/shop/orders.html"}
+              %i.fas.fa-shopping-basket
+              %span Orders
+            .dropdown-divider
+            %a.dropdown-item{:href => "../application/authentication/login.html"}
+              %i.fas.fa-sign-out-alt
+              %span Logout
 
-  .collapse.navbar-collapse
-    %ul.nav.navbar-nav.mr-auto{'data-active' => (defined? active) ? active : ''}
-      %li.nav-item
-        %a.nav-link{:class => ((defined? active) && active === 'home') ? 'active' : '', 'data-container' => 'body', :href => '/', :title => ''}
-          Overview
-      %li.nav-item
-        %a.nav-link{:class => ((defined? active) && active === 'history') ? 'active' : '', 'data-container' => 'body', :href => '/history', :title => ''}
-          Scans
-      %li.nav-item
-        %a.nav-link{:class => ((defined? active) && active === 'hosts') ? 'active' : '', 'data-container' => 'body', :href => '/hosts', :title => ''}
-          Hosts
-      %li.nav-item
-        %a.nav-link{:class => ((defined? active) && active === 'notifications') ? 'active' : '', 'data-container' => 'body', :href => '/notifications', :title => ''}
-          Notifications
-      %li.nav-item
-        %a.nav-link{:class => ((defined? active) && active === 'statistics') ? 'active' : '', 'data-container' => 'body', :href => '/statistics', :title => ''}
-          Statistics
-      %li.nav-item
-        %a.nav-link{:class => ((defined? active) && active === 'users') ? 'active' : '', 'data-container' => 'body', :href => '/users', :title => ''}
-          Users
-      - if current_user.role == Obscured::Doorman::Roles::ADMIN
+    / Navbar nav
+    #navbar-main-collapse.collapse.navbar-collapse.navbar-collapse-fade
+      %ul.navbar-nav.align-items-lg-center
+        / Overview
+        %li.nav-item.d-lg-none
+          %a.nav-link{:href => "../index.html"}
+            Overview
+        %li.border-top.opacity-2.my-2
+        / Home
         %li.nav-item
-          %a.nav-link{:class => ((defined? active) && active === 'errors') ? 'active' : '', :href => '/errors', :title => ''}
-            Errors
-      - if current_user.role == Obscured::Doorman::Roles::ADMIN
+          %a.nav-link.pl-lg-0{:href => "/"}
+            Home
+        / Application menu
+        %li.nav-item.dropdown.dropdown-animate{"data-toggle" => "hover"}
+          %a.nav-link{:href => "/hosts"}
+            Hosts
         %li.nav-item
-          %a.nav-link{:class => ((defined? active) && active === 'settings') ? 'active' : '', :href => '/settings', :title => ''}
-            Settings
-      %li.nav-item
-        %a.nav-link{:href => Obscured::Doorman.config.paths[:logout], :title => ''}
-          Logout
-      %li.nav-item
-        - if defined? current_user
-          %a.nav-link{'data-container' => 'body', 'data-original-title' => "Signed in as #{current_user.username}", 'data-placement' => 'bottom', 'data-toggle' => 'tooltip', :href => '/users/me', :title => ''}
-            %img.rounded-circle{:style => 'max-width:22px;', :alt => current_user.username, :src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}?d=https://img07.deviantart.net/3722/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png"}
-        - else
-          %a.nav-link{'data-container' => 'body', 'data-original-title' => 'Not sigend in', 'data-placement' => 'bottom', 'data-toggle' => 'tooltip', :href => Obscured::Doorman.config.paths[:logout], :title => ''}
-            %img.Jrounded-circle{:style => 'max-width:22px;', :alt => 'payway@adeprimo.se', :src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest('payway@adeprimo.se')}"}
+          %a.nav-link{:href => "/insights"}
+            Insights
+        %li.nav-item.dropdown.dropdown-animate{"data-toggle" => "hover"}
+          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"} Docs
+          .dropdown-menu.dropdown-menu-right.dropdown-menu-lg.dropdown-menu-arrow.p-0
+            %ul.list-group.list-group-flush
+              %li
+                %a.list-group-item.list-group-item-action{:href => "../docs/index.html", :role => "button"}
+                  .media.d-flex.align-items-center
+                    / SVG icon
+                    %figure{:style => "width: 50px;"}
+                      %img.svg-inject.img-fluid{:alt => "Image placeholder", :src => "/img/icons/essential/detailed/DOC_File.svg", :style => "height: 50px;"}/
+                    / Media body
+                    .media-body.ml-3
+                      %h6.mb-1 Documentation
+                      %p.mb-0 Awesome section examples for any scenario.
+              %li
+                %a.list-group-item.list-group-item-action{:href => "../docs/components/index.html", :role => "button"}
+                  .media.d-flex.align-items-center
+                    / SVG icon
+                    %figure{:style => "width: 50px;"}
+                      %img.svg-inject.img-fluid{:alt => "Image placeholder", :src => "/img/icons/essential/detailed/Mobile_UI.svg", :style => "height: 50px;"}/
+                    / Media body
+                    .media-body.ml-3
+                      %h6.mb-1 Components
+                      %p.mb-0 Awesome section examples for any scenario.
+            .dropdown-menu-links.rounded-bottom.delimiter-top.p-4
+              .row
+                .col-sm-6
+                  %a.dropdown-item{:href => "../docs/getting-started/installation.html"} Installation
+                  %a.dropdown-item{:href => "../docs/getting-started/file-structure.html"} File structure
+                  %a.dropdown-item{:href => "../docs/getting-started/build-tools.html"} Build tools
+                  %a.dropdown-item{:href => "../docs/getting-started/customization.html"} Customization
+                .col-sm-6
+                  %a.dropdown-item{:href => "../docs/getting-started/plugins.html"} Using plugins
+                  %a.dropdown-item{:href => "../docs/components/index.html"} Components
+                  %a.dropdown-item{:href => "../docs/plugins/animate.html"} Plugins
+                  %a.dropdown-item{:href => "../docs/support.html"} Support
+      / Right menu
+      %ul.navbar-nav.ml-lg-auto.align-items-center.d-none.d-lg-flex
+        %li.nav-item
+          %a.nav-link.nav-link-icon.sidenav-toggler{"data-action" => "sidenav-pin", "data-target" => "#sidenav-main", :href => "#"}
+            %i.fas.fa-bars
+        %li.nav-item
+          %a.nav-link.nav-link-icon{"data-action" => "omnisearch-open", "data-target" => "#omnisearch", :href => "#"}
+            %i.fas.fa-search
+        %li.nav-item
+          %a.nav-link.nav-link-icon{"data-toggle" => "modal", :href => "#modal-chat"}
+            %i.fas.fa-comment-alt
+        %li.nav-item.dropdown.dropdown-animate
+          %a.nav-link.nav-link-icon{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+            %i.fas.fa-bell
+          .dropdown-menu.dropdown-menu-right.dropdown-menu-lg.dropdown-menu-arrow.p-0
+            .py-3.px-3
+              %h5.heading.h6.mb-0 Notifications
+            .list-group.list-group-flush
+              %a.list-group-item.list-group-item-action{:href => "#"}
+                .d-flex.align-items-center{"data-placement" => "right", "data-title" => "2 hrs ago", "data-toggle" => "tooltip"}
+                  %div
+                    %span.avatar.bg-primary.text-white.rounded-circle AM
+                  .flex-fill.ml-3
+                    .h6.text-sm.mb-0
+                      Alex Michael
+                      %small.float-right.text-muted 2 hrs ago
+                    %p.text-sm.lh-140.mb-0
+                      Some quick example text to build on the card title.
+              %a.list-group-item.list-group-item-action{:href => "#"}
+                .d-flex.align-items-center{"data-placement" => "right", "data-title" => "3 hrs ago", "data-toggle" => "tooltip"}
+                  %div
+                    %span.avatar.bg-warning.text-white.rounded-circle SW
+                  .flex-fill.ml-3
+                    .h6.text-sm.mb-0
+                      Sandra Wayne
+                      %small.float-right.text-muted 3 hrs ago
+                    %p.text-sm.lh-140.mb-0
+                      Some quick example text to build on the card title.
+              %a.list-group-item.list-group-item-action{:href => "#"}
+                .d-flex.align-items-center{"data-placement" => "right", "data-title" => "5 hrs ago", "data-toggle" => "tooltip"}
+                  %div
+                    %span.avatar.bg-info.text-white.rounded-circle JM
+                  .flex-fill.ml-3
+                    .h6.text-sm.mb-0
+                      Jason Miller
+                      %small.float-right.text-muted 5 hrs ago
+                    %p.text-sm.lh-140.mb-0
+                      Some quick example text to build on the card title.
+              %a.list-group-item.list-group-item-action{:href => "#"}
+                .d-flex.align-items-center{"data-placement" => "right", "data-title" => "2 hrs ago", "data-toggle" => "tooltip"}
+                  %div
+                    %span.avatar.bg-dark.text-white.rounded-circle MJ
+                  .flex-fill.ml-3
+                    .h6.text-sm.mb-0
+                      Mike Thomson
+                      %small.float-right.text-muted 2 hrs ago
+                    %p.text-sm.lh-140.mb-0
+                      Some quick example text to build on the card title.
+              %a.list-group-item.list-group-item-action{:href => "#"}
+                .d-flex.align-items-center{"data-placement" => "right", "data-title" => "3 hrs ago", "data-toggle" => "tooltip"}
+                  %div
+                    %span.avatar.bg-primary.text-white.rounded-circle RN
+                  .flex-fill.ml-3
+                    .h6.text-sm.mb-0
+                      Richard Nixon
+                      %small.float-right.text-muted 3 hrs ago
+                    %p.text-sm.lh-140.mb-0
+                      Some quick example text to build on the card title.
+            .py-3.text-center
+              %a.link.link-sm.link--style-3{:href => "#"} View all notifications
+        %li.nav-item.dropdown.dropdown-animate
+          %a.nav-link.pr-lg-0{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+            .media.media-pill.align-items-center
+              %span.avatar.rounded-circle
+                %img{:alt => "", :src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}?d=https://img07.deviantart.net/3722/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png"}
+              .ml-2.d-none.d-lg-block
+                %span.mb-0.text-sm.font-weight-bold= user.name
+          .dropdown-menu.dropdown-menu-sm.dropdown-menu-right.dropdown-menu-arrow
+            %h6.dropdown-header.px-0= "Hi, #{user.first_name}!"
+            %a.dropdown-item{:href => "/me/profile"}
+              %i.fas.fa-user
+              %span My profile
+            %a.dropdown-item{:href => "/me/settings"}
+              %i.fas.fa-cog
+              %span Settings
+            .dropdown-divider
+            %a.dropdown-item{:href => "/doorman/logout"}
+              %i.fas.fa-sign-out-alt
+              %span Logout

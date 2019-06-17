@@ -81,7 +81,7 @@ module Obscured
           end
 
           begin
-            user = User.make({:username => params[:user][:login], :password => params[:user][:password], :confirmed => !Obscured::Doorman.config.confirmation})
+            user = User.make({:username => params[:user][:email], :password => params[:user][:password], :confirmed => !Obscured::Doorman.config.confirmation})
             user.set_name(params[:user][:first_name], params[:user][:last_name])
             user.save
           rescue => e
@@ -143,7 +143,7 @@ module Obscured
           warden.authenticate(:password)
 
           # Set cookie
-          cookies[:email] = params['user']['login']
+          cookies[:email] = params['user']['email']
 
           # Notify if there are any messages from Warden.
           unless warden.message.blank?

@@ -11,7 +11,7 @@ module Mongoid
       end
 
 
-      # Adds event to the tulo_x_timeline collection for document. This is
+      # Adds event to the x_timeline collection for document. This is
       # only called on manually.
       #
       # @example Add event.
@@ -19,12 +19,12 @@ module Mongoid
       #
       # @return [ document ]
       def add_event(event)
-        Record.with(collection: "tulo_#{self.class.name.demodulize.downcase}_timeline") do |m|
+        Record.with(collection: "#{self.class.name.demodulize.downcase}_timeline") do |m|
           m.make!(event.merge({:proprietor => { "#{self.class.name.demodulize.downcase}_id".to_sym => self.id.to_s }}))
         end
       end
 
-      # Get an event from the tulo_x_timeline collection for document. This is
+      # Get an event from the x_timeline collection for document. This is
       # only called on manually.
       #
       # @example Get event.
@@ -32,12 +32,12 @@ module Mongoid
       #
       # @return [ document ]
       def get_event(id)
-        Record.with(collection: "tulo_#{self.class.name.demodulize.downcase}_timeline") do |m|
+        Record.with(collection: "#{self.class.name.demodulize.downcase}_timeline") do |m|
           m.find(id)
         end
       end
 
-      # Get events from the tulo_x_timeline collection for document by proprietor. This is
+      # Get events from the x_timeline collection for document by proprietor. This is
       # only called on manually.
       #
       # @example Get event.
@@ -45,12 +45,12 @@ module Mongoid
       #
       # @return [ documents ]
       def get_events
-        Record.with(collection: "tulo_#{self.class.name.demodulize.downcase}_timeline") do |m|
+        Record.with(collection: "#{self.class.name.demodulize.downcase}_timeline") do |m|
           m.by({:proprietor => { "#{self.class.name.demodulize.downcase}_id".to_sym => self.id.to_s }})
         end
       end
 
-      # Find events from the tulo_x_timeline collection for document. This is
+      # Find events from the x_timeline collection for document. This is
       # only called on manually.
       #
       # @example Get event.
@@ -58,12 +58,12 @@ module Mongoid
       #
       # @return [ documents ]
       def find_events(params, options)
-        Record.with(collection: "tulo_#{self.class.name.demodulize.downcase}_timeline") do |m|
+        Record.with(collection: "#{self.class.name.demodulize.downcase}_timeline") do |m|
           m.by({:proprietor => { "#{self.class.name.demodulize.downcase}_id".to_sym => self.id.to_s }}.merge(params), options)
         end
       end
 
-      # Search events from the tulo_x_timeline collection for document. This is
+      # Search events from the x_timeline collection for document. This is
       # only called on manually.
       #
       # @example Get event.
@@ -75,7 +75,7 @@ module Mongoid
         skip = options[:skip].blank? ? nil : options[:skip].to_i
         order = options[:order].blank? ? :created_at.desc : options[:order]
 
-        Record.with(collection: "tulo_#{self.class.name.demodulize.downcase}_timeline") do |m|
+        Record.with(collection: "#{self.class.name.demodulize.downcase}_timeline") do |m|
           query = {}
           query[:type] = options[:type].to_sym if options[:type]
 
@@ -88,7 +88,7 @@ module Mongoid
         end
       end
 
-      # Edit an event from the tulo_x_timeline collection by id. This is
+      # Edit an event from the x_timeline collection by id. This is
       # only called on manually.
       #
       # @example Get event.
@@ -96,7 +96,7 @@ module Mongoid
       #
       # @return [ document ]
       def edit_event(id, params = {})
-        Record.with(collection: "tulo_#{self.class.name.demodulize.downcase}_timeline") do |m|
+        Record.with(collection: "#{self.class.name.demodulize.downcase}_timeline") do |m|
           event = m.where(id: id).first
           event.message = params[:message] if params[:message]
           event.save
@@ -104,7 +104,7 @@ module Mongoid
         end
       end
 
-      # Delete an event from the tulo_x_timeline collection by id. This is
+      # Delete an event from the x_timeline collection by id. This is
       # only called on manually.
       #
       # @example Get event.
@@ -112,7 +112,7 @@ module Mongoid
       #
       # @return [ document ]
       def delete_event(id)
-        Record.with(collection: "tulo_#{self.class.name.demodulize.downcase}_timeline") do |m|
+        Record.with(collection: "#{self.class.name.demodulize.downcase}_timeline") do |m|
           m.where(id: id).delete
         end
       end

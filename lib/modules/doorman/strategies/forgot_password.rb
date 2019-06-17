@@ -27,7 +27,7 @@ module Obscured
             redirect Obscured::Doorman.config.paths[:success] if authenticated?
             redirect '/' unless params['user']
 
-            user = User.get_by_username(params['user']['login'])
+            user = User.get_by_username(params['user']['email'])
             if user.nil?
               notify :error, :forgot_no_user
               redirect back
@@ -39,21 +39,21 @@ module Obscured
 
             user.forgot_password!
             Pony.mail(
-                :to => user.username,
-                :from => "aptwatcher@#{Obscured::Doorman.config.smtp_domain}",
-                :subject => 'Password change request',
-                :body => "We have received a password change request for your account (#{user.username}). " + token_link('reset', user),
-                :html_body => (haml :'/templates/password_reset', :locals => {:user => user.username, :link => token_link('reset', user)}, :layout => false),
-                :via => :smtp,
-                :via_options => {
-                    :address        	    => Obscured::Doorman.config.smtp_server,
-                    :port          	  	  => Obscured::Doorman.config.smtp_port,
-                    :enable_starttls_auto => true,
-                    :user_name         	  => Obscured::Doorman.config.smtp_username,
-                    :password          	  => Obscured::Doorman.config.smtp_password,
-                    :authentication 	    => :plain,
-                    :domain           	  => Obscured::Doorman.config.smtp_domain
-                })
+              :to => user.username,
+              :from => "aptwatcher@#{Obscured::Doorman.config.smtp_domain}",
+              :subject => 'Password change request',
+              :body => "We have received a password change request for your account (#{user.username}). " + token_link('reset', user),
+              :html_body => (haml :'/templates/password_reset', :locals => {:user => user.username, :link => token_link('reset', user)}, :layout => false),
+              :via => :smtp,
+              :via_options => {
+                :address              => Obscured::Doorman.config.smtp_server,
+                :port                 => Obscured::Doorman.config.smtp_port,
+                :enable_starttls_auto => true,
+                :user_name            => Obscured::Doorman.config.smtp_username,
+                :password             => Obscured::Doorman.config.smtp_password,
+                :authentication       => :plain,
+                :domain               => Obscured::Doorman.config.smtp_domain
+              })
             notify :success, :forgot_success
             redirect Obscured::Doorman.config.paths[:login]
           end
@@ -99,21 +99,21 @@ module Obscured
             else
               geo_position = Geocoder.search(request.ip)
               Pony.mail(
-                  :to => user.username,
-                  :from => "aptwatcher@#{Obscured::Doorman.config.smtp_domain}",
-                  :subject => 'Password change confirmation',
-                  :body => "The password for your account (#{user.username}) was recently changed. This change was made from the following device or browser from: ",
-                  :html_body => (haml :'/templates/password_confirmation', :locals => {:user => user.username, :browser => "#{request.browser} #{request.browser_version}", :location => "#{geo_position.first.city rescue ''},#{geo_position.first.country rescue ''}", :ip => request.ip, :system => "#{request.os} #{request.os_version}"}, :layout => false),
-                  :via => :smtp,
-                  :via_options => {
-                      :address        	    => Obscured::Doorman.config.smtp_server,
-                      :port          	  	  => Obscured::Doorman.config.smtp_port,
-                      :enable_starttls_auto => true,
-                      :user_name         	  => Obscured::Doorman.config.smtp_username,
-                      :password          	  => Obscured::Doorman.config.smtp_password,
-                      :authentication 	    => :plain,
-                      :domain           	  => Obscured::Doorman.config.smtp_domain
-                  })
+                :to => user.username,
+                :from => "aptwatcher@#{Obscured::Doorman.config.smtp_domain}",
+                :subject => 'Password change confirmation',
+                :body => "The password for your account (#{user.username}) was recently changed. This change was made from the following device or browser from: ",
+                :html_body => (haml :'/templates/password_confirmation', :locals => {:user => user.username, :browser => "#{request.browser} #{request.browser_version}", :location => "#{geo_position.first.city rescue ''},#{geo_position.first.country rescue ''}", :ip => request.ip, :system => "#{request.os} #{request.os_version}"}, :layout => false),
+                :via => :smtp,
+                :via_options => {
+                  :address              => Obscured::Doorman.config.smtp_server,
+                  :port                 => Obscured::Doorman.config.smtp_port,
+                  :enable_starttls_auto => true,
+                  :user_name            => Obscured::Doorman.config.smtp_username,
+                  :password             => Obscured::Doorman.config.smtp_password,
+                  :authentication       => :plain,
+                  :domain               => Obscured::Doorman.config.smtp_domain
+                })
             end
 
             user.confirm_email!

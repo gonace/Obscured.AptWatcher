@@ -1,0 +1,67 @@
+#sidenav-main.sidenav.show
+  / Sidenav header
+  .sidenav-header.d-flex.align-items-center
+    %a.navbar-brand{:href => "../index.html"}
+      %img.navbar-brand-img{:alt => "...", :src => "/img/brand/white.png"}
+    .ml-auto
+      / Sidenav toggler
+      .sidenav-toggler.sidenav-toggler-dark.d-md-none.active{"data-action" => "sidenav-unpin", "data-target" => "#sidenav-main"}
+        .sidenav-toggler-inner
+          %i.sidenav-toggler-line.bg-white
+          %i.sidenav-toggler-line.bg-white
+          %i.sidenav-toggler-line.bg-white
+  / User mini profile
+  .sidenav-user.d-flex.flex-column.align-items-center.justify-content-between.text-center
+    / Avatar
+    %div
+      %a.avatar.rounded-circle.avatar-xl{:href => "#"}
+        %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}?d=https://img07.deviantart.net/3722/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png"}
+      .mt-4
+        %h5.mb-0.text-white= user.name
+        %span.d-block.text-sm.text-white.opacity-8.mb-3 Web Architect
+        %a.btn.btn-sm.btn-white.btn-icon.rounded-pill.shadow.hover-translate-y-n3{:href => "#"}
+          %span.btn-inner--icon
+            %i.fas.fa-coins
+          %span.btn-inner--text $2.300
+    / User info
+    / Actions
+    .w-100.mt-4.actions.d-flex.justify-content-between
+      %a.action-item.action-item-lg.text-white.pl-0{:href => "/me/profile"}
+        %i.fas.fa-user
+      %a.action-item.action-item-lg.text-white.pr-0{:href => "/me/settings"}
+        %i.fas.fa-cog
+      %a.action-item.action-item-lg.text-white{"data-toggle" => "modal", :href => "#modal-chat"}
+        %i.fas.fa-comment-alt
+  / Application nav
+  .nav-application.clearfix
+    %a.btn.btn-square.text-sm.active{:href => "/"}
+      %span.btn-inner--icon.d-block
+        %i.fas.fa-home.fa-2x
+      %span.btn-inner--icon.d-block.pt-2 Home
+    %a.btn.btn-square.text-sm{:href => "/hosts"}
+      %span.btn-inner--icon.d-block
+        %i.fas.fa-project-diagram.fa-2x
+      %span.btn-inner--icon.d-block.pt-2 Hosts
+    %a.btn.btn-square.text-sm{:href => "/notifications"}
+      %span.btn-inner--icon.d-block
+        %i.fas.fa-bullhorn.fa-2x
+      %span.btn-inner--icon.d-block.pt-2 Notifications
+    %a.btn.btn-square.text-sm{:href => "/insights"}
+      %span.btn-inner--icon.d-block
+        %i.fas.fa-calculator.fa-2x
+      %span.btn-inner--icon.d-block.pt-2 Insights
+    %a.btn.btn-square.text-sm{:href => "/users"}
+      %span.btn-inner--icon.d-block
+        %i.fas.fa-users-cog.fa-2x
+      %span.btn-inner--icon.d-block.pt-2 Users
+    %a.btn.btn-square.text-sm{:href => "/settings"}
+      %span.btn-inner--icon.d-block
+        %i.fas.fa-cogs.fa-2x
+      %span.btn-inner--icon.d-block.pt-2 Settings
+  / Misc area
+  .card.bg-gradient-warning
+    .card-body
+      %h5.text-white Hello, Friend!
+      %p.text-white.mb-4
+        Why not start using Purpose Application UI Kit and create something amazing today?
+      %a.btn.btn-sm.btn-block.btn-white.rounded-pill{:href => "https://themes.getbootstrap.com/product/purpose-application-ui-kit/", :target => "_blank"} Get started

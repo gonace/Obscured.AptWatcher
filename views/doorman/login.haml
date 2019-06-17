@@ -1,73 +1,42 @@
-.cover-wrapper
-  .cover-wrapper-inner.baseline
-    .cover-container
-      .cover-inner
-        %div.text-center.mt-5.mb-5
-          %h1 Obscured.AptWatcher
-          %p.lead
-            To proceed,
-            %code Doorman
-            kind of demands an identity, the identity is simply your email address.
-
-        .card.card-identity.mb-3
-          .card-mask#userMask
-            - if (defined? email) && !email.nil?
-              %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?s=200&d=https://ssl.gstatic.com/accounts/ui/avatar_2x.png"}
-            - else
-              %span
-
-          %form#formLogin.mt-4{:action => '/doorman/login', :method => 'POST'}
-            - if flash[:success]
-              %p.text-center.text-success= flash[:success]
-            - if flash[:error]
-              %p.text-center.text-danger= flash[:error]
-            - unless env['warden'].message.blank?
-              %p.text-center.text-danger= env['warden'].message
-
-            .form-group
-              %label.sr-only{:for => 'Email'} Enter your email
-              - if flash[:login_error]
-                %label.control-label.small= flash[:login_error]
-              - if flash[:email_error]
-                %label.control-label.small{:for => 'Email'}= flash[:email_error]
-              %input.form-control#Email{:autofocus => 'true', :name => 'user[login]', :placeholder => 'Enter your email', :type => 'email', :value => email, 'data-rule-required' => 'true'}
-
-            .form-group
-              %label.sr-only{:for => 'Password'} Enter your password
-              - if flash[:password_error]
-                %label.control-label.small{:for => 'Password'}= flash[:password_error]
-              %input.form-control#Password{:autofocus => 'true', :name => 'user[password]', :placeholder => 'Enter your password', :type => 'password', :value => '', 'data-rule-required' => 'true'}
-
-            .form-group
-              %label.custom-control.custom-checkbox
-                %input.custom-control-input{:type => 'checkbox', :name => 'user[remember_me]'}
-                %span.custom-control-indicator
-                %span.custom-control-description Remember me
-
-              %button.btn.btn-success.btn-block.mb-4{:type => 'submit'} Next
-              - if configuration.bitbucket.enabled
-                %a.btn.btn-block.btn-social.btn-bitbucket{:href => Obscured::Doorman::Providers::Bitbucket.config[:login_url]}
-                  %i.fab.fa-bitbucket
-                  Sign in with Bitbucket
-              - if configuration.github.enabled
-                %a.btn.btn-block.btn-social.btn-github{:href => Obscured::Doorman::Providers::GitHub.config[:login_url]}
-                  %i.fab.fa-github
-                  Sign in with GitHub
-
-      %div.text-center.mt-3
-        %p
-          %small
-            Or if you forgot your password, reset it by clicking
-            = succeed '!' do
-              %a{:href => '/doorman/forgot'} here
-:javascript
-  jQuery(document).ready(function() {
-    jQuery('#formLogin').validate();
-
-    jQuery('#Email').on('focusout', function(e) {
-      var wrapper = jQuery('#userMask'),
-          email = jQuery(e.target).val();
-
-      wrapper.html('<img src="//www.gravatar.com/avatar/' + md5(email) + '?s=200&amp;d=https://ssl.gstatic.com/accounts/ui/avatar_2x.png">')
-    });
-  });
+.min-vh-100.py-5.d-flex.align-items-center
+  .w-100
+    .row.justify-content-center
+      .col-sm-8.col-lg-4
+        .card.shadow.zindex-100.mb-0
+          .card-body.px-md-5.py-5
+            .mb-5
+              %h6.h3 Login
+              %p.text-muted.mb-0 Sign in to your account to continue.
+            %span.clearfix
+            %form{:action => '/doorman/login', :method => 'POST', :role => "form"}
+              = partial :'../shared/partials/error.generic'
+              .form-group
+                %label.form-control-label Email address
+                .input-group.input-group-merge
+                  .input-group-prepend
+                    %span.input-group-text
+                      %i.fas.fa-user
+                  %input#input-email.form-control{:placeholder => "name@example.com", :type => "email", :name => 'user[email]'}
+              .form-group.mb-4
+                .d-flex.align-items-center.justify-content-between
+                  %div
+                    %label.form-control-label Password
+                  .mb-2
+                    %a.small.text-muted.text-underline--dashed.border-primary{:href => "/doorman/forgot"} Lost password?
+                .input-group.input-group-merge
+                  .input-group-prepend
+                    %span.input-group-text
+                      %i.fas.fa-key
+                  %input#input-password.form-control{:placeholder => "Password", :type => "password", :name => 'user[password]'}
+                  .input-group-append
+                    %span.input-group-text
+                      %a{"data-target" => "#input-password", "data-toggle" => "password-text", :href => "#"}
+                        %i.fas.fa-eye
+              .mt-4
+                %button.btn.btn-sm.btn-primary.btn-icon.rounded-pill{:type => "submit"}
+                  %span.btn-inner--text Sign in
+                  %span.btn-inner--icon
+                    %i.fas.fa-long-arrow-alt-right
+          .card-footer.px-md-5
+            %small Not registered?
+            %a.small.font-weight-bold{:href => "/doorman/register"} Create account

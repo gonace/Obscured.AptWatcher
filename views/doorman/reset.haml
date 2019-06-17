@@ -1,62 +1,48 @@
-.cover-wrapper
-  .cover-wrapper-inner.baseline
-    .cover-container
-      .cover-inner
-        %div.text-center.mt-5.mb-5
-          %h1 Obscured.AptWatcher
-          %p.lead
-            To proceed,
-            %code Doorman
-            kind of demands you to decide a new password for your account.
-
-        .card.card-identity.mb-3
-          .card-mask#userMask
-            - if (defined? email) && !email.nil?
-              %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?s=200&d=https://ssl.gstatic.com/accounts/ui/avatar_2x.png"}
-            - else
-              %span
-
-          %form#formReset.mt-4{:action => '/doorman/reset', :method => 'POST'}
-            %input#Email{:name => 'user[email]', :type => 'hidden', :value => email}
-            %input#confirmToken{:name => 'user[confirm_token]', :type => 'hidden', :value => confirm_token}
-            - if flash[:success]
-              %p.text-center.text-success= flash[:success]
-            - if flash[:error]
-              %p.text-center.text-danger= flash[:error]
-
-            .form-group
-              %div#passwordStrength.mb-2
-            .form-group
-              %label.sr-only{:for => 'user[password]'} Enter new password
-              %input.form-control#Password{:autofocus => 'true', :name => 'user[password]', :placeholder => 'Enter new password', :type => 'password', 'data-rule-required' => 'true'}
-            .form-group
-              %label.sr-only{:for => 'user[password_confirmation]'} Confirm new password
-              %input.form-control#ConfirmPassword{:autofocus => 'true', :name => 'user[password_confirmation]', :placeholder => 'Confirm new password', :type => 'password', 'data-rule-required' => 'true'}
-
-            %button.btn.btn-success.btn-block{:type => 'submit'} Next
-
-:javascript
-  jQuery(document).ready(function() {
-    jQuery('#Email').on('focusout', function(e) {
-      var wrapper = jQuery('#userMask'),
-          email = jQuery(e.target).val();
-
-      wrapper.html('<img src="http://www.gravatar.com/avatar/' + md5(email) + '?s=200&amp;d=https://ssl.gstatic.com/accounts/ui/avatar_2x.png">')
-    });
-
-    jQuery('#formReset').validate({
-      rules: {
-        "user[password]": {
-          maxlength: 22,
-          minlength: 6
-        },
-        "user[password_confirmation]": {
-          maxlength: 22,
-          minlength: 6,
-          equalTo: "#Password"
-        }
-      }
-    });
-
-    Obscured.Password.Attach({username: '#userEmail', element: jQuery('#Password'), template: '#password-progress', wrapper: '#passwordStrength'});
-  });
+.min-vh-100.py-5.d-flex.align-items-center
+  .w-100
+    .row.justify-content-center
+      .col-sm-8.col-lg-5.col-xl-4
+        .card.shadow.zindex-100.mb-0
+          .card-body.px-md-5.py-5
+            .mb-5
+              %h6.h3 Password reset
+              %p.text-muted.mb-0 Enter your email below to proceed.
+              = partial :'../shared/partials/error.generic'
+            %span.clearfix
+            %form{:action => '/doorman/forgot', :method => 'POST', :role => "form"}
+              %input#Email{:name => 'user[email]', :type => 'hidden', :value => email}
+              %input#confirmToken{:name => 'user[confirm_token]', :type => 'hidden', :value => confirm_token}
+              .form-group.mb-4
+                .d-flex.align-items-center.justify-content-between
+                  %div
+                    %label.form-control-label Password
+                .input-group.input-group-merge
+                  .input-group-prepend
+                    %span.input-group-text
+                      %i.fas.fa-key
+                  %input#input-password.form-control{:placeholder => "Password", :type => "password", :name => 'user[password]'}
+                  .input-group-append
+                    %span.input-group-text
+                      %a{"data-target" => "#input-password", "data-toggle" => "password-text", :href => "#"}
+                        %i.fas.fa-eye
+              .form-group.mb-4
+                .d-flex.align-items-center.justify-content-between
+                  %div
+                    %label.form-control-label Confirmation
+                .input-group.input-group-merge
+                  .input-group-prepend
+                    %span.input-group-text
+                      %i.fas.fa-key
+                  %input#input-confirmation.form-control{:placeholder => "Password", :type => "password", :name => 'user[password_confirmation]'}
+                  .input-group-append
+                    %span.input-group-text
+                      %a{"data-target" => "#input-confirmation", "data-toggle" => "password-text", :href => "#"}
+                        %i.fas.fa-eye
+              .mt-4
+                %button.btn.btn-sm.btn-primary.btn-icon.rounded-pill{:type => "submit"}
+                  %span.btn-inner--text Reset password
+                  %span.btn-inner--icon
+                    %i.fas.fa-long-arrow-alt-right
+          .card-footer.px-md-5
+            %small Not registered?
+            %a.small.font-weight-bold{:href => "/doorman/register"} Create account
