@@ -3,7 +3,7 @@
 .sass-cache/
 .bundle/
 .idea/
-.envcss
+.env
 assets/_source
 assets/_source/
 assets/_source/*
