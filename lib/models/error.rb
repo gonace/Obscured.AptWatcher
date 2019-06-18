@@ -13,8 +13,6 @@ module Obscured
         field :status,                type: String, :default => Obscured::Status::OPEN
         field :type,                  type: String, :default => Obscured::Alert::Type::SYSTEM
 
-        before_save :validate!
-
 
         def self.make(opts)
           raise Obscured::DomainError.new(:required_field_missing, what: ':notifier') if opts[:notifier].empty?

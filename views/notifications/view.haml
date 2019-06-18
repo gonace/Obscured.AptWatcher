@@ -3,19 +3,6 @@
     %h6.dashhead-subtitle Notifications
     %h2.dashhead-title= alert.message
 
-- if flash[:save_ok]
-  .alert.alert-success.mt-2
-    %strong Well done!
-    = flash[:save_ok]
-- if flash[:save_warning]
-  .alert.alert-warning.mt-2
-    %strong Warning!
-    = flash[:save_warning]
-- if flash[:save_error]
-  .alert.alert-danger.mt-2
-    %strong Oh snap!
-    = flash[:save_error]
-
 .hr-divider.my-2
   %h3.hr-divider-content.hr-divider-heading Properties
 .row

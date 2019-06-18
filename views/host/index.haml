@@ -1,6 +1,4 @@
-/ Page content
 .page-content
-  / Team selection modal
   #modal-users.modal.fade{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
     .modal-dialog.modal-lg.modal-dialog-centered{:role => "document"}
       .modal-content
@@ -10,14 +8,13 @@
           %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
             %span{"aria-hidden" => "true"} ×
         .modal-body
-          / Connections
           .row
             .col-6.col-md-3
               .card
                 .card-body.text-center
                   .avatar-parent-child
                     %a.avatar.avatar-lg.rounded-circle{:href => "#"}
-                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-1-800x800.jpg"}/
+                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-1-800x800.jpg"}
                     %span.avatar-child.avatar-badge.bg-success
                   %h6.text-sm.my-3 John Sullivan
                   %button.btn.btn-xs.btn-secondary{:type => "button"} Add
@@ -26,7 +23,7 @@
                 .card-body.text-center
                   .avatar-parent-child
                     %a.avatar.avatar-lg.rounded-circle{:href => "#"}
-                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-2-800x800.jpg"}/
+                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-2-800x800.jpg"}
                     %span.avatar-child.avatar-badge.bg-warning
                   %h6.text-sm.my-3 Heather Wright
                   %button.btn.btn-xs.btn-secondary{:type => "button"} Add
@@ -35,7 +32,7 @@
                 .card-body.text-center
                   .avatar-parent-child
                     %a.avatar.avatar-lg.rounded-circle{:href => "#"}
-                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-3-800x800.jpg"}/
+                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-3-800x800.jpg"}
                     %span.avatar-child.avatar-badge.bg-danger
                   %h6.text-sm.my-3 James Lewis
                   %button.btn.btn-xs.btn-secondary{:type => "button"} Add
@@ -44,7 +41,7 @@
                 .card-body.text-center
                   .avatar-parent-child
                     %a.avatar.avatar-lg.rounded-circle{:href => "#"}
-                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-4-800x800.jpg"}/
+                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-4-800x800.jpg"}
                     %span.avatar-child.avatar-badge.bg-success
                   %h6.text-sm.my-3 Martin Gray
                   %button.btn.btn-xs.btn-secondary{:type => "button"} Add
@@ -53,7 +50,7 @@
                 .card-body.text-center
                   .avatar-parent-child
                     %a.avatar.avatar-lg.rounded-circle{:href => "#"}
-                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-5-800x800.jpg"}/
+                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-5-800x800.jpg"}
                     %span.avatar-child.avatar-badge.bg-success
                   %h6.text-sm.my-3 John Snow
                   %button.btn.btn-xs.btn-secondary{:type => "button"} Add
@@ -62,7 +59,7 @@
                 .card-body.text-center
                   .avatar-parent-child
                     %a.avatar.avatar-lg.rounded-circle{:href => "#"}
-                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-6-800x800.jpg"}/
+                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-6-800x800.jpg"}
                     %span.avatar-child.avatar-badge.bg-success
                   %h6.text-sm.my-3 John Michael
                   %button.btn.btn-xs.btn-secondary{:type => "button"} Add
@@ -71,7 +68,7 @@
                 .card-body.text-center
                   .avatar-parent-child
                     %a.avatar.avatar-lg.rounded-circle{:href => "#"}
-                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-7-800x800.jpg"}/
+                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-7-800x800.jpg"}
                     %span.avatar-child.avatar-badge.bg-warning
                   %h6.text-sm.my-3 Monroe Parker
                   %button.btn.btn-xs.btn-secondary{:type => "button"} Add
@@ -80,26 +77,23 @@
                 .card-body.text-center
                   .avatar-parent-child
                     %a.avatar.avatar-lg.rounded-circle{:href => "#"}
-                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-8-800x800.jpg"}/
+                      %img{:alt => "Image placeholder", :src => "../../assets/img/theme/light/team-8-800x800.jpg"}
                     %span.avatar-child.avatar-badge.bg-danger
                   %h6.text-sm.my-3 Danielle Levin
                   %button.btn.btn-xs.btn-secondary{:type => "button"} Add
-  / Page title
   .page-title
     .row.justify-content-between.align-items-center
       .col-md-6.d-flex.align-items-center.justify-content-between.justify-content-md-start.mb-3.mb-md-0
-        / Page title + Go Back button
         .d-inline-block
           %h5.h4.d-inline-block.font-weight-400.mb-0.text-white Application UI Design
-        / Additional info
       .col-md-6.d-flex.align-items-center.justify-content-between.justify-content-md-end
         .avatar-group
           %a.avatar.rounded-circle.avatar-sm{:href => "#"}
-            %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}?d=https://img07.deviantart.net/3722/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png"}
+            %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}"}
           %a.avatar.rounded-circle.avatar-sm{:href => "#"}
-            %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}?d=https://img07.deviantart.net/3722/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png"}
+            %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}"}
           %a.avatar.rounded-circle.avatar-sm{:href => "#"}
-            %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}?d=https://img07.deviantart.net/3722/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png"}
+            %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}"}
         %a.btn.btn-sm.btn-white.rounded-circle.btn-icon-only.ml-2{"data-toggle" => "modal", :href => "#modal-users"}
           %span.btn-inner--icon
             %i.fa.fa-user-plus

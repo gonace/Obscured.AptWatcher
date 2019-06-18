@@ -22,10 +22,7 @@ module Obscured
         class << self
           def make(opts)
             raise Obscured::DomainError.new(:required_field_missing, what: ':hostname') if opts[:hostname].empty?
-
-            if Host.where(:hostname => opts[:hostname]).exists?
-              raise Obscured::DomainError.new(:already_exists, what: 'host')
-            end
+            raise Obscured::DomainError.new(:already_exists, what: 'host') if Host.where(:hostname => opts[:hostname]).exists?
 
             doc = self.new
             doc.hostname = opts[:hostname]

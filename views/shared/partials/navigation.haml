@@ -1,9 +1,7 @@
 %nav#navbar-main.navbar.navbar-main.navbar-expand-lg.navbar-dark.bg-primary.navbar-border
   .container-fluid
-    / Brand + Toggler (for mobile devices)
     %button.navbar-toggler{"aria-controls" => "navbar-main-collapse", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbar-main-collapse", "data-toggle" => "collapse", :type => "button"}
       %span.navbar-toggler-icon
-    / User's navbar
     .navbar-user.d-lg-none.ml-auto
       %ul.navbar-nav.flex-row.align-items-center
         %li.nav-item
@@ -74,7 +72,7 @@
         %li.nav-item.dropdown.dropdown-animate
           %a.nav-link.pr-lg-0{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
             %span.avatar.avatar-sm.rounded-circle
-              %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}?d=https://img07.deviantart.net/3722/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png"}
+              %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}"}
           .dropdown-menu.dropdown-menu-sm.dropdown-menu-right.dropdown-menu-arrow
             %h6.dropdown-header.px-0 Hi, Heather!
             %a.dropdown-item{:href => "../application/user/profile.html"}
@@ -94,46 +92,80 @@
               %i.fas.fa-sign-out-alt
               %span Logout
 
-    / Navbar nav
     #navbar-main-collapse.collapse.navbar-collapse.navbar-collapse-fade
       %ul.navbar-nav.align-items-lg-center
-        / Overview
         %li.nav-item.d-lg-none
           %a.nav-link{:href => "../index.html"}
             Overview
         %li.border-top.opacity-2.my-2
-        / Home
         %li.nav-item
           %a.nav-link.pl-lg-0{:href => "/"}
             Home
-        / Application menu
         %li.nav-item.dropdown.dropdown-animate{"data-toggle" => "hover"}
-          %a.nav-link{:href => "/hosts"}
+          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
             Hosts
+          .dropdown-menu.dropdown-menu-arrow.p-lg-0
+            .p-lg-4
+              %a.dropdown-item{:href => "/host/list"} List
+              .dropdown.dropdown-animate.dropdown-submenu{"data-toggle" => "hover"}
+                %a.dropdown-item.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+                  Project
+                .dropdown-menu
+                  %a.dropdown-item{:href => "../../application/project/card-listing.html"}
+                    Card listing
+                  %a.dropdown-item{:href => "../../application/project/table-listing.html"}
+                    Table listing
+                  %a.dropdown-item{:href => "../../application/project/overview.html"}
+                    Overview
+                  %a.dropdown-item{:href => "../../application/project/create-new.html"}
+                    Create new
+              .dropdown.dropdown-animate.dropdown-submenu{"data-toggle" => "hover"}
+                %a.dropdown-item.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+                  Task
+                .dropdown-menu
+                  %a.dropdown-item{:href => "../../application/task/table-listing.html"}
+                    Table listing
+                  %a.dropdown-item{:href => "../../application/task/kanban-board.html"}
+                    Kanban board
+                  %a.dropdown-item{:href => "../../application/task/create-new.html"}
+                    Create new
+              .dropdown.dropdown-animate.dropdown-submenu{"data-toggle" => "hover"}
+                %a.dropdown-item.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+                  User
+                .dropdown-menu
+                  %a.dropdown-item{:href => "../../application/user/card-listing.html"}
+                    Card listing
+                  %a.dropdown-item{:href => "../../application/user/table-listing.html"}
+                    Table listing
+                  %a.dropdown-item{:href => "../../application/user/profile.html"}
+                    Profile
+            .dropdown-menu-links.rounded-bottom.delimiter-top.p-lg-4
+              .row
+                .col-sm-6
+                  %a.dropdown-item{:href => "/gateway"} Gateways
+                .col-sm-6
+                  %a.dropdown-item{:href => "/timeline"} Timelines
         %li.nav-item
           %a.nav-link{:href => "/insights"}
             Insights
         %li.nav-item.dropdown.dropdown-animate{"data-toggle" => "hover"}
-          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"} Docs
+          %a.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+            Documentation
           .dropdown-menu.dropdown-menu-right.dropdown-menu-lg.dropdown-menu-arrow.p-0
             %ul.list-group.list-group-flush
               %li
                 %a.list-group-item.list-group-item-action{:href => "../docs/index.html", :role => "button"}
                   .media.d-flex.align-items-center
-                    / SVG icon
                     %figure{:style => "width: 50px;"}
-                      %img.svg-inject.img-fluid{:alt => "Image placeholder", :src => "/img/icons/essential/detailed/DOC_File.svg", :style => "height: 50px;"}/
-                    / Media body
+                      %img.svg-inject.img-fluid{:alt => "Image placeholder", :src => "/img/icons/essential/detailed/DOC_File.svg", :style => "height: 50px;"}
                     .media-body.ml-3
                       %h6.mb-1 Documentation
                       %p.mb-0 Awesome section examples for any scenario.
               %li
                 %a.list-group-item.list-group-item-action{:href => "../docs/components/index.html", :role => "button"}
                   .media.d-flex.align-items-center
-                    / SVG icon
                     %figure{:style => "width: 50px;"}
                       %img.svg-inject.img-fluid{:alt => "Image placeholder", :src => "/img/icons/essential/detailed/Mobile_UI.svg", :style => "height: 50px;"}/
-                    / Media body
                     .media-body.ml-3
                       %h6.mb-1 Components
                       %p.mb-0 Awesome section examples for any scenario.
@@ -149,7 +181,6 @@
                   %a.dropdown-item{:href => "../docs/components/index.html"} Components
                   %a.dropdown-item{:href => "../docs/plugins/animate.html"} Plugins
                   %a.dropdown-item{:href => "../docs/support.html"} Support
-      / Right menu
       %ul.navbar-nav.ml-lg-auto.align-items-center.d-none.d-lg-flex
         %li.nav-item
           %a.nav-link.nav-link-icon.sidenav-toggler{"data-action" => "sidenav-pin", "data-target" => "#sidenav-main", :href => "#"}
@@ -223,7 +254,7 @@
           %a.nav-link.pr-lg-0{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
             .media.media-pill.align-items-center
               %span.avatar.rounded-circle
-                %img{:alt => "", :src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}?d=https://img07.deviantart.net/3722/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png"}
+                %img{:alt => "", :src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}"}
               .ml-2.d-none.d-lg-block
                 %span.mb-0.text-sm.font-weight-bold= user.name
           .dropdown-menu.dropdown-menu-sm.dropdown-menu-right.dropdown-menu-arrow
@@ -231,9 +262,6 @@
             %a.dropdown-item{:href => "/me/profile"}
               %i.fas.fa-user
               %span My profile
-            %a.dropdown-item{:href => "/me/settings"}
-              %i.fas.fa-cog
-              %span Settings
             .dropdown-divider
             %a.dropdown-item{:href => "/doorman/logout"}
               %i.fas.fa-sign-out-alt

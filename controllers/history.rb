@@ -11,7 +11,7 @@ module Obscured
           begin
             limit = params[:limit] ? Integer(params[:limit]) : 30
             scans = Obscured::AptWatcher::Models::Scan.order_by(:created_at.desc).limit(limit)
-            pagination_scans = Obscured::AptWatcher::Helpers::Pagination.new(scans, Obscured::AptWatcher::Models::Scan.order_by(:created_at.desc).count)
+            pagination_scans = Obscured::AptWatcher::Pagination.new(scans, Obscured::AptWatcher::Models::Scan.order_by(:created_at.desc).count)
 
             haml :index, :locals => { :scans => pagination_scans }
           rescue => e
@@ -35,7 +35,7 @@ module Obscured
             skip = (limit*page)-limit
 
             scans = Obscured::AptWatcher::Models::Scan.order_by(:created_at.desc).skip(skip).limit(limit)
-            pagination_scans = Obscured::AptWatcher::Helpers::Pagination.new(scans, Obscured::AptWatcher::Models::Scan.order_by(:created_at.desc).count, page)
+            pagination_scans = Obscured::AptWatcher::Pagination.new(scans, Obscured::AptWatcher::Models::Scan.order_by(:created_at.desc).count, page)
 
             partial :'partials/list', :locals => {:id => 'scans', :url => '/history', :scans => pagination_scans}
           rescue => e

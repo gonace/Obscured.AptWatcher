@@ -5,15 +5,6 @@
       = host.hostname
       = partial :'partials/state', :locals => {:host => host}
 
-- if flash[:save_ok]
-  .alert.alert-success.mt-2
-    %strong Well done!
-    = flash[:save_ok]
-- if flash[:save_error]
-  .alert.alert-danger.mt-2
-    %strong Oh snap!
-    = flash[:save_error]
-
 %form{:action => "/host/#{host.id}/edit", :method => 'post'}
   .hr-divider.my-4
     %h3.hr-divider-content.hr-divider-heading Basics

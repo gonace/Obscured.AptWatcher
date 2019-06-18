@@ -1,0 +1,34 @@
+#modal-user-create.modal.fade{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered{:role => "document"}
+    .modal-content
+      .modal-body
+        .form-group
+          %label.form-control-label
+            Email
+          %small.form-text.text-muted.mb-2.mt-0
+            This will be the username that the user will be using to sign in.
+          %input.form-control{:type => "email", :name => "email"}
+        .form-group
+          .row
+            .col-6
+              %label.form-control-label.mb-0
+                First Name
+              %input.form-control{:type => "text", :name => "first_name"}
+            .col-6
+              %label.form-control-label.mb-0
+                Last Name
+              %input.form-control{:type => "text", :name => "last_name"}
+        .form-group
+          .d-flex.align-items-center.justify-content-between
+            %label.form-control-label Password
+          .input-group.input-group-merge
+            .input-group-prepend
+              %span.input-group-text
+                %i.fas.fa-key
+            %input#input-password.form-control{:placeholder => "Password", :type => "password", :name => 'user[password]'}
+            .input-group-append
+              %span.input-group-text
+                %a{"data-target" => "#input-password", "data-toggle" => "password-text", :href => "#"}
+                  %i.fas.fa-eye
+      .modal-footer
+        %button.btn.btn-sm.btn-primary.rounded-pill.mr-auto{"data-dismiss" => "modal", :type => "submit"} Save

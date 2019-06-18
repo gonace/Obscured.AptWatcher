@@ -1,0 +1,44 @@
+.card
+  .card-header
+    .d-flex.justify-content-between.align-items-center
+      %div
+        %h6.mb-0 Timeline
+      .text-right
+        .actions
+          %a.action-item{:href => "#"}
+            %i.fa.fa-sync
+          .dropdown.action-item{"data-toggle" => "dropdown"}
+            %a.action-item{:href => "#"}
+              %i.fa.fa-ellipsis-h
+            .dropdown-menu.dropdown-menu-right
+              %a.dropdown-item{:href => "#"} Refresh
+              %a.dropdown-item{:href => "#"} Manage Widgets
+              %a.dropdown-item{:href => "#"} Settings
+  .card-body
+    .timeline.timeline-one-side{"data-timeline-axis-style" => "dashed", "data-timeline-content" => "axis"}
+      .timeline-block
+        %span.timeline-step.timeline-step-sm.bg-primary.border-primary.text-white 1
+        .timeline-content
+          %span.text-muted.text-sm Email changed
+          %a.d-block.h6.text-sm.mb-0{:href => "#"} Email changed to "erik.hennerfors@obscured.se"
+          %small
+            %i.far.fa-clock.mr-1>
+            45 min ago
+      .timeline-block
+        %span.timeline-step.timeline-step-sm.bg-warning.border-warning.text-white 2
+        .timeline-content
+          %span.text-muted.text-sm Password changed
+          %a.d-block.h6.text-sm.mb-0{:href => "#"} Password where successfully changed.
+          %small
+            %i.far.fa-clock.mr-1>
+            45 min ago
+      .timeline-block
+        %span.timeline-step.timeline-step-sm.bg-info.border-info.text-white 3
+        .timeline-content
+          %span.text-muted.text-sm Account created
+          %a.d-block.h6.text-sm.mb-0{:href => "#"} Account created 2019-06-16 at 16:02 CEST.
+          %small
+            %i.far.fa-clock.mr-1>
+            45 min ago
+  .card-footer.py-2.text-center
+    %a.text-sm.text-muted.font-weight-bold{:href => "#"} See all events

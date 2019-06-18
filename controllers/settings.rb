@@ -11,6 +11,57 @@ module Obscured
           haml :index, :locals => { :config => configuration }
         end
 
+        get '/authentication' do
+          authorize!
+
+          begin
+
+            haml :authentication, :locals => {
+            }
+          rescue => e
+            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Raygun.track_exception(e)
+
+            flash[:error] = e.message
+            redirect '/'
+          end
+        end
+
+        get '/plugins' do
+          authorize!
+
+          begin
+            plugins = Obscured::AptWatcher::Plugins.all.sort_by(&:signature)
+
+            haml :plugins, :locals => {
+              :plugins => plugins
+            }
+          rescue => e
+            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Raygun.track_exception(e)
+
+            flash[:error] = e.message
+            redirect '/'
+          end
+        end
+
+        get '/managers' do
+          authorize!
+
+          begin
+            managers = Obscured::AptWatcher::Managers.all.sort_by(&:signature)
+
+            haml :managers, :locals => {
+              :managers => managers
+            }
+          rescue => e
+            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Raygun.track_exception(e)
+
+            flash[:error] = e.message
+            redirect '/'
+          end
+        end
 
         post '/enable/registration', '/disable/registration' do
           authenticated?

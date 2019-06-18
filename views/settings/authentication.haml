@@ -1,0 +1,43 @@
+.page-content
+  .page-title
+    .row.justify-content-between.align-items-center
+      .col-md-6.d-flex.align-items-center.justify-content-between.justify-content-md-start.mb-3.mb-md-0
+        .d-inline-block
+          %h5.h4.d-inline-block.font-weight-400.mb-0.text-white Authentication
+      .col-md-6.d-flex.align-items-center.justify-content-between.justify-content-md-end
+  .row
+    .col-lg-4.order-lg-2
+      = partial :'partials/navigation', :locals => {:active => 'authentication'}
+
+    .col-lg-8.order-lg-1
+      - Obscured::AptWatcher::Plugins.all.select{|p| p.category == 'Authentication' && p.installed?}.each do |plugin|
+        .card
+          .card-header
+            %h5.h6.mb-0= plugin.name
+          .list-group.list-group-flush
+            .list-group-item.d-flex.w-100.justify-content-between
+              %div
+                %h6.mb-1 Enabled?
+                %span.text-sm.text-muted You will receive an alert when one of your favorite products has a discount price.
+              %div
+                .custom-control.custom-switch
+                  %input.custom-control-input{:id => plugin.signature, :type => "checkbox"}
+                  %label.custom-control-label{:for => plugin.signature}
+          .card-body
+            %form{:action => "/plugin/#{plugin.signature}/edit", :method => 'post'}
+              .row.mt-3
+                .col-md-6
+                  .form-group
+                    %label.form-control-label Key
+                    %input.form-control{:placeholder => "Key", :type => "text", :name => "key"}
+                .col-md-6
+                  .form-group
+                    %label.form-control-label Secret
+                    %input.form-control{:placeholder => "Secret", :type => "text", :name => "secret"}
+              .row
+                .col-md-12
+                  .form-group
+                    %label.form-control-label Domains
+                    %input.form-control{"data-toggle" => "tags", :placeholder => "Type here...", :type => "text", :name => "domains"}
+              .text-right
+                %button.btn.btn-sm.btn-primary.rounded-pill{:type => "submit"} Save

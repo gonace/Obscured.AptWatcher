@@ -1,0 +1,78 @@
+.page-content
+  .page-title
+    .row.justify-content-between.align-items-center
+      .col-md-6.d-flex.align-items-center.justify-content-between.justify-content-md-start.mb-3.mb-md-0
+        .d-inline-block
+          %h5.h4.d-inline-block.font-weight-400.mb-0.text-white Notifications
+      .col-md-6.d-flex.align-items-center.justify-content-between.justify-content-md-end
+  .row
+    .col-lg-4.order-lg-2
+      = partial :'partials/navigation', :locals => {:active => 'notifications'}
+      = partial :'partials/timeline'
+
+    .col-lg-8.order-lg-1
+      .card
+        .card-header
+          %h5.h6.mb-0 Shop notifications
+        .list-group.list-group-flush
+          .list-group-item.d-flex.w-100.justify-content-between
+            %div
+              %h6.mb-1 A product from wishlist is on sale
+              %span.text-sm.text-muted You will receive an alert when one of your favorite products has a discount price.
+            %div
+              .custom-control.custom-switch
+                %input#shop-notification-1.custom-control-input{:checked => "checked", :type => "checkbox"}
+                %label.custom-control-label{:for => "shop-notification-1"}
+          .list-group-item.d-flex.w-100.justify-content-between
+            %div
+              %h6.mb-1 A new product is released
+              %span.text-sm.text-muted You will receive an alert when one of your favorite products has a discount price.
+            %div
+              .custom-control.custom-switch
+                %input#shop-notification-2.custom-control-input{:type => "checkbox"}
+                %label.custom-control-label{:for => "shop-notification-2"}
+          .list-group-item.d-flex.w-100.justify-content-between
+            %div
+              %h6.mb-1 New promotions are available
+              %span.text-sm.text-muted You will receive an alert when one of your favorite products has a discount price.
+            %div
+              .custom-control.custom-switch
+                %input#shop-notification-3.custom-control-input{:checked => "checked", :type => "checkbox"}
+                %label.custom-control-label{:for => "shop-notification-3"}
+      .mt-5
+        .card
+          .card-header
+            %h5.h6.mb-0 Billing notifications
+          .list-group.list-group-flush
+            .list-group-item.d-flex.w-100.justify-content-between
+              %div
+                %h6.mb-1 Insufficient funds on credit card
+                %span.text-sm.text-muted You will receive an alert when one of your favorite products has a discount price.
+              %div
+                .custom-control.custom-switch
+                  %input#card-notification-1.custom-control-input{:type => "checkbox"}
+                  %label.custom-control-label{:for => "card-notification-1"}
+            .list-group-item.d-flex.w-100.justify-content-between
+              %div
+                %h6.mb-1 Send monthly invoices via email
+                %span.text-sm.text-muted You will receive an alert when one of your favorite products has a discount price.
+              %div
+                .custom-control.custom-switch
+                  %input#card-notification-2.custom-control-input{:checked => "checked", :type => "checkbox"}
+                  %label.custom-control-label{:for => "card-notification-2"}
+            .list-group-item.d-flex.w-100.justify-content-between
+              %div
+                %h6.mb-1 You balance is almost 0
+                %span.text-sm.text-muted You will receive an alert when one of your favorite products has a discount price.
+              %div
+                .custom-control.custom-switch
+                  %input#card-notification-3.custom-control-input{:type => "checkbox"}
+                  %label.custom-control-label{:for => "card-notification-3"}
+            .list-group-item.d-flex.w-100.justify-content-between
+              %div
+                %h6.mb-1 Expired cred card
+                %span.text-sm.text-muted You will receive an alert when one of your favorite products has a discount price.
+              %div
+                .custom-control.custom-switch
+                  %input#card-notification-4.custom-control-input{:checked => "checked", :type => "checkbox"}
+                  %label.custom-control-label{:for => "card-notification-4"}

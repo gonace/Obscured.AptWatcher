@@ -46,8 +46,8 @@ clients: {
 })
 
 # pull in the models, modules, helpers and controllers
-Dir.glob('./lib/{alert,common,entities,helpers,package,sinatra}/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/*.rb').sort.each(&method(:require))
+Dir.glob('./lib/{alert,common,entities,helpers,managers,package,plugins,sinatra}/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/modules/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/models/embedded/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/models/*.rb').sort.each(&method(:require))
@@ -130,6 +130,10 @@ map '/errors' do
   run Obscured::AptWatcher::Controllers::Errors
 end
 
+map '/gateway' do
+  run Obscured::AptWatcher::Controllers::Gateway
+end
+
 map '/history' do
   run Obscured::AptWatcher::Controllers::History
 end
@@ -138,8 +142,8 @@ map '/host' do
   run Obscured::AptWatcher::Controllers::Host
 end
 
-map '/hosts' do
-  run Obscured::AptWatcher::Controllers::Hosts
+map '/manager' do
+  run Obscured::AptWatcher::Controllers::Manager
 end
 
 map '/me' do
@@ -148,6 +152,10 @@ end
 
 map '/notifications' do
   run Obscured::AptWatcher::Controllers::Notifications
+end
+
+map '/plugin' do
+  run Obscured::AptWatcher::Controllers::Plugin
 end
 
 map '/scan' do

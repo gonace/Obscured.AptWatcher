@@ -7,16 +7,16 @@
     %meta{:content => '', :name => 'keywords'}
     %meta{:content => '', :name => 'author'}
 
-    %title= 'Hosts (Obscured.AptWatcher)'
+    %title= 'Gateway (Obscured.AptWatcher)'
     = partial :'../shared/partials/styles'
     = partial :'../shared/partials/scripts.head'
 
   %body.application.application-offset
     .container-fluid.container-application
       = partial :'../shared/partials/chat'
-      = partial :'../shared/partials/sidebar'
+      = partial :'../shared/partials/sidebar', :locals => {:active => 'host'}
       .main-content.position-relative
         = partial :'../shared/partials/navigation', :locals => {:active => 'home'}
-        = partial :'../shared/partials/error.generic'
+        = partial :'../shared/partials/alerts'
         = yield
         = partial :'../shared/footer'

@@ -1,0 +1,11 @@
+spec:
+  options:
+    raise_not_found_error: false
+  clients:
+    default:
+      database: aptwatcher_testing
+      hosts:
+      - localhost:27017
+      options:
+        max_pool_size: 50
+        min_pool_size: 5

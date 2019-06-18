@@ -1,0 +1,20 @@
+.card
+  .list-group.list-group-flush
+    .list-group-item{:class => ((defined? active) && active === 'settings') ? 'active' : ''}
+      .media
+        %i.far.fa-user
+        .media-body.ml-3
+          %a.stretched-link.h6.mb-1{:href => "/me/profile"} Settings
+          %p.mb-0.text-sm Details about your personal information
+    .list-group-item{:class => ((defined? active) && active === 'password') ? 'active' : ''}
+      .media
+        %i.fas.fa-fingerprint
+        .media-body.ml-3
+          %a.stretched-link.h6.mb-1{:href => "/me/password"} Password
+          %p.mb-0.text-sm Faster checkout with saved addresses
+    .list-group-item{:class => ((defined? active) && active === 'notifications') ? 'active' : ''}
+      .media
+        %i.far.fa-bell
+        .media-body.ml-3
+          %a.stretched-link.h6.mb-1{:href => "/me/notifications"} Notifications
+          %p.mb-0.text-sm Choose what notification you will receive

@@ -4,5 +4,6 @@
 .bundle/
 .idea/
 .envcss
-.assets/_source/
-.assets/_source/*
+assets/_source
+assets/_source/
+assets/_source/*

@@ -1,0 +1,53 @@
+.page-content
+  .page-title
+    .row.justify-content-between.align-items-center
+      .col-md-6.d-flex.align-items-center.justify-content-between.justify-content-md-start.mb-3.mb-md-0
+        .d-inline-block
+          %h5.h4.d-inline-block.font-weight-400.mb-0.text-white Plugins
+      .col-md-6.d-flex.align-items-center.justify-content-between.justify-content-md-end
+  .row
+    .col-lg-4.order-lg-2
+      = partial :'partials/navigation', :locals => {:active => 'integrations'}
+
+    .col-lg-8.order-lg-1
+      .row
+        - plugins.each do |plugin|
+          .col-xl-4.col-lg-4.col-sm-6
+            .card.hover-shadow-lg
+              .card-header.border-0.pb-0
+                .d-flex.justify-content-between.align-items-center
+                  %div
+                    %h6.mb-0= plugin.version
+                  .text-right
+                    .actions
+                      .dropdown.action-item{"aria-expanded" => "false", "data-toggle" => "dropdown"}
+                        %a.action-item{:href => "#"}
+                          %i.fa.fa-ellipsis-h
+                        .dropdown-menu.dropdown-menu-right{:style => "position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(30px, 23px, 0px);", "x-placement" => "bottom-end"}
+                          - if plugin.installed?
+                            %a.dropdown-item{"data-toggle" => "modal", :href => "#modal-manager-uninstall", :type => "button"} Uninstall
+                          - else
+                            %a.dropdown-item{"data-toggle" => "modal", :href => "#modal-manager-install", :type => "button"} Install
+                          %a.dropdown-item{:href => "#"} Settings
+              .card-body.text-center
+                %a.avatar.rounded-circle.avatar-lg.hover-translate-y-n3{:href => "#"}
+                  %img{:src => "/img/brand/#{plugin.signature}.png"}
+                %h5.h6.mt-4.mb-0
+                  %a{:href => "#"}= plugin.name
+                %span.d-block.text-sm.text-muted.mb-3= plugin.category
+                %span.clearfix
+                - if plugin.installed?
+                  %span.badge.badge-pill.badge-success Installed
+                - else
+                  %span.badge.badge-pill.badge-info Available
+              .card-footer
+                .actions.d-flex.justify-content-between.px-4
+                  %a.action-item{:href => "#"}
+                    %i.fa.fa-cog
+                  %a.action-item{"data-toggle" => "modal", :href => "#modal-#{plugin.signature}-install", :type => "button"}
+                    %i.fa.fa-download
+                  %a.action-item.text-danger{"data-target" => "#modal-plugin-uninstall", "data-toggle" => "modal", :type => "button"}
+                    %i.fa.fa-trash
+          = partial :'/partials/plugins/install', :locals => {:id => "modal-#{plugin.signature}-install", :plugin => plugin}
+
+= partial :'../shared/partials/modals/delete', :locals => {:id => 'modal-plugin-uninstall', :model => { :button => 'Uninstall the plugin', :confirmation => 'UNINSTALL', :header => 'Should we stop now?', :message => 'The plugin will be uninstalled but all data will remain, you can later install the plugin and continue where it left off.' }}

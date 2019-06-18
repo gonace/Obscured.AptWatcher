@@ -16,7 +16,7 @@
       = partial :'../shared/partials/chat'
       = partial :'../shared/partials/sidebar'
       .main-content.position-relative
-        = partial :'../shared/partials/navigation', :locals => {:active => 'home'}
-        = partial :'../shared/partials/error.generic'
+        = partial :'../shared/partials/navigation'
+        = partial :'../shared/partials/alerts'
         = yield
         = partial :'../shared/footer'

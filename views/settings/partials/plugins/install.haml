@@ -1,0 +1,42 @@
+.modal.fade{"aria-hidden" => "true", :id => id, :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered{:role => "document"}
+    .modal-content
+      .modal-header= plugin.name
+      - if plugin.config.key?(:enabled)
+        .list-group.list-group-flush
+          .list-group-item.d-flex.w-100.justify-content-between
+            %div
+              %h6.mb-1 Enabled?
+              %span.text-sm.text-muted If this is set to true the plugin will be enabled upon creation.
+            %div
+              .custom-control.custom-switch
+                - if plugin.config[:enabled][:value] == true
+                  %input.custom-control-input{:id => plugin.signature, :type => "checkbox", :checked => "checked"}
+                - else
+                  %input.custom-control-input{:id => plugin.signature, :type => "checkbox"}
+                %label.custom-control-label{:for => plugin.signature}
+      - if plugin.config.except(:enabled).any?
+        .modal-body
+          - plugin.config.except(:enabled).each do |key, value|
+            .row
+              .col-12
+                - if value[:type] == "text"
+                  .form-group
+                    %label.form-control-label.mb-0= key.capitalize
+                    %input.form-control{:name => key, :placeholder => value[:placeholder], :type => value[:type], :value => value[:value]}
+                - elsif value[:type] == "password"
+                  .form-group
+                    .d-flex.align-items-center.justify-content-between
+                      %label.form-control-label.mb-0= key.capitalize
+                    .input-group.input-group-merge
+                      %input.form-control{:id => "input-#{plugin.signature}-#{key}", :name => key, :placeholder => value[:placeholder], :type => value[:type], :value => value[:value]}
+                      .input-group-append
+                        %span.input-group-text
+                          %a{"data-target" => "#input-#{plugin.signature}-#{key}", "data-toggle" => "password-text", :href => "#"}
+                            %i.fas.fa-eye
+                - elsif value[:type] == "tags"
+                  .form-group.mb-0
+                    %label.form-control-label.mb-0= key.capitalize
+                    %input.form-control{"data-toggle" => "tags", :placeholder => "Type here...", :type => "text", :value => value[:value]}
+      .modal-footer
+        %button.btn.btn-sm.btn-success.rounded-pill.mr-auto{:type => "submit"} Install

@@ -10,7 +10,7 @@
             %span.clearfix
             %form{:action => '/setup/define', :method => 'POST', :role => "form"}
               %input{:type => 'hidden', :name => 'secret', :value => secret }
-              = partial :'../shared/partials/error.generic'
+              = partial :'../shared/partials/alerts'
               .row
                 .col-md-6
                   .form-group

@@ -9,7 +9,7 @@
               %p.text-muted.mb-0 To continue the setup, please provide the setup secret.
             %span.clearfix
             %form#setup{:action => '/setup', :method => 'POST', :role => "form"}
-              = partial :'../shared/partials/error.generic'
+              = partial :'../shared/partials/alerts'
               .form-group.mb-4
                 .input-group.input-group-merge
                   .input-group-prepend

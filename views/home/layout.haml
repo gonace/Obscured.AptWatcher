@@ -14,9 +14,9 @@
   %body.application.application-offset
     .container-fluid.container-application
       = partial :'../shared/partials/chat'
-      = partial :'../shared/partials/sidebar'
+      = partial :'../shared/partials/sidebar', :locals => {:active => ''}
       .main-content.position-relative
         = partial :'../shared/partials/navigation', :locals => {:active => 'home'}
-        = partial :'../shared/partials/error.generic'
+        = partial :'../shared/partials/alerts'
         = yield
         = partial :'../shared/footer'

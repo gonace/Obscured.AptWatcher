@@ -9,7 +9,7 @@
               %p.text-muted.mb-0 Enter your email below to proceed.
             %span.clearfix
             %form{:action => '/doorman/forgot', :method => 'POST', :role => "form"}
-              = partial :'../shared/partials/error.generic'
+              = partial :'../shared/partials/alerts'
               .form-group
                 %label.form-control-label Email address
                 .input-group.input-group-merge

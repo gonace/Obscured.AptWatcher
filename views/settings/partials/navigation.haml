@@ -1,0 +1,27 @@
+.card
+  .list-group.list-group-flush
+    .list-group-item{:class => ((defined? active) && active === 'settings') ? 'active' : ''}
+      .media
+        %i.fa.fa-user
+        .media-body.ml-3
+          %a.stretched-link.h6.mb-1{:href => "/settings"} Settings
+          %p.mb-0.text-sm Details about your personal information
+    - if Obscured::AptWatcher::Plugins.all.any?{|p| p.category == 'Authentication' && p.installed?}
+      .list-group-item{:class => ((defined? active) && active === 'authentication') ? 'active' : ''}
+        .media
+          %i.fa.fa-key
+          .media-body.ml-3
+            %a.stretched-link.h6.mb-1{:href => "/settings/authentication"} Authentication
+            %p.mb-0.text-sm See previous orders and invoices
+    .list-group-item{:class => ((defined? active) && active === 'managers') ? 'active' : ''}
+      .media
+        %i.fa.fa-cubes
+        .media-body.ml-3
+          %a.stretched-link.h6.mb-1{:href => "/settings/managers"} Package Managers
+          %p.mb-0.text-sm Choose what notification you will receive
+    .list-group-item{:class => ((defined? active) && active === 'integrations') ? 'active' : ''}
+      .media
+        %i.fa.fa-puzzle-piece
+        .media-body.ml-3
+          %a.stretched-link.h6.mb-1{:href => "/settings/plugins"} Plugins
+          %p.mb-0.text-sm Choose what notification you will receive

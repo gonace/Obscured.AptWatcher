@@ -5,6 +5,52 @@ module Obscured
         set :views, settings.root + '/../views/host'
 
 
+        get '/list' do
+          authorize!
+
+          begin
+            limit = params[:limit] ? Integer(params[:limit]) : 30
+            hosts = Obscured::AptWatcher::Models::Host.order_by(:hostname.asc).limit(limit)
+            model = Obscured::AptWatcher::Pagination.new(hosts, Obscured::AptWatcher::Models::Host.order_by(:hostname.asc).count)
+
+            haml :list, :locals => {
+              :model => model
+            }
+          rescue => e
+            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Raygun.track_exception(e)
+
+            flash[:error] = 'An unknown error occurred!'
+            redirect '/users'
+          end
+        end
+
+        get '/list/:page' do
+          authorize!
+
+          begin
+            raise ArgumentError, 'No page number provided' unless params[:page]
+
+            page = Integer(params[:page])
+            limit = params[:limit] ? Integer(params[:limit]) : 30
+            skip = (limit*page)-limit
+
+            hosts = Obscured::AptWatcher::Models::Host.order_by(:hostname.asc).skip(skip).limit(limit)
+            model = Obscured::AptWatcher::Pagination.new(hosts, Obscured::AptWatcher::Models::Host.order_by(:hostname.asc).count, page)
+
+            partial :'partials/list', :locals => {
+              :id => 'hosts',
+              :url => '/hosts',
+              :model => model
+            }
+          rescue => e
+            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Raygun.track_exception(e)
+
+            {success: false, error: e.message}
+          end
+        end
+
         get '/:id' do
           authorize!
           raise Obscured::DomainError.new(:required_field_missing, what: ':id') if params[:id].empty?
@@ -38,13 +84,15 @@ module Obscured
             (graph_alerts['data'] ||= [[],[]]).last << a_closed
           end
 
-          haml :index, :locals => { :host => host,
-                                    :scans => scans,
-                                    :alerts => alerts,
-                                    :alerts_open => alerts_open,
-                                    :alerts_closed => alerts_closed,
-                                    :graph_alerts => graph_alerts,
-                                    :graph_updates => graph_updates }
+          haml :index, :locals => {
+            :host => host,
+            :scans => scans,
+            :alerts => alerts,
+            :alerts_open => alerts_open,
+            :alerts_closed => alerts_closed,
+            :graph_alerts => graph_alerts,
+            :graph_updates => graph_updates
+          }
         end
 
         get '/:id/edit' do
@@ -92,7 +140,7 @@ module Obscured
             end
             host.save
 
-            flash[:save_ok] = "We're glad to announce that we could successfully save the changes for (#{host.hostname})"
+            flash[:success] = "We're glad to announce that we could successfully save the changes for (#{host.hostname})"
             redirect "/host/#{host.id}/edit"
           rescue => e
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})

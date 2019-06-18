@@ -1,0 +1,45 @@
+.table-responsive{:id => id, 'data-length' => model.properties.length, 'data-page' => model.properties.page, 'data-page-size' => model.properties.page_size, 'data-page-first' => model.properties.page_first, 'data-page-last' => model.properties.page_last}
+  %table.table.align-items-center
+    %thead
+      %tr
+        %th.sort{"data-sort" => "name", :scope => "col"} Host
+        %th.sort{"data-sort" => "status", :scope => "col"} Status
+        %th{:scope => "col"} Users
+        %th.sort{"data-sort" => "completion", :scope => "col"} Completion
+        %th{:scope => "col"}
+    %tbody.list
+      - model.items.each do |host|
+        %tr
+          %th{:scope => "row"}
+            .media.align-items-center
+              %a.avatar.avatar-sm.bg-primary.rounded-circle.text-white{:href => "/host/#{host.id.to_s}"} PN
+              .media-body.ml-4
+                %a.name.mb-0.h6.text-sm{:href => "/host/#{host.id.to_s}"}= host.hostname
+          %td
+            %span.badge.badge-dot.mr-4
+              %i.bg-warning
+              %span.status pending
+          %td
+            .avatar-group
+              %a.avatar.rounded-circle.avatar-sm{:href => "#"}
+                %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}"}
+              %a.avatar.rounded-circle.avatar-sm{:href => "#"}
+                %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}"}
+              %a.avatar.rounded-circle.avatar-sm{:href => "#"}
+                %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}"}
+          %td
+            .d-flex.align-items-center
+              %span.completion.mr-2 60%
+              %div
+                .progress{:style => "width: 100px;"}
+                  .progress-bar.bg-warning{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "60", :role => "progressbar", :style => "width: 60%;"}
+          %td.text-right
+            .dropdown{"data-toggle" => "dropdown"}
+              %a.action-item{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+                %i.fa.fa-ellipsis-h
+              .dropdown-menu.dropdown-menu-right
+                %a.dropdown-item{:href => "#"} Refresh
+                %a.dropdown-item{:href => "#"} Manage Widgets
+                %a.dropdown-item{:href => "#"} Settings
+
+  = partial :'../shared/partials/pagination', :locals => { :_for => '#' + id, :url => url, :properties => model.properties }

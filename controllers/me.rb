@@ -10,7 +10,40 @@ module Obscured
 
           begin
 
-            haml :profile, :locals => {  }
+            haml :profile, :locals => {
+            }
+          rescue => e
+            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Raygun.track_exception(e)
+
+            flash[:error] = e.message
+            redirect '/'
+          end
+        end
+
+        get '/password' do
+          authorize!
+
+          begin
+
+            haml :password, :locals => {
+            }
+          rescue => e
+            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Raygun.track_exception(e)
+
+            flash[:error] = e.message
+            redirect '/'
+          end
+        end
+
+        get '/notifications' do
+          authorize!
+
+          begin
+
+            haml :notifications, :locals => {
+            }
           rescue => e
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
             Raygun.track_exception(e)

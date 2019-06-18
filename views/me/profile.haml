@@ -1,100 +1,23 @@
 .page-content
-  / Page title
   .page-title
     .row.justify-content-between.align-items-center
       .col-md-6.d-flex.align-items-center.justify-content-between.justify-content-md-start.mb-3.mb-md-0
-        / Page title + Go Back button
         .d-inline-block
           %h5.h4.d-inline-block.font-weight-400.mb-0.text-white Account settings
-        / Additional info
       .col-md-6.d-flex.align-items-center.justify-content-between.justify-content-md-end
   .row
     .col-lg-4.order-lg-2
-      .card
-        .list-group.list-group-flush
-          .list-group-item
-            .media
-              %i.far.fa-user
-              .media-body.ml-3
-                %a.stretched-link.h6.mb-1{:href => "settings.html"} Settings
-                %p.mb-0.text-sm Details about your personal information
-          .list-group-item
-            .media
-              %i.far.fa-map
-              .media-body.ml-3
-                %a.stretched-link.h6.mb-1{:href => "addresses.html"} Addresses
-                %p.mb-0.text-sm Faster checkout with saved addresses
-          .list-group-item
-            .media
-              %i.far.fa-credit-card
-              .media-body.ml-3
-                %a.stretched-link.h6.mb-1{:href => "billing.html"} Billing
-                %p.mb-0.text-sm Speed up your shopping experience
-          .list-group-item
-            .media
-              %i.far.fa-file-alt
-              .media-body.ml-3
-                %a.stretched-link.h6.mb-1{:href => "payment-history.html"} Payment history
-                %p.mb-0.text-sm See previous orders and invoices
-          .list-group-item
-            .media
-              %i.far.fa-bell
-              .media-body.ml-3
-                %a.stretched-link.h6.mb-1{:href => "notifications.html"} Notifications
-                %p.mb-0.text-sm Choose what notification you will receive
-      .card
-        .card-header
-          .d-flex.justify-content-between.align-items-center
-            %div
-              %h6.mb-0 Timeline
-            .text-right
-              .actions
-                %a.action-item{:href => "#"}
-                  %i.fa.fa-sync
-                .dropdown.action-item{"data-toggle" => "dropdown"}
-                  %a.action-item{:href => "#"}
-                    %i.fa.fa-ellipsis-h
-                  .dropdown-menu.dropdown-menu-right
-                    %a.dropdown-item{:href => "#"} Refresh
-                    %a.dropdown-item{:href => "#"} Manage Widgets
-                    %a.dropdown-item{:href => "#"} Settings
-        .card-body
-          .timeline.timeline-one-side{"data-timeline-axis-style" => "dashed", "data-timeline-content" => "axis"}
-            .timeline-block
-              %span.timeline-step.timeline-step-sm.bg-primary.border-primary.text-white 1
-              .timeline-content
-                %span.text-muted.text-sm Email changed
-                %a.d-block.h6.text-sm.mb-0{:href => "#"} Email changed to "erik.hennerfors@obscured.se"
-                %small
-                  %i.far.fa-clock.mr-1>
-                  45 min ago
-            .timeline-block
-              %span.timeline-step.timeline-step-sm.bg-warning.border-warning.text-white 2
-              .timeline-content
-                %span.text-muted.text-sm Password changed
-                %a.d-block.h6.text-sm.mb-0{:href => "#"} Password where successfully changed.
-                %small
-                  %i.far.fa-clock.mr-1>
-                  45 min ago
-            .timeline-block
-              %span.timeline-step.timeline-step-sm.bg-info.border-info.text-white 3
-              .timeline-content
-                %span.text-muted.text-sm Account created
-                %a.d-block.h6.text-sm.mb-0{:href => "#"} Account created 2019-06-16 at 16:02 CEST.
-                %small
-                  %i.far.fa-clock.mr-1>
-                  45 min ago
-        .card-footer.py-2.text-center
-          %a.text-sm.text-muted.font-weight-bold{:href => "#"} See all events
+      = partial :'partials/navigation', :locals => {:active => 'settings'}
+      = partial :'partials/timeline'
+
     .col-lg-8.order-lg-1
-      / Change avatar
       .card.bg-gradient-warning.hover-shadow-lg.border-0
         .card-body.py-3
           .row.row-grid.align-items-center
             .col-lg-8
               .media.align-items-center
                 %a.avatar.avatar-lg.rounded-circle.mr-3{:href => "#"}
-                  %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}?d=https://img07.deviantart.net/3722/i/2012/096/3/f/homer_simpson___summer_render_by_markus029-d4v74ak.png"}
+                  %img{:src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}"}
                 .media-body
                   %h5.text-white.mb-0= user.name
                   %div
@@ -110,7 +33,6 @@
       .card
         .card-body
           %form
-            / General information
             .row
               .col-md-6
                 .form-group
@@ -143,43 +65,12 @@
                 .form-group
                   %label.form-control-label Phone
                   %input.form-control{:placeholder => "+40-777 245 549", :type => "text"}
-            %hr/
-            / Address
-            .row
-              .col
-                .form-group
-                  %label.form-control-label Address
-                  %input.form-control{:placeholder => "Enter your home address", :type => "text"}
-            .row
-              .col-md-6
-                .form-group
-                  %label.form-control-label City
-                  %input.form-control{:placeholder => "City", :type => "text"}
-              .col-md-6
-                .form-group
-                  %label.form-control-label Country
-                  %select.form-control{"data-live-search" => "true", "data-live-search-placeholder" => "Country", "data-toggle" => "select", :title => "Country"}
-                    %option Romania
-                    %option United Stated
-                    %option France
-                    %option Greece
-                    %option Italy
-                    %option Norway
-            %hr/
-            / Description
-            .row
-              .col
-                .form-group
-                  .form-group
-                    %label.form-control-label Bio
-                    %textarea.form-control{:placeholder => "Tell us a few words about yourself", :rows => "3"}
-                    %small.form-text.text-muted.mt-2 You can @mention other users and organizations to link to them.
-            .row.mt-4
-              .col
-                .form-group
-                  %label.form-control-label.mb-3 Skills
-                  %input.form-control{"data-toggle" => "tags", :placeholder => "Type here...", :type => "text", :value => "HTML, CSS3, Bootstrap, Photoshop, VueJS"}
-            %hr/
-            / Save changes buttons
+            %hr
             %button.btn.btn-sm.btn-primary.rounded-pill{:type => "button"} Save changes
             %button.btn.btn-link.text-muted{:type => "button"} Cancel
+      .card
+        .card-header
+          %h5.h6.mb-0 Danger zone
+        .card-body
+          %button.btn.btn-sm.btn-danger.rounded-pill{"data-target" => "#modal-delete-account", "data-toggle" => "modal", :type => "button"} Delete account
+          = partial :'../shared/partials/modals/delete', :locals => {:id => 'modal-delete-account', :model => { :button => 'Delete my account', :header => 'Should we stop now?', :message => 'All your data will be erased. You will no longer be billed, and your username will be available to anyone.' }}

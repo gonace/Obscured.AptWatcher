@@ -1,0 +1,103 @@
+.page-content
+  .page-title
+    .row.justify-content-between.align-items-center
+      .col-md-6.d-flex.align-items-center.justify-content-between.justify-content-md-start.mb-3.mb-md-0
+        .d-inline-block
+          %h5.h4.d-inline-block.font-weight-400.mb-0.text-white Users
+      .col-md-6.d-flex.align-items-center.justify-content-between.justify-content-md-end
+        .actions.actions-dark.d-inline-block
+          %a.action-item.ml-md-4{:href => "#"}
+            %i.fa.fa-file-export.mr-2>
+            Export
+          %a.action-item.ml-3{:href => "#"}
+            %i.fa.fa-cog.mr-2>
+            Settings
+        %a.btn.btn-sm.btn-white.btn-icon-only.rounded-circle.ml-4{"data-toggle" => "modal", :href => "#modal-user-create"}
+          %span.btn-inner--icon
+            %i.fa.fa-plus
+  .row
+    .col-lg-4
+      .card.card-stats
+        .card-body
+          .row
+            .col
+              %h6.text-muted.mb-1 New users
+              %span.h5.font-weight-bold.mb-0 339
+            .col-auto
+              .icon.bg-gradient-warning.text-white.rounded-circle.icon-shape
+                %i.fa.fa-users
+          %p.mt-3.mb-0.text-sm
+            %span.badge.badge-soft-success.mr-2
+              %i.fa.fa-arrow-up
+              25%
+            %span.text-nowrap Since last month
+    .col-lg-4
+      .card.card-stats
+        .card-body
+          .row
+            .col
+              %h6.text-muted.mb-1 Total visits
+              %span.h5.font-weight-bold.mb-0 13.079
+            .col-auto
+              .icon.bg-gradient-primary.text-white.rounded-circle.icon-shape
+                %i.fa.fa-eye
+          %p.mt-3.mb-0.text-sm
+            %span.badge.badge-soft-warning.mr-2
+              %i.fa.fa-arrow-up
+              10%
+            %span.text-nowrap Since last month
+    .col-lg-4
+      .card.card-stats
+        .card-body
+          .row
+            .col
+              %h6.text-muted.mb-1 Orders
+              %span.h5.font-weight-bold.mb-0 3.200
+            .col-auto
+              .icon.bg-gradient-danger.text-white.rounded-circle.icon-shape
+                %i.fa.fa-user-tag
+          %p.mt-3.mb-0.text-sm
+            %span.badge.badge-soft-danger.mr-2
+              %i.fa.fa-arrow-down
+              5,85%
+            %span.text-nowrap Since last month
+  .card
+    .card-header.actions-toolbar.border-0
+      #actions-search.actions-search
+        .input-group.input-group-merge.input-group-flush
+          .input-group-prepend
+            %span.input-group-text.bg-transparent
+              %i.fa.fa-search
+          %input.form-control.form-control-flush{:placeholder => "Type and hit enter ...", :type => "text"}
+          .input-group-append
+            %a.input-group-text.bg-transparent{"data-action" => "search-close", "data-target" => "#actions-search", :href => "#"}
+              %i.fa.fa-times
+      .row.justify-content-between.align-items-center
+        .col
+          %h6.d-inline-block.mb-0 Users
+        .col.text-right
+          .actions
+            %a.action-item.mr-3{"data-action" => "search-open", "data-target" => "#actions-search", :href => "#"}
+              %i.fa.fa-search
+            .dropdown.mr-3
+              %a.action-item{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+                %i.fa.fa-filter
+              .dropdown-menu.dropdown-menu-right
+                %a.dropdown-item{:href => "#"}
+                  %i.fa.fa-sort-amount-down>
+                  Newest
+                %a.dropdown-item{:href => "#"}
+                  %i.fa.fa-sort-alpha-down>
+                  From A-Z
+                %a.dropdown-item{:href => "#"}
+                  %i.fa.fa-sort-alpha-up>
+                  From Z-A
+            .dropdown{"data-toggle" => "dropdown"}
+              %a.action-item{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+                %i.fa.fa-ellipsis-h
+              .dropdown-menu.dropdown-menu-right
+                %a.dropdown-item{:href => "#"} Refresh
+                %a.dropdown-item{:href => "#"} Manage Widgets
+                %a.dropdown-item{:href => "#"} Settings
+    = partial :'/partials/list', :locals => { :id => 'hosts', :url => '/hosts', :model => model }
+    = partial :'/partials/create'
