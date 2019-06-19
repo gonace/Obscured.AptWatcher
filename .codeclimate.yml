@@ -1,5 +1,4 @@
-## other configuration excluded from example...
-engines:
+plugins:
   rubocop:
     enabled: true
     channel: rubocop-0-71
@@ -14,13 +13,6 @@ engines:
     enabled: true
   csslint:
     enabled: true
-ratings:
-  paths:
-  - "**.rb"
-  - "**.js"
-  - "**.css"
-exclude_paths:
-- "public/css/toolkit-inverse.css"
-- "public/script/toolkit/"
+exclude_patterns:
 - "tests/"
 - "spec/"

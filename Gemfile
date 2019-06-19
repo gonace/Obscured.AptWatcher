@@ -35,6 +35,7 @@ group :test, :development do
   gem 'foreman'
   gem 'rerun'
   gem 'rspec'
+  gem 'rubocop'
   gem 'timecop'
   gem 'webmock'
 end
