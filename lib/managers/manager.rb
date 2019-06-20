@@ -3,35 +3,50 @@ require_relative '../models/configuration'
 module Obscured
   module AptWatcher
     class Manager
-      extend Configurable
-
-      attr_reader :signature
-
       def signature
         @signature ||= self.class.name.demodulize.downcase.to_sym
       end
 
-      def name
-        raise NotImplementedError
+      def config
+        Obscured::AptWatcher::Models::Configuration.where(type: type, signature: signature).find_first
       end
 
-      def type
-        raise NotImplementedError
+      def reinitialize
+        Obscured::AptWatcher::Managers.unregister(self.class)
+        Obscured::AptWatcher::Managers.register(self.class)
+      end
+
+      def enabled?
+        !config.nil? and config.properties[:enabled] == true
       end
 
       def installed?
-        raise NotImplementedError
+        !config.nil?
       end
 
-      def install
-        raise NotImplementedError
+      def install(cfg)
+        if config.nil?
+          Obscured::AptWatcher::Models::Configuration.make!(type: type, signature: signature, properties: cfg)
+          reinitialize
+        end
+      end
+
+      def update(prop)
+        config.update_properties!(prop)
       end
 
       def uninstall
-        raise NotImplementedError
+        Obscured::AptWatcher::Models::Configuration.where(type: type, signature: signature).delete
+        reinitialize
       end
 
-      def config
+      def type
+        :manager
+      end
+
+
+      # Class implemented methods
+      def name
         raise NotImplementedError
       end
 

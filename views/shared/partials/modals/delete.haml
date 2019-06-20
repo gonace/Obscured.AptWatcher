@@ -1,6 +1,7 @@
 .modal.modal-danger.fade{:id => id, "aria-hidden" => "true", "aria-labelledby" => id, :role => "dialog", :tabindex => "-1"}
   .modal-dialog.modal-dialog-centered{:role => "document"}
-    %form.form-danger{:action => model[:url], :method => 'post'}
+    %form.form-danger{:action => model[:url], :id => "form-#{id}", :method => 'post'}
+      %input{:type => 'hidden', :id => "confirmation", :name => 'confirmation', :value => (!model[:confirmation].blank? ? model[:confirmation] : 'DELETE') }
       .modal-content
         .modal-body
           .text-center
@@ -12,7 +13,11 @@
               To verify, type
               %span.font-italic= (!model[:confirmation].blank? ? model[:confirmation] : 'DELETE')
               below
-            %input.form-control{:type => "text"}
+            %input.form-control{:type => "text", 'data-rule-equalto' => '#confirmation', 'data-rule-required' => 'true'}
           .mt-4
             %button.btn.btn-block.btn-sm.btn-white.text-danger.rounded-pill{:type => "submit"}= model[:button]
             %button.btn.btn-block.btn-sm.btn-link.text-light.mt-4{"data-dismiss" => "modal", :type => "button"} Not this time
+  :javascript
+    jQuery(document).ready(function() {
+      jQuery("#form-#{id}").validate();
+    });

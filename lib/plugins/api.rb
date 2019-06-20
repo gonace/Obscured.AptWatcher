@@ -3,21 +3,20 @@ require_relative 'plugin'
 module Obscured
   module AptWatcher
     module Plugins
-      class GitHub < Plugin
+      class API < Plugin
         def name
-          'GitHub'
+          'API'
         end
 
         def type
-          :authentication
+          :integration
         end
 
         def template
           {
             enabled: { type: "checkbox", placeholder: "", value: true },
-            key: { type: "text", placeholder: "", value: "" },
-            secret: { type: "password", placeholder: "", value: "" },
-            domains: { type: "tags", placeholder: "", value: "" }
+            username: { type: "text", placeholder: "", value: true },
+            password: { type: "password", placeholder: "", value: true }
           }
         end
 
@@ -28,4 +27,4 @@ module Obscured
     end
   end
 end
-Obscured::AptWatcher::Plugins.register(Obscured::AptWatcher::Plugins::GitHub)
+Obscured::AptWatcher::Plugins.register(Obscured::AptWatcher::Plugins::API)

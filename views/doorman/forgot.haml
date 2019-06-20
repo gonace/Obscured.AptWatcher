@@ -16,7 +16,7 @@
                   .input-group-prepend
                     %span.input-group-text
                       %i.fas.fa-user
-                  %input#input-email.form-control{:placeholder => "name@example.com", :type => "email", :name => 'user[email]'}
+                  %input#input-email.form-control{:placeholder => "name@example.com", :type => "email", :name => 'user[email]', 'data-rule-required' => 'true'}
               .mt-4
                 %button.btn.btn-sm.btn-primary.btn-icon.rounded-pill{:type => "submit"}
                   %span.btn-inner--text Reset password
@@ -25,3 +25,8 @@
           .card-footer.px-md-5
             %small Not registered?
             %a.small.font-weight-bold{:href => "/doorman/register"} Create account
+
+:javascript
+  jQuery(document).ready(function() {
+    jQuery('form').validate();
+  });

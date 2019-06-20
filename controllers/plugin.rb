@@ -5,6 +5,54 @@ module Obscured
         set :views, settings.root + '/../views/plugin'
 
 
+        post '/:signature/install' do
+          authorize!
+
+          begin
+            config = params.except(:signature)
+            plugin = Obscured::AptWatcher::Plugins.get(params[:signature].to_sym)
+            config[:enabled] = (params[:enabled] == "on" ? true : false)
+            plugin.install(config)
+
+            redirect "/settings/plugins"
+          rescue => e
+            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            flash[:error] = e.message
+            redirect "/"
+          end
+        end
+
+        post '/:signature/update' do
+          authorize!
+
+          begin
+            config = params.except(:signature)
+            plugin = Obscured::AptWatcher::Plugins.get(params[:signature].to_sym)
+            config[:enabled] = (params[:enabled] == "on" ? true : false)
+            plugin.update(config)
+
+            redirect "/settings/plugins"
+          rescue => e
+            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            flash[:error] = e.message
+            redirect "/"
+          end
+        end
+
+        post '/:signature/uninstall' do
+          authorize!
+
+          begin
+            plugin = Obscured::AptWatcher::Plugins.get(params[:signature].to_sym)
+            plugin.uninstall
+
+            redirect "/settings/plugins"
+          rescue => e
+            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            flash[:error] = e.message
+            redirect "/"
+          end
+        end
       end
     end
   end

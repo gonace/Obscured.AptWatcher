@@ -9,13 +9,32 @@ module Obscured
           authorize!
 
           begin
+            config = params.except(:signature)
             manager = Obscured::AptWatcher::Managers.get(params[:signature].to_sym)
-            manager.install({ enabled: (params[:enabled] == "on" ? true : false) })
+            config[:enabled] = (params[:enabled] == "on" ? true : false)
+            manager.install(config)
 
             redirect "/settings/managers"
           rescue => e
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            flash[:error] = "We're sad to announce that we could not update permissions for (#{user.username})"
+            flash[:error] = e.message
+            redirect "/"
+          end
+        end
+
+        post '/:signature/update' do
+          authorize!
+
+          begin
+            config = params.except(:signature)
+            manager = Obscured::AptWatcher::Managers.get(params[:signature].to_sym)
+            config[:enabled] = (params[:enabled] == "on" ? true : false)
+            manager.update(config)
+
+            redirect "/settings/managers"
+          rescue => e
+            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            flash[:error] = e.message
             redirect "/"
           end
         end
@@ -30,7 +49,7 @@ module Obscured
             redirect "/settings/managers"
           rescue => e
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            flash[:error] = "We're sad to announce that we could not update permissions for (#{user.username})"
+            flash[:error] = e.message
             redirect "/"
           end
         end

@@ -11,7 +11,7 @@
             %span.clearfix
             %form{:action => '/doorman/forgot', :method => 'POST', :role => "form"}
               %input#Email{:name => 'user[email]', :type => 'hidden', :value => email}
-              %input#confirmToken{:name => 'user[confirm_token]', :type => 'hidden', :value => confirm_token}
+              %input#confirmToken{:name => 'user[token]', :type => 'hidden', :value => token}
               .form-group.mb-4
                 .d-flex.align-items-center.justify-content-between
                   %div
@@ -20,7 +20,7 @@
                   .input-group-prepend
                     %span.input-group-text
                       %i.fas.fa-key
-                  %input#input-password.form-control{:placeholder => "Password", :type => "password", :name => 'user[password]'}
+                  %input#input-password.form-control{:placeholder => "Password", :type => "password", :name => 'user[password]', 'data-rule-required' => 'true'}
                   .input-group-append
                     %span.input-group-text
                       %a{"data-target" => "#input-password", "data-toggle" => "password-text", :href => "#"}
@@ -33,7 +33,7 @@
                   .input-group-prepend
                     %span.input-group-text
                       %i.fas.fa-key
-                  %input#input-confirmation.form-control{:placeholder => "Password", :type => "password", :name => 'user[password_confirmation]'}
+                  %input#input-confirmation.form-control{:placeholder => "Password", :type => "password", :name => 'user[password_confirmation]', 'data-rule-required' => 'true'}
                   .input-group-append
                     %span.input-group-text
                       %a{"data-target" => "#input-confirmation", "data-toggle" => "password-text", :href => "#"}
@@ -46,3 +46,8 @@
           .card-footer.px-md-5
             %small Not registered?
             %a.small.font-weight-bold{:href => "/doorman/register"} Create account
+
+:javascript
+  jQuery(document).ready(function() {
+    jQuery('form').validate();
+  });

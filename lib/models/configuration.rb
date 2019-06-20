@@ -8,8 +8,8 @@ module Obscured
         store_in collection: 'configuration'
 
         field :type, type: Symbol
-        field :properties, type: Hash
         field :signature, type: Symbol
+        field :properties, type: Hash
 
         index({ type: 1, signature: 1 }, { background: true })
 
@@ -31,6 +31,14 @@ module Obscured
             doc.save
             doc
           end
+        end
+
+        def update_properties(prop)
+          self.properties = prop
+        end
+        def update_properties!(prop)
+          self.properties = prop
+          self.save
         end
       end
     end

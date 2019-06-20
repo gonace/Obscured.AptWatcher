@@ -6,7 +6,7 @@
         .media-body.ml-3
           %a.stretched-link.h6.mb-1{:href => "/settings"} Settings
           %p.mb-0.text-sm Details about your personal information
-    - if Obscured::AptWatcher::Plugins.all.any?{|p| p.category == 'Authentication' && p.installed?}
+    - if Obscured::AptWatcher::Plugins.all.any?{|p| p.type == :authentication && p.installed?}
       .list-group-item{:class => ((defined? active) && active === 'authentication') ? 'active' : ''}
         .media
           %i.fa.fa-key

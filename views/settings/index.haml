@@ -12,32 +12,24 @@
     .col-lg-8.order-lg-1
       .card
         .card-header
-          %h5.h6.mb-0 Shop notifications
+          %h5.h6.mb-0 Security
         .list-group.list-group-flush
           .list-group-item.d-flex.w-100.justify-content-between
             %div
-              %h6.mb-1 A product from wishlist is on sale
-              %span.text-sm.text-muted You will receive an alert when one of your favorite products has a discount price.
+              %h6.mb-1 Account registration
+              %span.text-sm.text-muted A user can register an account from the login screen.
             %div
               .custom-control.custom-switch
-                %input#shop-notification-1.custom-control-input{:checked => "checked", :type => "checkbox"}
-                %label.custom-control-label{:for => "shop-notification-1"}
+                %input#security-registration.custom-control-input{:type => "checkbox"}
+                %label.custom-control-label{:for => "security-registration"}
           .list-group-item.d-flex.w-100.justify-content-between
             %div
-              %h6.mb-1 A new product is released
-              %span.text-sm.text-muted You will receive an alert when one of your favorite products has a discount price.
+              %h6.mb-1 Account confirmation
+              %span.text-sm.text-muted A user can register an account from the login screen.
             %div
               .custom-control.custom-switch
-                %input#shop-notification-2.custom-control-input{:type => "checkbox"}
-                %label.custom-control-label{:for => "shop-notification-2"}
-          .list-group-item.d-flex.w-100.justify-content-between
-            %div
-              %h6.mb-1 New promotions are available
-              %span.text-sm.text-muted You will receive an alert when one of your favorite products has a discount price.
-            %div
-              .custom-control.custom-switch
-                %input#shop-notification-3.custom-control-input{:checked => "checked", :type => "checkbox"}
-                %label.custom-control-label{:for => "shop-notification-3"}
+                %input#security-confirmation.custom-control-input{:type => "checkbox"}
+                %label.custom-control-label{:for => "security-registration"}
       .mt-5
         .card
           .card-header

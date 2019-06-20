@@ -47,7 +47,7 @@ clients: {
 
 # pull in the models, modules, helpers and controllers
 Dir.glob('./lib/*.rb').sort.each(&method(:require))
-Dir.glob('./lib/{alert,common,entities,helpers,managers,package,plugins,sinatra}/*.rb').sort.each(&method(:require))
+Dir.glob('./lib/{alert,common,entities,helpers,package,sinatra}/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/modules/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/models/embedded/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/models/*.rb').sort.each(&method(:require))
@@ -110,7 +110,7 @@ Obscured::Doorman.configure(
 ##
 map '/' do
   run Obscured::AptWatcher::Controllers::Home
-  use Rack::Static, :urls => %w(/css /img /script /assets /fonts), :root => File.expand_path('../public', __FILE__)
+  use Rack::Static, :urls => %w(/img /script), :root => File.expand_path('../public', __FILE__)
 end
 
 map '/assets' do

@@ -47,8 +47,13 @@ RSpec.configure do |c|
 
   c.before(:suite) do
     FactoryBot.find_definitions
+    Mongoid.purge!
   end
 
   c.before(:each) do
+  end
+
+  c.after(:suite) do
+    Mongoid.purge!
   end
 end

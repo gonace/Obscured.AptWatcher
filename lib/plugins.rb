@@ -8,6 +8,10 @@ module Obscured
           @plugins << klass.new
         end
 
+        def unregister(klass)
+          @plugins.reject! { |m| m.is_a?(klass) }
+        end
+
         def get(signature)
           @plugins.detect { |e| e.signature.equal?(signature) }
         end
@@ -29,3 +33,12 @@ module Obscured
     end
   end
 end
+
+require_relative 'plugins/acl'
+require_relative 'plugins/api'
+require_relative 'plugins/bitbucket'
+require_relative 'plugins/github'
+require_relative 'plugins/raygun'
+require_relative 'plugins/sendgrid'
+require_relative 'plugins/slack'
+require_relative 'plugins/smtp'

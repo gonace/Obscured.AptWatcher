@@ -20,8 +20,6 @@ module Obscured
             }
           rescue => e
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            Raygun.track_exception(e)
-
             flash[:error] = e.message
             redirect '/'
           end
@@ -38,8 +36,6 @@ module Obscured
             }
           rescue => e
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            Raygun.track_exception(e)
-
             flash[:error] = e.message
             redirect '/'
           end
@@ -56,8 +52,6 @@ module Obscured
             }
           rescue => e
             Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            Raygun.track_exception(e)
-
             flash[:error] = e.message
             redirect '/'
           end

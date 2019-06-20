@@ -6,15 +6,15 @@
 
 :javascript
   // Set jQuery.validate settings for bootstrap integration
-  /*jQuery.validator.setDefaults({
+  jQuery.validator.setDefaults({
     highlight: function(element) {
-      jQuery(element).closest('.form-group').addClass('has-danger');
+      jQuery(element).closest('.form-control').addClass('is-invalid');
     },
     unhighlight: function(element) {
-      jQuery(element).closest('.form-group').removeClass('has-danger');
+      jQuery(element).closest('.form-control').removeClass('is-invalid');
     },
     errorElement: 'span',
-    errorClass: 'form-control-feedback',
+    errorClass: 'invalid-feedback',
     errorPlacement: function(error, element) {
       if(element.parent('.input-group').length) {
         error.insertAfter(element.parent());
@@ -25,4 +25,4 @@
   });
   jQuery.validator.addMethod("slackicon", function(value, element) {
     return (this.optional(element) || (value.startsWith(":") && value.endsWith(":")));
-  }, "Must start and end with the character :");*/
+  }, "Must start and end with the character :");

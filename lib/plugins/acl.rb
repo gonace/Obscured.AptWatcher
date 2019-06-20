@@ -1,11 +1,15 @@
-require_relative 'manager'
+require_relative 'plugin'
 
 module Obscured
   module AptWatcher
-    module Managers
-      class Portage < Manager
+    module Plugins
+      class ACL < Plugin
         def name
-          'Portage'
+          'ACL'
+        end
+
+        def type
+          :security
         end
 
         def template
@@ -21,4 +25,4 @@ module Obscured
     end
   end
 end
-Obscured::AptWatcher::Managers.register(Obscured::AptWatcher::Managers::Portage)
+Obscured::AptWatcher::Plugins.register(Obscured::AptWatcher::Plugins::ACL)

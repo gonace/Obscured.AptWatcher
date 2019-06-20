@@ -1,9 +1,9 @@
 .modal.fade{"aria-hidden" => "true", :id => id, :role => "dialog", :tabindex => "-1"}
   .modal-dialog.modal-dialog-centered{:role => "document"}
     .modal-content
-      %form{:action => "/plugin/#{plugin.signature}/install", :id => "form-#{plugin.signature}-install", :method => 'post'}
+      %form{:action => "/plugin/#{plugin.signature}/update", :method => 'post'}
         .modal-header= plugin.name
-        - if plugin.template.key?(:enabled)
+        - if plugin.config.properties.key?(:enabled)
           .list-group.list-group-flush
             .list-group-item.d-flex.w-100.justify-content-between
               %div
@@ -11,7 +11,7 @@
                 %span.text-sm.text-muted If this is set to true the plugin will be enabled upon creation.
               %div
                 .custom-control.custom-switch
-                  - if plugin.template[:enabled][:value] == true
+                  - if plugin.config.properties[:enabled] == true
                     %input.custom-control-input{:name => "enabled", :id => "checkbox-#{plugin.signature}", :type => "checkbox", :checked => "checked"}
                   - else
                     %input.custom-control-input{:name => "enabled", :id => "checkbox-#{plugin.signature}", :type => "checkbox"}
@@ -24,25 +24,20 @@
                   - if value[:type] == "text"
                     .form-group
                       %label.form-control-label.mb-0= key.capitalize
-                      %input.form-control{:name => key, :placeholder => value[:placeholder], :type => value[:type], :value => value[:value], 'data-rule-required' => 'true'}
+                      %input.form-control{:name => key, :placeholder => value[:placeholder], :type => value[:type], :value => plugin.config.properties[key], 'data-rule-required' => 'true'}
                   - elsif value[:type] == "password"
                     .form-group
                       .d-flex.align-items-center.justify-content-between
                         %label.form-control-label.mb-0= key.capitalize
                       .input-group.input-group-merge
-                        %input.form-control{:id => "input-#{plugin.signature}-#{key}", :name => key, :placeholder => value[:placeholder], :type => value[:type], :value => value[:value], 'data-rule-required' => 'true'}
+                        %input.form-control{:id => "input-#{plugin.signature}-#{key}", :name => key, :placeholder => value[:placeholder], :type => value[:type], :value => plugin.config.properties[key], 'data-rule-required' => 'true'}
                         .input-group-append
                           %span.input-group-text
-                            %a{"data-target" => "#input-#{plugin.signature}-#{key}", "data-toggle" => "password-text", :href => "#", 'data-rule-required' => 'true'}
+                            %a{"data-target" => "#input-#{plugin.signature}-#{key}", "data-toggle" => "password-text", :href => "#"}
                               %i.fas.fa-eye
                   - elsif value[:type] == "tags"
                     .form-group.mb-0
                       %label.form-control-label.mb-0= key.capitalize
-                      %input.form-control{"data-toggle" => "tags", :placeholder => "Type here...", :type => "text", :value => value[:value], 'data-rule-required' => 'true'}
+                      %input.form-control{"data-toggle" => "tags", :name => key, :placeholder => "Type here...", :type => "text", :value => plugin.config.properties[key], 'data-rule-required' => 'true'}
         .modal-footer
-          %button.btn.btn-sm.btn-success.rounded-pill.mr-auto{:type => "submit"} Install
-
-  :javascript
-    jQuery(document).ready(function() {
-      jQuery("#form-#{plugin.signature}-install").validate();
-    });
+          %button.btn.btn-sm.btn-success.rounded-pill.mr-auto{:type => "submit"} Update

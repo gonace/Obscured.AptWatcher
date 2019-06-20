@@ -4,28 +4,15 @@ module Obscured
   module AptWatcher
     module Plugins
       class Slack < Plugin
-        def initialize
-          Slack.config = Obscured::AptWatcher::Models::Configuration.where(type: :plugin, signature: :slack).find_first
-        end
-
-
         def name
           'Slack'
         end
 
-        def category
-          'Notifications'
-        end
-
         def type
-          :plugin
+          :notifications
         end
 
-        def installed?
-          !Slack.config.nil?
-        end
-
-        def config
+        def template
           {
             enabled: { type: "checkbox", placeholder: "", value: true },
             channel: { type: "text", placeholder: "", value: "" },

@@ -72,14 +72,14 @@ module Obscured
               redirect Obscured::Doorman.config.paths[:login]
             end
 
-            haml :reset, :locals => { :confirm_token => user.confirm_token, :email => user.username }
+            haml :reset, :locals => { :token => user.confirm_token, :email => user.username }
           end
 
           app.post '/doorman/reset' do
             redirect Obscured::Doorman.config.paths[:success] if authenticated?
             redirect '/' unless params['user']
 
-            user = User.where({:confirm_token => params[:user][:confirm_token]}).first rescue nil
+            user = User.where({:confirm_token => params[:user][:token]}).first rescue nil
             if user.nil?
               notify :error, :reset_no_user
               redirect Obscured::Doorman.config.paths[:login]

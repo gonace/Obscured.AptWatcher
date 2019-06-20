@@ -4,28 +4,15 @@ module Obscured
   module AptWatcher
     module Plugins
       class RayGun < Plugin
-        def initialize
-          RayGun.config = Obscured::AptWatcher::Models::Configuration.where(type: :plugin, signature: :raygun).find_first
-        end
-
-
         def name
           'RayGun'
-        end
-
-        def category
-          'Error Tracker'
         end
 
         def type
           :plugin
         end
 
-        def installed?
-          !RayGun.config.nil?
-        end
-
-        def config
+        def template
           {
             enabled: { type: "checkbox", placeholder: "", value: true },
             key: { type: "text", placeholder: "", value: "" }

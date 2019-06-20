@@ -4,28 +4,15 @@ module Obscured
   module AptWatcher
     module Plugins
       class SMTP < Plugin
-        def initialize
-          SendGrid.config = Obscured::AptWatcher::Models::Configuration.where(type: :plugin, signature: :smtp).find_first
-        end
-
-
         def name
           'SMTP'
         end
 
-        def category
-          'Notifications'
-        end
-
         def type
-          :plugin
+          :notifications
         end
 
-        def installed?
-          !SendGrid.config.nil?
-        end
-
-        def config
+        def template
           {
             enabled: { type: "checkbox", placeholder: "", value: true },
             domain: { type: "text", placeholder: "domain.tld", value: "" },

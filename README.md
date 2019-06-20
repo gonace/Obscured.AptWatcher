@@ -13,9 +13,9 @@ AptWatcher.
 One line is interpreted as one service
 ```
 {
-    "name": "service_name",
-    "version_installed": "1.0.0",
-    "version_available": "1.0.1"
+  "name": "service_name",
+  "version_installed": "1.0.0",
+  "version_available": "1.0.1"
 }
 ```
 ##### Example Input
@@ -30,7 +30,7 @@ One line is interpreted as one service
 @daily apt-get --just-print upgrade 2>&1 | perl -ne 'if (/Inst\s([\w,\-,\d,\.,~,:,\+]+)\s\[([\w,\-,\d,\.,~,:,\+]+)\]\s\(([\w,\-,\d,\.,~,:,\+]+)\)? /i) {print "{\"name\":\"$1\",\"version_installed\":\"$2\",\"version_available\":\"$3\"} \n"}' | curl -u user:pass --data-binary @- http://hostname/api/collector/upgrades/$(hostname)
 ```
 
-If any packages are in that payload that weren't previously sent, a
+If any packages are in that payload that were not previously sent, a
 message is sent via a Slack incoming webhook with that list of new
 packages.
 
@@ -46,11 +46,9 @@ $ bundle
 ```
 
 ## Configuration
-Check the [`.env` file](/.env) for the environment variables you can use to
-configure the app.
 
 ## License
-AptWatcher is copyright © 2017 Obscured It is free software, and may be redistributed under the terms specified in the [LICENSE](/LICENSE) file.
+AptWatcher is copyright © 2019 Obscured It is free software, and may be redistributed under the terms specified in the [LICENSE](/LICENSE) file.
 
 ## About AptWatcher
 AptWatcher is maintained by the friendly crew at [Obscured](https://www.obscured.se/), an exception, performance, and uptime monitoring service for developers.
@@ -59,11 +57,3 @@ AptWatcher is maintained by the friendly crew at [Obscured](https://www.obscured
 ![Home](http://i.imgur.com/wtBiaGr.jpg)
 
 ![Statistics](http://i.imgur.com/yLcp4mK.jpg)
-
-### Slack Icons
-Icon:                                                           | Name
---------------------------------------------------------------- | ---------
-![bug Ok](public/icons/bug-ok.png?raw=true ":bug-ok:")          | :bug-ok:
-![bug info](public/icons/bug-info.png?raw=true ":bug-info:")    | :bug-info:
-![bug Warn](public/icons/bug-warn.png?raw=true ":bug-warn:")    | :bug-warn:
-![bug Error](public/icons/bug-error.png?raw=true ":bug-error:") | :bug-error:

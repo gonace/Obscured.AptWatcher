@@ -1,17 +1,17 @@
 .modal.fade{"aria-hidden" => "true", :id => id, :role => "dialog", :tabindex => "-1"}
   .modal-dialog.modal-dialog-centered{:role => "document"}
     .modal-content
-      %form{:action => "/manager/#{manager.signature}/install", :id => "form-#{manager.signature}-install", :method => 'post'}
+      %form{:action => "/manager/#{manager.signature}/update", :method => 'post'}
         .modal-header= manager.name
-        - if manager.template.key?(:enabled)
+        - if manager.config.properties.key?(:enabled)
           .list-group.list-group-flush
             .list-group-item.d-flex.w-100.justify-content-between
               %div
                 %h6.mb-1 Enabled?
-                %span.text-sm.text-muted If this is set to true the manager will be enabled upon creation.
+                %span.text-sm.text-muted If this is set to true the plugin will be enabled upon creation.
               %div
                 .custom-control.custom-switch
-                  - if manager.template[:enabled][:value] == true
+                  - if manager.config.properties[:enabled] == true
                     %input.custom-control-input{:name => "enabled", :id => "checkbox-#{manager.signature}", :type => "checkbox", :checked => "checked"}
                   - else
                     %input.custom-control-input{:name => "enabled", :id => "checkbox-#{manager.signature}", :type => "checkbox"}
@@ -33,16 +33,11 @@
                         %input.form-control{:id => "input-#{manager.signature}-#{key}", :name => key, :placeholder => value[:placeholder], :type => value[:type], :value => value[:value], 'data-rule-required' => 'true'}
                         .input-group-append
                           %span.input-group-text
-                            %a{"data-target" => "#input-#{manager.signature}-#{key}", "data-toggle" => "password-text", :href => "#", 'data-rule-required' => "true"}
+                            %a{"data-target" => "#input-#{manager.signature}-#{key}", "data-toggle" => "password-text", :href => "#"}
                               %i.fas.fa-eye
                   - elsif value[:type] == "tags"
                     .form-group.mb-0
                       %label.form-control-label.mb-0= key.capitalize
-                      %input.form-control{"data-toggle" => "tags", :placeholder => "Type here...", :type => "text", :value => value[:value], 'data-rule-required' => "true"}
+                      %input.form-control{"data-toggle" => "tags", :placeholder => "Type here...", :type => "text", :value => value[:value], 'data-rule-required' => 'true'}
         .modal-footer
-          %button.btn.btn-sm.btn-success.rounded-pill.mr-auto{:type => "submit"} Install
-
-  :javascript
-    jQuery(document).ready(function() {
-      jQuery("#form-#{manager.signature}-install").validate();
-    });
+          %button.btn.btn-sm.btn-success.rounded-pill.mr-auto{:type => "submit"} Update

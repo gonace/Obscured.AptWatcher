@@ -36,18 +36,24 @@
                 %span.d-block.text-sm.text-muted.mb-3 Package Manager
                 %span.clearfix
                 - if manager.installed?
-                  %span.badge.badge-pill.badge-success Installed
+                  - if manager.enabled?
+                    %span.badge.badge-pill.badge-success Installed
+                  - else
+                    %span.badge.badge-pill.badge-warning Disabled
                 - else
                   %span.badge.badge-pill.badge-info Available
               .card-footer
                 .actions.d-flex.justify-content-between.px-4
-                  %a.action-item{:href => "#"}
-                    %i.fa.fa-cog
+                  - if manager.installed?
+                    %a.action-item{"data-toggle" => "modal", :href => "#modal-#{manager.signature}-settings", :type => "button"}
+                      %i.fa.fa-cog
                   - unless manager.installed?
                     %a.action-item{"data-toggle" => "modal", :href => "#modal-#{manager.signature}-install", :type => "button"}
                       %i.fa.fa-download
                   - if manager.installed?
-                    %a.action-item.text-danger{"data-target" => "#modal-#{manager.signature}-uninstall", "data-toggle" => "modal", :type => "button"}
+                    %a.action-item.text-danger{"data-toggle" => "modal", :href => "#modal-#{manager.signature}-uninstall", :type => "button"}
                       %i.fa.fa-trash
+          - if manager.installed?
+            = partial :'/partials/managers/settings', locals: {id: "modal-#{manager.signature}-settings", manager: manager}
           = partial :'/partials/managers/install', locals: {id: "modal-#{manager.signature}-install", manager: manager}
           = partial :'../shared/partials/modals/delete', locals: {id: "modal-#{manager.signature}-uninstall", model: { button: 'Uninstall the plugin', confirmation: 'UNINSTALL', header: 'Should we stop now?', message: 'The package manager will be uninstalled but all data will remain, you can later install the plugin and continue where it left off.', url: "/manager/#{manager.signature}/uninstall" }}

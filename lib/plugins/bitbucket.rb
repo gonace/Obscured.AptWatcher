@@ -4,34 +4,15 @@ module Obscured
   module AptWatcher
     module Plugins
       class Bitbucket < Plugin
-        def initialize
-          Bitbucket.config = Obscured::AptWatcher::Models::Configuration.where(type: :plugin, signature: :bitbucket).find_first
-        end
-
-
         def name
           'BitBucket'
         end
 
-        def category
-          'Authentication'
-        end
-
         def type
-          :plugin
+          :authentication
         end
 
-        def installed?
-          !Bitbucket.config.nil?
-        end
-
-        def install
-          if Bitbucket.config.nil?
-            Obscured::AptWatcher::Models::Configuration.make!(type: :plugin, signature: :bitbucket, properties: config)
-          end
-        end
-
-        def config
+        def template
           {
             enabled: { type: "checkbox", placeholder: "", value: true },
             key: { type: "text", placeholder: "", value: "" },
