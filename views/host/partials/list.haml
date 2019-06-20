@@ -38,8 +38,6 @@
               %a.action-item{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
                 %i.fa.fa-ellipsis-h
               .dropdown-menu.dropdown-menu-right
-                %a.dropdown-item{:href => "#"} Refresh
-                %a.dropdown-item{:href => "#"} Manage Widgets
                 %a.dropdown-item{:href => "#"} Settings
 
   = partial :'../shared/partials/pagination', :locals => { :_for => '#' + id, :url => url, :properties => model.properties }

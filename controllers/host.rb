@@ -17,9 +17,7 @@ module Obscured
               :model => model
             }
           rescue => e
-            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            Raygun.track_exception(e)
-
+            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
             flash[:error] = 'An unknown error occurred!'
             redirect '/users'
           end
@@ -44,9 +42,7 @@ module Obscured
               :model => model
             }
           rescue => e
-            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            Raygun.track_exception(e)
-
+            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
             {success: false, error: e.message}
           end
         end
@@ -105,9 +101,19 @@ module Obscured
 
             haml :edit, :locals => { :host => host }
           rescue => e
-            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            Raygun.track_exception(e)
+            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            flash[:error] = 'An unknown error occurred!'
+            redirect "/host/#{params[:id]}"
+          end
+        end
 
+        post 'create' do
+          authorize!
+
+          begin
+            pp params
+          rescue => e
+            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
             flash[:error] = 'An unknown error occurred!'
             redirect "/host/#{params[:id]}"
           end
@@ -143,9 +149,7 @@ module Obscured
             flash[:success] = "We're glad to announce that we could successfully save the changes for (#{host.hostname})"
             redirect "/host/#{host.id}/edit"
           rescue => e
-            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            Raygun.track_exception(e)
-
+            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
             flash[:error] = 'An unknown error occurred!'
             redirect "/host/#{params[:id]}"
           end

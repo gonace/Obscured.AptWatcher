@@ -1,5 +1,6 @@
 $LOAD_PATH.unshift File.dirname(__FILE__)
 require 'factory_bot'
+require 'rack/test'
 require 'rspec'
 require 'timecop'
 
@@ -21,9 +22,10 @@ require 'sinatra/contrib/all'
 require 'sinatra/cookies'
 require 'sinatra/flash'
 require 'sinatra/json'
-require 'sinatra/partial'
 require 'sinatra/multi_route'
 require 'sinatra/namespace'
+require 'sinatra/partial'
+require 'sinatra/sessionography'
 require 'slack-notifier'
 require 'sprockets'
 require 'pp'
@@ -38,6 +40,8 @@ Dir.glob('./lib/{alert,common,entities,helpers,managers,package,plugins,sinatra}
 Dir.glob('./lib/modules/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/models/embedded/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/models/*.rb').sort.each(&method(:require))
+Dir.glob('./controllers/*.rb').sort.each(&method(:require))
+Dir.glob('./controllers/api/*.rb').sort.each(&method(:require))
 
 
 RSpec.configure do |c|
@@ -45,15 +49,32 @@ RSpec.configure do |c|
   c.filter_run :focus
   c.run_all_when_everything_filtered = true
 
+  c.include FactoryBot::Syntax::Methods
+  c.include Rack::Test::Methods
+
   c.before(:suite) do
     FactoryBot.find_definitions
     Mongoid.purge!
+    Warden.test_mode!
   end
 
   c.before(:each) do
   end
 
   c.after(:suite) do
-    Mongoid.purge!
+    #Mongoid.purge!
+  end
+end
+
+module AppHelper
+  def self.get(klass)
+    Rack::Builder.new do
+      klass.helpers Sinatra::Sessionography
+      Warden::Manager.serialize_into_session(&:id)
+      Warden::Manager.serialize_from_session { |id| Obscured::Doorman::User.find(id) }
+      use Rack::Session::Cookie, :secret  => 't3h_s3cr3t_is_in_th3_sauc3_', :expire_after => 86400
+      use Warden::Manager
+      run klass
+    end.to_app
   end
 end

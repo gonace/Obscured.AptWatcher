@@ -5,7 +5,7 @@ module Obscured
     module Plugins
       class Bitbucket < Plugin
         def name
-          'BitBucket'
+          'Bitbucket'
         end
 
         def type

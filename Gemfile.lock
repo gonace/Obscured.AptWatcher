@@ -87,6 +87,8 @@ GEM
       rack
     rack-protection (2.0.5)
       rack
+    rack-test (1.1.0)
+      rack (>= 1.0, < 3)
     rack-user_agent (0.5.2)
       rack (>= 1.5)
       woothee (>= 1.0.0)
@@ -149,6 +151,8 @@ GEM
       sinatra (>= 1.0.0)
     sinatra-partial (1.0.1)
       sinatra (>= 1.4)
+    sinatra-sessionography (0.1.1)
+      sinatra (>= 1.0)
     slack-notifier (2.3.2)
     sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
@@ -198,6 +202,7 @@ DEPENDENCIES
   rack-contrib
   rack-flash3
   rack-protection
+  rack-test
   rack-user_agent
   raygun4ruby
   rerun
@@ -209,6 +214,7 @@ DEPENDENCIES
   sinatra-contrib
   sinatra-flash
   sinatra-partial
+  sinatra-sessionography
   slack-notifier
   sprockets
   sshkit

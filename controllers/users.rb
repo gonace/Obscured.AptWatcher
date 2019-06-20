@@ -31,7 +31,7 @@ module Obscured
 
             haml :user, :locals => { :user => user }
           rescue => e
-            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
             Raygun.track_exception(e)
 
             flash[:error] = 'An unknown error occurred!'
@@ -85,7 +85,7 @@ module Obscured
             flash[:success] = "We're glad to announce that we could successfully created the user (#{user.username})"
             redirect "/users/#{user.id}/view"
           rescue => e
-            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
             Raygun.track_exception(e)
 
             flash.now[:error] = "We're sad to announce that we could not create the user for an unknown reason"
@@ -116,7 +116,7 @@ module Obscured
             flash[:success] = "We're glad to announce that we could successfully save the changes for (#{user.username})"
             redirect "/users/#{user.id}/view"
           rescue => e
-            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
             Raygun.track_exception(e)
 
             flash[:error] = "We're sad to announce that we could not save the changes for (#{user.username})"
@@ -147,7 +147,7 @@ module Obscured
             end
             redirect "/users/#{user.id}/view"
           rescue => e
-            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
             Raygun.track_exception(e)
 
             flash[:error] = "We're sad to announce that we could not change password for (#{user.username})"
@@ -173,7 +173,7 @@ module Obscured
 
             redirect "/users/#{user.id}/view"
           rescue => e
-            Obscured::AptWatcher::Models::Error.make_and_save({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
             Raygun.track_exception(e)
 
             flash[:error] = "We're sad to announce that we could not update permissions for (#{user.username})"

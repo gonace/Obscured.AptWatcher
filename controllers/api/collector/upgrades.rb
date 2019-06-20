@@ -11,7 +11,7 @@ module Obscured
               begin
                 host = Obscured::AptWatcher::Models::Host.where(hostname: hostname).first
                 if host.nil?
-                  host = Obscured::AptWatcher::Models::Host.make_and_save({:hostname => hostname})
+                  host = Obscured::AptWatcher::Models::Host.make!({:hostname => hostname})
                 end
 
                 request.body.rewind
@@ -25,7 +25,7 @@ module Obscured
                 host.set_updates_installed({:packages => packages})
                 host.save!
 
-                scan = Obscured::AptWatcher::Models::Scan.make_and_save({:hostname => hostname, :packages => packages})
+                scan = Obscured::AptWatcher::Models::Scan.make!({:hostname => hostname, :packages => packages})
                 attachments = [
                   {
                     color: scan.packages.count > 10 ? Obscured::Alert::Color::ERROR : Obscured::Alert::Color::WARN,
@@ -66,7 +66,7 @@ module Obscured
                   end
 
                   slack_client.post icon_emoji: scan.packages.count > 10 ? ':bug-error:' : ':bug-warn:', attachments: attachments if config.slack.enabled
-                  Obscured::AptWatcher::Models::Alert.make_and_save({ :hostname => hostname, :type => Obscured::Alert::Type::PACKAGES, :message => "There are #{scan.packages.count} available updates for this host", :payload => attachments })
+                  Obscured::AptWatcher::Models::Alert.make!({ :hostname => hostname, :type => Obscured::Alert::Type::PACKAGES, :message => "There are #{scan.packages.count} available updates for this host", :payload => attachments })
                 else
                   alerts = Obscured::AptWatcher::Models::Alert.where(:hostname => hostname, :type => Obscured::Alert::Type::PACKAGES, :status => Obscured::Status::OPEN).to_a
                   alerts.each do |alert|
@@ -104,7 +104,7 @@ module Obscured
                 ]
                 slack_client.post icon_emoji: ':bug-error:', attachments: attachments if config.slack.enabled
 
-                Obscured::AptWatcher::Models::Error.make_and_save({ :notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />'), :payload => attachments })
+                Obscured::AptWatcher::Models::Error.make!({ :notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />'), :payload => attachments })
                 Raygun.track_exception(e) if config.raygun.enabled
 
                 {:success => false, :logged => true, :message => e.message, :backtrace => e.backtrace}.to_json

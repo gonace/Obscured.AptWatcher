@@ -3,12 +3,13 @@ module Obscured
     module Models
       class Gateway
         include Mongoid::Document
-        include Mongoid::Properties
+        include Mongoid::Tags
         include Mongoid::Timeline::Tracker
         include Mongoid::Timestamps
 
         store_in collection: 'gateways'
 
+        field :name, type: String
         field :hostname, type: String
         field :username, type: String
         field :password, type: String
@@ -18,12 +19,15 @@ module Obscured
 
         class << self
           def make(opts)
-            raise Obscured::DomainError.new(:required_field_missing, what: ':hostname') if opts[:hostname].empty?
-            raise Obscured::DomainError.new(:already_exists, what: 'host') if Gateway.where(:hostname => opts[:hostname]).exists?
+            raise Obscured::DomainError.new(:required_field_missing, what: 'name') if opts[:name].empty?
+            raise Obscured::DomainError.new(:required_field_missing, what: 'hostname') if opts[:hostname].empty?
+            raise Obscured::DomainError.new(:already_exists, what: 'hostname') if Gateway.where(:hostname => opts[:hostname]).exists?
 
             doc = self.new
+            doc.name = opts[:name]
             doc.hostname = opts[:hostname]
-            opts[:properties].each { |k, v| doc.set_property(k, v) } unless opts[:properties].nil?
+            doc.username = opts[:username]
+            doc.password = opts[:password]
             doc
           end
           def make!(opts)

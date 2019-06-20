@@ -13,9 +13,9 @@ module Obscured
       field :salt,                  type: String
       field :first_name,            type: String, :default => ''
       field :last_name,             type: String, :default => ''
-      field :mobile,                type: String, :default => ''
-      field :title,                 type: String, :default => Obscured::Doorman::Titles::APPRENTICE
-      field :role,                  type: Symbol, :default => Obscured::Doorman::Roles::ADMIN
+      #field :mobile,                type: String, :default => ''
+      #field :title,                 type: String, :default => Obscured::Doorman::Titles::APPRENTICE
+      #field :role,                  type: Symbol, :default => Obscured::Doorman::Roles::ADMIN
       field :confirmed,             type: Boolean, :default => true
       field :confirm_token,         type: String
       field :remember_token,        type: String
@@ -80,17 +80,17 @@ module Obscured
         self.last_name = last_name
       end
 
-      def set_role(role)
-        self.role = role
-      end
+      #def set_role(role)
+      #  self.role = role
+      #end
 
-      def set_title(title)
-        self.title = title
-      end
+      #def set_title(title)
+      #  self.title = title
+      #end
 
-      def set_mobile(mobile)
-        self.mobile = mobile
-      end
+      #def set_mobile(mobile)
+      #  self.mobile = mobile
+      #end
 
       def set_password(password)
         self.password = BCrypt::Password.create(password)

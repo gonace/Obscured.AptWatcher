@@ -21,49 +21,43 @@ module Obscured
 
 
         error 401 do
-          redirect ('/error/401')
+          redirect '/error/401'
         end
 
         error 403 do
-          redirect ('/error/403')
+          redirect '/error/403'
         end
 
         error 404 do
-          redirect ('/error/404')
+          redirect '/error/404'
         end
 
         error 408 do
-          redirect ('/error/408')
+          redirect '/error/408'
         end
 
         error 502 do
-          redirect ('/error/502')
+          redirect '/error/502'
         end
 
         error 503 do
-          redirect ('/error/503')
+          redirect '/error/503'
         end
 
         error 504 do
-          redirect ('/error/504')
+          redirect '/error/504'
         end
 
         error 500 do
-          #if Tulo.c('homer.raygun.enabled')
-          #  Raygun.track_exception(request.env['sinatra.error'])
-          #end
           flash[:error_type] = request.env['sinatra.error'].class.name
           flash[:error_message] = request.env['sinatra.error'].to_s
-          redirect ('/error/500')
+          redirect '/error/500'
         end
 
         error do
-          #if Tulo.c('homer.raygun.enabled')
-          #  Raygun.track_exception(request.env['sinatra.error'])
-          #end
           flash[:error_type] = request.env['sinatra.error'].class.name
           flash[:error_message] = request.env['sinatra.error'].to_s
-          redirect ('/error/500')
+          redirect '/error/500'
         end
       end
     end

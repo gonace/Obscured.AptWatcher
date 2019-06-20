@@ -11,6 +11,7 @@ module Obscured
     attr_reader :error_data
 
     @errors = {
+      :invalid_parameter => 'Missing or invalid parameter {what}',
       :invalid_api_method => 'No method parameter was supplied',
       :unspecified_error => 'Unspecified error',
       :already_exists => '{what}',

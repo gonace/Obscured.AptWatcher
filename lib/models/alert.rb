@@ -7,52 +7,53 @@ module Obscured
 
         store_in collection: 'alerts'
 
-        field :hostname,              type: String
-        field :message,               type: String, :default => ''
-        field :backtrace,             type: String
-        field :status,                type: String, :default => Obscured::Status::OPEN
-        field :type,                  type: String, :default => Obscured::Alert::Type::SYSTEM
-        field :notify,                type: Boolean, :default => true
-        field :payload,               type: String
+        field :hostname, type: String
+        field :message, type: String, :default => ''
+        field :backtrace, type: String
+        field :status, type: String, :default => Obscured::Status::OPEN
+        field :type, type: String, :default => Obscured::Alert::Type::SYSTEM
+        field :notify, type: Boolean, :default => true
+        field :payload, type: String
 
         index({ hostname: 1 }, { background: true })
         index({ status: 1 }, { background: true })
         index({ type: 1 }, { background: true })
 
 
-        def self.make(opts)
-          raise Obscured::DomainError.new(:required_field_missing, what: ':hostname') if opts[:hostname].empty?
-          raise Obscured::DomainError.new(:required_field_missing, what: ':message') if opts[:message].empty?
+        class << self
+          def self.make(opts)
+            raise Obscured::DomainError.new(:required_field_missing, what: ':hostname') if opts[:hostname].empty?
+            raise Obscured::DomainError.new(:required_field_missing, what: ':message') if opts[:message].empty?
 
-          entity = self.new
-          entity.hostname = opts[:hostname]
-          entity.message = opts[:message]
+            entity = self.new
+            entity.hostname = opts[:hostname]
+            entity.message = opts[:message]
 
-          unless opts[:backtrace].nil?
-            raise Obscured::DomainError.new(:invalid_type, what: ':backtrace') unless opts[:backtrace].kind_of?(String)
-            entity.backtrace = opts[:backtrace]
+            unless opts[:backtrace].nil?
+              raise Obscured::DomainError.new(:invalid_type, what: ':backtrace') unless opts[:backtrace].kind_of?(String)
+              entity.backtrace = opts[:backtrace]
+            end
+            unless opts[:status].nil?
+              raise Obscured::DomainError.new(:invalid_type, what: ':status') unless opts[:status].kind_of?(Obscured::Status)
+              entity.status = opts[:status]
+            end
+            unless opts[:type].nil?
+              entity.type = opts[:type]
+            end
+            unless opts[:notify].nil?
+              raise Obscured::DomainError.new(:invalid_type, what: ':notify') unless opts[:notify].kind_of?(Boolean)
+              entity.notify = opts[:notify]
+            end
+            unless opts[:payload].nil?
+              entity.payload = opts[:payload].to_s
+            end
+            entity
           end
-          unless opts[:status].nil?
-            raise Obscured::DomainError.new(:invalid_type, what: ':status') unless opts[:status].kind_of?(Obscured::Status)
-            entity.status = opts[:status]
+          def self.make!(opts)
+            entity = self.make(opts)
+            entity.save
+            entity
           end
-          unless opts[:type].nil?
-            entity.type = opts[:type]
-          end
-          unless opts[:notify].nil?
-            raise Obscured::DomainError.new(:invalid_type, what: ':notify') unless opts[:notify].kind_of?(Boolean)
-            entity.notify = opts[:notify]
-          end
-          unless opts[:payload].nil?
-            entity.payload = opts[:payload].to_s
-          end
-          entity
-        end
-
-        def self.make_and_save(opts)
-          entity = self.make(opts)
-          entity.save
-          entity
         end
 
 

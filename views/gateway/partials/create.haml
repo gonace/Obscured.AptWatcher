@@ -1,55 +1,73 @@
 #modal-project-create.modal.fade{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
   .modal-dialog.modal-dialog-centered{:role => "document"}
     .modal-content
-      .modal-body
-        .form-group
-          %label.form-control-label
-            Hostname
-          %small.form-text.text-muted.mb-2.mt-0
-            This must be a valid hostname and so on...
-          %input.form-control{:type => "text", :name => "hostname", :placeholder => "gateway.example.com"}
-        .form-group
-          .row
-            .col-6
-              %label.form-control-label.mb-0
-                Username
-              %input.form-control{:type => "text", :name => "username", :placeholder => "Username"}
-            .col-6
-              %label.form-control-label.mb-0
-                Password
-              %input.form-control{:type => "text", :name => "password", :placeholder => "Password"}
-        .form-group
-          %label.form-control-label
-            Maintainers
-          %input.form-control{:type => "text", :placeholder => "John Doe"}
-        .list-group.list-group-flush.mb-4
-          .list-group-item.px-0
-            .row.align-items-center
-              .col-auto
-                %a.avatar.avatar-sm.rounded-circle{:href => "#"}
-                  %img{:alt => "Image placeholder", :src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}"}
-              .col.ml-n2
-                %a.d-block.h6.text-sm.mb-0{:href => "#!"} Erik Hennerfors
-                %p.card-text.text-sm.text-muted.mb-0
-                  erik.hennerfors@obscured.se
-              .col-auto.text-right
-                %span.text-sm.text-info Host Admin
-          .list-group-item.px-0
-            .row.align-items-center
-              .col-auto
-                %a.avatar.avatar-sm.rounded-circle{:href => "#"}
-                  %img{:alt => "Image placeholder", :src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest("martin.hennerfors@obscured.se")}"}
-              .col.ml-n2
-                %a.d-block.h6.text-sm.mb-0{:href => "#!"} Martin Hennerfors
-                %p.card-text.text-sm.text-muted.mb-0
-                  martin.hennerfors@obscured.se
-              .col-auto.text-right
-                %span.text-sm.text-info Host Admin
-        .form-group
-          %label.form-control-label
-            Tags
-          %input.form-control{"data-toggle" => "tags", :placeholder => "Type here...", :type => "text", :value => "Sweden, Örebro, ore01.obscured.link"}
-      .modal-footer
-        %button.btn.btn-sm.btn-primary.rounded-pill.mr-auto{"data-dismiss" => "modal", :type => "button"} Save
-        %button.btn.btn-sm.btn-link.text-muted.px-2{:type => "button"} Archive
-        %button.btn.btn-sm.btn-link.text-danger.px-2{:type => "button"} Delete
+      %form#form-gateway-create{:action => "/gateway/create", :method => 'post'}
+        .modal-body
+          .form-group
+            %label.form-control-label
+              Name
+            %input.form-control{:type => "text", :name => "name", :placeholder => "e.g. Gateway Stockholm",  'data-rule-required' => 'true'}
+          .form-group
+            %label.form-control-label
+              Hostname
+              %small / IP-address
+            %small.form-text.text-muted.mb-2.mt-0
+              This must be a valid hostname and so on...
+            %input.form-control{:type => "text", :name => "hostname", :placeholder => "e.g. 10.0.0.1 or gateway.example.com", 'data-rule-required' => 'true'}
+          .form-group
+            .row
+              .col-6
+                %label.form-control-label.mb-0
+                  Username
+                %input.form-control{:type => "text", :name => "username", :placeholder => "Username", 'data-rule-required' => 'true'}
+              .col-6
+                .form-group
+                  .d-flex.align-items-center.justify-content-between
+                    %label.form-control-label.mb-0
+                      Password
+                  .input-group.input-group-merge
+                    %input.form-control{:id => "input-password", :name => "password", :placeholder => "Password", :type => "password", 'data-rule-required' => 'true'}
+                    .input-group-append
+                      %span.input-group-text
+                        %a{"data-target" => "#input-password", "data-toggle" => "password-text", :href => "#", 'data-rule-required' => "true"}
+                          %i.fas.fa-eye
+          .form-group{:style => "display: none;"}
+            %label.form-control-label
+              Maintainers
+            %input.form-control{:type => "text", :placeholder => "John Doe"}
+          .list-group.list-group-flush.mb-4{:style => "display: none;"}
+            .list-group-item.px-0
+              .row.align-items-center
+                .col-auto
+                  %a.avatar.avatar-sm.rounded-circle{:href => "#"}
+                    %img{:alt => "Image placeholder", :src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.username)}"}
+                .col.ml-n2
+                  %a.d-block.h6.text-sm.mb-0{:href => "#!"} Erik Hennerfors
+                  %p.card-text.text-sm.text-muted.mb-0
+                    erik.hennerfors@obscured.se
+                .col-auto.text-right
+                  %span.text-sm.text-info Host Admin
+            .list-group-item.px-0
+              .row.align-items-center
+                .col-auto
+                  %a.avatar.avatar-sm.rounded-circle{:href => "#"}
+                    %img{:alt => "Image placeholder", :src => "//www.gravatar.com/avatar/#{Digest::MD5.hexdigest("martin.hennerfors@obscured.se")}"}
+                .col.ml-n2
+                  %a.d-block.h6.text-sm.mb-0{:href => "#!"} Martin Hennerfors
+                  %p.card-text.text-sm.text-muted.mb-0
+                    martin.hennerfors@obscured.se
+                .col-auto.text-right
+                  %span.text-sm.text-info Host Admin
+          .form-group
+            %label.form-control-label
+              Tags
+            %input.form-control{"data-toggle" => "tags", :name => "tags", :placeholder => "Type here...", :type => "text", :value => ""}
+        .modal-footer
+          %button.btn.btn-sm.btn-primary.rounded-pill.mr-auto{:type => "submit"} Create
+          //%button.btn.btn-sm.btn-link.text-muted.px-2{:type => "button"} Archive
+          //%button.btn.btn-sm.btn-link.text-danger.px-2{:type => "button"} Delete
+
+  :javascript
+    jQuery(document).ready(function() {
+      jQuery("#form-gateway-create").validate();
+    });

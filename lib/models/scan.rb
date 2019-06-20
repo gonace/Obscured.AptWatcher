@@ -7,10 +7,12 @@ module Obscured
 
         store_in collection: 'scans'
 
-        field :hostname,              type: String
-        field :packages,              type: Array
-        field :updates_pending,       type: Integer, :default => 0
-        field :updates_installed,     type: Integer, :default => 0
+        field :hostname, type: String
+        field :packages, type: Array
+        field :pending, type: Integer, :default => 0
+        field :installed, type: Integer, :default => 0
+
+        belongs_to :host
 
         index({ hostname: 1 }, { background: true })
         index({ created_at: 1}, { background: true, expire_after_seconds: 31536000 })
