@@ -3,6 +3,7 @@ module Obscured
     module Models
       class Gateway
         include Mongoid::Document
+        include Mongoid::Status
         include Mongoid::Tags
         include Mongoid::Timeline::Tracker
         include Mongoid::Timestamps

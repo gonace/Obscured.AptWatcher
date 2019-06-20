@@ -13,6 +13,7 @@ module Obscured
 
         field :name, type: String
         field :hostname, type: String
+        field :manager, type: Symbol
         field :description, type: String, :default => ''
         field :pending, type: Integer, :default => 0
         field :installed, type: Integer, :default => 0
@@ -26,11 +27,13 @@ module Obscured
           def make(opts)
             raise Obscured::DomainError.new(:required_field_missing, what: 'name') if opts[:name].empty?
             raise Obscured::DomainError.new(:required_field_missing, what: 'hostname') if opts[:hostname].empty?
+            raise Obscured::DomainError.new(:required_field_missing, what: 'manager') if opts[:manager].empty?
             raise Obscured::DomainError.new(:already_exists, what: 'hostname') if Host.where(:hostname => opts[:hostname]).exists?
 
             doc = self.new
             doc.name = opts[:name]
             doc.hostname = opts[:hostname]
+            doc.manager = opts[:manager]
             doc
           end
           def make!(opts)

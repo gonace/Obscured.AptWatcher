@@ -32,20 +32,20 @@
                           %i.fas.fa-eye
           .form-group
             %label.form-control-label Gateway
-            %select.form-control{"data-toggle" => "select", 'data-rule-required' => 'true'}
+            %select.form-control{name: "gateway", "data-toggle" => "select", 'data-rule-required' => 'true'}
               %option{:value => "0"} None
               - Obscured::AptWatcher::Models::Gateway.all.each do |gw|
-                %option{:value => gw.id}= gw.hostname
+                %option{:value => gw.id}= "#{gw.name} (#{gw.hostname})"
           .form-group
             %label.form-control-label Package Manager
-            %select.form-control{"data-toggle" => "select"}
+            %select.form-control{name: "manager", "data-toggle" => "select"}
               - Obscured::AptWatcher::Managers.all.select(&:enabled?).each do |manager|
                 %option{:value => manager.signature}= manager.name
-          .form-group
+          .form-group{:style => "display: none;"}
             %label.form-control-label
               Maintainers
             %input.form-control{:type => "text"}
-          .list-group.list-group-flush.mb-4
+          .list-group.list-group-flush.mb-4{:style => "display: none;"}
             .list-group-item.px-0
               .row.align-items-center
                 .col-auto

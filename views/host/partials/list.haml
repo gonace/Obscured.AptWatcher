@@ -4,21 +4,31 @@
       %tr
         %th.sort{"data-sort" => "name", :scope => "col"} Host
         %th.sort{"data-sort" => "status", :scope => "col"} Status
-        %th{:scope => "col"} Users
+        %th.sort{"data-sort" => "manager", :scope => "col"} Manager
+        %th{:scope => "col"} Managers
         %th.sort{"data-sort" => "completion", :scope => "col"} Completion
         %th{:scope => "col"}
     %tbody.list
-      - model.items.each do |host|
+      - model.items.each do |item|
         %tr
           %th{:scope => "row"}
             .media.align-items-center
-              %a.avatar.avatar-sm.bg-primary.rounded-circle.text-white{:href => "/host/#{host.id.to_s}"} PN
+              %a.avatar.avatar-sm.bg-primary.rounded-circle.text-white{:href => "/host/#{item.id.to_s}"}= "#{item.name.chars.first.upcase}#{item.name.chars.last.upcase}"
               .media-body.ml-4
-                %a.name.mb-0.h6.text-sm{:href => "/host/#{host.id.to_s}"}= host.hostname
+                %a.name.mb-0.h6.text-sm{:href => "/host/#{item.id.to_s}"}= "#{item.name} (#{item.hostname})"
           %td
             %span.badge.badge-dot.mr-4
-              %i.bg-warning
-              %span.status pending
+              - if item.status == :connected
+                %i.bg-success
+              - elsif item.status == :pending
+                %i.bg-warning
+              - elsif item.status == :disconnected
+                %i.bg-danger
+              - else
+                %i.bg-danger
+              %span.status= item.status.capitalize
+          %td
+            = item.manager
           %td
             .avatar-group
               %a.avatar.rounded-circle.avatar-sm{:href => "#"}

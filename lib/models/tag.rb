@@ -34,8 +34,8 @@ module Obscured
           end
 
           def upsert(params)
-            if Tag.where({ :name => params[:name], :type => params[:type].to_sym }).exists?
-              return Tag.find_by({ :name => params[:name], :type => params[:type].to_sym }).exists?
+            if Tag.where(name: params[:name], type: params[:type].to_sym).exists?
+              return Tag.find_by(name: params[:name], type: params[:type].to_sym)
             end
 
             tag = make(params)

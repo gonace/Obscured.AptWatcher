@@ -102,21 +102,30 @@ module Obscured
             haml :edit, :locals => { :host => host }
           rescue => e
             Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            flash[:error] = 'An unknown error occurred!'
+            flash[:error] = e.message
             redirect "/host/#{params[:id]}"
           end
         end
 
-        post 'create' do
+        post '/create' do
           authorize!
 
-          begin
-            pp params
-          rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            flash[:error] = 'An unknown error occurred!'
-            redirect "/host/#{params[:id]}"
-          end
+          #begin
+            values = params.except(:tags)
+            host = Obscured::AptWatcher::Models::Host.make!(values)
+
+            params[:tags].split(",").each do |name|
+              tag = Obscured::AptWatcher::Models::Tag.upsert!(name: name, type: :default)
+              host.add_tag(tag)
+            end
+            host.save
+
+            redirect "/host/list"
+          #rescue => e
+          #  Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+          #  flash[:error] = e.message
+          #  redirect "/host/list"
+          #end
         end
 
         post '/:id/edit' do

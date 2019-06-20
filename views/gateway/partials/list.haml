@@ -4,7 +4,7 @@
       %tr
         %th.sort{"data-sort" => "name", :scope => "col"} Host
         %th.sort{"data-sort" => "status", :scope => "col"} Status
-        %th{:scope => "col"} Users
+        %th{:scope => "col"} Managers
         %th.sort{"data-sort" => "completion", :scope => "col"} Completion
         %th{:scope => "col"}
     %tbody.list
@@ -12,13 +12,20 @@
         %tr
           %th{:scope => "row"}
             .media.align-items-center
-              %a.avatar.avatar-sm.bg-primary.rounded-circle.text-white{:href => "/gateway/#{item.id.to_s}"} GW
+              %a.avatar.avatar-sm.bg-primary.rounded-circle.text-white{:href => "/gateway/#{item.id.to_s}"}= "#{item.name.chars.first.upcase}#{item.name.chars.last.upcase}"
               .media-body.ml-4
-                %a.name.mb-0.h6.text-sm{:href => "/gateway/#{item.id.to_s}"}= item.hostname
+                %a.name.mb-0.h6.text-sm{:href => "/gateway/#{item.id.to_s}"}= "#{item.name} (#{item.hostname})"
           %td
             %span.badge.badge-dot.mr-4
-              %i.bg-warning
-              %span.status pending
+              - if item.status == :connected
+                %i.bg-success
+              - elsif item.status == :pending
+                %i.bg-warning
+              - elsif item.status == :disconnected
+                %i.bg-danger
+              - else
+                %i.bg-danger
+              %span.status= item.status.capitalize
           %td
             .avatar-group
               %a.avatar.rounded-circle.avatar-sm{:href => "#"}
@@ -39,7 +46,6 @@
                 %i.fa.fa-ellipsis-h
               .dropdown-menu.dropdown-menu-right
                 %a.dropdown-item{:href => "#"} Refresh
-                %a.dropdown-item{:href => "#"} Manage Widgets
                 %a.dropdown-item{:href => "#"} Settings
 
   = partial :'../shared/partials/pagination', :locals => { :_for => '#' + id, :url => url, :properties => model.properties }
