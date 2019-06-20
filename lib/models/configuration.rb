@@ -22,8 +22,8 @@ module Obscured
 
             doc = self.new
             doc.type = opts[:type]
-            doc.properties = opts[:properties]
             doc.signature = opts[:signature]
+            doc.properties = opts[:properties]
             doc
           end
           def make!(opts)

@@ -17,8 +17,6 @@ module Mongoid
         index({ type: 1 }, background: true)
         index({ producer: 1 }, background: true)
         index({ _keywords: 1 }, background: true)
-
-        search_in :id, :type, :producer
       end
 
       module ClassMethods

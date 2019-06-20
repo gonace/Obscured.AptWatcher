@@ -46,19 +46,21 @@ module Obscured
             (graph_scans['data'] ||= []) << scan.count
           end
 
-          haml :index, :locals => { :alerts => alerts,
-                                    :alerts_open => alerts_open,
-                                    :alerts_closed => alerts_closed,
-                                    :hosts => hosts,
-                                    :hosts_connected => hosts_connected,
-                                    :hosts_disconnected => hosts_disconnected,
-                                    :hosts_with_updates => hosts_with_updates,
-                                    :hosts_without_updates => hosts_without_updates,
-                                    :scans => scans,
-                                    :scans_total => scans_total,
-                                    :graph_alerts => graph_alerts,
-                                    :graph_scans => graph_scans,
-                                    :graph_updates => graph_updates }
+          haml :index, :locals => {
+            :alerts => alerts,
+            :alerts_open => alerts_open,
+            :alerts_closed => alerts_closed,
+            :hosts => hosts,
+            :hosts_connected => hosts_connected,
+            :hosts_disconnected => hosts_disconnected,
+            :hosts_with_updates => hosts_with_updates,
+            :hosts_without_updates => hosts_without_updates,
+            :scans => scans,
+            :scans_total => scans_total,
+            :graph_alerts => graph_alerts,
+            :graph_scans => graph_scans,
+            :graph_updates => graph_updates
+          }
         end
       end
     end

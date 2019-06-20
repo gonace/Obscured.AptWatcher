@@ -37,7 +37,7 @@ module Sinatra
     #end
 
     def configuration
-      config = Obscured::AptWatcher::Models::Configuration.where({:instance => 'aptwatcher'}).first
+      config = Obscured::AptWatcher::Models::Configuration.where(type: :application, signature: :aptwatcher).first
 
       if config.nil?
         redirect '/setup'

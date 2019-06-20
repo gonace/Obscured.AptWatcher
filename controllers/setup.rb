@@ -32,7 +32,7 @@ module Obscured
           end
 
 
-          haml :setup, :locals => { :secret => params[:secret] }
+          haml :setup, locals: { secret: params[:secret] }
         end
 
 
@@ -42,8 +42,7 @@ module Obscured
             redirect '/setup'
           end
 
-          config = Models::Configuration.make({:instance => 'aptwatcher'})
-          config.instance = 'aptwatcher'
+          config = Models::Configuration.make(type: :application, signature: :aptwatcher, properties: { intsalled: true })
           config.save
 
           user = Obscured::Doorman::User.make(username: params[:user][:email], password: params[:user][:password])
