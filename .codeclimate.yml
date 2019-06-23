@@ -17,5 +17,5 @@ plugins:
 exclude_patterns:
 - "tests/"
 - "spec/"
-- "*.min.css"
-- "*.min.js"
+- "**/*.min.css"
+- "**/*.min.js"
