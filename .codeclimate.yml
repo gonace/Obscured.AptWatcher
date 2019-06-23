@@ -11,6 +11,8 @@ plugins:
       complex-logic:
         config:
           threshold: 10
+      similar-code:
+        enabled: false
   coffeelint:
     enabled: true
   eslint:
