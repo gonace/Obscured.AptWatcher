@@ -33,7 +33,9 @@ require 'pp'
 require 'warden'
 
 
-SimpleCov.start
+SimpleCov.start do
+  add_filter "/spec/"
+end
 
 Mongoid.load!(File.join(File.dirname(__FILE__), '/config/mongoid.yml'), 'spec')
 
