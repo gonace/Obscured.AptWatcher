@@ -8,6 +8,9 @@ plugins:
         enabled: false
       Rubocop/Metrics/MethodLength:
         enabled: false
+      complex-logic:
+        config:
+          threshold: 10
   coffeelint:
     enabled: true
   eslint:
