@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'sinatra/base'
 require 'rest-client'
-require File.expand_path('../github/messages', __FILE__)
-require File.expand_path('../github/access_token', __FILE__)
-require File.expand_path('../github/strategy', __FILE__)
+require File.expand_path('github/messages', __dir__)
+require File.expand_path('github/access_token', __dir__)
+require File.expand_path('github/strategy', __dir__)
 
 
 module Obscured
@@ -20,9 +22,7 @@ module Obscured
         #   )
         #
         def self.configure(options = nil, &block)
-          if !options.nil?
-            Configuration.instance.configure(options)
-          end
+          Configuration.instance.configure(options) unless options.nil?
         end
 
         ##
@@ -35,18 +35,18 @@ module Obscured
         class Configuration
           include Singleton
 
-          OPTIONS = [
-            :provider,
-            :client_id,
-            :client_secret,
-            :authorize_url,
-            :token_url,
-            :login_url,
-            :redirect_url,
-            :scopes,
-            :valid_domains,
-            :token
-          ]
+          OPTIONS = %i[
+            provider
+            client_id
+            client_secret
+            authorize_url
+            token_url
+            login_url
+            redirect_url
+            scopes
+            domains
+            token
+          ].freeze
 
           attr_accessor :data
 
@@ -67,22 +67,21 @@ module Obscured
             @data.rmerge!(options)
           end
 
-          def initialize # :nodoc
+          def initialize
             @data = Doorman::ConfigurationHash.new
             set_defaults
           end
 
           def set_defaults
-            @data[:provider]           = Obscured::Doorman::Providers::GitHub           # Provider name
-            @data[:client_id]          = nil                                            # GitHub consumer key
-            @data[:client_secret]      = nil                                            # GitHub consumer secret
-            @data[:authorize_url]      = 'https://github.com/login/oauth/authorize'     # GitHub Authorize URL
-            @data[:token_url]          = 'https://github.com/login/oauth/access_token'  # GitHub Token URL
-            @data[:login_url]          = '/doorman/oauth2/github'                       # Login url
-            @data[:redirect_uri]       = '/doorman/oauth2/github/callback'              # Redirect url
-            @data[:valid_domains]      = nil                                            # Domain that should be accepted (nil = accept all email domains), also
-                                                                                        # accepting comma separated string to support multiple domains validation.
-            @data[:scopes]             = 'user:email'                                   # GitHub scopes
+            @data[:provider]           = Obscured::Doorman::Providers::GitHub
+            @data[:client_id]          = nil
+            @data[:client_secret]      = nil
+            @data[:authorize_url]      = 'https://github.com/login/oauth/authorize'
+            @data[:token_url]          = 'https://github.com/login/oauth/access_token'
+            @data[:login_url]          = '/doorman/oauth2/github'
+            @data[:redirect_uri]       = '/doorman/oauth2/github/callback'
+            @data[:domains]            = nil
+            @data[:scopes]             = 'user:email'
             @data[:token]              = nil
           end
 
@@ -92,7 +91,7 @@ module Obscured
               def #{o}
                 instance.data[:#{o}]
               end
-        
+
               def #{o}=(value)
                 instance.data[:#{o}] = value
               end
@@ -105,14 +104,6 @@ module Obscured
           app.helpers Doorman::Base::PrivateHelpers
           app.helpers Doorman::Helpers
 
-          # Enable Sessions
-          #unless defined?(Rack::Session::Cookie)
-          #  app.set :sessions, true
-          #end
-
-          #app.use Warden::Manager do |config|
-          #  config.strategies.add :github, GitHub::Strategy
-          #end
           Warden::Strategies.add(:github, GitHub::Strategy)
 
           app.get '/doorman/oauth2/github' do
@@ -122,12 +113,12 @@ module Obscured
           app.get '/doorman/oauth2/github/callback/?' do
             begin
               response = RestClient::Request.new(
-                :method => :post,
-                :url => GitHub.config[:token_url],
-                :user => GitHub.config[:client_id],
-                :password => GitHub.config[:client_secret],
-                :payload => "code=#{params[:code]}&grant_type=authorization_code&scope=#{GitHub.config[:scopes]}",
-                :headers => {:Accept => 'application/json'}
+                method: :post,
+                url: GitHub.config[:token_url],
+                user: GitHub.config[:client_id],
+                password: GitHub.config[:client_secret],
+                payload: "code=#{params[:code]}&grant_type=authorization_code&scope=#{GitHub.config[:scopes]}",
+                headers: {Accept: 'application/json'}
               ).execute
 
               json = JSON.parse(response.body)
@@ -135,7 +126,7 @@ module Obscured
                                               token_type: json['token_type'],
                                               scope: json['scope'])
 
-              emails = RestClient.get 'https://api.github.com/user/emails',{ 'Authorization' => "token #{token.access_token}" }
+              emails = RestClient.get 'https://api.github.com/user/emails', 'Authorization' => "token #{token.access_token}"
               emails = JSON.parse(emails.body)
               token.emails = emails.map { |e| e['email'] }
               GitHub.config[:token] = token
@@ -148,9 +139,7 @@ module Obscured
               redirect '/doorman/login'
             ensure
               # Notify if there are any messages from Warden.
-              unless warden.message.blank?
-                notify :error, warden.message
-              end
+              notify :error, warden.message unless warden.message.blank?
               redirect Obscured::Doorman.config.use_referrer && session[:return_to] ? session.delete(:return_to) : Obscured::Doorman.config.paths[:success]
             end
           end

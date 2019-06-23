@@ -8,7 +8,7 @@ module Obscured
         get '/' do
           authorize!
 
-          haml :index, :locals => { :config => configuration }
+          haml :index, locals: { config: configuration }
         end
 
         get '/authentication' do
@@ -16,26 +16,10 @@ module Obscured
 
           begin
 
-            haml :authentication, :locals => {
+            haml :authentication, locals: {
             }
           rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            flash[:error] = e.message
-            redirect '/'
-          end
-        end
-
-        get '/plugins' do
-          authorize!
-
-          begin
-            plugins = Obscured::AptWatcher::Plugins.all.sort_by(&:signature)
-
-            haml :plugins, :locals => {
-              :plugins => plugins
-            }
-          rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
             flash[:error] = e.message
             redirect '/'
           end
@@ -47,11 +31,27 @@ module Obscured
           begin
             managers = Obscured::AptWatcher::Managers.all.sort_by(&:signature)
 
-            haml :managers, :locals => {
-              :managers => managers
+            haml :managers, locals: {
+              managers: managers
             }
           rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
+            flash[:error] = e.message
+            redirect '/'
+          end
+        end
+
+        get '/plugins' do
+          authorize!
+
+          begin
+            plugins = Obscured::AptWatcher::Plugins.all.sort_by(&:signature)
+
+            haml :plugins, locals: {
+              plugins: plugins
+            }
+          rescue => e
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
             flash[:error] = e.message
             redirect '/'
           end
@@ -72,7 +72,7 @@ module Obscured
             end
             config.save
 
-            Obscured::AptWatcher::Entities::Ajax::Response.new({:enabled => enabled}).to_json
+            Obscured::AptWatcher::Entities::Ajax::Response.new(enabled: enabled).to_json
           rescue Exception => e
             Obscured::AptWatcher::Entities::Ajax::Error.new(e.message, e.class.name, false).to_json
           end
@@ -93,7 +93,7 @@ module Obscured
             end
             config.save
 
-            Obscured::AptWatcher::Entities::Ajax::Response.new({:enabled => enabled}).to_json
+            Obscured::AptWatcher::Entities::Ajax::Response.new(enabled: enabled).to_json
           rescue Exception => e
             Obscured::AptWatcher::Entities::Ajax::Error.new(e.message, e.class.name, false).to_json
           end
@@ -114,7 +114,7 @@ module Obscured
             end
             config.save
 
-            Obscured::AptWatcher::Entities::Ajax::Response.new({:enabled => enabled}).to_json
+            Obscured::AptWatcher::Entities::Ajax::Response.new(enabled: enabled).to_json
           rescue Exception => e
             Obscured::AptWatcher::Entities::Ajax::Error.new(e.message, e.class.name, false).to_json
           end
@@ -135,7 +135,7 @@ module Obscured
             end
             config.save
 
-            Obscured::AptWatcher::Entities::Ajax::Response.new({:enabled => enabled}).to_json
+            Obscured::AptWatcher::Entities::Ajax::Response.new(enabled: enabled).to_json
           rescue Exception => e
             Obscured::AptWatcher::Entities::Ajax::Error.new(e.message, e.class.name, false).to_json
           end
@@ -156,7 +156,7 @@ module Obscured
             end
             config.save
 
-            Obscured::AptWatcher::Entities::Ajax::Response.new({:enabled => enabled}).to_json
+            Obscured::AptWatcher::Entities::Ajax::Response.new(enabled: enabled).to_json
           rescue Exception => e
             Obscured::AptWatcher::Entities::Ajax::Error.new(e.message, e.class.name, false).to_json
           end
@@ -177,7 +177,7 @@ module Obscured
             end
             config.save
 
-            Obscured::AptWatcher::Entities::Ajax::Response.new({:enabled => enabled}).to_json
+            Obscured::AptWatcher::Entities::Ajax::Response.new(enabled: enabled).to_json
           rescue Exception => e
             Obscured::AptWatcher::Entities::Ajax::Error.new(e.message, e.class.name, false).to_json
           end
@@ -198,7 +198,7 @@ module Obscured
             end
             config.save
 
-            Obscured::AptWatcher::Entities::Ajax::Response.new({:enabled => enabled}).to_json
+            Obscured::AptWatcher::Entities::Ajax::Response.new(enabled: enabled).to_json
           rescue Exception => e
             Obscured::AptWatcher::Entities::Ajax::Error.new(e.message, e.class.name, false).to_json
           end

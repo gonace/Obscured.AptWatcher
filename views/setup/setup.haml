@@ -6,9 +6,9 @@
           .card-body.px-md-5.py-5
             .mb-5
               %h6.h3 Setup
-              %p.text-muted.mb-0 Made with love by developers for developers.
+              %p.text-muted.mb-0 Create your first account.
             %span.clearfix
-            %form{:action => '/setup/define', :method => 'POST', :role => "form"}
+            %form{:action => '/setup/register', :method => 'POST', :role => "form"}
               %input{:type => 'hidden', :name => 'secret', :value => secret }
               = partial :'../shared/partials/alerts'
               .row
@@ -51,7 +51,7 @@
                     %a{:href => "#"} privacy policy
               .mt-4
                 %button.btn.btn-sm.btn-primary.btn-icon.rounded-pill{:type => "submit"}
-                  %span.btn-inner--text Continue
+                  %span.btn-inner--text Create my account
                   %span.btn-inner--icon
                     %i.fas.fa-long-arrow-alt-right
 

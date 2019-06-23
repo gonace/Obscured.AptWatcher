@@ -9,33 +9,31 @@ module Obscured
           def valid?
             emails = Bitbucket.config[:token].emails
 
-            unless Bitbucket.config.valid_domains.nil?
-              if valid_domain!
-                return true
-              end
+            if Bitbucket.config.valid_domains.nil?
+              return true unless emails.empty?
             else
-              if emails.length > 0
-                return true
-              end
+              return true if valid_domain!
             end
 
-            fail!(Bitbucket::Messages[:invalid_domain])
-            return false
+            fail!(Bitbucket::MESSAGES[:invalid_domain])
+            false
           end
 
           def authenticate!
             user = User.where(:username.in => Bitbucket.config[:token].emails).first
 
             if user.nil?
-              fail!(Obscured::Doorman::Messages[:login_bad_credentials])
+              fail!(Obscured::Doorman::MESSAGES[:login_bad_credentials])
             elsif !user.confirmed
-              fail!(Obscured::Doorman::Messages[:login_not_confirmed])
+              fail!(Obscured::Doorman::MESSAGES[:login_not_confirmed])
             else
               success!(user)
             end
           end
 
+
           private
+
           def valid_domain!
             emails = Bitbucket.config[:token].emails || []
             domains = Bitbucket.config.valid_domains.split(',')

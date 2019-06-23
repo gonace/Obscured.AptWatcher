@@ -4,7 +4,7 @@ module Obscured
       include HashRecursiveMerge
 
       def method_missing(meth, *args, &block)
-        has_key?(meth) ? self[meth] : super
+        key?(meth) ? self[meth] : super
       end
     end
   end

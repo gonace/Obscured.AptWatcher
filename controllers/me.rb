@@ -9,13 +9,15 @@ module Obscured
           authorize!
 
           begin
+            user = Obscured::Doorman::User.find(current_user.id)
+            timeline = user.find_events({}, { limit: 20 })
 
-            haml :profile, :locals => {
+            haml :profile, locals: {
+              user: user,
+              timeline: timeline
             }
           rescue => e
             Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            Raygun.track_exception(e)
-
             flash[:error] = e.message
             redirect '/'
           end
@@ -30,8 +32,6 @@ module Obscured
             }
           rescue => e
             Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            Raygun.track_exception(e)
-
             flash[:error] = e.message
             redirect '/'
           end
@@ -46,8 +46,6 @@ module Obscured
             }
           rescue => e
             Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            Raygun.track_exception(e)
-
             flash[:error] = e.message
             redirect '/'
           end

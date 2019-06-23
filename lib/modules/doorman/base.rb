@@ -5,8 +5,13 @@ require 'pony'
 module Obscured
   module Doorman
     class Warden::SessionSerializer
-      def serialize(user); user.id; end
-      def deserialize(id); User.get(id); end
+      def serialize(user)
+        user.id
+      end
+
+      def deserialize(id)
+        User.find(id)
+      end
     end
 
 
@@ -14,8 +19,8 @@ module Obscured
       module PrivateHelpers
         # Generates a flash message by trying to fetch a default message, if that fails just pass the message
         def notify(type, message)
-          message = Obscured::Doorman::Messages[message] if message.is_a?(Symbol)
-          flash[type] = message if defined?(Sinatra::Flash)
+          message = Obscured::Doorman::MESSAGES[message] if message.is_a?(Symbol)
+          flash[type] = message
         end
 
         # Generates a url for confirm account or reset password
@@ -29,16 +34,12 @@ module Obscured
         app.helpers Obscured::Doorman::Helpers
 
         # Enable Sessions
-        unless defined?(Rack::Session::Cookie)
-          app.set :sessions, true
-        end
+        app.set :sessions, true unless defined?(Rack::Session::Cookie)
 
         app.use Warden::Manager do |config|
-          config.scope_defaults :default,
-            action: '/doorman/unauthenticated'
-
+          config.scope_defaults :default, action: '/doorman/unauthenticated'
           config.failure_app = lambda { |_env|
-            notify :error, Obscured::Doorman[:auth_required] if defined?(Sinatra::Flash)
+            notify :error, Obscured::Doorman[:auth_required]
             [302, { 'Location' => Obscured::Doorman.config.paths[:login] }, ['']]
           }
         end
@@ -81,7 +82,7 @@ module Obscured
           end
 
           begin
-            user = User.make({:username => params[:user][:email], :password => params[:user][:password], :confirmed => !Obscured::Doorman.config.confirmation})
+            user = User.make(username: params[:user][:email], password: params[:user][:password], confirmed: !Obscured::Doorman.config.confirmation)
             user.set_name(params[:user][:first_name], params[:user][:last_name])
             user.save
           rescue => e
@@ -91,21 +92,22 @@ module Obscured
 
           notify :success, :signup_success
           Pony.mail(
-            :to => user.username,
-            :from => "aptwatcher@#{Obscured::Doorman.config.smtp_domain}",
-            :subject => 'Account activation request',
-            :body => "You have to activate your account (#{user.username}) before using this service. " + token_link('confirm', user),
-            :html_body => (haml :'/templates/account_activation', :locals => {:user => user.username, :link => token_link('confirm', user)}, :layout => false),
-            :via => :smtp,
-            :via_options => {
-              :address        	    => Obscured::Doorman.config.smtp_server,
-              :port          	  	  => Obscured::Doorman.config.smtp_port,
-              :enable_starttls_auto => true,
-              :user_name         	  => Obscured::Doorman.config.smtp_username,
-              :password          	  => Obscured::Doorman.config.smtp_password,
-              :authentication 	    => :plain,
-              :domain           	  => Obscured::Doorman.config.smtp_domain
-          })
+            to: user.username,
+            from: "aptwatcher@#{Obscured::Doorman.config.smtp_domain}",
+            subject: 'Account activation request',
+            body: "You have to activate your account (#{user.username}) before using this service. " + token_link('confirm', user),
+            html_body: (haml :'/templates/account_activation', locals: {user: user.username, link: token_link('confirm', user)}, layout: false),
+            via: :smtp,
+            via_options: {
+              address: Obscured::Doorman.config.smtp_server,
+              port: Obscured::Doorman.config.smtp_port,
+              enable_starttls_auto: true,
+              user_name: Obscured::Doorman.config.smtp_username,
+              password: Obscured::Doorman.config.smtp_password,
+              authentication: :plain,
+              domain: Obscured::Doorman.config.smtp_domain
+            }
+          )
 
           redirect "/doorman/login?email=#{user.username}"
         end
@@ -118,7 +120,7 @@ module Obscured
             redirect '/'
           end
 
-          user = User.where({:confirm_token => params[:token]}).first
+          user = User.where(confirm_token: params[:token]).first
           if user.nil?
             notify :error, :confirm_no_user
           else
@@ -132,11 +134,9 @@ module Obscured
           redirect Obscured::Doorman.config.paths[:success] if authenticated?
 
           email = cookies[:email]
-          if email.nil?
-            email = params[:email] rescue ''
-          end
+          email = params[:email] rescue '' if email.nil?
 
-          haml :login, locals: {:email => email}
+          haml :login, locals: { email: email }
         end
 
         app.post '/doorman/login' do
@@ -146,9 +146,7 @@ module Obscured
           cookies[:email] = params['user']['email']
 
           # Notify if there are any messages from Warden.
-          unless warden.message.blank?
-            notify :error, warden.message
-          end
+          notify :error, warden.message unless warden.message.blank?
 
           redirect(Obscured::Doorman.config.use_referrer && session[:return_to] ? session.delete(:return_to) : Obscured::Doorman.config.paths[:success])
         end

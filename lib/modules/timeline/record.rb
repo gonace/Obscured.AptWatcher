@@ -60,23 +60,9 @@ module Mongoid
           criterion = criterion.order_by(order) if order
 
           docs = criterion.to_a
-          docs.map(&:to_hash)
+          docs
         end
       end
-
-
-      def to_hash
-        {
-          id: self.id.to_s,
-          type: self.has_attribute?(:type) ? self.type : nil,
-          message: self.has_attribute?(:message) ? self.message : nil,
-          producer: self.has_attribute?(:producer) ? self.producer : nil,
-          proprietor: self.has_attribute?(:proprietor) ? self.proprietor : nil,
-          created_at: self.has_attribute?(:created_at) ? self.created_at : nil,
-          updated_at: self.has_attribute?(:updated_at) ? self.updated_at : nil
-        }
-      end
-      alias to_h to_hash
     end
   end
 end

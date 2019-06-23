@@ -6,9 +6,9 @@ Mongoid::Search.setup do |cfg|
   cfg.strip_accents = //
 end
 
-require 'timeline/record'
-require 'timeline/service'
-require 'timeline/tracker'
+require_relative 'timeline/record'
+require_relative 'timeline/service'
+require_relative 'timeline/tracker'
 
 module Mongoid
   module Timeline

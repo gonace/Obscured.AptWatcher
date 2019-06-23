@@ -16,21 +16,23 @@ describe Obscured::AptWatcher::Models::Gateway do
   }
 
   context 'make' do
-    let!(:document) { Obscured::AptWatcher::Models::Gateway.make(properties.except(:tags).merge(hostname: "10.0.0.2")) }
+    let!(:gateway) { Obscured::AptWatcher::Models::Gateway.make(properties.except(:tags).merge(hostname: "10.0.0.2")) }
 
     it 'returns an unsaved document' do
-      expect(document).to_not be_nil
-      expect(document.persisted?).to be(false)
+      expect(gateway).to_not be_nil
+      expect(gateway.password).to eq(properties[:password])
+      expect(gateway.persisted?).to be(false)
     end
   end
 
   context 'make!' do
-    let!(:document) { Obscured::AptWatcher::Models::Gateway.make!(properties.except(:tags)) }
+    let!(:gateway) { Obscured::AptWatcher::Models::Gateway.make!(properties.except(:tags)) }
 
     context 'without tags' do
       it 'returns an unsaved document' do
-        expect(document).to_not be_nil
-        expect(document.persisted?).to be(true)
+        expect(gateway).to_not be_nil
+        expect(gateway.password).to eq(properties[:password])
+        expect(gateway.persisted?).to be(true)
       end
     end
 
@@ -38,14 +40,14 @@ describe Obscured::AptWatcher::Models::Gateway do
       before(:each) {
         properties[:tags].split(",").each do |name|
           tag = Obscured::AptWatcher::Models::Tag.upsert!({ name: name, type: :default})
-          document.add_tag(tag)
+          gateway.add_tag(tag)
         end
       }
 
       it 'returns document with tags' do
-        expect(document.tags).to_not be(nil)
-        expect(document.tags.first.name).to eq('Stockholm')
-        expect(document.tags.last.name).to eq('Sweden')
+        expect(gateway.tags).to_not be(nil)
+        expect(gateway.tags.first.name).to eq('Stockholm')
+        expect(gateway.tags.last.name).to eq('Sweden')
       end
     end
   end

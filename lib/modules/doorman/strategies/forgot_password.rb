@@ -20,7 +20,7 @@ module Obscured
               email = params[:email] rescue ''
             end
 
-            haml :forgot, :locals => {:email => email}
+            haml :forgot, locals: { email: email }
           end
 
           app.post '/doorman/forgot' do
@@ -36,24 +36,29 @@ module Obscured
               notify :error, :reset_system_user
               redirect Obscured::Doorman.config.paths[:forgot]
             end
+            user.forget_password!
 
-            user.forgot_password!
+            template = haml :'/templates/password_reset', layout: false, locals: {
+              user: user.username,
+              link: token_link('reset', user)
+            }
             Pony.mail(
-              :to => user.username,
-              :from => "aptwatcher@#{Obscured::Doorman.config.smtp_domain}",
-              :subject => 'Password change request',
-              :body => "We have received a password change request for your account (#{user.username}). " + token_link('reset', user),
-              :html_body => (haml :'/templates/password_reset', :locals => {:user => user.username, :link => token_link('reset', user)}, :layout => false),
-              :via => :smtp,
-              :via_options => {
-                :address              => Obscured::Doorman.config.smtp_server,
-                :port                 => Obscured::Doorman.config.smtp_port,
-                :enable_starttls_auto => true,
-                :user_name            => Obscured::Doorman.config.smtp_username,
-                :password             => Obscured::Doorman.config.smtp_password,
-                :authentication       => :plain,
-                :domain               => Obscured::Doorman.config.smtp_domain
-              })
+              to: user.username,
+              from: "aptwatcher@#{Obscured::Doorman.config.smtp_domain}",
+              subject: 'Password change request',
+              body: "We have received a password change request for your account (#{user.username}). " + token_link('reset', user),
+              html_body: template,
+              via: :smtp,
+              via_options: {
+                address: Obscured::Doorman.config.smtp_server,
+                port: Obscured::Doorman.config.smtp_port,
+                enable_starttls_auto: true,
+                user_name: Obscured::Doorman.config.smtp_username,
+                password: Obscured::Doorman.config.smtp_password,
+                authentication: :plain,
+                domain: Obscured::Doorman.config.smtp_domain
+              }
+            )
             notify :success, :forgot_success
             redirect Obscured::Doorman.config.paths[:login]
           end
@@ -66,20 +71,23 @@ module Obscured
               redirect '/'
             end
 
-            user = User.where({:confirm_token => params[:token]}).first
+            user = User.where(confirm_token: params[:token]).first
             if user.nil?
               notify :error, :reset_no_user
               redirect Obscured::Doorman.config.paths[:login]
             end
 
-            haml :reset, :locals => { :token => user.confirm_token, :email => user.username }
+            haml :reset, locals: {
+              token: user.confirm_token,
+              email: user.username
+            }
           end
 
           app.post '/doorman/reset' do
             redirect Obscured::Doorman.config.paths[:success] if authenticated?
             redirect '/' unless params['user']
 
-            user = User.where({:confirm_token => params[:user][:token]}).first rescue nil
+            user = User.where(confirm_token: params[:user][:token]).first
             if user.nil?
               notify :error, :reset_no_user
               redirect Obscured::Doorman.config.paths[:login]
@@ -89,31 +97,37 @@ module Obscured
               redirect Obscured::Doorman.config.paths[:login]
             end
 
-            success = user.reset_password!(
-                params['user']['password'],
-                params['user']['password_confirmation'])
+            success = user.reset_password!(params['user']['password'], params['user']['password_confirmation'])
 
-            unless success
+            if success
+              position = Geocoder.search(request.ip)
+              template = haml :'/templates/password_confirmation', layout: false, locals: {
+                user: user.username,
+                browser: "#{request.browser} #{request.browser_version}",
+                location: "#{position.first.city rescue ''},#{position.first.country rescue ''}",
+                ip: request.ip,
+                system: "#{request.os} #{request.os_version}"
+              }
+
+              Pony.mail(
+                to: user.username,
+                from: "aptwatcher@#{Obscured::Doorman.config.smtp_domain}",
+                subject: 'Password change confirmation',
+                body: "The password for your account (#{user.username}) was recently changed. This change was made from the following device or browser from: ",
+                html_body: template,
+                via: :smtp,
+                via_options: {
+                  address: Obscured::Doorman.config.smtp_server,
+                  port: Obscured::Doorman.config.smtp_port,
+                  enable_starttls_auto: true,
+                  user_name: Obscured::Doorman.config.smtp_username,
+                  password: Obscured::Doorman.config.smtp_password,
+                  authentication: :plain,
+                  domain: Obscured::Doorman.config.smtp_domain
+                })
+            else
               notify :error, :reset_unmatched_passwords
               redirect back
-            else
-              geo_position = Geocoder.search(request.ip)
-              Pony.mail(
-                :to => user.username,
-                :from => "aptwatcher@#{Obscured::Doorman.config.smtp_domain}",
-                :subject => 'Password change confirmation',
-                :body => "The password for your account (#{user.username}) was recently changed. This change was made from the following device or browser from: ",
-                :html_body => (haml :'/templates/password_confirmation', :locals => {:user => user.username, :browser => "#{request.browser} #{request.browser_version}", :location => "#{geo_position.first.city rescue ''},#{geo_position.first.country rescue ''}", :ip => request.ip, :system => "#{request.os} #{request.os_version}"}, :layout => false),
-                :via => :smtp,
-                :via_options => {
-                  :address              => Obscured::Doorman.config.smtp_server,
-                  :port                 => Obscured::Doorman.config.smtp_port,
-                  :enable_starttls_auto => true,
-                  :user_name            => Obscured::Doorman.config.smtp_username,
-                  :password             => Obscured::Doorman.config.smtp_password,
-                  :authentication       => :plain,
-                  :domain               => Obscured::Doorman.config.smtp_domain
-                })
             end
 
             user.confirm_email!

@@ -1,3 +1,5 @@
+require 'symmetric_encryption'
+
 module Obscured
   module AptWatcher
     module Models
@@ -13,7 +15,7 @@ module Obscured
         field :name, type: String
         field :hostname, type: String
         field :username, type: String
-        field :password, type: String
+        field :encrypted_password, type: String, encrypted: { random_iv: true }
 
         index({ hostname: 1 }, { background: true })
 

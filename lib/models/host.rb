@@ -1,3 +1,5 @@
+require 'symmetric_encryption'
+
 module Obscured
   module AptWatcher
     module Models
@@ -13,6 +15,8 @@ module Obscured
 
         field :name, type: String
         field :hostname, type: String
+        field :username, type: String
+        field :encrypted_password, type: String, encrypted: { random_iv: true }
         field :manager, type: Symbol
         field :description, type: String, :default => ''
         field :pending, type: Integer, :default => 0
@@ -33,6 +37,8 @@ module Obscured
             doc = self.new
             doc.name = opts[:name]
             doc.hostname = opts[:hostname]
+            doc.username = opts[:username]
+            doc.password = opts[:password]
             doc.manager = opts[:manager]
             doc
           end

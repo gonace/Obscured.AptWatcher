@@ -20,9 +20,7 @@ module Obscured
         #   )
         #
         def self.configure(options = nil, &block)
-          if !options.nil?
-            Configuration.instance.configure(options)
-          end
+          Configuration.instance.configure(options) unless options.nil?
         end
 
         ##
@@ -35,18 +33,18 @@ module Obscured
         class Configuration
           include Singleton
 
-          OPTIONS = [
-            :provider,
-            :client_id,
-            :client_secret,
-            :authorize_url,
-            :token_url,
-            :login_url,
-            :redirect_url,
-            :scopes,
-            :valid_domains,
-            :token
-          ]
+          OPTIONS = %i[
+            provider
+            client_id
+            client_secret
+            authorize_url
+            token_url
+            login_url
+            redirect_url
+            scopes
+            domains
+            token
+          ].freeze
 
           attr_accessor :data
 
@@ -67,22 +65,21 @@ module Obscured
             @data.rmerge!(options)
           end
 
-          def initialize # :nodoc
+          def initialize
             @data = Doorman::ConfigurationHash.new
             set_defaults
           end
 
           def set_defaults
-            @data[:provider]           = Obscured::Doorman::Providers::Bitbucket          # Provider name
-            @data[:client_id]          = nil                                              # Bitbucket consumer key
-            @data[:client_secret]      = nil                                              # Bitbucket consumer secret
-            @data[:authorize_url]      = 'https://bitbucket.org/site/oauth2/authorize'    # Bitbucket Authorize URL
-            @data[:token_url]          = 'https://bitbucket.org/site/oauth2/access_token' # Bitbucket Token URL
-            @data[:login_url]          = '/doorman/oauth2/bitbucket'                      # Login url
-            @data[:redirect_url]       = '/doorman/oauth2/bitbucket/callback'             # Redirect url
-            @data[:valid_domains]      = nil                                              # Domain that should be accepted (nil = accept all email domains), also
-                                                                                          # accepting comma separated string to support multiple domains validation.
-            @data[:scopes]             = 'account'                                        # Bitbucket scopes
+            @data[:provider]           = Obscured::Doorman::Providers::Bitbucket
+            @data[:client_id]          = nil
+            @data[:client_secret]      = nil
+            @data[:authorize_url]      = 'https://bitbucket.org/site/oauth2/authorize'
+            @data[:token_url]          = 'https://bitbucket.org/site/oauth2/access_token'
+            @data[:login_url]          = '/doorman/oauth2/bitbucket'
+            @data[:redirect_url]       = '/doorman/oauth2/bitbucket/callback'
+            @data[:valid_domains]      = nil
+            @data[:scopes]             = 'account'
             @data[:token]              = nil
           end
 
@@ -92,7 +89,7 @@ module Obscured
               def #{o}
                 instance.data[:#{o}]
               end
-        
+
               def #{o}=(value)
                 instance.data[:#{o}] = value
               end
@@ -105,14 +102,6 @@ module Obscured
           app.helpers Doorman::Base::PrivateHelpers
           app.helpers Doorman::Helpers
 
-          # Enable Sessions
-          #unless defined?(Rack::Session::Cookie)
-          #  app.set :sessions, true
-          #end
-
-          #app.use Warden::Manager do |config|
-          #  config.strategies.add :bitbucket, Bitbucket::Strategy
-          #end
           Warden::Strategies.add(:bitbucket, Bitbucket::Strategy)
 
           app.get '/doorman/oauth2/bitbucket' do
@@ -122,12 +111,12 @@ module Obscured
           app.get '/doorman/oauth2/bitbucket/callback/?' do
             begin
               response = RestClient::Request.new(
-                :method => :post,
-                :url => Bitbucket.config[:token_url],
-                :user => Bitbucket.config[:client_id],
-                :password => Bitbucket.config[:client_secret],
-                :payload => "code=#{params[:code]}&grant_type=authorization_code&scope=#{Bitbucket.config[:scopes]}",
-                :headers => {:Accept => 'application/json'}
+                method: :post,
+                url: Bitbucket.config[:token_url],
+                user: Bitbucket.config[:client_id],
+                password: Bitbucket.config[:client_secret],
+                payload: "code=#{params[:code]}&grant_type=authorization_code&scope=#{Bitbucket.config[:scopes]}",
+                headers: {Accept: 'application/json'}
               ).execute
 
               json = JSON.parse(response.body)
@@ -149,9 +138,7 @@ module Obscured
               redirect '/doorman/login'
             ensure
               # Notify if there are any messages from Warden.
-              unless warden.message.blank?
-                notify :error, warden.message
-              end
+              notify :error, warden.message unless warden.message.blank?
               redirect Obscured::Doorman.config.use_referrer && session[:return_to] ? session.delete(:return_to) : Obscured::Doorman.config.paths[:success]
             end
           end

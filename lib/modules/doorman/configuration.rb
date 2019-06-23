@@ -12,9 +12,7 @@ module Obscured
     #   )
     #
     def self.configure(options = nil, &block)
-      if !options.nil?
-        Configuration.instance.configure(options)
-      end
+      Configuration.instance.configure(options) unless options.nil?
     end
 
     ##
@@ -29,10 +27,8 @@ module Obscured
     #
     def self.config_for_lookup(lookup_name)
       data = config.clone
-      data.reject!{ |key,value| !Configuration::OPTIONS.include?(key) }
-      if config.has_key?(lookup_name)
-        data.merge!(config[lookup_name])
-      end
+      data.reject! { |key, value| !Configuration::OPTIONS.include?(key) }
+      data.merge!(config[lookup_name]) if config.has_key?(lookup_name)
       data
     end
 
@@ -47,18 +43,18 @@ module Obscured
     class Configuration
       include Singleton
 
-      OPTIONS = [
-        :confirmation,
-        :registration,
-        :smtp_domain,
-        :smtp_server,
-        :smtp_port,
-        :smtp_username,
-        :smtp_password,
-        :paths,
-        :remember_cookie,
-        :providers
-      ]
+      OPTIONS = %i[
+        confirmation
+        registration
+        smtp_domain
+        smtp_server
+        smtp_port
+        smtp_username
+        smtp_password
+        paths
+        remember_cookie
+        providers
+      ].freeze
 
       attr_accessor :data
 
@@ -79,7 +75,7 @@ module Obscured
         @data.rmerge!(options)
       end
 
-      def initialize # :nodoc
+      def initialize
         @data = Obscured::Doorman::ConfigurationHash.new
         set_defaults
       end
@@ -101,23 +97,25 @@ module Obscured
         @data[:remember_cookie]   = 'sinatra.doorman.remember'
         @data[:providers]         = []
 
-        @data[:paths]             = { :success => '/home',
+        @data[:paths]             = {
+                                      :success => '/home',
                                       :login => '/doorman/login',
                                       :logout => '/doorman/logout',
                                       :forgot => '/doorman/forgot',
-                                      :reset => '/doorman/reset' }
+                                      :reset => '/doorman/reset'
+                                    }
       end
 
       instance_eval(OPTIONS.map do |option|
         o = option.to_s
         <<-EOS
-      def #{o}
-        instance.data[:#{o}]
-      end
+          def #{o}
+            instance.data[:#{o}]
+          end
 
-      def #{o}=(value)
-        instance.data[:#{o}] = value
-      end
+          def #{o}=(value)
+            instance.data[:#{o}] = value
+          end
         EOS
       end.join("\n\n"))
     end

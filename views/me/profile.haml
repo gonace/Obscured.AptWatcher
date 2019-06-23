@@ -7,8 +7,8 @@
       .col-md-6.d-flex.align-items-center.justify-content-between.justify-content-md-end
   .row
     .col-lg-4.order-lg-2
-      = partial :'partials/navigation', :locals => {:active => 'settings'}
-      = partial :'partials/timeline'
+      = partial :'partials/navigation', locals: {active: 'settings'}
+      = partial :'partials/timeline', locals: {timeline: timeline}
 
     .col-lg-8.order-lg-1
       .card.bg-gradient-warning.hover-shadow-lg.border-0
@@ -37,11 +37,11 @@
               .col-md-6
                 .form-group
                   %label.form-control-label First name
-                  %input.form-control{:placeholder => "Enter your first name", :type => "text"}
+                  %input.form-control{:placeholder => "Enter your first name", :type => "text", value: user.first_name}
               .col-md-6
                 .form-group
                   %label.form-control-label Last name
-                  %input.form-control{:placeholder => "Also your last name", :type => "text"}
+                  %input.form-control{:placeholder => "Also your last name", :type => "text", value: user.last_name}
             .row.align-items-center
               .col-md-6
                 .form-group
@@ -58,7 +58,7 @@
               .col-md-6
                 .form-group
                   %label.form-control-label Email
-                  %input.form-control{:placeholder => "name@exmaple.com", :type => "email"}
+                  %input.form-control{:placeholder => "name@exmaple.com", :type => "email", value: user.email}
                   %small.form-text.text-muted.mt-2 This is the main email address that we'll send notifications.
             .row
               .col-md-6

@@ -23,8 +23,14 @@ require 'sinatra/multi_route'
 require 'sinatra/namespace'
 require 'slack-notifier'
 require 'sprockets'
+require 'symmetric-encryption'
 require 'pp'
 require 'warden'
+
+###
+# SymmetricEncryption
+###
+SymmetricEncryption.load!('./config/encryption.yml')
 
 ###
 # Haml
@@ -35,15 +41,16 @@ Haml::TempleEngine.disable_option_validator!
 # Mongoid, configuration
 ###
 Mongoid.load_configuration(
-clients: {
-  default: {
-    uri: ENV['MONGODB_URI'],
-    options: {
-      app_name: 'Obscured.AptWatcher',
-      connect: :direct
+  clients: {
+    default: {
+      uri: ENV['MONGODB_URI'],
+      options: {
+        app_name: 'Obscured.AptWatcher',
+        connect: :direct
+      }
     }
   }
-})
+)
 
 # pull in the models, modules, helpers and controllers
 Dir.glob('./lib/*.rb').sort.each(&method(:require))
@@ -58,7 +65,11 @@ Dir.glob('./controllers/api/collector/*.rb').sort.each(&method(:require))
 ###
 # Configuration
 ###
-config = Obscured::AptWatcher::Models::Configuration.where({:instance => 'aptwatcher'}).first
+Obscured::AptWatcher.config = Obscured::AptWatcher::Models::Configuration
+puts '=== DEBUG ==='
+pp Obscured::AptWatcher.config.where(signature: :raygun).first
+puts '============='
+config = nil
 
 ###
 # Raygun, configuration
@@ -83,23 +94,23 @@ Geocoder.configure(
 # Doorman, configuration
 ###
 Obscured::Doorman.configure(
-  :registration    => (config.user_registration rescue false),
-  :confirmation    => (config.user_confirmation rescue false),
-  :smtp_domain     => (config.smtp.domain rescue 'obscured.se'),
-  :smtp_server     => (config.smtp.host rescue 'localhost'),
-  :smtp_username   => (config.smtp.username rescue nil),
-  :smtp_password   => (config.smtp.password rescue nil),
-  :smtp_port       => (config.smtp.port rescue 587),
-  :providers       => [
+  registration: (config.user_registration rescue false),
+  confirmation: (config.user_confirmation rescue false),
+  smtp_domain: (config.smtp.domain rescue 'obscured.se'),
+  smtp_server: (config.smtp.host rescue 'localhost'),
+  smtp_username: (config.smtp.username rescue nil),
+  smtp_password: (config.smtp.password rescue nil),
+  smtp_port: (config.smtp.port rescue 587),
+  providers: [
     Obscured::Doorman::Providers::Bitbucket.configure(
-      :client_id       => (config.bitbucket.key rescue nil),
-      :client_secret   => (config.bitbucket.secret rescue nil),
-      :valid_domains   => (config.bitbucket.domains rescue nil)
+      client_id: (config.bitbucket.key rescue nil),
+      client_secret: (config.bitbucket.secret rescue nil),
+      valid_domains: (config.bitbucket.domains rescue nil)
     ),
     Obscured::Doorman::Providers::GitHub.configure(
-      :client_id       => (config.github.key rescue nil),
-      :client_secret   => (config.github.secret rescue nil),
-      :valid_domains   => (config.github.domains rescue nil)
+      client_id: (config.github.key rescue nil),
+      client_secret: (config.github.secret rescue nil),
+      valid_domains: (config.github.domains rescue nil)
     )
   ]
 )
@@ -110,7 +121,7 @@ Obscured::Doorman.configure(
 ##
 map '/' do
   run Obscured::AptWatcher::Controllers::Home
-  use Rack::Static, :urls => %w(/img /script), :root => File.expand_path('../public', __FILE__)
+  use Rack::Static, urls: %w[/img /script], root: File.expand_path('public', __dir__)
 end
 
 map '/assets' do
@@ -177,7 +188,6 @@ end
 map '/users' do
   run Obscured::AptWatcher::Controllers::Users
 end
-
 
 ###
 # API Routs

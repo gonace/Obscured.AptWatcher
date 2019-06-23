@@ -48,6 +48,7 @@ module Mongoid
           m.by({:proprietor => { "#{self.class.name.demodulize.downcase}_id".to_sym => self.id.to_s }})
         end
       end
+      alias :events :get_events
 
       # Find events from the x_timeline collection for document. This is
       # only called on manually.
@@ -83,7 +84,7 @@ module Mongoid
           criteria = criteria.limit(limit).skip(skip)
 
           docs = criteria.to_a
-          docs.map(&:to_hash)
+          docs
         end
       end
 
@@ -113,6 +114,19 @@ module Mongoid
       def delete_event(id)
         Record.with(collection: "#{self.class.name.demodulize.downcase}_timeline") do |m|
           m.where(id: id).delete
+        end
+      end
+
+      # Clear events from the x_timeline collection for document. This is
+      # only called on manually.
+      #
+      # @example Get event.
+      #   document.clear_events
+      #
+      # @return [ documents ]
+      def clear_events
+        Record.with(collection: "#{self.class.name.demodulize.downcase}_timeline") do |m|
+          m.where(proprietor: { "#{self.class.name.demodulize.downcase}_id".to_sym => self.id.to_s }).delete
         end
       end
     end

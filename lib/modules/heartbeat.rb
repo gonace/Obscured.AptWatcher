@@ -6,9 +6,9 @@ Mongoid::Search.setup do |cfg|
   cfg.strip_accents = //
 end
 
-require 'heartbeat/record'
-require 'heartbeat/service'
-require 'heartbeat/tracker'
+require_relative 'heartbeat/record'
+require_relative 'heartbeat/service'
+require_relative 'heartbeat/tracker'
 
 module Mongoid
   module Heartbeat

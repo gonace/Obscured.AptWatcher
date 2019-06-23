@@ -16,6 +16,14 @@
               %a.dropdown-item{:href => "#"} Settings
   .card-body
     .timeline.timeline-one-side{"data-timeline-axis-style" => "dashed", "data-timeline-content" => "axis"}
+      - timeline.each_with_index do |event, index|
+        .timeline-block
+          %span.timeline-step.timeline-step-sm.bg-primary.border-primary.text-white= (index+1)
+          .timeline-content
+            %span.text-muted.text-sm= event.type
+            %a.d-block.h6.text-sm.mb-0{:href => "#"}= event.message
+            %small
+              %i.far.fa-clock.mr-1= event.created_at
       .timeline-block
         %span.timeline-step.timeline-step-sm.bg-primary.border-primary.text-white 1
         .timeline-content

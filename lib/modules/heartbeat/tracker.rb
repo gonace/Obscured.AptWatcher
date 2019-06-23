@@ -48,6 +48,7 @@ module Mongoid
           m.by({:proprietor => { "#{self.class.name.demodulize.downcase}_id".to_sym => self.id.to_s }})
         end
       end
+      alias :heartbeats :get_heartbeats
 
       # Find events from the x_heartbeat collection for document. This is
       # only called on manually.
@@ -83,7 +84,7 @@ module Mongoid
           criteria = criteria.limit(limit).skip(skip)
 
           docs = criteria.to_a
-          docs.map(&:to_hash)
+          docs
         end
       end
 

@@ -56,13 +56,15 @@ RSpec.configure do |c|
     FactoryBot.find_definitions
     Mongoid.purge!
     Warden.test_mode!
+
+    SymmetricEncryption.load!('./config/encryption.yml')
   end
 
   c.before(:each) do
   end
 
   c.after(:suite) do
-    #Mongoid.purge!
+    Mongoid.purge!
   end
 end
 

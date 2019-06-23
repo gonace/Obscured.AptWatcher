@@ -27,6 +27,7 @@ gem 'sinatra-flash'
 gem 'sinatra-partial'
 gem 'slack-notifier'
 gem 'sprockets'
+gem 'symmetric-encryption'
 gem 'uglifier'
 gem 'warden'
 

@@ -1,0 +1,33 @@
+.min-vh-100.py-5.d-flex.align-items-center
+  .w-100
+    .row.justify-content-center
+      .col-sm-8.col-lg-5
+        .card.shadow.zindex-100.mb-0
+          .card-body.px-md-5.pl-5.pr-5.pt-5.pb-5
+            %h6.h3 Managers
+            %p.text-muted.mb-0 Install support for one or more package managers, you can install and uninstall these later as well.
+
+          %form{:action => '/setup/managers', :method => 'POST', :role => "form"}
+            = partial :'../shared/partials/alerts'
+            %table.table.align-items-center
+              %tbody
+                - managers.each do |manager|
+                  %tr
+                    %td
+                      %button.btn.btn-sm.btn-secondary.btn-icon.rounded-pill{:type => "button"}
+                        %span.btn-inner--icon
+                          %i.fa.fa-download
+                        %span.btn-inner--text Install
+                    %td
+                      %span.name= manager.name
+
+            .card-footer.px-md-5.pl-5.pr-5.pt-5.pb-5.mt-0
+              %button.btn.btn-sm.btn-primary.btn-icon.rounded-pill{:type => "submit"}
+                %span.btn-inner--text Continue
+                %span.btn-inner--icon
+                  %i.fas.fa-long-arrow-alt-right
+
+:javascript
+  jQuery(document).ready(function() {
+    jQuery('form').validate();
+  });

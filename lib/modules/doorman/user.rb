@@ -11,16 +11,18 @@ module Obscured
       field :username,              type: String
       field :password,              type: String
       field :salt,                  type: String
-      field :first_name,            type: String, :default => ''
-      field :last_name,             type: String, :default => ''
+      field :first_name,            type: String, default: ''
+      field :last_name,             type: String, default: ''
       #field :mobile,                type: String, :default => ''
       #field :title,                 type: String, :default => Obscured::Doorman::Titles::APPRENTICE
       #field :role,                  type: Symbol, :default => Obscured::Doorman::Roles::ADMIN
-      field :confirmed,             type: Boolean, :default => true
+      field :confirmed,             type: Boolean, default: true
       field :confirm_token,         type: String
       field :remember_token,        type: String
       field :created_from,          type: Symbol
       field :last_login,            type: DateTime
+
+      alias :email :username
 
       attr_accessor :password_confirmation
 
@@ -32,43 +34,40 @@ module Obscured
 
       class << self
         def make(opts)
-          if User.where(:username => opts[:username]).exists?
+          if User.where(username: opts[:username]).exists?
             raise Obscured::Doorman::DomainError.new(:already_exists, what: 'User does already exists!')
           end
 
-          user = self.new
+          user = new
           user.username = opts[:username]
           user.password = BCrypt::Password.create(opts[:password])
           user.add_event(type: :account, message: 'Account created', producer: Obscured::Doorman::Types::SYSTEM)
-
-          unless opts[:confirmed].nil?
-            user.confirmed = opts[:confirmed]
-          end
+          user.confirmed = opts[:confirmed] unless opts[:confirmed].nil?
 
           user
         end
         def make!(opts)
-          user = self.make(opts)
+          user = make(opts)
           user.save
         end
 
         def get(id)
-          self.where(:_id => id).first
+          where(_id: id).first
         end
 
         def get_by_username(username)
           #treat username as email address
-          self.where(:username => username).first
+          where(username: username).first
         end
       end
 
 
       def name
-        "#{self.first_name} #{self.last_name}"
+        "#{first_name} #{last_name}"
       end
 
       def set_username(username)
-        if User.where(:username => username).exists?
+        if User.where(username: username).exists?
           raise Obscured::Doorman::DomainError.new(:already_exists, what: 'user')
         end
 
@@ -94,7 +93,7 @@ module Obscured
 
       def set_password(password)
         self.password = BCrypt::Password.create(password)
-        self.add_event(type: :password, message: 'Password has been changed', producer: Obscured::Doorman::Types::SYSTEM)
+        add_event(type: :password, message: 'Password has been changed', producer: Obscured::Doorman::Types::SYSTEM)
       end
 
       def set_created_from(created_from)
@@ -103,7 +102,7 @@ module Obscured
       end
 
       def self.authenticate(username, password)
-        user = self.get_by_username(username)
+        user = get_by_username(username)
         return user if user && user.authenticated?(password)
         return nil
       end
@@ -119,36 +118,36 @@ module Obscured
 
       def remember_me!
         self.remember_token = new_token
-        self.save
+        save
       end
 
       def forget_me!
         self.remember_token = nil
-        self.save
+        save
       end
 
       def confirm_email!
         self.confirmed     = true
         self.confirm_token = nil
-        self.save
+        save
       end
 
-      def forgot_password!
+      def forget_password!
         self.confirm_token = new_token
-        self.save
+        save
       end
 
       def remembered_password!
         self.confirm_token = nil
-        self.save
+        save
       end
 
       def reset_password!(password, confirmation)
         if password == confirmation
           self.password_confirmation = confirmation
           self.password = BCrypt::Password.create(password) if valid?
-          self.add_event(type: :password, message: 'Password has been reset', producer: Obscured::Doorman::Types::SYSTEM)
-          self.save
+          add_event(type: :password, message: 'Password has been reset', producer: Obscured::Doorman::Types::SYSTEM)
+          save
         else
           false
         end

@@ -1,6 +1,15 @@
 language: ruby
 bundler_args: --with development
-script:
-  - "bundle exec rspec"
 services:
   - mongodb
+env:
+  global:
+    - CC_TEST_REPORTER_ID=8a2165f09b17983f7b34aced8c70cc88845a4371c5754af33a95c99cabd68034
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+script:
+  - bundle exec rspec
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
