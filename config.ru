@@ -67,21 +67,18 @@ Dir.glob('./controllers/api/collector/*.rb').sort.each(&method(:require))
 ###
 # Configuration
 ###
-Obscured::AptWatcher.config = Obscured::AptWatcher::Models::Configuration
-puts '=== DEBUG ==='
-pp Obscured::AptWatcher.config.where(signature: :raygun).first
-puts '============='
-config = nil
+Obscured::AptWatcher.config = Obscured::AptWatcher::Models::Configuration.where(type: :global, signature: :application)
 
 ###
+# TODO: Move this into plugin and initialize when used
 # Raygun, configuration
 ###
-if(config.raygun.enabled rescue false)
-  Raygun.setup do |cfg|
-    cfg.api_key = config.raygun.key
-  end
-  use Raygun::Middleware::RackExceptionInterceptor
-end
+#if(config.raygun.enabled rescue false)
+#  Raygun.setup do |cfg|
+#    cfg.api_key = config.raygun.key
+#  end
+#  use Raygun::Middleware::RackExceptionInterceptor
+#end
 
 ###
 # Geocoder, configuration
@@ -95,14 +92,15 @@ Geocoder.configure(
 ###
 # Doorman, configuration
 ###
+doorman = Obscured::AptWatcher.config.where(type: :plugin, signature: :raygun).first
 Obscured::Doorman.configure(
-  registration: (config.user_registration rescue false),
-  confirmation: (config.user_confirmation rescue false),
-  smtp_domain: (config.smtp.domain rescue 'obscured.se'),
-  smtp_server: (config.smtp.host rescue 'localhost'),
-  smtp_username: (config.smtp.username rescue nil),
-  smtp_password: (config.smtp.password rescue nil),
-  smtp_port: (config.smtp.port rescue 587),
+  registration: doorman&.registration,
+  confirmation: doorman&.confirmation,
+  smtp_domain: doorman&.smtp&.domain,
+  smtp_server: doorman&.smtp&.host,
+  smtp_username: doorman&.smtp&.username,
+  smtp_password: doorman&.smtp&.password,
+  smtp_port: doorman&.smtp&.port,
   providers: [
     Obscured::Doorman::Providers::Bitbucket.configure(
       client_id: (config.bitbucket.key rescue nil),
@@ -116,6 +114,8 @@ Obscured::Doorman.configure(
     )
   ]
 )
+
+pp Obscured::Doorman.config
 
 ###
 # Routes
