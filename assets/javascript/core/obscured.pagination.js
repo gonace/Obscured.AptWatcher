@@ -40,14 +40,12 @@ Obscured.Pagination = (function ($) {
                     },
                     error: function (jqxhr, errMessage, errThrown) {
                         Obscured.Loader.Stop({ id: loaderId });
-                        var options = {};
                         if(typeof jqxhr.responseJSON !== 'undefined') {
-                            options = { contract: 'ajax', error: jqxhr, level: Level.ERROR, statusCode: jqxhr.status, message: jqxhr.responseJSON.message, title: jqxhr.responseJSON.type };
+                            Obscured.Error.Throw({ contract: 'ajax', error: jqxhr, level: Level.ERROR, statusCode: jqxhr.status, message: jqxhr.responseJSON.message, title: jqxhr.responseJSON.type });
                         }
                         else {
-                            options = { contract: 'ajax', error: jqxhr, level: Level.ERROR, statusCode: Obscured.Ajax.TranslateStatusText(jqxhr.statusText) };
+                            Obscured.Error.Throw({ contract: 'ajax', error: jqxhr, level: Level.ERROR, statusCode: Obscured.Ajax.TranslateStatusText(jqxhr.statusText) });
                         }
-                        Obscured.Error.Throw(options);
                         Obscured.Debug.Logger({ contract: 'ajax', message: errThrown, level: Level.ERROR });
                     }
                 });
