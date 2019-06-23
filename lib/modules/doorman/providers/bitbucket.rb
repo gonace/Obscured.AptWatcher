@@ -77,7 +77,7 @@ module Obscured
             @data[:token_url]          = 'https://bitbucket.org/site/oauth2/access_token'
             @data[:login_url]          = '/doorman/oauth2/bitbucket'
             @data[:redirect_url]       = '/doorman/oauth2/bitbucket/callback'
-            @data[:valid_domains]      = nil
+            @data[:domains]            = nil
             @data[:scopes]             = 'account'
             @data[:token]              = nil
           end

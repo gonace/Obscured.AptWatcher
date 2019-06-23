@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 STDOUT.sync = true
 
 require 'bcrypt'
@@ -105,12 +107,12 @@ Obscured::Doorman.configure(
     Obscured::Doorman::Providers::Bitbucket.configure(
       client_id: (config.bitbucket.key rescue nil),
       client_secret: (config.bitbucket.secret rescue nil),
-      valid_domains: (config.bitbucket.domains rescue nil)
+      domains: (config.bitbucket.domains rescue nil)
     ),
     Obscured::Doorman::Providers::GitHub.configure(
       client_id: (config.github.key rescue nil),
       client_secret: (config.github.secret rescue nil),
-      valid_domains: (config.github.domains rescue nil)
+      domains: (config.github.domains rescue nil)
     )
   ]
 )
@@ -121,7 +123,9 @@ Obscured::Doorman.configure(
 ##
 map '/' do
   run Obscured::AptWatcher::Controllers::Home
-  use Rack::Static, urls: %w[/img /script], root: File.expand_path('public', __dir__)
+  use Rack::Static,
+      urls: %w[/img /script],
+      root: File.expand_path('public', __dir__)
 end
 
 map '/assets' do
