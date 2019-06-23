@@ -38,10 +38,12 @@ module Obscured
             end
             user.forget_password!
 
-            template = haml :'/templates/password_reset', layout: false, locals: {
-              user: user.username,
-              link: token_link('reset', user)
-            }
+            template = haml :'/templates/password_reset',
+                            layout: false,
+                            locals: {
+                              user: user.username,
+                              link: token_link('reset', user)
+                            }
             Pony.mail(
               to: user.username,
               from: "aptwatcher@#{Obscured::Doorman.config.smtp_domain}",
