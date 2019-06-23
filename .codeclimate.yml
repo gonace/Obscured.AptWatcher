@@ -1,4 +1,10 @@
 version: "2"
+checks:
+  complex-logic:
+    config:
+      threshold: 10
+  similar-code:
+    enabled: false
 plugins:
   rubocop:
     enabled: true
@@ -7,11 +13,6 @@ plugins:
       Rubocop/Metrics/ClassLength:
         enabled: false
       Rubocop/Metrics/MethodLength:
-        enabled: false
-      complex-logic:
-        config:
-          threshold: 10
-      similar-code:
         enabled: false
   coffeelint:
     enabled: true
