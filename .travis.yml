@@ -4,7 +4,7 @@ env:
 language: ruby
 bundler_args: --with development
 rvm:
-  - 2.2.0
+  - 2.6.3
 services:
   - mongodb
 before_script:
