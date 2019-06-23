@@ -3,6 +3,9 @@ checks:
   complex-logic:
     config:
       threshold: 10
+  method-lines:
+    config:
+      threshold: 250
   similar-code:
     enabled: false
 plugins:
