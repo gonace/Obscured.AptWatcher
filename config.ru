@@ -92,15 +92,15 @@ Geocoder.configure(
 ###
 # Doorman, configuration
 ###
-doorman = Obscured::AptWatcher.config.where(type: :plugin, signature: :raygun).first
+doorman = Obscured::AptWatcher::Models::Configuration.where(type: :plugin, signature: :doorman).first
 Obscured::Doorman.configure(
-  registration: doorman&.registration,
-  confirmation: doorman&.confirmation,
-  smtp_domain: doorman&.smtp&.domain,
-  smtp_server: doorman&.smtp&.host,
-  smtp_username: doorman&.smtp&.username,
-  smtp_password: doorman&.smtp&.password,
-  smtp_port: doorman&.smtp&.port,
+  registration: doorman&.properties&.registration,
+  confirmation: doorman&.properties&.confirmation,
+  smtp_domain: doorman&.properties&.smtp&.domain,
+  smtp_server: doorman&.properties&.smtp&.host,
+  smtp_username: doorman&.properties&.smtp&.username,
+  smtp_password: doorman&.properties&.smtp&.password,
+  smtp_port: doorman&.properties&.smtp&.port,
   providers: [
     Obscured::Doorman::Providers::Bitbucket.configure(
       client_id: (config.bitbucket.key rescue nil),
