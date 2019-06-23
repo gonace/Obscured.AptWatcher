@@ -38,6 +38,7 @@ group :test, :development do
   gem 'rerun'
   gem 'rspec'
   gem 'rubocop'
+  gem 'simplecov'
   gem 'sinatra-sessionography'
   gem 'timecop'
   gem 'webmock'

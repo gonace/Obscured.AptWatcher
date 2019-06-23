@@ -15,6 +15,7 @@ require 'rack/cache'
 require 'rack/user_agent'
 require 'rack-flash'
 require 'raygun4ruby'
+require 'simplecov'
 require 'sinatra'
 require 'sinatra/base'
 require 'sinatra/config_file'
@@ -31,6 +32,8 @@ require 'sprockets'
 require 'pp'
 require 'warden'
 
+
+SimpleCov.start
 
 Mongoid.load!(File.join(File.dirname(__FILE__), '/config/mongoid.yml'), 'spec')
 
