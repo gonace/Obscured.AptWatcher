@@ -117,7 +117,6 @@ Obscured::Doorman.configure(
   ]
 )
 
-
 ###
 # Routes
 ##
