@@ -1,11 +1,8 @@
-# frozen_string_literal: true
-
 require 'sinatra/base'
 require 'rest-client'
 require File.expand_path('github/messages', __dir__)
 require File.expand_path('github/access_token', __dir__)
 require File.expand_path('github/strategy', __dir__)
-
 
 module Obscured
   module Doorman
@@ -21,7 +18,7 @@ module Obscured
         #     :scopes          => 'user:email'
         #   )
         #
-        def self.configure(options = nil, &block)
+        def self.configure(options = nil, &_block)
           Configuration.instance.configure(options) unless options.nil?
         end
 
@@ -111,37 +108,38 @@ module Obscured
           end
 
           app.get '/doorman/oauth2/github/callback/?' do
-            begin
-              response = RestClient::Request.new(
-                method: :post,
-                url: GitHub.config[:token_url],
-                user: GitHub.config[:client_id],
-                password: GitHub.config[:client_secret],
-                payload: "code=#{params[:code]}&grant_type=authorization_code&scope=#{GitHub.config[:scopes]}",
-                headers: {Accept: 'application/json'}
-              ).execute
+            response = RestClient::Request.new(
+              method: :post,
+              url: GitHub.config[:token_url],
+              user: GitHub.config[:client_id],
+              password: GitHub.config[:client_secret],
+              payload: "code=#{params[:code]}&grant_type=authorization_code&scope=#{GitHub.config[:scopes]}",
+              headers: { Accept: 'application/json' }
+            ).execute
 
-              json = JSON.parse(response.body)
-              token = GitHub::AccessToken.new(access_token: json['access_token'],
-                                              token_type: json['token_type'],
-                                              scope: json['scope'])
+            json = JSON.parse(response.body)
+            token = GitHub::AccessToken.new(
+              access_token: json['access_token'],
+              token_type: json['token_type'],
+              scope: json['scope']
+            )
 
-              emails = RestClient.get 'https://api.github.com/user/emails', 'Authorization' => "token #{token.access_token}"
-              emails = JSON.parse(emails.body)
-              token.emails = emails.map { |e| e['email'] }
-              GitHub.config[:token] = token
+            emails = RestClient.get 'https://api.github.com/user/emails',
+                                    'Authorization' => "token #{token.access_token}"
+            emails = JSON.parse(emails.body)
+            token.emails = emails.map { |e| e['email'] }
+            GitHub.config[:token] = token
 
-              # Authenticate with :github strategy
-              warden.authenticate(:github)
-            rescue RestClient::ExceptionWithResponse => e
-              message = JSON.parse(e.response)
-              notify :error, "#{message['error_description']} (#{message['error']})"
-              redirect '/doorman/login'
-            ensure
-              # Notify if there are any messages from Warden.
-              notify :error, warden.message unless warden.message.blank?
-              redirect Obscured::Doorman.config.use_referrer && session[:return_to] ? session.delete(:return_to) : Obscured::Doorman.config.paths[:success]
-            end
+            # Authenticate with :github strategy
+            warden.authenticate(:github)
+          rescue RestClient::ExceptionWithResponse => e
+            message = JSON.parse(e.response)
+            notify :error, "#{message['error_description']} (#{message['error']})"
+            redirect '/doorman/login'
+          ensure
+            # Notify if there are any messages from Warden.
+            notify :error, warden.message unless warden.message.blank?
+            redirect Obscured::Doorman.config.use_referrer && session[:return_to] ? session.delete(:return_to) : Obscured::Doorman.config.paths[:success]
           end
         end
       end

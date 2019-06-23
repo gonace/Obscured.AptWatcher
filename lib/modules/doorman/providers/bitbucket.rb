@@ -1,9 +1,8 @@
 require 'sinatra/base'
 require 'rest-client'
-require File.expand_path('../bitbucket/messages', __FILE__)
-require File.expand_path('../bitbucket/access_token', __FILE__)
-require File.expand_path('../bitbucket/strategy', __FILE__)
-
+require File.expand_path('bitbucket/messages', __dir__)
+require File.expand_path('bitbucket/access_token', __dir__)
+require File.expand_path('bitbucket/strategy', __dir__)
 
 module Obscured
   module Doorman
@@ -19,7 +18,7 @@ module Obscured
         #     :scopes          => 'account'
         #   )
         #
-        def self.configure(options = nil, &block)
+        def self.configure(options = nil, &_block)
           Configuration.instance.configure(options) unless options.nil?
         end
 
@@ -97,7 +96,6 @@ module Obscured
           end.join("\n\n"))
         end
 
-
         def self.registered(app)
           app.helpers Doorman::Base::PrivateHelpers
           app.helpers Doorman::Helpers
@@ -109,38 +107,38 @@ module Obscured
           end
 
           app.get '/doorman/oauth2/bitbucket/callback/?' do
-            begin
-              response = RestClient::Request.new(
-                method: :post,
-                url: Bitbucket.config[:token_url],
-                user: Bitbucket.config[:client_id],
-                password: Bitbucket.config[:client_secret],
-                payload: "code=#{params[:code]}&grant_type=authorization_code&scope=#{Bitbucket.config[:scopes]}",
-                headers: {Accept: 'application/json'}
-              ).execute
+            response = RestClient::Request.new(
+              method: :post,
+              url: Bitbucket.config[:token_url],
+              user: Bitbucket.config[:client_id],
+              password: Bitbucket.config[:client_secret],
+              payload: "code=#{params[:code]}&grant_type=authorization_code&scope=#{Bitbucket.config[:scopes]}",
+              headers: {Accept: 'application/json'}
+            ).execute
 
-              json = JSON.parse(response.body)
-              token = Bitbucket::AccessToken.new(access_token: json['access_token'],
-                                                 refresh_token: json['refresh_token'],
-                                                 scopes: json['scopes'],
-                                                 expires_in: json['expires_in'])
+            json = JSON.parse(response.body)
+            token = Bitbucket::AccessToken.new(
+              access_token: json['access_token'],
+              refresh_token: json['refresh_token'],
+              scopes: json['scopes'],
+              expires_in: json['expires_in']
+            )
 
-              emails = RestClient.get 'https://api.bitbucket.org/2.0/user/emails',{ 'Authorization' => "Bearer #{token.access_token}" }
-              emails = JSON.parse(emails.body)
-              token.emails = emails.values[1].map { |e| e['email'] }
-              Bitbucket.config[:token] = token
+            emails = RestClient.get 'https://api.bitbucket.org/2.0/user/emails',{ 'Authorization' => "Bearer #{token.access_token}" }
+            emails = JSON.parse(emails.body)
+            token.emails = emails.values[1].map { |e| e['email'] }
+            Bitbucket.config[:token] = token
 
-              # Authenticate with :bitbucket strategy
-              warden.authenticate(:bitbucket)
-            rescue RestClient::ExceptionWithResponse => e
-              message = JSON.parse(e.response)
-              notify :error, "#{message['error_description']} (#{message['error']})"
-              redirect '/doorman/login'
-            ensure
-              # Notify if there are any messages from Warden.
-              notify :error, warden.message unless warden.message.blank?
-              redirect Obscured::Doorman.config.use_referrer && session[:return_to] ? session.delete(:return_to) : Obscured::Doorman.config.paths[:success]
-            end
+            # Authenticate with :bitbucket strategy
+            warden.authenticate(:bitbucket)
+          rescue RestClient::ExceptionWithResponse => e
+            message = JSON.parse(e.response)
+            notify :error, "#{message['error_description']} (#{message['error']})"
+            redirect '/doorman/login'
+          ensure
+            # Notify if there are any messages from Warden.
+            notify :error, warden.message unless warden.message.blank?
+            redirect Obscured::Doorman.config.use_referrer && session[:return_to] ? session.delete(:return_to) : Obscured::Doorman.config.paths[:success]
           end
         end
       end
