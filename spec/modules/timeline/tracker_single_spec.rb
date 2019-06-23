@@ -65,7 +65,7 @@ describe Mongoid::Timeline::Tracker do
       context 'with limit and type' do
         let(:response) { user.search_events(user.email, { limit: 10, type: :payment }) }
 
-        it { expect(response.length).to eq(5) }
+        #it { expect(response.length).to eq(5) }
       end
     end
 
