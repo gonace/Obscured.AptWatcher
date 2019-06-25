@@ -1,6 +1,6 @@
 GIT
-  remote: git@github.com:gonace/Obscured.Heartbeat.git
-  revision: 62303ec08852dba67c4131306101c28a7873cda5
+  remote: https://github.com/gonace/Obscured.Heartbeat.git
+  revision: b50c1599eb15f0b1acdd9d1d220b8477a4c223e7
   specs:
     obscured-heartbeat (1.0.0)
       activesupport
@@ -8,8 +8,8 @@ GIT
       mongoid_search
 
 GIT
-  remote: git@github.com:gonace/Obscured.Timeline.git
-  revision: 00ba84af937741be1db9b74d1643c6627f33586e
+  remote: https://github.com/gonace/Obscured.Timeline.git
+  revision: 5059933347dc35432d6ddd5741a52cbd927f7bee
   specs:
     obscured-timeline (1.0.0)
       activesupport

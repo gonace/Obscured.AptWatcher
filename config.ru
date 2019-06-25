@@ -59,7 +59,7 @@ Mongoid.load_configuration(
 # pull in the models, modules, helpers and controllers
 Dir.glob('./lib/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/{alert,common,entities,helpers,package,sinatra}/*.rb').sort.each(&method(:require))
-Dir.glob('./lib/modules/*.rb').sort.each(&method(:require))
+#Dir.glob('./lib/modules/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/models/embedded/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/models/*.rb').sort.each(&method(:require))
 Dir.glob('./controllers/*.rb').sort.each(&method(:require))

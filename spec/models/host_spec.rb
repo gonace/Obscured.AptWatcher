@@ -30,7 +30,7 @@ describe Obscured::AptWatcher::Models::Host do
     let!(:host) { Obscured::AptWatcher::Models::Host.make!(properties.except(:tags)) }
 
     context 'without tags' do
-      it 'returns an unsaved document' do
+      it 'returns an saved document' do
         expect(host).to_not be_nil
         expect(host.password).to eq(properties[:password])
         expect(host.persisted?).to be(true)
