@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 ruby '2.6.3'
 
-gem 'obscured-heartbeat', :git => 'git@github.com:gonace/Obscured.Heartbeat.git'
-gem 'obscured-timeline', :git => 'git@github.com:gonace/Obscured.Timeline.git'
+gem 'obscured-heartbeat', :git => 'https://github.com/gonace/Obscured.Heartbeat.git'
+gem 'obscured-timeline', :git => 'https://github.com/gonace/Obscured.Timeline.git'
 
 gem 'bcrypt'
 gem 'dotenv'
