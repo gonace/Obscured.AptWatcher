@@ -22,7 +22,7 @@ module Obscured
       field :created_from,          type: Symbol
       field :last_login,            type: DateTime
 
-      alias :email :username
+      alias email username
 
       attr_accessor :password_confirmation
 

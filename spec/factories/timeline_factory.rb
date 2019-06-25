@@ -1,11 +1,8 @@
-# encoding: utf-8
-require_relative '../../lib/modules/timeline/record'
-
 FactoryBot.define do
   factory :event, class: Mongoid::Timeline::Record do
     type { :comment }
     message { 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' }
-    producer { 'info@adeprimo.se' }
+    producer { 'homer.simpson@obscured.se' }
     proprietor { Hash.new }
 
 

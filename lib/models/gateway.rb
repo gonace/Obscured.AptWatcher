@@ -7,6 +7,7 @@ module Obscured
         include Mongoid::Document
         include Mongoid::Status
         include Mongoid::Tags
+        include Mongoid::Heartbeat::Tracker
         include Mongoid::Timeline::Tracker
         include Mongoid::Timestamps
 

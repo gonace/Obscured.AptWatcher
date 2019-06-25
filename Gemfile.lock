@@ -1,3 +1,21 @@
+GIT
+  remote: git@github.com:gonace/Obscured.Heartbeat.git
+  revision: 62303ec08852dba67c4131306101c28a7873cda5
+  specs:
+    obscured-heartbeat (1.0.0)
+      activesupport
+      mongoid
+      mongoid_search
+
+GIT
+  remote: git@github.com:gonace/Obscured.Timeline.git
+  revision: 00ba84af937741be1db9b74d1643c6627f33586e
+  specs:
+    obscured-timeline (1.0.0)
+      activesupport
+      mongoid
+      mongoid_search
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -207,6 +225,8 @@ DEPENDENCIES
   mongoid
   mongoid_search
   neatjson
+  obscured-heartbeat!
+  obscured-timeline!
   password_strength
   pony
   puma

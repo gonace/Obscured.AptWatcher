@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 $LOAD_PATH.unshift File.dirname(__FILE__)
 require 'factory_bot'
 require 'rack/test'
 require 'rspec'
+require 'simplecov'
 require 'timecop'
 
 require 'bcrypt'
@@ -10,12 +13,13 @@ require 'haml'
 require 'json'
 require 'mongoid'
 require 'neatjson'
+require 'obscured-timeline'
+require 'obscured-heartbeat'
 require 'password_strength'
 require 'rack/cache'
 require 'rack/user_agent'
 require 'rack-flash'
 require 'raygun4ruby'
-require 'simplecov'
 require 'sinatra'
 require 'sinatra/base'
 require 'sinatra/config_file'
@@ -32,9 +36,8 @@ require 'sprockets'
 require 'pp'
 require 'warden'
 
-
 SimpleCov.start do
-  add_filter "/spec/"
+  add_filter '/spec/'
 end
 
 Mongoid.load!(File.join(File.dirname(__FILE__), '/config/mongoid.yml'), 'spec')
@@ -79,7 +82,7 @@ module AppHelper
       klass.helpers Sinatra::Sessionography
       Warden::Manager.serialize_into_session(&:id)
       Warden::Manager.serialize_from_session { |id| Obscured::Doorman::User.find(id) }
-      use Rack::Session::Cookie, :secret  => 't3h_s3cr3t_is_in_th3_sauc3_', :expire_after => 86400
+      use Rack::Session::Cookie, secret: 't3h_s3cr3t_is_in_th3_sauc3_', expire_after: 86_400
       use Warden::Manager
       run klass
     end.to_app
