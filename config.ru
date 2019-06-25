@@ -95,29 +95,27 @@ Geocoder.configure(
 # Doorman, configuration
 ###
 doorman = Obscured::AptWatcher::Models::Configuration.where(type: :plugin, signature: :doorman).first
-Obscured::Doorman.configure(
-  registration: doorman&.properties&.registration,
-  confirmation: doorman&.properties&.confirmation,
-  smtp_domain: doorman&.properties&.smtp&.domain,
-  smtp_server: doorman&.properties&.smtp&.host,
-  smtp_username: doorman&.properties&.smtp&.username,
-  smtp_password: doorman&.properties&.smtp&.password,
-  smtp_port: doorman&.properties&.smtp&.port,
-  providers: [
+Obscured::Doorman.setup do |cfg|
+  cfg.registration = doorman&.properties&.registration
+  cfg.confirmation = doorman&.properties&.confirmation
+  cfg.smtp_domain = doorman&.properties&.smtp&.domain
+  cfg.smtp_server = doorman&.properties&.smtp&.host
+  cfg.smtp_username = doorman&.properties&.smtp&.username
+  cfg.smtp_password = doorman&.properties&.smtp&.password
+  cfg.smtp_port = doorman&.properties&.smtp&.port
+  cfg.providers = [
     Obscured::Doorman::Providers::Bitbucket.configure(
-      client_id: (config.bitbucket.key rescue nil),
-      client_secret: (config.bitbucket.secret rescue nil),
-      domains: (config.bitbucket.domains rescue nil)
+      client_id: config&.bitbucket&.key,
+      client_secret: config&.bitbucket&.secret,
+      domains: config&.bitbucket&.domains
     ),
     Obscured::Doorman::Providers::GitHub.configure(
-      client_id: (config.github.key rescue nil),
-      client_secret: (config.github.secret rescue nil),
-      domains: (config.github.domains rescue nil)
+      client_id: config&.github&.key,
+      client_secret: config&.github&.secret,
+      domains: config&.github&.domains
     )
   ]
-)
-
-pp Obscured::Doorman.config
+end
 
 ###
 # Routes
