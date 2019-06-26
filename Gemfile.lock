@@ -1,4 +1,23 @@
 GIT
+  remote: https://github.com/gonace/Obscured.Doorman.git
+  revision: 56982a15a9a779fc5b49a11523d9b900214e73c8
+  specs:
+    obscured-doorman (1.5.0)
+      bcrypt
+      geocoder
+      haml
+      mail
+      mongoid
+      rack
+      rack-contrib
+      rest-client
+      sinatra
+      sinatra-contrib
+      sinatra-flash
+      sinatra-partial
+      warden
+
+GIT
   remote: https://github.com/gonace/Obscured.Heartbeat.git
   revision: b50c1599eb15f0b1acdd9d1d220b8477a4c223e7
   specs:
@@ -225,6 +244,7 @@ DEPENDENCIES
   mongoid
   mongoid_search
   neatjson
+  obscured-doorman!
   obscured-heartbeat!
   obscured-timeline!
   password_strength

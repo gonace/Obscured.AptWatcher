@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'symmetric_encryption'
 
 module Obscured
@@ -18,7 +20,7 @@ module Obscured
         field :username, type: String
         field :encrypted_password, type: String, encrypted: { random_iv: true }
 
-        index({ hostname: 1 }, { background: true })
+        index({ hostname: 1 }, background: true)
 
 
         class << self
@@ -27,15 +29,16 @@ module Obscured
             raise Obscured::DomainError.new(:required_field_missing, what: 'hostname') if opts[:hostname].empty?
             raise Obscured::DomainError.new(:already_exists, what: 'hostname') if Gateway.where(:hostname => opts[:hostname]).exists?
 
-            doc = self.new
+            doc = new
             doc.name = opts[:name]
             doc.hostname = opts[:hostname]
             doc.username = opts[:username]
             doc.password = opts[:password]
             doc
           end
+
           def make!(opts)
-            doc = self.make(opts)
+            doc = make(opts)
             doc.save
             doc
           end

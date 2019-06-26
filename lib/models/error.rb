@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Obscured
   module AptWatcher
     module Models
@@ -8,10 +10,10 @@ module Obscured
         store_in collection: 'errors'
 
         field :notifier, type: String
-        field :message, type: String, :default => ''
+        field :message, type: String, default: ''
         field :backtrace, type: String
-        field :status, type: String, :default => Obscured::Status::OPEN
-        field :type, type: String, :default => Obscured::Alert::Type::SYSTEM
+        field :status, type: String, default: Obscured::Status::OPEN
+        field :type, type: String, default: Obscured::Alert::Type::SYSTEM
 
 
         class << self
@@ -19,7 +21,7 @@ module Obscured
             raise Obscured::DomainError.new(:required_field_missing, what: ':notifier') if opts[:notifier].empty?
             raise Obscured::DomainError.new(:required_field_missing, what: ':message') if opts[:message].empty?
 
-            entity = self.new
+            entity = new
             entity.notifier = opts[:notifier]
             entity.message = opts[:message]
 
@@ -38,7 +40,7 @@ module Obscured
             entity
           end
           def make!(opts)
-            entity = self.make(opts)
+            entity = make(opts)
             entity.save
             entity
           end
@@ -47,12 +49,14 @@ module Obscured
         def set_status(status)
           raise Obscured::DomainError.new(:required_field_missing, what: ':status') if status.empty?
           raise Obscured::DomainError.new(:invalid_type, what: ':status') unless status.kind_of?(Obscured::Status)
+
           self.status = status
         end
 
         def set_type(type)
           raise Obscured::DomainError.new(:required_field_missing, what: ':type') if type.empty?
           raise Obscured::DomainError.new(:invalid_type, what: ':type') unless type.kind_of?(Obscured::Alert::Type)
+
           self.type = type
         end
       end

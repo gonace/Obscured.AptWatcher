@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mongoid
   module Properties
     extend ActiveSupport::Concern
@@ -9,18 +11,19 @@ module Mongoid
     # Get property for the Document.
     #
     # @example Get an property from properties hash.
-    #   job.get_property(name)
+    #   doc.get_property(name)
     def get_property(name)
-      return self.properties[name] if self.properties.has_key?(name)
+      return properties[name] if properties.key?(name)
+
       nil
     end
 
     # Add property to the properties field on the Document.
     #
     # @example Push an property to properties hash.
-    #   job.set_property(name, value)
+    #   doc.set_property(name, value)
     def set_property(name, value)
-      self.properties[name] = value
+      properties[name] = value
       true
     end
   end

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module Mongoid
   module Status
     extend ActiveSupport::Concern
 
     included do
-      field :status, type: Symbol, :default => :offline
+      field :status, type: Symbol, default: :offline
       set_callback :create, :before, :set_status_pending
     end
 
@@ -11,9 +13,9 @@ module Mongoid
     # This is only called on create and on save (update).
     #
     # @example Set the updated at time.
-    #   host.set_status(:symbol)
+    #   doc.set_status(:symbol)
     def set_status(status)
-      self.set({:status => status}) if status.is_a?(Symbol)
+      self.status = status if status.is_a?(Symbol)
     end
 
 
@@ -23,7 +25,7 @@ module Mongoid
     # This is only called on create and on save (create).
     #
     # @example Set the updated at time.
-    #   host.set_status_pending
+    #   doc.set_status_pending
     def set_status_pending
       self.status = :pending
     end

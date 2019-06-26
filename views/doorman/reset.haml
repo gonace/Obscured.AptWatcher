@@ -10,7 +10,7 @@
               = partial :'../shared/partials/alerts'
             %span.clearfix
             %form{:action => '/doorman/forgot', :method => 'POST', :role => "form"}
-              %input#Email{:name => 'user[email]', :type => 'hidden', :value => email}
+              %input#Email{:name => 'user[username]', :type => 'hidden', :value => email}
               %input#Token{:name => 'user[token]', :type => 'hidden', :value => token}
               .form-group.mb-4
                 .d-flex.align-items-center.justify-content-between

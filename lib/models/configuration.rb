@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Obscured
   module AptWatcher
     module Models
@@ -5,13 +7,13 @@ module Obscured
         include Mongoid::Document
         include Mongoid::Timestamps
 
-        store_in collection: 'configuration'
+        store_in collection: 'configurations'
 
         field :type, type: Symbol
         field :signature, type: Symbol
         field :properties, type: Hash
 
-        index({ type: 1, signature: 1 }, { background: true })
+        index({ type: 1, signature: 1 }, background: true)
 
 
         class << self
@@ -20,14 +22,14 @@ module Obscured
               raise Obscured::DomainError.new(:already_exists, what: "Configuration does already exists for type: #{opts[:type]} and signature: #{opts[:signature]}!")
             end
 
-            doc = self.new
+            doc = new
             doc.type = opts[:type]
             doc.signature = opts[:signature]
             doc.properties = opts[:properties]
             doc
           end
           def make!(opts)
-            doc = self.make(opts)
+            doc = make(opts)
             doc.save
             doc
           end
@@ -36,9 +38,10 @@ module Obscured
         def update_properties(prop)
           self.properties = prop
         end
+
         def update_properties!(prop)
           self.properties = prop
-          self.save
+          save
         end
       end
     end

@@ -8,8 +8,9 @@ require 'haml'
 require 'json'
 require 'mongoid'
 require 'neatjson'
-require 'obscured-timeline'
+require 'obscured-doorman'
 require 'obscured-heartbeat'
+require 'obscured-timeline'
 require 'password_strength'
 require 'rack/cache'
 require 'rack/user_agent'
@@ -104,16 +105,16 @@ Obscured::Doorman.setup do |cfg|
   cfg.smtp_password = doorman&.properties&.smtp&.password
   cfg.smtp_port = doorman&.properties&.smtp&.port
   cfg.providers = [
-    Obscured::Doorman::Providers::Bitbucket.configure(
-      client_id: config&.bitbucket&.key,
-      client_secret: config&.bitbucket&.secret,
-      domains: config&.bitbucket&.domains
-    ),
-    Obscured::Doorman::Providers::GitHub.configure(
-      client_id: config&.github&.key,
-      client_secret: config&.github&.secret,
-      domains: config&.github&.domains
-    )
+    Obscured::Doorman::Providers::Bitbucket.setup do |c|
+      c.client_id = doorman&.bitbucket&.key,
+      c.client_secret = doorman&.bitbucket&.secret,
+      c.domains = doorman&.bitbucket&.domains
+    end,
+    Obscured::Doorman::Providers::GitHub.setup do |c|
+      c.client_id = doorman&.github&.key,
+      c.client_secret = doorman&.github&.secret,
+      c.domains =  doorman&.github&.domains
+    end
   ]
 end
 
