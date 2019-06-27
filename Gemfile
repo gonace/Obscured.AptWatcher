@@ -44,7 +44,7 @@ group :test, :development do
   gem 'rerun'
   gem 'rspec'
   gem 'rubocop'
-  gem 'simplecov'
+  gem 'simplecov', require: false
   gem 'sinatra-sessionography'
   gem 'timecop'
   gem 'webmock'
