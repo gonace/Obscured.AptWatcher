@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/gonace/Obscured.Doorman.git
-  revision: 56982a15a9a779fc5b49a11523d9b900214e73c8
+  revision: 5de95b50f5b07e2490e9ab49ef4292584397cb1b
   specs:
-    obscured-doorman (1.5.0)
+    obscured-doorman (1.5.3)
       bcrypt
       geocoder
       haml
@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: https://github.com/gonace/Obscured.Heartbeat.git
-  revision: b50c1599eb15f0b1acdd9d1d220b8477a4c223e7
+  revision: 103c5e67e0ab88e3de21764e3dbd7232bfe6435c
   specs:
     obscured-heartbeat (1.0.0)
       activesupport
@@ -28,7 +28,7 @@ GIT
 
 GIT
   remote: https://github.com/gonace/Obscured.Timeline.git
-  revision: 5059933347dc35432d6ddd5741a52cbd927f7bee
+  revision: c9453a91a19935d3567ab51017afd114110d9fb7
   specs:
     obscured-timeline (1.0.0)
       activesupport
@@ -111,6 +111,7 @@ GEM
       net-ssh (>= 2.6.5, < 6.0.0)
     net-ssh (5.2.0)
     netrc (0.11.0)
+    nio4r (2.3.1)
     parallel (1.17.0)
     parser (2.6.3.0)
       ast (~> 2.4.0)
@@ -118,8 +119,9 @@ GEM
       activemodel
     pony (1.13.1)
       mail (>= 2.0)
-    public_suffix (3.1.0)
-    puma (3.12.1)
+    public_suffix (3.1.1)
+    puma (4.0.0)
+      nio4r (~> 2.0)
     rack (2.0.7)
     rack-cache (1.9.0)
       rack (>= 0.4)
@@ -162,7 +164,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.2)
-    rubocop (0.71.0)
+    rubocop (0.72.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.6)
