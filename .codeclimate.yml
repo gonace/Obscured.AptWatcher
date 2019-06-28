@@ -3,6 +3,11 @@ checks:
   complex-logic:
     config:
       threshold: 10
+  file-lines:
+    enabled: false
+  method-complexity:
+    config:
+      threshold: 15
   method-lines:
     config:
       threshold: 250
@@ -12,11 +17,6 @@ plugins:
   rubocop:
     enabled: true
     channel: rubocop-0-71
-    checks:
-      Rubocop/Metrics/ClassLength:
-        enabled: false
-      Rubocop/Metrics/MethodLength:
-        enabled: false
   coffeelint:
     enabled: true
   eslint:
@@ -26,5 +26,3 @@ plugins:
 exclude_patterns:
 - "tests/"
 - "spec/"
-- "**/*.min.css"
-- "**/*.min.js"
