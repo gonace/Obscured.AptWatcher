@@ -136,6 +136,9 @@ map '/assets' do
   env.append_path 'assets/javascript'
   env.append_path 'assets/styles'
   run env
+
+  puts "Sprockets.root           => #{env.root}"
+  puts "Sprockets.paths          => #{env.paths}"
 end
 
 map '/error' do
