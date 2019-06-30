@@ -27,4 +27,5 @@ exclude_patterns:
 - "tests/"
 - "spec/"
 - "assets/**/*.min.js"
+- "assets/**/*.min.css"
 - "assets/javascript/purpose.*"
