@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 module Obscured
   module AptWatcher
     module Controllers
       class Notifications < Obscured::AptWatcher::Controllers::Base
         set :views, settings.root + '/../views/notifications'
-
 
         get '/' do
           authorize!
@@ -11,13 +12,11 @@ module Obscured
           begin
             limit = params[:limit] ? Integer(params[:limit]) : 30
             alerts = Obscured::AptWatcher::Models::Alert.order_by(created_at: :desc).limit(limit)
-            pagination_alerts = Obscured::AptWatcher::Pagination.new(alerts, Obscured::AptWatcher::Models::Alert.order_by(created_at: :desc, :status => Obscured::Status::OPEN).count)
+            pagination_alerts = Obscured::AptWatcher::Pagination.new(alerts, Obscured::AptWatcher::Models::Alert.order_by(created_at: :desc, status: Obscured::Status::OPEN).count)
 
-            haml :index, :locals => { :alerts => pagination_alerts }
+            haml :index, locals: { alerts: pagination_alerts }
           rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            Raygun.track_exception(e)
-
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
             flash[:error] = e.message
             redirect '/'
           end
@@ -31,17 +30,16 @@ module Obscured
 
             page = Integer(params[:page])
             limit = params[:limit] ? Integer(params[:limit]) : 30
-            skip = (limit*page)-limit
+            skip = (limit * page) - limit
 
             alerts = Obscured::AptWatcher::Models::Alert.all.order_by(created_at: :desc).skip(skip).limit(limit)
             pagination_scans = Obscured::AptWatcher::Pagination.new(alerts, Obscured::AptWatcher::Models::Alert.order_by(:created_at.desc).count, page)
 
-            partial :'partials/list', :locals => {:id => 'alerts', :url => '/notifications', :alerts => pagination_scans}
+            partial :'partials/list', locals: { id: 'alerts', url: '/notifications', alerts: pagination_scans }
           rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            Raygun.track_exception(e)
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
 
-            {success: false, error: e.message}
+            { success: false, error: e.message }
           end
         end
 
@@ -49,9 +47,9 @@ module Obscured
           authorize!
 
           alert = Obscured::AptWatcher::Models::Alert.find(params[:id]) rescue redirect('/')
-          history = alert.history_logs.reverse { |a,b| a.created_at <=> b.created_at }
+          history = alert.history_logs.reverse { |a, b| a.created_at <=> b.created_at }
 
-          haml :view, :locals => { :alert => alert, :history => history }
+          haml :view, locals: { alert: alert, history: history }
         end
 
         post '/view/:id/update' do
@@ -74,9 +72,7 @@ module Obscured
 
             redirect "/notifications/view/#{params[:id]}"
           rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            Raygun.track_exception(e)
-
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
             flash[:error] = "We're sad to say that an error occurred with the message: #{e.message}"
             redirect "/notifications/view/#{params[:id]}"
           end

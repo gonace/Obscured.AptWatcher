@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Obscured
   module AptWatcher
     module Controllers
@@ -73,7 +75,7 @@ module Obscured
             config.save
 
             Obscured::AptWatcher::Entities::Ajax::Response.new(enabled: enabled).to_json
-          rescue Exception => e
+          rescue StandardError => e
             Obscured::AptWatcher::Entities::Ajax::Error.new(e.message, e.class.name, false).to_json
           end
         end
@@ -94,7 +96,7 @@ module Obscured
             config.save
 
             Obscured::AptWatcher::Entities::Ajax::Response.new(enabled: enabled).to_json
-          rescue Exception => e
+          rescue StandardError => e
             Obscured::AptWatcher::Entities::Ajax::Error.new(e.message, e.class.name, false).to_json
           end
         end
@@ -115,7 +117,7 @@ module Obscured
             config.save
 
             Obscured::AptWatcher::Entities::Ajax::Response.new(enabled: enabled).to_json
-          rescue Exception => e
+          rescue StandarError => e
             Obscured::AptWatcher::Entities::Ajax::Error.new(e.message, e.class.name, false).to_json
           end
         end
@@ -136,7 +138,7 @@ module Obscured
             config.save
 
             Obscured::AptWatcher::Entities::Ajax::Response.new(enabled: enabled).to_json
-          rescue Exception => e
+          rescue StandardError => e
             Obscured::AptWatcher::Entities::Ajax::Error.new(e.message, e.class.name, false).to_json
           end
         end
@@ -157,7 +159,7 @@ module Obscured
             config.save
 
             Obscured::AptWatcher::Entities::Ajax::Response.new(enabled: enabled).to_json
-          rescue Exception => e
+          rescue StandardError => e
             Obscured::AptWatcher::Entities::Ajax::Error.new(e.message, e.class.name, false).to_json
           end
         end
@@ -178,7 +180,7 @@ module Obscured
             config.save
 
             Obscured::AptWatcher::Entities::Ajax::Response.new(enabled: enabled).to_json
-          rescue Exception => e
+          rescue StandardError => e
             Obscured::AptWatcher::Entities::Ajax::Error.new(e.message, e.class.name, false).to_json
           end
         end
@@ -199,7 +201,7 @@ module Obscured
             config.save
 
             Obscured::AptWatcher::Entities::Ajax::Response.new(enabled: enabled).to_json
-          rescue Exception => e
+          rescue StandardError => e
             Obscured::AptWatcher::Entities::Ajax::Error.new(e.message, e.class.name, false).to_json
           end
         end

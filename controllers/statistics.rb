@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Obscured
   module AptWatcher
     module Controllers
@@ -15,9 +17,9 @@ module Obscured
           e_open, e_closed = Obscured::Helpers::Statistics.fetch_errors_count((today - 7.days).beginning_of_day, today.end_of_day)
 
           hosts_active = 0
-          Obscured::AptWatcher::Models::Host.all.each {|host| (Obscured::AptWatcher::Models::Scan.where(:hostname => host.hostname, :created_at.gte => (today - 7.days).beginning_of_day, :created_at.lte => today.end_of_day).distinct('hostname').count != 0)? hosts_active += 1 : 0}
+          Obscured::AptWatcher::Models::Host.all.each { |host| (Obscured::AptWatcher::Models::Scan.where(:hostname => host.hostname, :created_at.gte => (today - 7.days).beginning_of_day, :created_at.lte => today.end_of_day).distinct('hostname').count != 0)? hosts_active += 1 : 0 }
           hosts_inactive = 0
-          Obscured::AptWatcher::Models::Host.all.each {|host| (Obscured::AptWatcher::Models::Scan.where(:hostname => host.hostname, :created_at.gte => (today - 7.days).beginning_of_day, :created_at.lte => today.end_of_day).distinct('hostname').count == 0) ? hosts_inactive += 1 : 0}
+          Obscured::AptWatcher::Models::Host.all.each { |host| (Obscured::AptWatcher::Models::Scan.where(:hostname => host.hostname, :created_at.gte => (today - 7.days).beginning_of_day, :created_at.lte => today.end_of_day).distinct('hostname').count == 0) ? hosts_inactive += 1 : 0 }
 
           count_alerts = Obscured::AptWatcher::Models::Alert.where(:created_at.gte => (today - 7.days).beginning_of_day, :created_at.lte => today.end_of_day).count
           count_errors = Obscured::AptWatcher::Models::Error.where(:created_at.gte => (today - 7.days).beginning_of_day, :created_at.lte => today.end_of_day).count
@@ -29,7 +31,7 @@ module Obscured
           graph_alerts = {}
           graph_updates = {}
           graph_scans = {}
-          (today - 7.days .. today).each do |date|
+          (today - 7.days..today).each do |date|
             scan = Obscured::AptWatcher::Models::Scan.where(:created_at.gte => date.beginning_of_day, :created_at.lte => date.end_of_day)
             a_open = Obscured::AptWatcher::Models::Alert.where(:status => Obscured::Status::OPEN, :created_at.gte => date.beginning_of_day, :created_at.lte => date.end_of_day).count
             a_closed = Obscured::AptWatcher::Models::Alert.where(:status => Obscured::Status::CLOSED, :created_at.gte => date.beginning_of_day, :created_at.lte => date.end_of_day).count
@@ -48,20 +50,22 @@ module Obscured
           end
 
 
-          haml :index, :locals => { :alerts_open => alerts_open,
-                                    :alerts_closed => alerts_closed,
-                                    :count_alerts => count_alerts,
-                                    :count_errors => count_errors,
-                                    :count_hosts => count_hosts,
-                                    :count_scans => count_scans,
-                                    :errors_open => e_open,
-                                    :errors_closed => e_closed,
-                                    :graph_alerts => graph_alerts,
-                                    :graph_updates => graph_updates,
-                                    :graph_scans => graph_scans,
-                                    :hosts_active => hosts_active,
-                                    :hosts_inactive => hosts_inactive,
-                                    :packages => packages.uniq {|k| k[:name] && k[:version_available]}.sort_by {|k| k[:name]} }
+          haml :index, locals: { 
+            alerts_open: alerts_open,
+            alerts_closed: alerts_closed,
+            count_alerts: count_alerts,
+            count_errors: count_errors,
+            count_hosts: count_hosts,
+            count_scans: count_scans,
+            errors_open: e_open,
+            errors_closed: e_closed,
+            graph_alerts: graph_alerts,
+            graph_updates: graph_updates,
+            graph_scans: graph_scans,
+            hosts_active: hosts_active,
+            hosts_inactive: hosts_inactive,
+            packages: packages.uniq { |k| k[:name] && k[:version_available] }.sort_by { |k| k[:name] }
+          }
         end
 
         get '/monthly' do
@@ -74,9 +78,9 @@ module Obscured
           e_open, e_closed = Obscured::Helpers::Statistics.fetch_errors_count((today - 7.days).beginning_of_day, today.end_of_day)
 
           hosts_active = 0
-          Obscured::AptWatcher::Models::Host.all.each {|host| (Obscured::AptWatcher::Models::Scan.where(:hostname => host.hostname, :created_at.gte => today.beginning_of_month, :created_at.lte => today.end_of_month).distinct('hostname').count != 0) ? hosts_active += 1 : 0}
+          Obscured::AptWatcher::Models::Host.all.each { |host| (Obscured::AptWatcher::Models::Scan.where(:hostname => host.hostname, :created_at.gte => today.beginning_of_month, :created_at.lte => today.end_of_month).distinct('hostname').count != 0) ? hosts_active += 1 : 0 }
           hosts_inactive = 0
-          Obscured::AptWatcher::Models::Host.all.each {|host| (Obscured::AptWatcher::Models::Scan.where(:hostname => host.hostname, :created_at.gte => today.beginning_of_month, :created_at.lte => today.end_of_month).distinct('hostname').count == 0) ? hosts_inactive += 1 : 0}
+          Obscured::AptWatcher::Models::Host.all.each { |host| (Obscured::AptWatcher::Models::Scan.where(:hostname => host.hostname, :created_at.gte => today.beginning_of_month, :created_at.lte => today.end_of_month).distinct('hostname').count == 0) ? hosts_inactive += 1 : 0 }
 
           count_alerts = Obscured::AptWatcher::Models::Alert.where(:created_at.gte => today.beginning_of_month, :created_at.lte => today.end_of_month).count
           count_errors = Obscured::AptWatcher::Models::Error.where(:created_at.gte => today.beginning_of_month, :created_at.lte => today.end_of_month).count
@@ -88,12 +92,12 @@ module Obscured
           graph_alerts = {}
           graph_updates = {}
           graph_scans = {}
-          (today.beginning_of_month .. today.end_of_month).each do |date|
+          (today.beginning_of_month..today.end_of_month).each do |date|
             scan = Obscured::AptWatcher::Models::Scan.where(:created_at.gte => date.beginning_of_day, :created_at.lte => date.end_of_day)
             a_open = Obscured::AptWatcher::Models::Alert.where(:status => Obscured::Status::OPEN, :created_at.gte => date.beginning_of_day, :created_at.lte => date.end_of_day).count
             a_closed = Obscured::AptWatcher::Models::Alert.where(:status => Obscured::Status::CLOSED, :created_at.gte => date.beginning_of_day, :created_at.lte => date.end_of_day).count
 
-            scan.only('packages.name','packages.version_installed','packages.version_available').distinct('packages').to_a.each do |package|
+            scan.only('packages.name', 'packages.version_installed','packages.version_available').distinct('packages').to_a.each do |package|
               packages.push package
             end
 
@@ -106,20 +110,22 @@ module Obscured
             (graph_scans['data'] ||= []) << scan.count
           end
 
-          haml :monthly, :locals => { :alerts_open => alerts_open,
-                                      :alerts_closed => alerts_closed,
-                                      :count_alerts => count_alerts,
-                                      :count_errors => count_errors,
-                                      :count_hosts => count_hosts,
-                                      :count_scans => count_scans,
-                                      :errors_open => e_open,
-                                      :errors_closed => e_closed,
-                                      :graph_alerts => graph_alerts,
-                                      :graph_updates => graph_updates,
-                                      :graph_scans => graph_scans,
-                                      :hosts_active => hosts_active,
-                                      :hosts_inactive => hosts_inactive,
-                                      :packages => packages.uniq {|k| k[:name] && k[:version_available]}.sort_by {|k| k[:name]} }
+          haml :monthly, locals: {
+            alerts_open: alerts_open,
+            alerts_closed: alerts_closed,
+            count_alerts: count_alerts,
+            count_errors: count_errors,
+            count_hosts: count_hosts,
+            count_scans: count_scans,
+            errors_open: e_open,
+            errors_closed: e_closed,
+            graph_alerts: graph_alerts,
+            graph_updates: graph_updates,
+            graph_scans: graph_scans,
+            hosts_active: hosts_active,
+            hosts_inactive: hosts_inactive,
+            packages: packages.uniq { |k| k[:name] && k[:version_available] }.sort_by { |k| k[:name] }
+          }
         end
 
         get '/yearly' do
@@ -132,9 +138,9 @@ module Obscured
           e_open, e_closed = Obscured::Helpers::Statistics.fetch_errors_count((today - 7.days).beginning_of_day, today.end_of_day)
 
           hosts_active = 0
-          Obscured::AptWatcher::Models::Host.all.each {|host| (Obscured::AptWatcher::Models::Scan.where(:hostname => host.hostname, :created_at.gte => today.beginning_of_year, :created_at.lte => today.end_of_year).distinct('hostname').count != 0) ? hosts_active += 1 : 0}
+          Obscured::AptWatcher::Models::Host.all.each { |host| (Obscured::AptWatcher::Models::Scan.where(:hostname => host.hostname, :created_at.gte => today.beginning_of_year, :created_at.lte => today.end_of_year).distinct('hostname').count != 0) ? hosts_active += 1 : 0 }
           hosts_inactive = 0
-          Obscured::AptWatcher::Models::Host.all.each {|host| (Obscured::AptWatcher::Models::Scan.where(:hostname => host.hostname, :created_at.gte => today.beginning_of_year, :created_at.lte => today.end_of_year).distinct('hostname').count == 0) ? hosts_inactive += 1 : 0}
+          Obscured::AptWatcher::Models::Host.all.each { |host| (Obscured::AptWatcher::Models::Scan.where(:hostname => host.hostname, :created_at.gte => today.beginning_of_year, :created_at.lte => today.end_of_year).distinct('hostname').count == 0) ? hosts_inactive += 1 : 0 }
 
           count_alerts = Obscured::AptWatcher::Models::Alert.where(:created_at.gte => today.beginning_of_year, :created_at.lte => today.end_of_year).count
           count_errors = Obscured::AptWatcher::Models::Error.where(:created_at.gte => today.beginning_of_year, :created_at.lte => today.end_of_year).count
@@ -167,20 +173,22 @@ module Obscured
             (graph_scans['data'] ||= []) << scan.count
           end
 
-          haml :yearly, :locals => { :alerts_open => alerts_open,
-                                     :alerts_closed => alerts_closed,
-                                     :count_alerts => count_alerts,
-                                     :count_errors => count_errors,
-                                     :count_hosts => count_hosts,
-                                     :count_scans => count_scans,
-                                     :errors_open => e_open,
-                                     :errors_closed => e_closed,
-                                     :graph_alerts => graph_alerts,
-                                     :graph_updates => graph_updates,
-                                     :graph_scans => graph_scans,
-                                     :hosts_active => hosts_active,
-                                     :hosts_inactive => hosts_inactive,
-                                     :packages => packages.uniq {|k| k[:name] && k[:version_available]}.sort_by {|k| k[:name]} }
+          haml :yearly, locals: {
+            alerts_open: alerts_open,
+            alerts_closed: alerts_closed,
+            count_alerts: count_alerts,
+            count_errors: count_errors,
+            count_hosts: count_hosts,
+            count_scans: count_scans,
+            errors_open: e_open,
+            errors_closed: e_closed,
+            graph_alerts: graph_alerts,
+            graph_updates: graph_updates,
+            graph_scans: graph_scans,
+            hosts_active: hosts_active,
+            hosts_inactive: hosts_inactive,
+            packages: packages.uniq { |k| k[:name] && k[:version_available] }.sort_by { |k| k[:name] }
+          }
         end
       end
     end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Obscured
   module AptWatcher
     module Controllers
@@ -10,7 +12,7 @@ module Obscured
               hostname.gsub!(/[^a-zA-Z0-9\.\-_]/, '')
               begin
                 throw NotImplementedError
-              rescue => e
+              rescue StandardError => e
                 attachments = [{
                   color: Obscured::Alert::Color::ERROR,
                   fallback: e.message,
@@ -34,10 +36,8 @@ module Obscured
                 }]
                 slack_client.post icon_emoji: ':bug-error:', attachments: attachments
 
-                Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-                {:success => false, :logged => true, :message => e.message, :backtrace => e.backtrace}.to_json
-
-                Raygun.track_exception(e)
+                Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
+                { success: false, logged: true, message: e.message, backtrace: e.backtrace }.to_json
               end
             end
           end

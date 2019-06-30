@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Obscured
   module AptWatcher
     module Controllers
@@ -10,14 +12,14 @@ module Obscured
 
           begin
             user = Obscured::Doorman::User.find(current_user.id)
-            timeline = user.find_events({}, { limit: 20 })
+            timeline = user.find_events({}, limit: 20)
 
             haml :profile, locals: {
               user: user,
               timeline: timeline
             }
           rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
             flash[:error] = e.message
             redirect '/'
           end
@@ -28,10 +30,10 @@ module Obscured
 
           begin
 
-            haml :password, :locals => {
+            haml :password, locals: {
             }
           rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
             flash[:error] = e.message
             redirect '/'
           end
@@ -42,10 +44,10 @@ module Obscured
 
           begin
 
-            haml :notifications, :locals => {
+            haml :notifications, locals: {
             }
           rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
             flash[:error] = e.message
             redirect '/'
           end

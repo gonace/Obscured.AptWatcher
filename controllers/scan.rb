@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Obscured
   module AptWatcher
     module Controllers
@@ -10,11 +12,11 @@ module Obscured
           raise Obscured::DomainError.new(:required_field_missing, what: ':id') if params[:id].empty?
 
           scan = Obscured::AptWatcher::Models::Scan.find(params[:id]) rescue redirect('/')
-          host = Obscured::AptWatcher::Models::Host.where(:hostname => scan.hostname).first
-          alerts = Obscured::AptWatcher::Models::Alert.where(:hostname => scan.hostname, :status => Obscured::Status::OPEN).order_by(created_at: :desc)
+          host = Obscured::AptWatcher::Models::Host.where(hostname: scan.hostname).first
+          alerts = Obscured::AptWatcher::Models::Alert.where(hostname: scan.hostname, status: Obscured::Status::OPEN).order_by(created_at: :desc)
           installed = scan.get_installed
 
-          haml :index, :locals => { :host => host, :scan => scan, :alerts => alerts.count, :installed => installed.count }
+          haml :index, locals: { host: host, scan: scan, alerts: alerts.count, installed: installed.count }
         end
       end
     end

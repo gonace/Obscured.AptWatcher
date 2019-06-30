@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Obscured
   module AptWatcher
     module Controllers
@@ -13,11 +15,9 @@ module Obscured
             errors = Obscured::AptWatcher::Models::Error.order_by(created_at: :desc).limit(limit)
             pagination_errors = Obscured::AptWatcher::Pagination.new(errors, Obscured::AptWatcher::Models::Error.count)
 
-            haml :index, :locals => { :errors => pagination_errors }
+            haml :index, locals: { errors: pagination_errors }
           rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            Raygun.track_exception(e)
-
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
             flash[:error] = e.message
             redirect '/'
           end
@@ -31,27 +31,25 @@ module Obscured
 
             page = Integer(params[:page])
             limit = params[:limit] ? Integer(params[:limit]) : 30
-            skip = (limit*page)-limit
+            skip = (limit * page) - limit
 
             errors = Obscured::AptWatcher::Models::Error.all.order_by(created_at: :desc).skip(skip).limit(limit)
             pagination_errors = Obscured::AptWatcher::Pagination.new(errors, Obscured::AptWatcher::Models::Error.count, page)
 
-            partial :'partials/list', :locals => {:id => 'errors', :url => '/errors', :errors => pagination_errors}
+            partial :'partials/list', locals: { id: 'errors', url: '/errors', errors: pagination_errors }
           rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            Raygun.track_exception(e)
-
-            {success: false, error: e.message}
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
+            { success: false, error: e.message }
           end
         end
 
         get '/view/:id' do
           authorize!
 
-          error = Obscured::AptWatcher::Models::Error.find(params[:id]) rescue redirect('/')
-          history = nil #error.history_logs.reverse { |a,b| a.created_at <=> b.created_at }
+          error = Obscured::AptWatcher::Models::Error.find(params[:id])
+          history = nil # error.history_logs.reverse { |a,b| a.created_at <=> b.created_at }
 
-          haml :view, :locals => { :error => error, :history => history }
+          haml :view, locals: { error: error, history: history }
         end
       end
     end

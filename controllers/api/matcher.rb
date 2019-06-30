@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Obscured
   module AptWatcher
     module Controllers
@@ -12,11 +14,10 @@ module Obscured
               raise Obscured::DomainError.new(:required_field_missing, what: ':date_end') if params[:date_end].empty?
 
               Obscured::AptWatcher::Package::Matcher.run(params[:hostname], params[:date_start], params[:date_end]).to_json
-            rescue => e
-              Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-              {:success => false, :logged => true, :message => e.message, :backtrace => e.backtrace}.to_json
+            rescue StandardError => e
+              Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
 
-              Raygun.track_exception(e) if config.raygun.enabled
+              { success: false, logged: true, message: e.message, backtrace: e.backtrace }.to_json
             end
           end
         end

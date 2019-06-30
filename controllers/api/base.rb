@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Obscured
   module AptWatcher
     module Controllers
@@ -6,9 +8,9 @@ module Obscured
           helpers Obscured::Helpers::SlackHelper
           helpers Sinatra::Configuration
 
-          config = Obscured::AptWatcher::Models::Configuration.where({:instance => 'aptwatcher'}).first
-          api_username = config.username.to_s rescue ''
-          api_password = config.password.to_s rescue ''
+          config = Obscured::AptWatcher::Models::Configuration.where(:instance => 'aptwatcher').first
+          api_username = config&.username
+          api_password = config&.password
 
           unless api_username.blank?
             use Rack::Auth::Basic do |username, password|

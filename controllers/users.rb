@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Obscured
   module AptWatcher
     module Controllers
@@ -12,8 +14,8 @@ module Obscured
           items = Obscured::Doorman::User.all.limit(limit)
           model = Obscured::AptWatcher::Pagination.new(items, Obscured::Doorman::User.all.count)
 
-          haml :list, :locals => {
-            :model => model
+          haml :list, locals: {
+            model: model
           }
         end
 
@@ -27,13 +29,12 @@ module Obscured
           authorize!
 
           begin
-            user = Obscured::Doorman::User.find(params[:id]) rescue redirect('/users')
+            user = Obscured::Doorman::User.find(params[:id])
+            redirect('/users') if user.nil?
 
-            haml :user, :locals => { :user => user }
+            haml :user, locals: { user: user }
           rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            Raygun.track_exception(e)
-
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
             flash[:error] = 'An unknown error occurred!'
             redirect '/users'
           end
@@ -42,41 +43,41 @@ module Obscured
         get '/create' do
           authenticated?
 
-          haml :create, :locals => { }
+          haml :create, locals: {}
         end
 
         post '/create' do
           authorize!
 
           begin
-            user_email,user_firstname,user_lastname = params.delete('user_email'), params.delete('user_firstname'), params.delete('user_lastname')
-            password_new,password_verify = params.delete('password_new'), params.delete('password_verify')
+            user_email, user_firstname, user_lastname = params.delete('user_email'), params.delete('user_firstname'), params.delete('user_lastname')
+            password_new, password_verify = params.delete('password_new'), params.delete('password_verify')
 
-            user = OpenStruct.new()
+            user = OpenStruct.new
             user.username = user_email
             user.first_name = user_firstname
             user.last_name = user_lastname
 
             if user_email.empty?
               flash.now[:error] = 'We need an email address to create the user!'
-              haml :create, :locals => { :user => user }
+              haml :create, locals: { user: user }
             else
-              unless Obscured::Doorman::User.get_by_username(user_email).nil?
+              unless Obscured::Doorman::User.where(username: user_email).exists?
                 flash.now[:error] = 'The username/email does already exists please change e-mail address!'
-                haml :create, :locals => { :user => user }
+                haml :create, locals: { user: user }
               end
             end
-            if password_new.empty? or password_verify.empty?
+            if password_new.empty? || password_verify.empty?
               flash.now[:error] = 'We need a password to create the user!'
-              haml :create, :locals => { :user => user }
+              haml :create, locals: { user: user }
             else
               unless password_new == password_verify
                 flash.now[:error] = "The password verification does not match the password you've entered!"
-                haml :create, :locals => { :user => user }
+                haml :create, locals: { user: user }
               end
             end
 
-            user = Obscured::Doorman::User.make({:username => user_email, :password => password_new})
+            user = Obscured::Doorman::User.make(username: user_email, password: password_new)
             unless user_firstname.empty? or user_lastname.empty?
               user.set_name(user_firstname, user_lastname)
             end
@@ -85,11 +86,9 @@ module Obscured
             flash[:success] = "We're glad to announce that we could successfully created the user (#{user.username})"
             redirect "/users/#{user.id}/view"
           rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            Raygun.track_exception(e)
-
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
             flash.now[:error] = "We're sad to announce that we could not create the user for an unknown reason"
-            haml :create, :locals => { :user => user }
+            haml :create, locals: { user: user }
           end
         end
 
@@ -99,7 +98,7 @@ module Obscured
           begin
             raise Obscured::DomainError.new(:required_field_missing, what: ':id') if params[:id].empty?
 
-            user_email,user_firstname,user_lastname = params.delete('user_email'), params.delete('user_firstname'), params.delete('user_lastname')
+            user_email, user_firstname, user_lastname = params.delete('user_email'), params.delete('user_firstname'), params.delete('user_lastname')
             user = Obscured::Doorman::User.find(params[:id]) rescue redirect('/')
 
             unless user_firstname.empty? and user_lastname.empty?
@@ -116,9 +115,7 @@ module Obscured
             flash[:success] = "We're glad to announce that we could successfully save the changes for (#{user.username})"
             redirect "/users/#{user.id}/view"
           rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            Raygun.track_exception(e)
-
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
             flash[:error] = "We're sad to announce that we could not save the changes for (#{user.username})"
             redirect "/users/#{user.id}/view"
           end
@@ -130,7 +127,7 @@ module Obscured
           begin
             raise Obscured::DomainError.new(:required_field_missing, what: ':id') if params[:id].empty?
 
-            password_new,password_verify = params.delete('password_new'), params.delete('password_verify')
+            password_new, password_verify = params.delete('password_new'), params.delete('password_verify')
             user = Obscured::Doorman::User.find(params[:id]) rescue redirect('/users')
 
             unless password_new.empty? and password_verify.empty?
@@ -147,9 +144,7 @@ module Obscured
             end
             redirect "/users/#{user.id}/view"
           rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            Raygun.track_exception(e)
-
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
             flash[:error] = "We're sad to announce that we could not change password for (#{user.username})"
             redirect "/users/#{user.id}/view"
           end
@@ -173,9 +168,7 @@ module Obscured
 
             redirect "/users/#{user.id}/view"
           rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            Raygun.track_exception(e)
-
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
             flash[:error] = "We're sad to announce that we could not update permissions for (#{user.username})"
             redirect "/users/#{user.id}/view"
           end

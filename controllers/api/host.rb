@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Obscured
   module AptWatcher
     module Controllers
@@ -9,10 +11,9 @@ module Obscured
             begin
               Obscured::AptWatcher::Models::Host.all.to_json
             rescue => e
-              Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-              {:success => false, :logged => true, :message => e.message, :backtrace => e.backtrace}.to_json
+              Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
 
-              Raygun.track_exception(e) if config.raygun.enabled
+              { success: false, logged: true, message: e.message, backtrace: e.backtrace }.to_json
             end
           end
 
@@ -22,10 +23,9 @@ module Obscured
             begin
               Obscured::AptWatcher::Models::Host.find(params[:id]).to_json
             rescue => e
-              Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-              {:success => false, :logged => true, :message => e.message, :backtrace => e.backtrace}.to_json
+              Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
 
-              Raygun.track_exception(e) if config.raygun.enabled
+              { success: false, logged: true, message: e.message, backtrace: e.backtrace }.to_json
             end
           end
         end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Obscured
   module AptWatcher
     module Controllers
@@ -13,11 +15,11 @@ module Obscured
             hosts = Obscured::AptWatcher::Models::Host.order_by(:hostname.asc).limit(limit)
             model = Obscured::AptWatcher::Pagination.new(hosts, Obscured::AptWatcher::Models::Host.order_by(:hostname.asc).count)
 
-            haml :list, :locals => {
-              :model => model
+            haml :list, locals: {
+              model: model
             }
-          rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+          rescue StandardError => e
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
             flash[:error] = 'An unknown error occurred!'
             redirect '/users'
           end
@@ -31,19 +33,19 @@ module Obscured
 
             page = Integer(params[:page])
             limit = params[:limit] ? Integer(params[:limit]) : 30
-            skip = (limit*page)-limit
+            skip = (limit * page) - limit
 
             hosts = Obscured::AptWatcher::Models::Host.order_by(:hostname.asc).skip(skip).limit(limit)
             model = Obscured::AptWatcher::Pagination.new(hosts, Obscured::AptWatcher::Models::Host.order_by(:hostname.asc).count, page)
 
-            partial :'partials/list', :locals => {
-              :id => 'hosts',
-              :url => '/hosts',
-              :model => model
+            partial :'partials/list', locals: {
+              id: 'hosts',
+              url: '/hosts',
+              model: model
             }
-          rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-            {success: false, error: e.message}
+          rescue StandardError => e
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
+            { success: false, error: e.message }
           end
         end
 
@@ -51,23 +53,25 @@ module Obscured
           authorize!
           raise Obscured::DomainError.new(:required_field_missing, what: ':id') if params[:id].empty?
 
-          host = Obscured::AptWatcher::Models::Host.find(params[:id]) rescue redirect('/')
-          scans = Obscured::AptWatcher::Models::Scan.where(:hostname => host.hostname).order_by(created_at: :desc).limit(10)
+          host = begin
+                   Obscured::AptWatcher::Models::Host.find(params[:id])
+                 rescue StandardError
+                   redirect('/')
+                 end
+          scans = Obscured::AptWatcher::Models::Scan.where(hostname: host.hostname).order_by(created_at: :desc).limit(10)
 
-          alerts = Obscured::AptWatcher::Models::Alert.where(:hostname => host.hostname).order_by(created_at: :desc).limit(10)
-          alerts_open = Obscured::AptWatcher::Models::Alert.where(:hostname => host.hostname, :status => Obscured::Status::OPEN).order_by(created_at: :desc).count
-          alerts_closed = Obscured::AptWatcher::Models::Alert.where(:hostname => host.hostname, :status => Obscured::Status::CLOSED).order_by(created_at: :desc).count
+          alerts = Obscured::AptWatcher::Models::Alert.where(hostname: host.hostname).order_by(created_at: :desc).limit(10)
+          alerts_open = Obscured::AptWatcher::Models::Alert.where(hostname: host.hostname, status: Obscured::Status::OPEN).order_by(created_at: :desc).count
+          alerts_closed = Obscured::AptWatcher::Models::Alert.where(hostname: host.hostname, status: Obscured::Status::CLOSED).order_by(created_at: :desc).count
 
           graph_alerts = {}
           graph_updates = {}
           today = Date.today
-          (today - 7.days .. today).each do |date|
+          (today - 7.days..today).each do |date|
             count = 0
             scan = Obscured::AptWatcher::Models::Scan.where(:hostname => host.hostname, :created_at.gte => date.beginning_of_day, :created_at.lte => date.end_of_day).first
 
-            unless scan.nil?
-              count = scan.updates_pending
-            end
+            count = scan.updates_pending unless scan.nil?
 
             (graph_updates['header'] ||= []) << date.strftime('%a %d')
             (graph_updates['data'] ||= []) << count
@@ -80,14 +84,14 @@ module Obscured
             (graph_alerts['data'] ||= [[],[]]).last << a_closed
           end
 
-          haml :index, :locals => {
-            :host => host,
-            :scans => scans,
-            :alerts => alerts,
-            :alerts_open => alerts_open,
-            :alerts_closed => alerts_closed,
-            :graph_alerts => graph_alerts,
-            :graph_updates => graph_updates
+          haml :index, locals: {
+            host: host,
+            scans: scans,
+            alerts: alerts,
+            alerts_open: alerts_open,
+            alerts_closed: alerts_closed,
+            graph_alerts: graph_alerts,
+            graph_updates: graph_updates
           }
         end
 
@@ -97,11 +101,15 @@ module Obscured
           begin
             raise Obscured::DomainError.new(:required_field_missing, what: ':id') if params[:id].empty?
 
-            host = Obscured::AptWatcher::Models::Host.find(params[:id]) rescue redirect('/')
+            host = begin
+                     Obscured::AptWatcher::Models::Host.find(params[:id])
+                   rescue StandardError
+                     redirect('/')
+                   end
 
-            haml :edit, :locals => { :host => host }
-          rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+            haml :edit, locals: { host: host }
+          rescue StandardError => e
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
             flash[:error] = e.message
             redirect "/host/#{params[:id]}"
           end
@@ -110,22 +118,22 @@ module Obscured
         post '/create' do
           authorize!
 
-          #begin
+          begin
             values = params.except(:tags)
             host = Obscured::AptWatcher::Models::Host.make!(values)
 
-            params[:tags].split(",").each do |name|
+            params[:tags].split(',').each do |name|
               tag = Obscured::AptWatcher::Models::Tag.upsert!(name: name, type: :default)
               host.add_tag(tag)
             end
             host.save
 
-            redirect "/host/list"
-          #rescue => e
-          #  Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
-          #  flash[:error] = e.message
-          #  redirect "/host/list"
-          #end
+            redirect '/host/list'
+          rescue StandardError => e
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
+            flash[:error] = e.message
+            redirect '/host/list'
+          end
         end
 
         post '/:id/edit' do
@@ -133,32 +141,31 @@ module Obscured
 
           begin
             raise Obscured::DomainError.new(:required_field_missing, what: ':id') if params[:id].empty?
-            host_hostname,host_environment = params.delete('host_hostname'), params.delete('host_environment')
+            host_hostname = params.delete('host_hostname')
+            host_environment = params.delete('host_environment')
             host_description = params.delete('host_description')
 
-            host = Obscured::AptWatcher::Models::Host.find(params[:id]) rescue redirect('/')
+            host = begin
+                     Obscured::AptWatcher::Models::Host.find(params[:id])
+                   rescue StandardError
+                     redirect('/')
+                   end
 
             unless host_hostname.empty?
-              unless host_hostname == host.hostname
-                host.hostname = host_hostname
-              end
+              host.hostname = host_hostname unless host_hostname == host.hostname
             end
             unless host_environment.empty?
-              unless host_environment == host.environment
-                host.environment = host_environment
-              end
+              host.environment = host_environment unless host_environment == host.environment
             end
             unless host_description.empty?
-              unless host_description == host.description
-                host.description = host_description
-              end
+              host.description = host_description unless host_description == host.description
             end
             host.save
 
             flash[:success] = "We're glad to announce that we could successfully save the changes for (#{host.hostname})"
             redirect "/host/#{host.id}/edit"
-          rescue => e
-            Obscured::AptWatcher::Models::Error.make!({:notifier => Obscured::Alert::Type::SYSTEM, :message => e.message, :backtrace => e.backtrace.join('<br />')})
+          rescue StandardError => e
+            Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
             flash[:error] = 'An unknown error occurred!'
             redirect "/host/#{params[:id]}"
           end
@@ -171,7 +178,8 @@ module Obscured
           begin
             action = params[:action]
             id = params[:id]
-            host = Obscured::AptWatcher::Models::Host.find(id) rescue redirect('/')
+            host = Obscured::AptWatcher::Models::Host.find(id)
+            redirect('/') if host.nil?
 
             case action
               when 'connected' then host.set_state(Obscured::State::CONNECTED)
@@ -182,12 +190,11 @@ module Obscured
               when 'pending' then host.set_state(Obscured::State::PENDING)
               when 'ignored' then host.set_state(Obscured::State::IGNORED)
               when 'unknown' then host.set_state(Obscured::State::UNKNOWN)
-              else nil
-            end
+              end
             host.save
 
-            Obscured::AptWatcher::Entities::Ajax::Response.new({:action => action, :state => host.state}).to_json
-          rescue Exception => e
+            Obscured::AptWatcher::Entities::Ajax::Response.new(action: action, state: host.state).to_json
+          rescue StandardError => e
             Obscured::AptWatcher::Entities::Ajax::Error.new(e.message, e.class.name, false).to_json
           end
         end
