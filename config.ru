@@ -113,7 +113,7 @@ Obscured::Doorman.setup do |cfg|
     Obscured::Doorman::Providers::GitHub.setup do |c|
       c.client_id = doorman&.github&.key,
       c.client_secret = doorman&.github&.secret,
-      c.domains =  doorman&.github&.domains
+      c.domains = doorman&.github&.domains
     end
   ]
 end
