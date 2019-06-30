@@ -158,7 +158,8 @@ module Obscured
 
 
             role = params.delete('user_role')
-            user = Obscured::Doorman::User.find(params[:id]) rescue redirect('/users')
+            user = Obscured::Doorman::User.where(username: params[:id]).first
+            redirect('/users') if user.nil?
 
             unless role.empty?
               user.set_role(role)
