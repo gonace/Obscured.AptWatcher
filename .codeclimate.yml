@@ -14,14 +14,16 @@ checks:
   similar-code:
     enabled: false
 plugins:
-  rubocop:
+  csslint:
     enabled: true
-    channel: rubocop-0-71
   coffeelint:
     enabled: true
   eslint:
     enabled: true
-  csslint:
+  rubocop:
+    enabled: true
+    channel: rubocop-0-71
+  scss:
     enabled: true
 exclude_patterns:
 - "tests/"
