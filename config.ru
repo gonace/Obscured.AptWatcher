@@ -60,7 +60,6 @@ Mongoid.load_configuration(
 # pull in the models, modules, helpers and controllers
 Dir.glob('./lib/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/{alert,common,entities,helpers,package,sinatra}/*.rb').sort.each(&method(:require))
-#Dir.glob('./lib/modules/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/models/embedded/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/models/*.rb').sort.each(&method(:require))
 Dir.glob('./controllers/*.rb').sort.each(&method(:require))
@@ -76,12 +75,12 @@ Obscured::AptWatcher.config = Obscured::AptWatcher::Models::Configuration.where(
 # TODO: Move this into plugin and initialize when used
 # Raygun, configuration
 ###
-#if(config.raygun.enabled rescue false)
-#  Raygun.setup do |cfg|
-#    cfg.api_key = config.raygun.key
-#  end
-#  use Raygun::Middleware::RackExceptionInterceptor
-#end
+# if(config.raygun.enabled rescue false)
+#   Raygun.setup do |cfg|
+#     cfg.api_key = config.raygun.key
+#   end
+#   use Raygun::Middleware::RackExceptionInterceptor
+# end
 
 ###
 # Geocoder, configuration
