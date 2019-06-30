@@ -23,7 +23,7 @@ module Obscured
         class << self
           def make(opts)
             raise Obscured::DomainError.new(:required_field_missing, what: ':hostname') if opts[:hostname].empty?
-            raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].kind_of?(Array)
+            raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].is_a?(Array)
 
             doc = new
             doc.hostname = opts[:hostname]
@@ -50,13 +50,13 @@ module Obscured
 
 
         def set_updates_pending(opts)
-          raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].kind_of?(Array)
+          raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].is_a?(Array)
 
           self.updates_pending = opts[:packages].select { |i| i['installed'] == false || !i.key?('installed') }.count
         end
 
         def set_updates_installed(opts)
-          raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].kind_of?(Array)
+          raise Obscured::DomainError.new(:invalid_type, what: ':packages') unless opts[:packages].is_a?(Array)
 
           self.updates_installed = opts[:packages].select { |i| i.key?('installed') && i['installed'] == true }.count
         end

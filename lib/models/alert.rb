@@ -32,12 +32,12 @@ module Obscured
             entity.message = opts[:message]
 
             unless opts[:backtrace].nil?
-              raise Obscured::DomainError.new(:invalid_type, what: ':backtrace') unless opts[:backtrace].kind_of?(String)
+              raise Obscured::DomainError.new(:invalid_type, what: ':backtrace') unless opts[:backtrace].is_a?(String)
 
               entity.backtrace = opts[:backtrace]
             end
             unless opts[:status].nil?
-              raise Obscured::DomainError.new(:invalid_type, what: ':status') unless opts[:status].kind_of?(Obscured::Status)
+              raise Obscured::DomainError.new(:invalid_type, what: ':status') unless opts[:status].is_a?(Obscured::Status)
 
               entity.status = opts[:status]
             end
@@ -45,7 +45,7 @@ module Obscured
               entity.type = opts[:type]
             end
             unless opts[:notify].nil?
-              raise Obscured::DomainError.new(:invalid_type, what: ':notify') unless opts[:notify].kind_of?(Boolean)
+              raise Obscured::DomainError.new(:invalid_type, what: ':notify') unless opts[:notify].is_a?(Boolean)
 
               entity.notify = opts[:notify]
             end
@@ -65,14 +65,14 @@ module Obscured
 
         def set_status(status)
           raise Obscured::DomainError.new(:required_field_missing, what: ':status') if status.empty?
-          raise Obscured::DomainError.new(:invalid_type, what: ':status') unless status.kind_of?(Obscured::Status)
+          raise Obscured::DomainError.new(:invalid_type, what: ':status') unless status.is_a?(Obscured::Status)
 
           self.status = status
         end
 
         def set_type(type)
           raise Obscured::DomainError.new(:required_field_missing, what: ':type') if type.empty?
-          raise Obscured::DomainError.new(:invalid_type, what: ':type') unless type.kind_of?(Obscured::Alert::Type)
+          raise Obscured::DomainError.new(:invalid_type, what: ':type') unless type.is_a?(Obscured::Alert::Type)
 
           self.type = type
         end

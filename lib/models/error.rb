@@ -26,15 +26,15 @@ module Obscured
             entity.message = opts[:message]
 
             unless opts[:backtrace].nil?
-              raise Obscured::DomainError.new(:invalid_type, what: ':backtrace') unless opts[:backtrace].kind_of?(String)
+              raise Obscured::DomainError.new(:invalid_type, what: ':backtrace') unless opts[:backtrace].is_a?(String)
               entity.backtrace = opts[:backtrace]
             end
             unless opts[:status].nil?
-              raise Obscured::DomainError.new(:invalid_type, what: ':status') unless opts[:status].kind_of?(Obscured::Status)
+              raise Obscured::DomainError.new(:invalid_type, what: ':status') unless opts[:status].is_a?(Obscured::Status)
               entity.status = opts[:status]
             end
             unless opts[:type].nil?
-              raise Obscured::DomainError.new(:invalid_type, what: ':type') unless opts[:type].kind_of?(Obscured::Alert::Type)
+              raise Obscured::DomainError.new(:invalid_type, what: ':type') unless opts[:type].is_a?(Obscured::Alert::Type)
               entity.type = opts[:type]
             end
             entity
@@ -48,14 +48,14 @@ module Obscured
 
         def set_status(status)
           raise Obscured::DomainError.new(:required_field_missing, what: ':status') if status.empty?
-          raise Obscured::DomainError.new(:invalid_type, what: ':status') unless status.kind_of?(Obscured::Status)
+          raise Obscured::DomainError.new(:invalid_type, what: ':status') unless status.is_a?(Obscured::Status)
 
           self.status = status
         end
 
         def set_type(type)
           raise Obscured::DomainError.new(:required_field_missing, what: ':type') if type.empty?
-          raise Obscured::DomainError.new(:invalid_type, what: ':type') unless type.kind_of?(Obscured::Alert::Type)
+          raise Obscured::DomainError.new(:invalid_type, what: ':type') unless type.is_a?(Obscured::Alert::Type)
 
           self.type = type
         end
