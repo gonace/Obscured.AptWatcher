@@ -20,9 +20,7 @@ module Obscured
           def make(params)
             raise Obscured::DomainError.new(:invalid_parameter, what: "name (#{params[:name].to_sym})") if params[:name].blank?
             raise Obscured::DomainError.new(:invalid_parameter, what: "type (#{params[:type].to_sym})") if params[:type].blank?
-            if Tag.where(name: params[:name], type: params[:type].to_sym).exists?
-              raise Obscured::DomainError.new(:already_exists, what: "Tag already exists (name: #{params[:name]})")
-            end
+            raise Obscured::DomainError.new(:already_exists, what: "Tag already exists (name: #{params[:name]})") if Tag.where(name: params[:name], type: params[:type].to_sym).exists?
 
             tag = new
             tag.name = params[:name]
@@ -37,9 +35,7 @@ module Obscured
           end
 
           def upsert(params)
-            if Tag.where(name: params[:name], type: params[:type].to_sym).exists?
-              return Tag.find_by(name: params[:name], type: params[:type].to_sym)
-            end
+            return Tag.find_by(name: params[:name], type: params[:type].to_sym) if Tag.where(name: params[:name], type: params[:type].to_sym).exists?
 
             tag = make(params)
             tag

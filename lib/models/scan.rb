@@ -17,7 +17,7 @@ module Obscured
         belongs_to :host
 
         index({ hostname: 1 }, background: true)
-        index({ created_at: 1}, background: true, expire_after_seconds: 31536000)
+        index({ created_at: 1}, background: true, expire_after_seconds: 31_536_000)
 
 
         class << self
@@ -29,7 +29,7 @@ module Obscured
             doc.hostname = opts[:hostname]
             doc.packages = opts[:packages]
             doc.pending = opts[:packages].select { |i| i['installed'] == false || !i.key?('installed') }.count
-            doc.installed = opts[:packages].select {| i| i.key?('installed') && i['installed'] == true }.count
+            doc.installed = opts[:packages].select { |i| i.key?('installed') && i['installed'] == true }.count
             doc
           end
 

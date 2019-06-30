@@ -18,9 +18,7 @@ module Obscured
 
         class << self
           def make(opts)
-            if Configuration.where(type: opts[:type], signature: opts[:signature]).exists?
-              raise Obscured::DomainError.new(:already_exists, what: "Configuration does already exists for type: #{opts[:type]} and signature: #{opts[:signature]}!")
-            end
+            raise Obscured::DomainError.new(:already_exists, what: "Configuration does already exists for type: #{opts[:type]} and signature: #{opts[:signature]}!") if Configuration.where(type: opts[:type], signature: opts[:signature]).exists?
 
             doc = new
             doc.type = opts[:type]
@@ -28,6 +26,7 @@ module Obscured
             doc.properties = opts[:properties]
             doc
           end
+
           def make!(opts)
             doc = make(opts)
             doc.save

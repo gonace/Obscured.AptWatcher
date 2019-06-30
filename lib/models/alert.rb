@@ -30,6 +30,8 @@ module Obscured
             entity = new
             entity.hostname = opts[:hostname]
             entity.message = opts[:message]
+            entity.type = opts[:type] unless opts[:type].nil?
+            entity.payload = opts[:payload].to_s unless opts[:payload].nil?
 
             unless opts[:backtrace].nil?
               raise Obscured::DomainError.new(:invalid_type, what: ':backtrace') unless opts[:backtrace].is_a?(String)
@@ -41,16 +43,10 @@ module Obscured
 
               entity.status = opts[:status]
             end
-            unless opts[:type].nil?
-              entity.type = opts[:type]
-            end
             unless opts[:notify].nil?
               raise Obscured::DomainError.new(:invalid_type, what: ':notify') unless opts[:notify].is_a?(Boolean)
 
               entity.notify = opts[:notify]
-            end
-            unless opts[:payload].nil?
-              entity.payload = opts[:payload].to_s
             end
             entity
           end

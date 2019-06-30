@@ -27,7 +27,7 @@ module Obscured
           def make(opts)
             raise Obscured::DomainError.new(:required_field_missing, what: 'name') if opts[:name].empty?
             raise Obscured::DomainError.new(:required_field_missing, what: 'hostname') if opts[:hostname].empty?
-            raise Obscured::DomainError.new(:already_exists, what: 'hostname') if Gateway.where(:hostname => opts[:hostname]).exists?
+            raise Obscured::DomainError.new(:already_exists, what: 'hostname') if Gateway.where(hostname: opts[:hostname]).exists?
 
             doc = new
             doc.name = opts[:name]

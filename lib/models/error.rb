@@ -27,18 +27,22 @@ module Obscured
 
             unless opts[:backtrace].nil?
               raise Obscured::DomainError.new(:invalid_type, what: ':backtrace') unless opts[:backtrace].is_a?(String)
+
               entity.backtrace = opts[:backtrace]
             end
             unless opts[:status].nil?
               raise Obscured::DomainError.new(:invalid_type, what: ':status') unless opts[:status].is_a?(Obscured::Status)
+
               entity.status = opts[:status]
             end
             unless opts[:type].nil?
               raise Obscured::DomainError.new(:invalid_type, what: ':type') unless opts[:type].is_a?(Obscured::Alert::Type)
+
               entity.type = opts[:type]
             end
             entity
           end
+
           def make!(opts)
             entity = make(opts)
             entity.save

@@ -45,6 +45,7 @@ module Obscured
             doc.manager = opts[:manager]
             doc
           end
+
           def make!(opts)
             doc = make(opts)
             doc.save
