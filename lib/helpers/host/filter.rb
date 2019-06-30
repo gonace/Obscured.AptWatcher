@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Obscured
   module AptWatcher
     module Host
@@ -8,10 +10,9 @@ module Obscured
           @hostname = args[:hostname].blank? ? nil : args[:hostname]
         end
 
-
         def to_hash
           query = {}
-          query.merge!(:hostname => @hostname) unless @hostname.blank?
+          query.merge!(hostname: @hostname) unless @hostname.blank?
           query
         end
         alias to_h to_hash

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'manager'
 
 module Obscured
@@ -10,12 +12,12 @@ module Obscured
 
         def template
           {
-            enabled: { type: "checkbox", placeholder: "", value: true }
+            enabled: { type: 'checkbox', placeholder: '', value: true }
           }
         end
 
         def version
-          '1.0.0'.freeze
+          '1.0.0'
         end
       end
     end

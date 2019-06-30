@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Obscured
   module AptWatcher
     module Host
@@ -7,14 +9,13 @@ module Obscured
 
         def initialize(args)
           @limit = args[:limit].blank? ? nil : args[:limit]
-          @skip = (args[:skip].blank? or args[:skip] == 0) ? nil : args[:skip]
+          @skip = args[:skip].blank? || args[:skip].zero? ? nil : args[:skip]
         end
-
 
         def to_hash
           query = {}
-          query.merge!(:limit => @limit.to_s) unless @limit.blank?
-          query.merge!(:skip => @skip.to_s) unless @skip.blank?
+          query.merge!(limit: @limit.to_s) unless @limit.blank?
+          query.merge!(skip: @skip.to_s) unless @skip.blank?
           query
         end
         alias to_h to_hash

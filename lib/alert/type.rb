@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Obscured
   module Alert
     module Type

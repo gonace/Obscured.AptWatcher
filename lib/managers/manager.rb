@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../models/configuration'
 
 module Obscured
@@ -17,7 +19,7 @@ module Obscured
       end
 
       def enabled?
-        !config.nil? and config.properties[:enabled] == true
+        !config.nil? && config.properties[:enabled] == true
       end
 
       def installed?
@@ -43,7 +45,6 @@ module Obscured
       def type
         :manager
       end
-
 
       # Class implemented methods
       def name

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Obscured
   module AptWatcher
     class Pagination
@@ -20,7 +22,7 @@ module Obscured
         end
       end
 
-      def initialize(items, length, page=1, page_size=30, page_first=1, page_last=(length.to_f/page_size.to_f).ceil)
+      def initialize(items, length, page = 1, page_size = 30, page_first = 1, page_last = (length.to_f/page_size.to_f).ceil)
         @items = items
         @properties = Properties.new(length, page, page_size, page_first, page_last)
       end

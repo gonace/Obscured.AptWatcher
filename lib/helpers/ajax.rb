@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Obscured
   module AptWatcher
     module Entities
@@ -6,7 +8,7 @@ module Obscured
           attr_accessor :data
           attr_accessor :success
 
-          def initialize(data=nil, success=true)
+          def initialize(data = nil, success = true)
             @data = data
             @success = success
           end
@@ -16,7 +18,7 @@ module Obscured
           attr_accessor :message
           attr_accessor :type
 
-          def initialize(message, type, success=false, result=nil)
+          def initialize(message, type, success = false, result = nil)
             @message = message
             @type = type
             @success = success
