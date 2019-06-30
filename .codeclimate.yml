@@ -26,3 +26,4 @@ plugins:
 exclude_patterns:
 - "tests/"
 - "spec/"
+- "assets/**/*.min.js"
