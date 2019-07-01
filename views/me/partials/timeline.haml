@@ -17,36 +17,13 @@
   .card-body
     .timeline.timeline-one-side{"data-timeline-axis-style" => "dashed", "data-timeline-content" => "axis"}
       - timeline.each_with_index do |event, index|
-        .timeline-block
-          %span.timeline-step.timeline-step-sm.bg-primary.border-primary.text-white= (index+1)
+        .timeline-block{'data-type': event.type, 'data-status': status(event.type)}
+          %span.timeline-step.timeline-step-sm.text-white{class: "bg-#{status(event.type)} border-#{status(event.type)}"}= (index+1)
           .timeline-content
             %span.text-muted.text-sm= event.type
             %a.d-block.h6.text-sm.mb-0{:href => "#"}= event.message
             %small
-              %i.far.fa-clock.mr-1= event.created_at
-      .timeline-block
-        %span.timeline-step.timeline-step-sm.bg-primary.border-primary.text-white 1
-        .timeline-content
-          %span.text-muted.text-sm Email changed
-          %a.d-block.h6.text-sm.mb-0{:href => "#"} Email changed to "erik.hennerfors@obscured.se"
-          %small
-            %i.far.fa-clock.mr-1>
-            45 min ago
-      .timeline-block
-        %span.timeline-step.timeline-step-sm.bg-warning.border-warning.text-white 2
-        .timeline-content
-          %span.text-muted.text-sm Password changed
-          %a.d-block.h6.text-sm.mb-0{:href => "#"} Password where successfully changed.
-          %small
-            %i.far.fa-clock.mr-1>
-            45 min ago
-      .timeline-block
-        %span.timeline-step.timeline-step-sm.bg-info.border-info.text-white 3
-        .timeline-content
-          %span.text-muted.text-sm Account created
-          %a.d-block.h6.text-sm.mb-0{:href => "#"} Account created 2019-06-16 at 16:02 CEST.
-          %small
-            %i.far.fa-clock.mr-1>
-            45 min ago
+              %i.far.fa-clock.mr-1
+              = event.created_at
   .card-footer.py-2.text-center
     %a.text-sm.text-muted.font-weight-bold{:href => "#"} See all events

@@ -52,6 +52,22 @@ module Obscured
             redirect '/'
           end
         end
+
+        private
+
+        def status(type)
+          if type.to_s == 'password'
+            'danger'
+          elsif type.to_s == 'account'
+            'info'
+          elsif type.to_s == 'confirmation'
+            'warning'
+          elsif type.to_s == 'remember'
+            'warning'
+          else
+            'dark'
+          end
+        end
       end
     end
   end

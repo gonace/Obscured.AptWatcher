@@ -97,6 +97,7 @@ Geocoder.configure(
 doorman = Obscured::AptWatcher::Models::Configuration.where(type: :plugin, signature: :doorman).first
 Obscured::Doorman.setup do |cfg|
   cfg.db_client = :default
+  cfg.db_name = 'aptwatcher'
   cfg.registration = doorman&.properties&.registration
   cfg.confirmation = doorman&.properties&.confirmation
   cfg.smtp_domain = doorman&.properties&.smtp&.domain

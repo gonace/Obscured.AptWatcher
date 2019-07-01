@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/gonace/Obscured.Doorman.git
-  revision: 5de95b50f5b07e2490e9ab49ef4292584397cb1b
+  revision: 45d3c0e0a4435689f916cdb4142b7ac1df93798d
   specs:
-    obscured-doorman (1.5.3)
+    obscured-doorman (1.5.6)
       bcrypt
       geocoder
       haml
@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: https://github.com/gonace/Obscured.Heartbeat.git
-  revision: 103c5e67e0ab88e3de21764e3dbd7232bfe6435c
+  revision: e67e1c359993e8c7423f406d44421ebdb92ed6a5
   specs:
     obscured-heartbeat (1.0.0)
       activesupport
@@ -28,7 +28,7 @@ GIT
 
 GIT
   remote: https://github.com/gonace/Obscured.Timeline.git
-  revision: c9453a91a19935d3567ab51017afd114110d9fb7
+  revision: 03002bd433e9d76453faf4596252e70cb49479f2
   specs:
     obscured-timeline (1.0.0)
       activesupport
@@ -155,7 +155,7 @@ GEM
       rspec-core (~> 3.8.0)
       rspec-expectations (~> 3.8.0)
       rspec-mocks (~> 3.8.0)
-    rspec-core (3.8.1)
+    rspec-core (3.8.2)
       rspec-support (~> 3.8.0)
     rspec-expectations (3.8.4)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -206,7 +206,7 @@ GEM
     sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sshkit (1.18.2)
+    sshkit (1.19.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     symmetric-encryption (4.3.0)

@@ -44,9 +44,6 @@ module Obscured
           config = Models::Configuration.make(type: :application, signature: :aptwatcher, properties: { intsalled: true })
           config.save
 
-          pp params
-          pp params[:user][:first_name]
-
           user = Obscured::Doorman::User.make(username: params[:user][:email], password: params[:user][:password])
           user.name = { first_name: params[:user][:first_name], last_name: params[:user][:last_name] }
           user.save
