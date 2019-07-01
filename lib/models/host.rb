@@ -7,10 +7,11 @@ module Obscured
     module Models
       class Host
         include Mongoid::Document
+        include Mongoid::Geospatial
+        include Mongoid::Heartbeat::Tracker
         include Mongoid::State
         include Mongoid::Status
         include Mongoid::Tags
-        include Mongoid::Heartbeat::Tracker
         include Mongoid::Timeline::Tracker
         include Mongoid::Timestamps
 
@@ -24,6 +25,7 @@ module Obscured
         field :description, type: String, default: ''
         field :pending, type: Integer, default: 0
         field :installed, type: Integer, default: 0
+        field :location, type: Point, spatial: true
 
         has_many :scans
 

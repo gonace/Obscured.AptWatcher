@@ -7,6 +7,7 @@ module Obscured
     module Models
       class Gateway
         include Mongoid::Document
+        include Mongoid::Geospatial
         include Mongoid::Status
         include Mongoid::Tags
         include Mongoid::Heartbeat::Tracker
@@ -19,6 +20,7 @@ module Obscured
         field :hostname, type: String
         field :username, type: String
         field :encrypted_password, type: String, encrypted: { random_iv: true }
+        field :location, type: Point, spatial: true
 
         index({ hostname: 1 }, background: true)
 

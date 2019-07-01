@@ -6,17 +6,21 @@ module Obscured
       class Me < Obscured::AptWatcher::Controllers::Base
         set :views, settings.root + '/../views/me'
 
+        before do
+          @user = Obscured::Doorman::User.find(current_user.id)
+          @timeline = @user.find_events({}, limit: 20)
+
+          redirect '/' if @user.nil?
+        end
 
         get '/', '/profile' do
           authorize!
 
           begin
-            user = Obscured::Doorman::User.find(current_user.id)
-            timeline = user.find_events({}, limit: 20)
 
             haml :profile, locals: {
-              user: user,
-              timeline: timeline
+              user: @user,
+              timeline: @timeline
             }
           rescue => e
             Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
@@ -31,6 +35,8 @@ module Obscured
           begin
 
             haml :password, locals: {
+              user: @user,
+              timeline: @timeline
             }
           rescue => e
             Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
@@ -45,6 +51,8 @@ module Obscured
           begin
 
             haml :notifications, locals: {
+              user: @user,
+              timeline: @timeline
             }
           rescue => e
             Obscured::AptWatcher::Models::Error.make!(notifier: Obscured::Alert::Type::SYSTEM, message: e.message, backtrace: e.backtrace.join('<br />'))
