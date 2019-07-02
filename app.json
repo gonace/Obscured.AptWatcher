@@ -6,7 +6,7 @@
     "aptitude",
     "rpm",
     "pacman",
-    "pacman",
+    "portage",
     "yum",
     "linux",
     "nix",
@@ -18,7 +18,7 @@
     "updates"
   ],
   "repository": "https://github.com/gonace/Obscured.AptWatcher",
-  "success_url": "/",
+  "success_url": "/setup",
   "env": {
     "SETUP_AUTHORIZATION": {
       "description": "The password used to authenticate during initial application setup",
@@ -27,8 +27,24 @@
   },
   "image": "heroku/ruby",
   "addons": [
+    "mongolab",
     {
       "plan": "mongolab:sandbox"
+    },
+    {
+      "plan": "mongolab:shared-cluster-1"
+    },
+    {
+      "plan": "mongolab:shared-cluster-2"
+    },
+    {
+      "plan": "mongolab:shared-cluster-4"
+    },
+    {
+      "plan": "mongolab:dedicated-cluster-m1"
+    },
+    {
+      "plan": "mongolab:dedicated-cluster-m2"
     }
   ]
 }
