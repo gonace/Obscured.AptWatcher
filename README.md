@@ -1,13 +1,12 @@
-<a href="https://snyk.io/test/github/gonace/obscured.aptwatcher"><img src="https://snyk.io/test/github/gonace/obscured.aptwatcher/badge.svg" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/gonace/obscured.aptwatcher" style="max-width:100%;"></a>
+[![Vulnerabilities](https://snyk.io/test/github/gonace/obscured.aptwatcher/badge.svg)](https://snyk.io/test/github/gonace/obscured.aptwatcher)
 [![Build Status](https://travis-ci.org/gonace/Obscured.AptWatcher.svg?branch=master)](https://travis-ci.org/gonace/Obscured.AptWatcher)
 [![Test Coverage](https://codeclimate.com/github/gonace/Obscured.AptWatcher/badges/coverage.svg)](https://codeclimate.com/github/gonace/Obscured.AptWatcher)
 [![Code Climate](https://codeclimate.com/github/gonace/Obscured.AptWatcher/badges/gpa.svg)](https://codeclimate.com/github/gonace/Obscured.AptWatcher)
 
-AptWatcher is a simple Sinatra app that helps you keep track of packages that need updating on your servers.
+Obscured.AptWatcher is a simple web-app that helps you keep track of OS updates as well as keeping you up to date with actions to keep your servers updated and secure.
 
 ## How it works
-On each server you manage you set up a daily cron job that fetches the list of packages that need to be updated and sends that list to
-AptWatcher.
+
 
 #### Structure
 One line is interpreted as one service
@@ -25,13 +24,9 @@ One line is interpreted as one service
 {"name":"service_c","version_installed":"1.0.0","version_available":"1.0.1"}
 ```
 
-###### Perl
-```
-@daily apt-get --just-print upgrade 2>&1 | perl -ne 'if (/Inst\s([\w,\-,\d,\.,~,:,\+]+)\s\[([\w,\-,\d,\.,~,:,\+]+)\]\s\(([\w,\-,\d,\.,~,:,\+]+)\)? /i) {print "{\"name\":\"$1\",\"version_installed\":\"$2\",\"version_available\":\"$3\"} \n"}' | curl -u user:pass --data-binary @- http://hostname/api/collector/upgrades/$(hostname)
-```
 
-If any packages are in that payload that were not previously sent, a
-message is sent via a Slack incoming webhook with that list of new
+
+If any packages are in that payload that were not previously sent, a message is sent via a Slack incoming webhook with that list of new
 packages.
 
 ## Installation
