@@ -31,20 +31,9 @@
     {
       "plan": "mongolab:sandbox"
     },
+    "scheduler",
     {
-      "plan": "mongolab:shared-cluster-1"
-    },
-    {
-      "plan": "mongolab:shared-cluster-2"
-    },
-    {
-      "plan": "mongolab:shared-cluster-4"
-    },
-    {
-      "plan": "mongolab:dedicated-cluster-m1"
-    },
-    {
-      "plan": "mongolab:dedicated-cluster-m2"
+      "plan": "scheduler:standard"
     }
   ]
 }
