@@ -29,11 +29,11 @@
   "addons": [
     "mongolab",
     {
-      "plan": "mongolab:sandbox"
+      "plan": "sandbox"
     },
     "scheduler",
     {
-      "plan": "scheduler:standard"
+      "plan": "standard"
     }
   ]
 }
