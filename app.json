@@ -27,13 +27,11 @@
   },
   "image": "heroku/ruby",
   "addons": [
-    "mongolab",
     {
-      "plan": "sandbox"
+      "plan": "mongolab:sandbox"
     },
-    "scheduler",
     {
-      "plan": "standard"
+      "plan": "scheduler:standard"
     }
   ]
 }
