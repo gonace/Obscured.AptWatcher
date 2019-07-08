@@ -7,7 +7,7 @@
       .col-md-6.d-flex.align-items-center.justify-content-between.justify-content-md-end
   .row
     .col-lg-4.order-lg-2
-      = partial :'partials/navigation', :locals => {:active => 'settings'}
+      = partial :'partials/navigation', locals: { active: 'settings'}
 
     .col-lg-8.order-lg-1
       .card
@@ -19,18 +19,23 @@
               %h6.mb-1 Account registration
               %span.text-sm.text-muted A user can register an account from the login screen.
             %div
-              .custom-control.custom-switch
-                %input#security-registration.custom-control-input{:type => "checkbox"}
-                %label.custom-control-label{:for => "security-registration"}
+              - if config.properties[:registration].nil? && !config.properties[:registration]
+                .custom-control.custom-switch{'data-trigger':'enabler', 'data-enabled':'true', 'data-url': '/settings/registration/enable'}
+                  %input#security-registration.custom-control-input{type: "checkbox"}
+                  %label.custom-control-label{for: "security-registration"}
+              - else
+                .custom-control.custom-switch{'data-trigger': 'enabler', 'data-enabled': 'true', 'data-url': '/settings/registration/disable'}
+                  %input#security-registration.custom-control-input{type: "checkbox", checked: 'true'}
+                  %label.custom-control-label{for: "security-registration"}
           .list-group-item.d-flex.w-100.justify-content-between
             %div
               %h6.mb-1 Account confirmation
               %span.text-sm.text-muted A user can register an account from the login screen.
             %div
-              .custom-control.custom-switch
-                %input#security-confirmation.custom-control-input{:type => "checkbox"}
-                %label.custom-control-label{:for => "security-confirmation"}
-      .mt-5{:style => "display: none;"}
+              .custom-control.custom-switch{'data-trigger': 'enabler', 'data-enabled': 'true', 'data-url': '/settings/confirmation/disable'}
+                %input#security-confirmation.custom-control-input{type: "checkbox"}
+                %label.custom-control-label{for: "security-confirmation"}
+      .mt-5{style: "display: none;"}
         .card
           .card-header
             %h5.h6.mb-0 Billing notifications
@@ -41,29 +46,34 @@
                 %span.text-sm.text-muted You will receive an alert when one of your favorite products has a discount price.
               %div
                 .custom-control.custom-switch
-                  %input#card-notification-1.custom-control-input{:type => "checkbox"}
-                  %label.custom-control-label{:for => "card-notification-1"}
+                  %input#card-notification-1.custom-control-input{type: "checkbox"}
+                  %label.custom-control-label{for: "card-notification-1"}
             .list-group-item.d-flex.w-100.justify-content-between
               %div
                 %h6.mb-1 Send monthly invoices via email
                 %span.text-sm.text-muted You will receive an alert when one of your favorite products has a discount price.
               %div
                 .custom-control.custom-switch
-                  %input#card-notification-2.custom-control-input{:checked => "checked", :type => "checkbox"}
-                  %label.custom-control-label{:for => "card-notification-2"}
+                  %input#card-notification-2.custom-control-input{checked: "checked", type: "checkbox"}
+                  %label.custom-control-label{for: "card-notification-2"}
             .list-group-item.d-flex.w-100.justify-content-between
               %div
                 %h6.mb-1 You balance is almost 0
                 %span.text-sm.text-muted You will receive an alert when one of your favorite products has a discount price.
               %div
                 .custom-control.custom-switch
-                  %input#card-notification-3.custom-control-input{:type => "checkbox"}
-                  %label.custom-control-label{:for => "card-notification-3"}
+                  %input#card-notification-3.custom-control-input{type: "checkbox"}
+                  %label.custom-control-label{for: "card-notification-3"}
             .list-group-item.d-flex.w-100.justify-content-between
               %div
                 %h6.mb-1 Expired cred card
                 %span.text-sm.text-muted You will receive an alert when one of your favorite products has a discount price.
               %div
                 .custom-control.custom-switch
-                  %input#card-notification-4.custom-control-input{:checked => "checked", :type => "checkbox"}
-                  %label.custom-control-label{:for => "card-notification-4"}
+                  %input#card-notification-4.custom-control-input{checked: "checked", type: "checkbox"}
+                  %label.custom-control-label{for: "card-notification-4"}
+
+:javascript
+  jQuery(document).ready(function() {
+    Obscured.Helpers.Enabler.Bind({});
+  });

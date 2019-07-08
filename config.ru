@@ -95,12 +95,13 @@ Geocoder.configure(
 ###
 # Doorman, configuration
 ###
+config = Obscured::AptWatcher::Models::Configuration.where(type: :application, signature: :aptwatcher).first
 doorman = Obscured::AptWatcher::Models::Configuration.where(type: :plugin, signature: :doorman).first
 Obscured::Doorman.setup do |cfg|
   cfg.db_client = :default
   cfg.db_name = 'aptwatcher'
-  cfg.registration = doorman&.properties&.registration
-  cfg.confirmation = doorman&.properties&.confirmation
+  cfg.registration = config&.properties[:registration]
+  cfg.confirmation = config&.properties[:confirmation]
   cfg.smtp_domain = doorman&.properties&.smtp&.domain
   cfg.smtp_server = doorman&.properties&.smtp&.host
   cfg.smtp_username = doorman&.properties&.smtp&.username

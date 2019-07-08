@@ -8,34 +8,34 @@
               %h6.h3 Create account
               %p.text-muted.mb-0 Made with love by developers for developers.
             %span.clearfix
-            %form{:action => '/doorman/register', :method => 'POST', :role => "form"}
+            %form{action: '/doorman/register', method: 'POST', role: "form"}
               = partial :'../shared/partials/alerts'
               .row
                 .col-md-6
                   .form-group
                     %label.form-control-label First name
-                    %input.form-control{:placeholder => "Enter your first name", :type => "text", :name => 'user[first_name]'}
+                    %input.form-control{placeholder: "Enter your first name", type: "text", name: 'user[first_name]', 'data-rule-required': 'true'}
                 .col-md-6
                   .form-group
                     %label.form-control-label Last name
-                    %input.form-control{:placeholder => "Also your last name", :type => "text", :name => 'user[last_name]'}
+                    %input.form-control{placeholder: "Also your last name", type: "text", name: 'user[last_name]', 'data-rule-required': 'true'}
               .form-group
                 %label.form-control-label Email address
                 .input-group.input-group-merge
                   .input-group-prepend
                     %span.input-group-text
                       %i.fas.fa-user
-                  %input#input-email.form-control{:placeholder => "name@example.com", :type => "email", :name => 'user[username]'}
+                  %input#input-email.form-control{placeholder: "name@example.com", type: "email", name: 'user[username]', 'data-rule-required': 'true', 'data-rule-email': 'true'}
               .form-group.mb-2
                 %label.form-control-label Password
                 .input-group.input-group-merge
                   .input-group-prepend
                     %span.input-group-text
                       %i.fas.fa-key
-                  %input#input-password.form-control{:placeholder => "Password", :type => "password", :name => 'user[password]'}
+                  %input#input-password.form-control{placeholder: "Password", type: "password", name: 'user[password]', 'data-rule-required': 'true'}
                   .input-group-append
                     %span.input-group-text
-                      %a{"data-target" => "#input-password", "data-toggle" => "password-text", :href => "#"}
+                      %a{"data-target": "#input-password", "data-toggle": "password-text", href: "#"}
                         %i.fas.fa-eye
               .form-group
                 .d-flex.align-items-center.justify-content-between
@@ -45,27 +45,32 @@
                   .input-group-prepend
                     %span.input-group-text
                       %i.fas.fa-key
-                  %input#input-confirmation.form-control{:placeholder => "Password", :type => "password", :name => 'user[password_confirmation]'}
+                  %input#input-confirmation.form-control{placeholder: "Password", type: "password", name: 'user[password_confirmation]', 'data-rule-required': 'true', 'data-rule-equalTo': '#input-password'}
                   .input-group-append
                     %span.input-group-text
-                      %a{"data-target" => "#input-confirmation", "data-toggle" => "password-text", :href => "#"}
+                      %a{"data-target": "#input-confirmation", "data-toggle": "password-text", href: "#"}
                         %i.fas.fa-eye
               .my-4
                 .custom-control.custom-checkbox.mb-3
-                  %input#check-terms.custom-control-input{:type => "checkbox"}
-                  %label.custom-control-label{:for => "check-terms"}
+                  %input#check-terms.custom-control-input{type: "checkbox"}
+                  %label.custom-control-label{for: "check-terms"}
                     I agree to the
-                    %a{:href => "#"} terms and conditions
+                    %a{href: "#"} terms and conditions
                 .custom-control.custom-checkbox
-                  %input#check-privacy.custom-control-input{:type => "checkbox"}
-                  %label.custom-control-label{:for => "check-privacy"}
+                  %input#check-privacy.custom-control-input{type: "checkbox"}
+                  %label.custom-control-label{for: "check-privacy"}
                     I agree to the
-                    %a{:href => "#"} privacy policy
+                    %a{href: "#"} privacy policy
               .mt-4
-                %button.btn.btn-sm.btn-primary.btn-icon.rounded-pill{:type => "submit"}
+                %button.btn.btn-sm.btn-primary.btn-icon.rounded-pill{type: "submit"}
                   %span.btn-inner--text Create my account
                   %span.btn-inner--icon
                     %i.fas.fa-long-arrow-alt-right
           .card-footer.px-md-5
             %small Already have an account?
-            %a.small.font-weight-bold{:href => "/doorman/login"} Sign in
+            %a.small.font-weight-bold{href: "/doorman/login"} Sign in
+
+:javascript
+  jQuery(document).ready(function() {
+    jQuery('form').validate();
+  });
