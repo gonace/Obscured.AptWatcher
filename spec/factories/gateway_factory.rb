@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :gateway, class: Obscured::AptWatcher::Models::Gateway do
     name { 'Gateway Sweden' }

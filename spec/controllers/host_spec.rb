@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../setup'
 require_relative '../helpers/doorman'
 require_relative '../helpers/warden'
@@ -17,8 +19,8 @@ describe Obscured::AptWatcher::Controllers::Host do
   before(:each) { login_as(user) }
 
   describe 'list' do
-    it "returns html" do
-      get "/list"
+    it 'returns html' do
+      get '/list'
       expect(last_response.status).to eq 200
     end
   end

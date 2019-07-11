@@ -1,22 +1,24 @@
+# frozen_string_literal: true
+
 require_relative '../setup'
 
 describe Obscured::AptWatcher::Models::Gateway do
-  let!(:properties) {
+  let!(:properties) do
     {
-      name: "Gateway Stockholm",
-      hostname: "10.0.0.1",
-      username: "username",
-      password: "password",
-      tags: "Stockholm,Sweden"
+      name: 'Gateway Stockholm',
+      hostname: '10.0.0.1',
+      username: 'username',
+      password: 'password',
+      tags: 'Stockholm,Sweden'
     }
-  }
+  end
 
-  before(:each) {
+  before(:each) do
     Obscured::AptWatcher::Models::Gateway.delete_all
-  }
+  end
 
   context 'make' do
-    let!(:gateway) { Obscured::AptWatcher::Models::Gateway.make(properties.except(:tags).merge(hostname: "10.0.0.2")) }
+    let!(:gateway) { Obscured::AptWatcher::Models::Gateway.make(properties.except(:tags).merge(hostname: '10.0.0.2')) }
 
     it 'returns an unsaved document' do
       expect(gateway).to_not be_nil
@@ -37,12 +39,12 @@ describe Obscured::AptWatcher::Models::Gateway do
     end
 
     context 'with tags' do
-      before(:each) {
-        properties[:tags].split(",").each do |name|
-          tag = Obscured::AptWatcher::Models::Tag.upsert!({ name: name, type: :default})
+      before(:each) do
+        properties[:tags].split(',').each do |name|
+          tag = Obscured::AptWatcher::Models::Tag.upsert!(name: name, type: :default)
           gateway.add_tag(tag)
         end
-      }
+      end
 
       it 'returns document with tags' do
         expect(gateway.tags).to_not be(nil)

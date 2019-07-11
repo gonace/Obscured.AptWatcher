@@ -19,12 +19,12 @@
               %h6.mb-1 Account registration
               %span.text-sm.text-muted A user can register an account from the login screen.
             %div
-              - if config.properties[:registration].nil? && !config.properties[:registration]
+              - if config.properties[:registration].nil? || !config.properties[:registration]
                 .custom-control.custom-switch{'data-trigger':'enabler', 'data-enabled':'true', 'data-url': '/settings/registration/enable'}
                   %input#security-registration.custom-control-input{type: "checkbox"}
                   %label.custom-control-label{for: "security-registration"}
               - else
-                .custom-control.custom-switch{'data-trigger': 'enabler', 'data-enabled': 'true', 'data-url': '/settings/registration/disable'}
+                .custom-control.custom-switch{'data-trigger': 'enabler', 'data-enabled': 'false', 'data-url': '/settings/registration/disable'}
                   %input#security-registration.custom-control-input{type: "checkbox", checked: 'true'}
                   %label.custom-control-label{for: "security-registration"}
           .list-group-item.d-flex.w-100.justify-content-between
@@ -32,9 +32,22 @@
               %h6.mb-1 Account confirmation
               %span.text-sm.text-muted A user can register an account from the login screen.
             %div
-              .custom-control.custom-switch{'data-trigger': 'enabler', 'data-enabled': 'true', 'data-url': '/settings/confirmation/disable'}
-                %input#security-confirmation.custom-control-input{type: "checkbox"}
-                %label.custom-control-label{for: "security-confirmation"}
+              - if config.properties[:confirmation].nil? || !config.properties[:confirmation]
+                .custom-control.custom-switch{'data-trigger': 'enabler', 'data-enabled': 'true', 'data-url': '/settings/confirmation/enable'}
+                  %input#security-confirmation.custom-control-input{type: "checkbox"}
+                  %label.custom-control-label{for: "security-confirmation"}
+              - else
+                .custom-control.custom-switch{'data-trigger': 'enabler', 'data-enabled': 'true', 'data-url': '/settings/confirmation/disable'}
+                  %input#security-confirmation.custom-control-input{type: "checkbox", checked: 'true'}
+                  %label.custom-control-label{for: "security-confirmation"}
+          .list-group-item.d-flex.w-100.justify-content-between
+            %div
+              %h6.mb-1 Test
+              %span.text-sm.text-muted A user can register an account from the login screen.
+            %div
+              .custom-control.custom-switch
+                %input#security-test.custom-control-input{type: "checkbox"}
+                %label.custom-control-label{for: "security-test"}
       .mt-5{style: "display: none;"}
         .card
           .card-header

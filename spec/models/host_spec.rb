@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require_relative '../setup'
 
 describe Obscured::AptWatcher::Models::Host do
-  let!(:properties) {
+  let!(:properties) do
     {
       name: 'DNS Stockholm',
       hostname: '10.0.0.1',
@@ -10,11 +12,11 @@ describe Obscured::AptWatcher::Models::Host do
       manager: :apt,
       tags: 'Stockholm,Sweden'
     }
-  }
+  end
 
-  before(:each) {
+  before(:each) do
     Obscured::AptWatcher::Models::Host.delete_all
-  }
+  end
 
   context 'make' do
     let!(:host) { Obscured::AptWatcher::Models::Host.make(properties.except(:tags).merge(hostname: '10.0.0.2')) }
@@ -38,12 +40,12 @@ describe Obscured::AptWatcher::Models::Host do
     end
 
     context 'with tags' do
-      before(:each) {
+      before(:each) do
         properties[:tags].split(',').each do |name|
           tag = Obscured::AptWatcher::Models::Tag.upsert!(name: name, type: :default)
           host.add_tag(tag)
         end
-      }
+      end
 
       it 'returns document with tags' do
         expect(host.tags).to_not be(nil)

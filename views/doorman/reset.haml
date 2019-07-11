@@ -4,12 +4,12 @@
       .col-sm-8.col-lg-5.col-xl-4
         .card.shadow.zindex-100.mb-0
           .card-body.px-md-5.py-5
-            .mb-5
+            .mb-4
               %h6.h3 Password reset
               %p.text-muted.mb-0 Enter your email below to proceed.
               = partial :'../shared/partials/alerts'
             %span.clearfix
-            %form{:action => '/doorman/forgot', :method => 'POST', :role => "form"}
+            %form{:action => '/doorman/reset', :method => 'POST', :role => "form"}
               %input#Email{:name => 'user[username]', :type => 'hidden', :value => email}
               %input#Token{:name => 'user[token]', :type => 'hidden', :value => token}
               .form-group.mb-4

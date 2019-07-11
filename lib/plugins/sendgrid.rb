@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'plugin'
 
 module Obscured
@@ -14,17 +16,17 @@ module Obscured
 
         def template
           {
-            enabled: { type: "checkbox", placeholder: "", value: true },
-            domain: { type: "text", placeholder: "domain.tld", value: "" },
-            host: { type: "text", placeholder: "smtp.sendgrid.net", value: "smtp.sendgrid.net" },
-            port: { type: "text", placeholder: 587, value: 587 },
-            username: { type: "text", placeholder: "", value: "" },
-            password: { type: "password", placeholder: "", value: "" }
+            enabled: { type: 'checkbox', placeholder: '', value: true },
+            domain: { type: 'text', placeholder: 'domain.tld', value: '' },
+            host: { type: 'text', placeholder: 'smtp.sendgrid.net', value: 'smtp.sendgrid.net' },
+            port: { type: 'text', placeholder: 587, value: 587 },
+            username: { type: 'text', placeholder: '', value: '' },
+            password: { type: 'password', placeholder: '', value: '' }
           }
         end
 
         def version
-          '0.0.1'.freeze
+          '0.0.1'
         end
       end
     end

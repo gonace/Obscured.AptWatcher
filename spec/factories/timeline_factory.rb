@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :event, class: Mongoid::Timeline::Record do
     type { :comment }
     message { 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.' }
     producer { 'homer.simpson@obscured.se' }
-    proprietor { Hash.new }
+    proprietor { {} }
 
 
     trait :as_comment do
@@ -15,7 +17,7 @@ FactoryBot.define do
     end
 
     trait :with_account do
-      proprietor { { :account_id => BSON::ObjectId.new } }
+      proprietor { { account_id: BSON::ObjectId.new } }
     end
   end
 end

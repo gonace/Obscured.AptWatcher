@@ -32,6 +32,9 @@
     },
     {
       "plan": "scheduler:standard"
+    },
+    {
+      "plan": "mailgun:starter"
     }
   ]
 }

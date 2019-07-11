@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'plugin'
 
 module Obscured
@@ -14,13 +16,13 @@ module Obscured
 
         def template
           {
-            enabled: { type: "checkbox", placeholder: "", value: true },
-            key: { type: "text", placeholder: "", value: "" }
+            enabled: { type: 'checkbox', placeholder: '', value: true },
+            key: { type: 'text', placeholder: '', value: '' }
           }
         end
 
         def version
-          '0.0.1'.freeze
+          '0.0.1'
         end
       end
     end

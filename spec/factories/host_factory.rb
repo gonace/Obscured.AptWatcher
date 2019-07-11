@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :host, class: Obscured::AptWatcher::Models::Host do
     name { 'PHP Server #12' }

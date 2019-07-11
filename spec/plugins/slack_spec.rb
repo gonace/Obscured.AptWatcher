@@ -1,19 +1,21 @@
+# frozen_string_literal: true
+
 require_relative '../setup'
 
 describe Obscured::AptWatcher::Plugins::Slack do
   let!(:plugin) { Obscured::AptWatcher::Plugins::Slack.new }
-  let!(:template) {
+  let!(:template) do
     {
-      enabled: { type: "checkbox", placeholder: "", value: true },
-      channel: { type: "text", placeholder: "", value: "" },
-      icon: { type: "text", placeholder: "", value: "" },
-      user: { type: "text", placeholder: "", value: "" },
-      webhook: { type: "text", placeholder: "", value: "" }
+      enabled: { type: 'checkbox', placeholder: '', value: true },
+      channel: { type: 'text', placeholder: '', value: '' },
+      icon: { type: 'text', placeholder: '', value: '' },
+      user: { type: 'text', placeholder: '', value: '' },
+      webhook: { type: 'text', placeholder: '', value: '' }
     }
-  }
+  end
 
   it 'should return correct name' do
-    expect(plugin.name).to eq("Slack")
+    expect(plugin.name).to eq('Slack')
   end
   it 'should return correct template' do
     expect(plugin.template).to eq(template)
@@ -22,7 +24,7 @@ describe Obscured::AptWatcher::Plugins::Slack do
     expect(plugin.type).to eq(:notifications)
   end
   it 'should return correct version' do
-    expect(plugin.version).to eq("0.0.1")
+    expect(plugin.version).to eq('0.0.1')
   end
   it 'should return enabled as false' do
     expect(plugin.enabled?).to eq(false)

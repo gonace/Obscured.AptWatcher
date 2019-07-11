@@ -10,11 +10,6 @@ module Obscured
         get '/' do
           authorize!
 
-          puts '=== DEBUG ==='
-          pp configuration
-          pp configuration.properties[:registration]
-          puts '============='
-
           haml :index, locals: { config: configuration }
         end
 

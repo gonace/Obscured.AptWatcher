@@ -4,7 +4,7 @@
       .col-sm-8.col-lg-5
         .card.shadow.zindex-100.mb-0
           .card-body.px-md-5.py-5
-            .mb-5
+            .mb-4
               %h6.h3 Create account
               %p.text-muted.mb-0 Made with love by developers for developers.
             %span.clearfix
@@ -52,12 +52,12 @@
                         %i.fas.fa-eye
               .my-4
                 .custom-control.custom-checkbox.mb-3
-                  %input#check-terms.custom-control-input{type: "checkbox"}
+                  %input#check-terms.custom-control-input{type: "checkbox", name: 'terms'}
                   %label.custom-control-label{for: "check-terms"}
                     I agree to the
                     %a{href: "#"} terms and conditions
                 .custom-control.custom-checkbox
-                  %input#check-privacy.custom-control-input{type: "checkbox"}
+                  %input#check-privacy.custom-control-input{type: "checkbox", name: 'privacy'}
                   %label.custom-control-label{for: "check-privacy"}
                     I agree to the
                     %a{href: "#"} privacy policy

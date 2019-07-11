@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require_relative 'setup'
 
 describe Obscured::AptWatcher::Managers do
-  before(:context) {
+  before(:context) do
     Obscured::AptWatcher::Managers.register(Obscured::AptWatcher::Managers::APT)
-  }
+  end
 
   context 'register' do
     it 'should register at least one manager' do
@@ -12,9 +14,9 @@ describe Obscured::AptWatcher::Managers do
   end
 
   context 'unregister' do
-    before(:each) {
+    before(:each) do
       Obscured::AptWatcher::Managers.register(Obscured::AptWatcher::Managers::YUM)
-    }
+    end
 
     it 'should return nil for a unregister manager' do
       Obscured::AptWatcher::Managers.unregister(Obscured::AptWatcher::Managers::YUM)
@@ -35,29 +37,29 @@ describe Obscured::AptWatcher::Managers do
   context 'update' do
     let(:manager) { Obscured::AptWatcher::Managers.get(:rpm) }
 
-    before(:context) {
+    before(:context) do
       Obscured::AptWatcher::Managers.register(Obscured::AptWatcher::Managers::RPM)
-    }
+    end
 
-    before(:each) {
-      manager.install({enabled: false, username: "username", password: "password"})
-    }
+    before(:each) do
+      manager.install(enabled: false, username: 'username', password: 'password')
+    end
 
     it 'should return the configuration on which it was installed' do
       expect(manager.config.properties[:enabled]).to eq(false)
-      expect(manager.config.properties[:username]).to eq("username")
-      expect(manager.config.properties[:password]).to eq("password")
+      expect(manager.config.properties[:username]).to eq('username')
+      expect(manager.config.properties[:password]).to eq('password')
     end
 
     context 'updated' do
-      before(:each) {
-        manager.update({enabled: true, username: "john", password: "YrG4DTV672dqXUa2"})
-      }
+      before(:each) do
+        manager.update(enabled: true, username: 'john', password: 'YrG4DTV672dqXUa2')
+      end
 
       it 'should return true when installed' do
         expect(manager.config.properties[:enabled]).to eq(true)
-        expect(manager.config.properties[:username]).to eq("john")
-        expect(manager.config.properties[:password]).to eq("YrG4DTV672dqXUa2")
+        expect(manager.config.properties[:username]).to eq('john')
+        expect(manager.config.properties[:password]).to eq('YrG4DTV672dqXUa2')
       end
     end
   end
@@ -65,19 +67,19 @@ describe Obscured::AptWatcher::Managers do
   context 'install' do
     let(:manager) { Obscured::AptWatcher::Managers.get(:apt) }
 
-    before(:each) {
-      manager.install({enabled: false})
-    }
+    before(:each) do
+      manager.install(enabled: false)
+    end
 
     it 'should return a manager that is not enabled when installed but not enabled' do
       expect(manager.enabled?).to be(false)
     end
 
     context 'enabled' do
-      before(:each) {
+      before(:each) do
         manager.uninstall
-        manager.install({enabled: true})
-      }
+        manager.install(enabled: true)
+      end
 
       it 'should return a manager that is enabled when installed and enabled' do
         expect(manager.enabled?).to be(true)
@@ -90,7 +92,7 @@ describe Obscured::AptWatcher::Managers do
       expect(Obscured::AptWatcher::Managers.call(:apt, :type)).to eq(:manager)
     end
     it 'should raise error for non-existing manager' do
-      expect{Obscured::AptWatcher::Managers.call(:apt, :method)}.to raise_error(ArgumentError)
+      expect { Obscured::AptWatcher::Managers.call(:apt, :method) }.to raise_error(ArgumentError)
     end
   end
 end

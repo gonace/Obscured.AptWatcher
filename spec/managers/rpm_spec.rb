@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 require_relative '../setup'
 
 describe Obscured::AptWatcher::Managers::RPM do
   let!(:manager) { Obscured::AptWatcher::Managers::RPM.new }
-  let!(:template) {
+  let!(:template) do
     {
-      enabled: { type: "checkbox", placeholder: "", value: true }
+      enabled: { type: 'checkbox', placeholder: '', value: true }
     }
-  }
+  end
 
   it 'should return correct name' do
-    expect(manager.name).to eq("RPM")
+    expect(manager.name).to eq('RPM')
   end
   it 'should return correct template' do
     expect(manager.template).to eq(template)
@@ -18,7 +20,7 @@ describe Obscured::AptWatcher::Managers::RPM do
     expect(manager.type).to eq(:manager)
   end
   it 'should return correct version' do
-    expect(manager.version).to eq("0.0.1")
+    expect(manager.version).to eq('0.0.1')
   end
   #it 'should return enabled as false' do
   #  expect(manager.enabled?).to eq(false)

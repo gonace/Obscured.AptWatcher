@@ -1,18 +1,20 @@
+# frozen_string_literal: true
+
 require_relative '../setup'
 
 describe Obscured::AptWatcher::Plugins::Bitbucket do
   let!(:plugin) { Obscured::AptWatcher::Plugins::Bitbucket.new }
-  let!(:template) {
+  let!(:template) do
     {
-      enabled: { type: "checkbox", placeholder: "", value: true },
-      key: { type: "text", placeholder: "", value: "" },
-      secret: { type: "password", placeholder: "", value: "" },
-      domains: { type: "tags", placeholder: "", value: "" }
+      enabled: { type: 'checkbox', placeholder: '', value: true },
+      key: { type: 'text', placeholder: '', value: '' },
+      secret: { type: 'password', placeholder: '', value: '' },
+      domains: { type: 'tags', placeholder: '', value: '' }
     }
-  }
+  end
 
   it 'should return correct name' do
-    expect(plugin.name).to eq("Bitbucket")
+    expect(plugin.name).to eq('Bitbucket')
   end
   it 'should return correct template' do
     expect(plugin.template).to eq(template)
@@ -21,7 +23,7 @@ describe Obscured::AptWatcher::Plugins::Bitbucket do
     expect(plugin.type).to eq(:authentication)
   end
   it 'should return correct version' do
-    expect(plugin.version).to eq("0.0.1")
+    expect(plugin.version).to eq('0.0.1')
   end
   it 'should return enabled as false' do
     expect(plugin.enabled?).to eq(false)

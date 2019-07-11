@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Helpers
   module Warden
     def sign_in(user = double('user'))

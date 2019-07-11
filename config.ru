@@ -59,6 +59,7 @@ Mongoid.load_configuration(
 )
 
 # pull in the models, modules, helpers and controllers
+Dir.glob('./lib/extensions/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/{alert,common,entities,helpers,package,sinatra}/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/models/embedded/*.rb').sort.each(&method(:require))
@@ -98,15 +99,16 @@ Geocoder.configure(
 config = Obscured::AptWatcher::Models::Configuration.where(type: :application, signature: :aptwatcher).first
 doorman = Obscured::AptWatcher::Models::Configuration.where(type: :plugin, signature: :doorman).first
 Obscured::Doorman.setup do |cfg|
+  cfg.log_level = Logger::DEBUG
   cfg.db_client = :default
   cfg.db_name = 'aptwatcher'
-  cfg.registration = config&.properties[:registration]
-  cfg.confirmation = config&.properties[:confirmation]
-  cfg.smtp_domain = doorman&.properties&.smtp&.domain
-  cfg.smtp_server = doorman&.properties&.smtp&.host
-  cfg.smtp_username = doorman&.properties&.smtp&.username
-  cfg.smtp_password = doorman&.properties&.smtp&.password
-  cfg.smtp_port = doorman&.properties&.smtp&.port
+  cfg.registration = config&.properties&.fetch(:registration, false)
+  cfg.confirmation = config&.properties&.fetch(:confirmation, false)
+  cfg.smtp_domain = ENV['MAILGUN_DOMAIN']
+  cfg.smtp_server = ENV['MAILGUN_SMTP_SERVER']
+  cfg.smtp_username = ENV['MAILGUN_SMTP_LOGIN']
+  cfg.smtp_password = ENV['MAILGUN_SMTP_PASSWORD']
+  cfg.smtp_port = ENV['MAILGUN_SMTP_PORT']
   cfg.providers = [
     Obscured::Doorman::Providers::Bitbucket.setup do |c|
       c.client_id = doorman&.bitbucket&.key,

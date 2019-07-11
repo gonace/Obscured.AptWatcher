@@ -46,8 +46,9 @@ end
 Mongoid.load!(File.join(File.dirname(__FILE__), '/config/mongoid.yml'), 'spec')
 
 # pull in the models, modules, helpers and controllers
+Dir.glob('./lib/extensions/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/*.rb').sort.each(&method(:require))
-Dir.glob('./lib/{alert,common,entities,helpers,managers,package,plugins,sinatra}/*.rb').sort.each(&method(:require))
+Dir.glob('./lib/{alert,common,extensions,entities,helpers,managers,package,plugins,sinatra}/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/modules/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/models/embedded/*.rb').sort.each(&method(:require))
 Dir.glob('./lib/models/*.rb').sort.each(&method(:require))
