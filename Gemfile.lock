@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/gonace/Obscured.Doorman.git
-  revision: a83674d515e1cd16b0d80a8dbc17b508d6c833d2
+  revision: 05c1f72b9bc059c10a2c6f3d7f6aa51ac3ce4331
   specs:
-    obscured-doorman (1.5.95)
+    obscured-doorman (1.5.99)
       bcrypt
       geocoder
       haml
@@ -74,7 +74,7 @@ GEM
     haml (5.1.1)
       temple (>= 0.8.0)
       tilt
-    hashdiff (0.4.0)
+    hashdiff (1.0.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     httparty (0.17.0)
@@ -122,7 +122,7 @@ GEM
     pony (1.13.1)
       mail (>= 2.0)
     public_suffix (3.1.1)
-    puma (4.0.0)
+    puma (4.0.1)
       nio4r (~> 2.0)
     rack (2.0.7)
     rack-cache (1.9.0)
@@ -166,7 +166,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.2)
-    rubocop (0.72.0)
+    rubocop (0.73.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.6)
