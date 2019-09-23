@@ -58,7 +58,7 @@ GEM
     multi_json (1.13.1)
     multi_xml (0.6.0)
     mustermann (1.0.3)
-    neatjson (0.8.4)
+    neatjson (0.9)
     netrc (0.11.0)
     password_strength (1.1.4)
       activemodel
