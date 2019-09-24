@@ -9,8 +9,8 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.1, >= 2.1.8)
-    addressable (2.6.0)
-      public_suffix (>= 2.0.2, < 4.0)
+    addressable (2.7.0)
+      public_suffix (>= 2.0.2, < 5.0)
     backports (3.15.0)
     bcrypt (3.1.13)
     bson (4.5.0)
@@ -31,7 +31,7 @@ GEM
     haml (5.1.2)
       temple (>= 0.8.0)
       tilt
-    hashdiff (0.3.8)
+    hashdiff (1.0.0)
     http-accept (1.7.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
@@ -67,7 +67,7 @@ GEM
       activemodel
     pony (1.13.1)
       mail (>= 2.0)
-    public_suffix (3.0.3)
+    public_suffix (4.0.1)
     puma (4.2.0)
       nio4r (~> 2.0)
     rack (2.0.7)
@@ -151,10 +151,10 @@ GEM
     unf_ext (0.0.7.6)
     warden (1.2.8)
       rack (>= 2.0.6)
-    webmock (3.5.1)
+    webmock (3.7.5)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
-      hashdiff
+      hashdiff (>= 0.4.0, < 2.0.0)
     woothee (1.9.0)
     zeitwerk (2.1.10)
 
