@@ -28,7 +28,7 @@ GIT
 
 GIT
   remote: https://github.com/gonace/Obscured.Timeline.git
-  revision: 579e65a0dced8fbac97c9a3ab39a2f4142e762b7
+  revision: 9003d3765fa4028243af48ef55466fb5b10c6ccc
   specs:
     obscured-timeline (1.0.0)
       activesupport
@@ -81,7 +81,7 @@ GEM
     httparty (0.17.0)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
-    i18n (1.7.0)
+    i18n (1.7.1)
       concurrent-ruby (~> 1.0)
     jaro_winkler (1.5.3)
     json (2.2.0)
