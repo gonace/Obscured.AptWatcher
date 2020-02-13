@@ -28,7 +28,7 @@ GIT
 
 GIT
   remote: https://github.com/gonace/Obscured.Timeline.git
-  revision: 9a0cad8861e7f8fb5d2c93613e3bd116159c1bb2
+  revision: 1d30d5dbc2af150f5ba84de1a0b671ccfc739cfc
   specs:
     obscured-timeline (1.0.0)
       activesupport
@@ -54,7 +54,7 @@ GEM
     bson (4.7.1)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
-    concurrent-ruby (1.1.5)
+    concurrent-ruby (1.1.6)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     descendants_tracker (0.0.4)
