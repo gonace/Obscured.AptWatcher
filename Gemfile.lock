@@ -28,7 +28,7 @@ GIT
 
 GIT
   remote: https://github.com/gonace/Obscured.Timeline.git
-  revision: 265bcc674274c82185bce3211f695e16be072f00
+  revision: d166ef7b1b39a7407656537d426caabfadc50a4a
   specs:
     obscured-timeline (1.0.0)
       activesupport
@@ -96,7 +96,7 @@ GEM
     mime-types-data (3.2019.1009)
     mini_mime (1.0.2)
     minitest (5.14.0)
-    mongo (2.11.3)
+    mongo (2.11.4)
       bson (>= 4.4.2, < 5.0.0)
     mongoid (7.1.0)
       activemodel (>= 5.1, < 6.1)
