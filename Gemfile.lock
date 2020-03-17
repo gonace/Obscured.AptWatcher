@@ -26,7 +26,7 @@ GEM
       activesupport (>= 4.2.0)
     ffi (1.11.1)
     foreman (0.87.0)
-    geocoder (1.6.1)
+    geocoder (1.6.2)
     haml (5.1.2)
       temple (>= 0.8.0)
       tilt
