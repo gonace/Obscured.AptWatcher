@@ -26,15 +26,6 @@ GIT
       mongoid
       mongoid_search
 
-GIT
-  remote: https://github.com/gonace/Obscured.Timeline.git
-  revision: d166ef7b1b39a7407656537d426caabfadc50a4a
-  specs:
-    obscured-timeline (1.0.0)
-      activesupport
-      mongoid
-      mongoid_search
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -116,6 +107,10 @@ GEM
     net-ssh (5.2.0)
     netrc (0.11.0)
     nio4r (2.5.2)
+    obscured-timeline (1.0.0)
+      activesupport
+      mongoid
+      mongoid_search
     parallel (1.19.1)
     parser (2.7.0.3)
       ast (~> 2.4.0)
@@ -256,7 +251,7 @@ DEPENDENCIES
   neatjson
   obscured-doorman!
   obscured-heartbeat!
-  obscured-timeline!
+  obscured-timeline
   password_strength
   pony
   puma
