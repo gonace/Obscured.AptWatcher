@@ -70,10 +70,10 @@ GEM
     public_suffix (4.0.3)
     puma (4.3.3)
       nio4r (~> 2.0)
-    rack (2.0.8)
+    rack (2.2.2)
     rack-cache (1.11.0)
       rack (>= 0.4)
-    rack-contrib (2.1.0)
+    rack-contrib (2.2.0)
       rack (~> 2.0)
     rack-flash3 (1.0.5)
       rack
