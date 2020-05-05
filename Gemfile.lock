@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: https://github.com/gonace/Obscured.Heartbeat.git
-  revision: 39748f56a83f65405bbf8268e580ae76d1c0551d
+  revision: eac58d2d6db5595bc75e25a822a2cdb186ae79a3
   specs:
     obscured-heartbeat (1.0.0)
       activesupport
@@ -87,8 +87,8 @@ GEM
     mime-types-data (3.2019.1009)
     mini_mime (1.0.2)
     minitest (5.14.0)
-    mongo (2.11.4)
-      bson (>= 4.4.2, < 5.0.0)
+    mongo (2.12.1)
+      bson (>= 4.8.2, < 5.0.0)
     mongoid (7.1.0)
       activemodel (>= 5.1, < 6.1)
       mongo (>= 2.7.0, < 3.0.0)
