@@ -164,14 +164,14 @@ PLATFORMS
 DEPENDENCIES
   bcrypt
   dotenv
-  factory_bot
+  factory_bot (>= 5.2.0)
   foreman
   geocoder
   haml
   json
-  mongoid
+  mongoid (>= 7.1.1)
   neatjson
-  password_strength
+  password_strength (>= 1.1.4)
   pony
   puma
   rack-cache
