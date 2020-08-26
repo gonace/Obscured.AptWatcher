@@ -60,7 +60,7 @@ GEM
       activesupport (>= 5.0.0)
     fast-stemmer (1.0.2)
     ffi (1.11.1)
-    foreman (0.87.1)
+    foreman (0.87.2)
     geocoder (1.6.3)
     haml (5.1.2)
       temple (>= 0.8.0)
