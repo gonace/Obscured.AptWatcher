@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/gonace/Obscured.Doorman.git
-  revision: 07d847a1d78f274d3a123b67c628c323d54805c6
+  revision: 47c76be93df217985560efd33c31c035f7f6399c
   specs:
     obscured-doorman (1.5.99)
       bcrypt
@@ -40,7 +40,7 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     ast (2.4.1)
-    backports (3.18.1)
+    backports (3.18.2)
     bcrypt (3.1.16)
     bson (4.10.0)
     coercible (1.0.0)
@@ -85,7 +85,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2020.0512)
     mini_mime (1.0.2)
-    minitest (5.14.1)
+    minitest (5.14.2)
     mongo (2.13.0)
       bson (>= 4.8.2, < 5.0.0)
     mongoid (7.1.2)
