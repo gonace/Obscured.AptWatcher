@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: https://github.com/gonace/Obscured.Heartbeat.git
-  revision: 44143f129cbe72e51c896e5aa37850920f90c9d0
+  revision: d76a9911c00af27bb4ac76da8bd9176fa3deabe2
   specs:
     obscured-heartbeat (1.0.0)
       activesupport
@@ -29,9 +29,9 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (6.0.3.3)
-      activesupport (= 6.0.3.3)
-    activesupport (6.0.3.3)
+    activemodel (6.0.3.4)
+      activesupport (= 6.0.3.4)
+    activesupport (6.0.3.4)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
@@ -42,7 +42,7 @@ GEM
     ast (2.4.1)
     backports (3.18.2)
     bcrypt (3.1.16)
-    bson (4.10.0)
+    bson (4.10.1)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     concurrent-ruby (1.1.7)
@@ -86,7 +86,7 @@ GEM
     mime-types-data (3.2020.0512)
     mini_mime (1.0.2)
     minitest (5.14.2)
-    mongo (2.13.0)
+    mongo (2.13.1)
       bson (>= 4.8.2, < 5.0.0)
     mongoid (7.1.2)
       activemodel (>= 5.1, < 6.1)
