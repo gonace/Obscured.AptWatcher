@@ -88,7 +88,7 @@ GEM
     minitest (5.14.2)
     mongo (2.13.1)
       bson (>= 4.8.2, < 5.0.0)
-    mongoid (7.1.2)
+    mongoid (7.1.4)
       activemodel (>= 5.1, < 6.1)
       mongo (>= 2.7.0, < 3.0.0)
     mongoid-geospatial (5.1.0)
