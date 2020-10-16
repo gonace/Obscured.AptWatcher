@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/gonace/Obscured.Doorman.git
-  revision: 42ac2fad899f25520dc9a7ce90fc56048317decd
+  revision: 5916e10e4f418f43c1bf4f84339958e63172ac76
   specs:
     obscured-doorman (1.5.99)
       bcrypt
