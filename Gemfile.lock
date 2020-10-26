@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/gonace/Obscured.Doorman.git
-  revision: 42ac2fad899f25520dc9a7ce90fc56048317decd
+  revision: c752d145410c2d165060fb3b3913a0b3881f184d
   specs:
     obscured-doorman (1.5.99)
       bcrypt
@@ -42,7 +42,7 @@ GEM
     ast (2.4.1)
     backports (3.18.2)
     bcrypt (3.1.16)
-    bson (4.10.1)
+    bson (4.11.0)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     concurrent-ruby (1.1.7)
