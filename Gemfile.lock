@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: https://github.com/gonace/Obscured.Heartbeat.git
-  revision: a43b6229c09af1942aae6b28029fef969b01c8c8
+  revision: dec87d2da1e8627d87f8f95d8225ccb964442b13
   specs:
     obscured-heartbeat (1.0.0)
       activesupport
@@ -42,7 +42,7 @@ GEM
     ast (2.4.1)
     backports (3.18.2)
     bcrypt (3.1.16)
-    bson (4.10.1)
+    bson (4.11.0)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     concurrent-ruby (1.1.7)
