@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/gonace/Obscured.Doorman.git
-  revision: ea3d8f16e53ab8342524bbe88a61d477e73e10a0
+  revision: 7f229ee3233cf2d67fc95caf028bd8f7a75f3e97
   specs:
     obscured-doorman (1.5.99)
       bcrypt
@@ -233,7 +233,7 @@ GEM
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
     woothee (1.10.0)
-    zeitwerk (2.4.0)
+    zeitwerk (2.4.1)
 
 PLATFORMS
   ruby
