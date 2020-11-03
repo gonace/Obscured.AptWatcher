@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: https://github.com/gonace/Obscured.Heartbeat.git
-  revision: dec87d2da1e8627d87f8f95d8225ccb964442b13
+  revision: d7f572e1cac35f7a1655a12f1725bed1bdbc5bdb
   specs:
     obscured-heartbeat (1.0.0)
       activesupport
@@ -233,7 +233,7 @@ GEM
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
     woothee (1.10.0)
-    zeitwerk (2.4.0)
+    zeitwerk (2.4.1)
 
 PLATFORMS
   ruby
