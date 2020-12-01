@@ -83,9 +83,9 @@ GEM
     mime-types-data (3.2020.1104)
     mini_mime (1.0.2)
     minitest (5.14.2)
-    mongo (2.13.1)
+    mongo (2.14.0)
       bson (>= 4.8.2, < 5.0.0)
-    mongoid (7.1.5)
+    mongoid (7.1.6)
       activemodel (>= 5.1, < 6.1)
       mongo (>= 2.7.0, < 3.0.0)
     mongoid-geospatial (5.1.0)
@@ -229,7 +229,7 @@ GEM
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
     woothee (1.11.1)
-    zeitwerk (2.4.1)
+    zeitwerk (2.4.2)
 
 PLATFORMS
   ruby
