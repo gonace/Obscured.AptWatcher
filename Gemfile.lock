@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: https://github.com/gonace/Obscured.Heartbeat.git
-  revision: 963ad8a3ea2b4bf8326730be28897f4de74d5758
+  revision: 15b0535f67c94e622a2c515f886f39aab1e19587
   specs:
     obscured-heartbeat (1.0.0)
       activesupport
