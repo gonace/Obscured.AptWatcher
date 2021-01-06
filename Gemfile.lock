@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: https://github.com/gonace/Obscured.Heartbeat.git
-  revision: 15b0535f67c94e622a2c515f886f39aab1e19587
+  revision: d0a4db8b8ec9929319e9f979474b714db5a951b1
   specs:
     obscured-heartbeat (1.0.0)
       activesupport
@@ -70,7 +70,7 @@ GEM
     httparty (0.18.1)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
-    i18n (1.8.5)
+    i18n (1.8.7)
       concurrent-ruby (~> 1.0)
     json (2.5.1)
     listen (3.3.3)
@@ -82,7 +82,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2020.1104)
     mini_mime (1.0.2)
-    minitest (5.14.2)
+    minitest (5.14.3)
     mongo (2.14.0)
       bson (>= 4.8.2, < 5.0.0)
     mongoid (7.2.0)
@@ -216,7 +216,7 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.10)
     timecop (0.9.2)
-    tzinfo (1.2.8)
+    tzinfo (1.2.9)
       thread_safe (~> 0.1)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
