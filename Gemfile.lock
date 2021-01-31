@@ -45,7 +45,8 @@ GEM
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     concurrent-ruby (1.1.7)
-    crack (0.4.4)
+    crack (0.4.5)
+      rexml
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.4.4)
@@ -226,7 +227,7 @@ GEM
     unicode-display_width (2.0.0)
     warden (1.2.9)
       rack (>= 2.0.9)
-    webmock (3.11.0)
+    webmock (3.11.2)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
