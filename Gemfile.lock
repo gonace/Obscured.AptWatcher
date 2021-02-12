@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/gonace/Obscured.Doorman.git
-  revision: 32fdd6c05ac97c62cca42cac868c8df79e61c4e2
+  revision: d046bae586fd32ecd427ccb544eb9d70b3ebb45c
   specs:
     obscured-doorman (1.5.99)
       bcrypt
@@ -29,9 +29,9 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (6.0.3.4)
-      activesupport (= 6.0.3.4)
-    activesupport (6.0.3.4)
+    activemodel (6.0.3.5)
+      activesupport (= 6.0.3.5)
+    activesupport (6.0.3.5)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
@@ -41,10 +41,10 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     ast (2.4.2)
     bcrypt (3.1.16)
-    bson (4.11.1)
+    bson (4.12.0)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
-    concurrent-ruby (1.1.7)
+    concurrent-ruby (1.1.8)
     crack (0.4.5)
       rexml
     descendants_tracker (0.0.4)
@@ -71,7 +71,7 @@ GEM
     httparty (0.18.1)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
-    i18n (1.8.7)
+    i18n (1.8.8)
       concurrent-ruby (~> 1.0)
     json (2.5.1)
     listen (3.3.3)
@@ -175,7 +175,7 @@ GEM
     rubocop-ast (1.4.1)
       parser (>= 2.7.1.5)
     ruby-progressbar (1.11.0)
-    ruby2_keywords (0.0.2)
+    ruby2_keywords (0.0.4)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
