@@ -34,5 +34,5 @@ group :test, :development do
   gem 'rerun' # Code reloading in dev
   gem 'rspec'
   gem 'timecop'
-  gem 'webmock'
+  gem 'webmock', '>= 3.12.2'
 end
