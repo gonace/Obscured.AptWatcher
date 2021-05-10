@@ -55,7 +55,7 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.7.6)
     execjs (2.7.0)
-    factory_bot (6.1.0)
+    factory_bot (6.2.0)
       activesupport (>= 5.0.0)
     fast-stemmer (1.0.2)
     ffi (1.14.2)
