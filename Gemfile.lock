@@ -130,7 +130,7 @@ GEM
       sinatra (>= 1.0.0)
     sinatra-partial (1.0.1)
       sinatra (>= 1.4)
-    slack-notifier (2.3.2)
+    slack-notifier (2.4.0)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
