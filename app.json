@@ -22,7 +22,7 @@
   "image": "heroku/ruby",
   "addons": [
     {
-      "plan": "mongolab:sandbox"
+      "plan": "ormongo:2-wt"
     }
   ]
 }
