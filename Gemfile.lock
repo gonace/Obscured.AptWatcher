@@ -19,9 +19,9 @@ GIT
 
 GIT
   remote: https://github.com/gonace/Obscured.Heartbeat.git
-  revision: 25de2aa77a5ac0d7cdb50197b4d75604087be3de
+  revision: 464b8019083a0a8bb1e00f2a3495a09f5e1f1225
   specs:
-    obscured-heartbeat (1.0.0)
+    obscured-heartbeat (1.5.0)
       activesupport
       mongoid
       mongoid_search
