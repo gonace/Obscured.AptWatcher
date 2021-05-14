@@ -1,31 +1,3 @@
-GIT
-  remote: https://github.com/gonace/Obscured.Doorman.git
-  revision: 08786c4023461bbb0a69ade81ca265a31a108901
-  specs:
-    obscured-doorman (0.4.1)
-      bcrypt
-      geocoder
-      haml
-      mail
-      mongoid
-      rack
-      rack-contrib
-      rest-client
-      sinatra
-      sinatra-contrib
-      sinatra-flash
-      sinatra-partial
-      warden
-
-GIT
-  remote: https://github.com/gonace/Obscured.Heartbeat.git
-  revision: 8239fb64709f224c72fd04a4ac09071bd27a82b3
-  specs:
-    obscured-heartbeat (1.5.1)
-      activesupport
-      mongoid
-      mongoid_search
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -104,6 +76,24 @@ GEM
     net-ssh (6.1.0)
     netrc (0.11.0)
     nio4r (2.5.7)
+    obscured-doorman (0.4.1)
+      bcrypt
+      geocoder
+      haml
+      mail
+      mongoid
+      rack
+      rack-contrib
+      rest-client
+      sinatra
+      sinatra-contrib
+      sinatra-flash
+      sinatra-partial
+      warden
+    obscured-heartbeat (1.5.0)
+      activesupport
+      mongoid
+      mongoid_search
     obscured-timeline (1.4.0)
       activesupport
       mongoid
@@ -235,7 +225,7 @@ GEM
     zeitwerk (2.4.2)
 
 PLATFORMS
-  ruby
+  x86_64-linux
 
 DEPENDENCIES
   bcrypt
@@ -249,8 +239,8 @@ DEPENDENCIES
   mongoid-geospatial
   mongoid_search
   neatjson
-  obscured-doorman!
-  obscured-heartbeat!
+  obscured-doorman
+  obscured-heartbeat
   obscured-timeline
   password_strength
   pony
@@ -286,4 +276,4 @@ RUBY VERSION
    ruby 2.7.2p137
 
 BUNDLED WITH
-   2.1.4
+   2.2.17
