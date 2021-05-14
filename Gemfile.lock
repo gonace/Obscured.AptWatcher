@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/gonace/Obscured.Doorman.git
-  revision: 23ab9cfe274c2d5d28c90268fc1ac6ba6aeb5586
+  revision: 7f9b1dd8159e49ee17b5fb1ae5424e09df4ce59e
   specs:
-    obscured-doorman (1.5.99)
+    obscured-doorman (0.4.0)
       bcrypt
       geocoder
       haml
