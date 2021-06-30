@@ -9,6 +9,8 @@ updates:
     open-pull-requests-limit: 10
     reviewers:
       - "gonace"
+    labels:
+      - "dependencies"
   - package-ecosystem: bundler
     directory: "/"
     schedule:
@@ -19,3 +21,5 @@ updates:
     target-branch: 1.0.0
     reviewers:
       - "gonace"
+    labels:
+      - "dependencies"
