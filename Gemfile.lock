@@ -188,7 +188,7 @@ DEPENDENCIES
   timecop
   uglifier
   warden
-  webmock (>= 3.12.2)
+  webmock (>= 3.13.0)
 
 RUBY VERSION
    ruby 2.7.2p137
