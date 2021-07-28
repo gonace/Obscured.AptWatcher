@@ -33,7 +33,7 @@ GEM
     ffi (1.15.0)
     foreman (0.87.2)
     geocoder (1.6.7)
-    haml (5.2.1)
+    haml (5.2.2)
       temple (>= 0.8.0)
       tilt
     hashdiff (1.0.1)
