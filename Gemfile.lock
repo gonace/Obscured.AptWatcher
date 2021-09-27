@@ -110,7 +110,7 @@ GEM
     puma (5.5.0)
       nio4r (~> 2.0)
     rack (2.2.3)
-    rack-cache (1.12.1)
+    rack-cache (1.13.0)
       rack (>= 0.4)
     rack-contrib (2.3.0)
       rack (~> 2.0)
